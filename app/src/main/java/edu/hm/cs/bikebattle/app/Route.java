@@ -1,7 +1,6 @@
 package edu.hm.cs.bikebattle.app;
 
 import android.graphics.Color;
-import android.location.Location;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -16,20 +15,38 @@ import java.util.ArrayList;
  * Created by lukas on 24.03.2016.
  */
 public class Route {
+    /**
+     * The name of the route.
+     */
     private String name;
+    /**
+     * A list which includes all way points.
+     */
     private ArrayList<LatLng> wayPoints;
+    /**
+     * Marker that represents the route on the map.
+     */
     private Marker positionMarker;
+    /**
+     * Length of the route.
+     */
+    private double length;
 
-    public Route(String name, ArrayList<LatLng> wayPoints) {
+    public Route(String name, ArrayList<LatLng> wayPoints, double length) {
         this.name = name;
         this.wayPoints = wayPoints;
+        this.length = length;
     }
 
+    /**
+     * Draw the route on the map and display the marker.
+     * @param map Map to draw on.
+     */
     public void drawOnMap(GoogleMap map){
         PolylineOptions polyRoute = new PolylineOptions();
 
         polyRoute.color(Color.BLUE);
-        polyRoute.width(5);
+        polyRoute.width(6);
         polyRoute.visible(true);
 
         for ( LatLng wayPoint : wayPoints)
@@ -39,10 +56,7 @@ public class Route {
 
         map.addPolyline( polyRoute );
         positionMarker = map.addMarker(new MarkerOptions().position(wayPoints.get(0)).title(name)
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_bike)));
-    }
-
-    public LatLng getStart(){
-        return wayPoints.get(0);
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_bike))
+                .snippet("Length: " + length + "km"));
     }
 }

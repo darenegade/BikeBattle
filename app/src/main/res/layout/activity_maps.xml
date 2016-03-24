@@ -13,20 +13,4 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".MapActivity" />
-
-    <ImageButton
-        android:id="@+id/localize"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:src="@drawable/ic_my_location" />
-
-    <Button
-        android:id="@+id/route"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:text="Route" />
 </RelativeLayout>
