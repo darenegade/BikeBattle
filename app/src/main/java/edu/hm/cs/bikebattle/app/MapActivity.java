@@ -6,24 +6,33 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
-import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener {
+import java.util.ArrayList;
 
+public class MapActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener {
+
+    private static final float ZOOM = 12;
     private static final int MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 0;
+
     private GoogleMap mMap;
     private LocationManager locationManager;
+    private Marker positionMarker;
+    private LatLng position;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,10 +43,31 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
+        final ImageButton localisationButton = (ImageButton) findViewById(R.id.localize);
+        localisationButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                moveToLocation(ZOOM);
+            }
+        });
+
+        final Button routeButton = (Button) findViewById(R.id.route);
+        routeButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                ArrayList<LatLng> wayPoints = new ArrayList<LatLng>();
+
+                wayPoints.add(new LatLng(51.241,7.887));
+                wayPoints.add(new LatLng(51.244,7.883));
+                wayPoints.add(new LatLng(51.243,7.89));
+                wayPoints.add(new LatLng(51.237,7.892));
+                wayPoints.add(new LatLng(51.241, 7.887));
+                new Route("Route 1",wayPoints).drawOnMap(mMap);
+            }
+        });
+
         requestPermission();
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 0, this);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000, 0, this);
             // Define the criteria how to select the location provider -> use
             // default
             Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
@@ -60,7 +90,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     protected void onResume() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 0, this);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000, 0, this);
         }
         super.onResume();
     }
@@ -76,7 +106,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     protected void onStart() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 0, this);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000, 0, this);
         }
         super.onStart();
     }
@@ -97,7 +127,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             // Add a marker in Sydney and move the camera
             Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-            setMoveToLocation(location, 10);
+            setLocation(location);
+            moveToLocation(ZOOM);
         }
     }
 
@@ -105,7 +136,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onLocationChanged(Location location) {
 
         if (mMap != null) {
-            setMoveToLocation(location, mMap.getCameraPosition().zoom);
+            setLocation(location);
         }
 
     }
@@ -132,14 +163,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
-    private void setMoveToLocation(Location location, float zoom) {
+    private void setLocation(Location location) {
         // Add a marker at given location and move the camera
-        int lat = (int) (location.getLatitude());
-        int lng = (int) (location.getLongitude());
-        Log.i("Location", "Lat: " + lat + ", Long: " + lng + " Time: " + location.getTime());
-        LatLng pos = new LatLng(lat, lng);
-        mMap.addMarker(new MarkerOptions().position(pos).title("Your position"));
-        Log.i("Zoom", "Zoom: " + zoom);
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pos, zoom));
+        position = new LatLng(location.getLatitude(), location.getLongitude());
+        if (positionMarker != null) {
+            positionMarker.remove();
+        }
+        positionMarker = mMap.addMarker(new MarkerOptions().position(position).title("Your current position"));
+    }
+
+    private void moveToLocation(float zoom) {
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(position, zoom));
     }
 }

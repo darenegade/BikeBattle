@@ -32,7 +32,7 @@ public class MainActivity extends Activity {
         if (id == R.id.action_settings) {
             return true;
         }else if (id == R.id.action_map) {
-            Intent intent = new Intent(this, MapsActivity.class);
+            Intent intent = new Intent(this, MapActivity.class);
             startActivity(intent);
         }
 
