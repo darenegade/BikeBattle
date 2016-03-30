@@ -31,8 +31,11 @@ public class MainActivity extends Activity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
-        }else if (id == R.id.action_map) {
-            Intent intent = new Intent(this, MapActivity.class);
+        }else if (id == R.id.action_googlemap) {
+            Intent intent = new Intent(this, GoogleMapActivity.class);
+            startActivity(intent);
+        }else if (id == R.id.action_osmmap) {
+            Intent intent = new Intent(this, OSMActivity.class);
             startActivity(intent);
         }
 
