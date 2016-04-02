@@ -1,7 +1,6 @@
 package edu.hm.cs.bikebattle.app.modell;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.Collection;
 
 /**
  * Created by Nils on 30.03.2016.
@@ -11,7 +10,7 @@ import java.util.List;
  * @author Nils Bernhardt
  * @version 1.0
  */
-public class Route extends Track {
+public class Route extends WaypointList {
     /**
      * name of the route.
      */
@@ -19,31 +18,37 @@ public class Route extends Track {
     /**
      * Flag whether this route is public.
      */
-    private boolean publicRoute;
+    private boolean privateRoute;
+
+    private User owner;
 
     /**
      * Initializes the route.
      *
      * @param waypoints   waypoints of the route
      * @param name        name of the route
-     * @param publicRoute is the route public
+     * @param privateRoute is the route private
      * @param owner       user who owns the route
      */
-    public Route(List<Waypoint> waypoints, String name, boolean publicRoute, User owner) {
-        super(waypoints, owner);
+    public Route(Collection<? extends Waypoint> waypoints, String name, boolean privateRoute, User owner) {
+        super(waypoints);
         setName(name);
-        this.publicRoute = publicRoute;
+        setPrivateRoute(privateRoute);
+        setOwner(owner);
     }
 
     /**
      * Initializes this Route without waypoints.
      *
      * @param name        name of the route
-     * @param publicRoute is the route public
+     * @param privateRoute is the route public
      * @param owner       user who owns the route
      */
-    public Route(String name, boolean publicRoute, User owner) {
-        this(new LinkedList<Waypoint>(), name, publicRoute, owner);
+    public Route(String name, boolean privateRoute, User owner) {
+        super();
+        setName(name);
+        setPrivateRoute(privateRoute);
+        setOwner(owner);
     }
 
     /**
@@ -53,32 +58,11 @@ public class Route extends Track {
      * @param waypoints waypoints of the route
      * @param owner     user who owns the route
      */
-    public Route(String name, List<Waypoint> waypoints, User owner) {
-        this(waypoints, name, true, owner);
+    public Route(String name, Collection<? extends Waypoint> waypoints, User owner) {
+        this(waypoints, name, false, owner);
     }
 
-    /**
-     * Initializes the route by using the waypoints of the track.
-     *
-     * @param name        name of the route
-     * @param track       track
-     * @param publicRoute is the route public
-     * @param owner       user who owns the route
-     */
-    public Route(String name, Track track, boolean publicRoute, User owner) {
-        this(track.getWaypoints(), name, publicRoute, owner);
-    }
 
-    /**
-     * Initializes the Route by using the waypoints of the track. And the route is set to public.
-     *
-     * @param name  name of the route
-     * @param track track
-     * @param owner user who owns the route
-     */
-    public Route(String name, Track track, User owner) {
-        this(name, track, true, owner);
-    }
 
     /**
      * Initializes the Route public and empty.
@@ -112,20 +96,38 @@ public class Route extends Track {
     }
 
     /**
-     * Returns true if the route is public.
+     * Returns true if the route is private.
      *
-     * @return is the route public
+     * @return is the route privte
      */
-    public boolean isPublicRoute() {
-        return publicRoute;
+    public boolean isPrivateRoute() {
+        return privateRoute;
     }
 
     /**
-     * Changes whether the route is public.
+     * Changes whether the route is private.
      *
-     * @param publicRoute is the route public
+     * @param privateRoute is the route private
      */
-    public void setPublicRoute(boolean publicRoute) {
-        this.publicRoute = publicRoute;
+    public void setPrivateRoute(boolean privateRoute) {
+        this.privateRoute = privateRoute;
+    }
+
+    /**
+     * Changes the owner of the route.
+     *
+     * @param owner owner
+     */
+    public void setOwner(User owner) {
+        this.owner = owner;
+    }
+
+    /**
+     * Returns the user who owns this track.
+     *
+     * @return owner
+     */
+    public User getOwner() {
+        return owner;
     }
 }
