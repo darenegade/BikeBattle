@@ -10,7 +10,7 @@ import java.util.Collection;
  * @author Nils Bernhardt
  * @version 1.0
  */
-public class Track extends WaypointList{
+public class Track extends WaypointList {
 
 
     /**
@@ -21,13 +21,15 @@ public class Track extends WaypointList{
     /**
      * Initializes the track without calculating the distance and time.
      *
-     * @param waypoints     waypoints of the track
-     * @param distance_in_m distance of the track
-     * @param owner         user who owns the track
+     * @param waypoints   waypoints of the track
+     * @param distanceInM distance of the track
+     * @param owner       user who owns the track
      */
-    public Track(Collection<? extends Waypoint> waypoints, float distance_in_m, User owner) {
-        super(waypoints, distance_in_m);
-        if (owner == null) throw new NullPointerException("Owner can not be null!");
+    public Track(Collection<? extends Waypoint> waypoints, float distanceInM, User owner) {
+        super(waypoints, distanceInM);
+        if (owner == null) {
+            throw new NullPointerException("Owner can not be null!");
+        }
         setOwner(owner);
     }
 
@@ -39,7 +41,9 @@ public class Track extends WaypointList{
      */
     public Track(Collection<? extends Waypoint> waypoints, User owner) {
         super(waypoints);
-        if (owner == null) throw new NullPointerException("Owner can not be null!");
+        if (owner == null) {
+            throw new NullPointerException("Owner can not be null!");
+        }
         setOwner(owner);
     }
 
@@ -60,13 +64,14 @@ public class Track extends WaypointList{
      * @return time
      */
     public static long calculateTime(Track track) {
-        if (track == null) throw new NullPointerException("Waypoints can not be null!");
+        if (track == null) {
+            throw new NullPointerException("Waypoints can not be null!");
+        }
         if (track.size() > 1) {
             return track.get(0).getTime() - track.get(track.size() - 1).getTime();
         }
         return 0;
     }
-
 
 
     /**
@@ -84,7 +89,7 @@ public class Track extends WaypointList{
      * @return average speed
      */
     public float getAveragespeed_in_kmh() {
-        return getDistance_in_m() * 1000 / (getTime_in_s() / 3600.0f);
+        return getDistanceInM() * 1000 / (getTime_in_s() / 3600.0f);
     }
 
 
@@ -96,6 +101,7 @@ public class Track extends WaypointList{
     public void setOwner(User owner) {
         this.owner = owner;
     }
+
     /**
      * Returns the user who owns this track.
      *
@@ -104,7 +110,6 @@ public class Track extends WaypointList{
     public User getOwner() {
         return owner;
     }
-
 
 
 }

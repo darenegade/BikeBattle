@@ -12,28 +12,28 @@ public class WaypointList extends LinkedList<Waypoint> {
     /**
      * distance of the the track.
      */
-    private float distance_in_m;
+    private float distanceInM;
 
-    public WaypointList(float distance_in_m) {
-        this.distance_in_m = distance_in_m;
+    public WaypointList(float distanceInM) {
+        this.distanceInM = distanceInM;
     }
 
-    public WaypointList(Collection<? extends Waypoint> collection, float distance_in_m) {
+    public WaypointList(Collection<? extends Waypoint> collection, float distanceInM) {
         super(collection);
-        this.distance_in_m = distance_in_m;
+        this.distanceInM = distanceInM;
     }
 
     public WaypointList() {
-       this(0);
+        this(0);
     }
 
     public WaypointList(Collection<? extends Waypoint> collection) {
         super(collection);
-        distance_in_m = calculateDistance(this);
+        distanceInM = calculateDistance(this);
     }
 
-    public float getDistance_in_m(){
-        return distance_in_m;
+    public float getDistanceInM() {
+        return distanceInM;
     }
 
     /**
@@ -43,7 +43,9 @@ public class WaypointList extends LinkedList<Waypoint> {
      * @return distance
      */
     public static float calculateDistance(List<? extends Waypoint> waypoints) {
-        if (waypoints == null) throw new NullPointerException("Waypoints can not be null!");
+        if (waypoints == null) {
+            throw new NullPointerException("Waypoints can not be null!");
+        }
         if (waypoints.size() < 2) {
             return 0;
         }
@@ -55,24 +57,24 @@ public class WaypointList extends LinkedList<Waypoint> {
     }
 
     @Override
-    public void add(int i, Waypoint waypoint) {
+    public void add(int index, Waypoint waypoint) {
         //update distance
-        if (size() < 1)
-            distance_in_m = 0;
-        else if (i == 0) {
+        if (size() < 1) {
+            distanceInM = 0;
+        } else if (index == 0) {
             //first element
-            distance_in_m += waypoint.distanceTo(getFirst());
-        } else if (i == size()) {
+            distanceInM += waypoint.distanceTo(getFirst());
+        } else if (index == size()) {
             //last element
-            distance_in_m += waypoint.distanceTo(getLast());
+            distanceInM += waypoint.distanceTo(getLast());
         } else {
             //in the middle
             //subtract previous distance
-            distance_in_m -= get(i - 1).distanceTo(get(i));
+            distanceInM -= get(index - 1).distanceTo(get(index));
             //add new distances
-            distance_in_m += waypoint.distanceTo(get(i - 1)) + waypoint.distanceTo(get(i));
+            distanceInM += waypoint.distanceTo(get(index - 1)) + waypoint.distanceTo(get(index));
         }
-        super.add(i, waypoint);
+        super.add(index, waypoint);
     }
 
     @Override
@@ -82,13 +84,14 @@ public class WaypointList extends LinkedList<Waypoint> {
     }
 
     @Override
-    public boolean addAll(int i, Collection<? extends Waypoint> collection) {
-        if (collection.isEmpty())
+    public boolean addAll(int index, Collection<? extends Waypoint> collection) {
+        if (collection.isEmpty()) {
             return false;
+        }
         Iterator<? extends Waypoint> iterator = collection.iterator();
         while (iterator.hasNext()) {
-            add(i, iterator.next());
-            i++;
+            add(index, iterator.next());
+            index++;
         }
         return true;
     }
@@ -101,36 +104,38 @@ public class WaypointList extends LinkedList<Waypoint> {
     @Override
     public void clear() {
         super.clear();
-        distance_in_m = 0;
+        distanceInM = 0;
     }
 
     @Override
-    public Waypoint remove(int i) {
+    public Waypoint remove(int index) {
         //update distance
 
-        if (size() <= 2)
-            distance_in_m = 0;
-        if (i == 0) {
+        if (size() <= 2) {
+            distanceInM = 0;
+        } else if (index == 0) {
             //first element
-            distance_in_m -= getFirst().distanceTo(get(1));
-        } else if (i == size() - 1) {
+            distanceInM -= getFirst().distanceTo(get(1));
+        } else if (index == size() - 1) {
             //last element
-            distance_in_m -= getLast().distanceTo(get(size() - 2));
+            distanceInM -= getLast().distanceTo(get(size() - 2));
         } else {
             //in the middle
             //subtract previous length
-            distance_in_m -= (get(i).distanceTo(get(i + 1)) + get(i).distanceTo(get(i - 1)));
+            distanceInM -= (get(index).distanceTo(get(index + 1))
+                    + get(index).distanceTo(get(index - 1)));
             //add new distance
-            distance_in_m += get(i-1).distanceTo(get(i+1));
+            distanceInM += get(index - 1).distanceTo(get(index + 1));
         }
-        return super.remove(i);
+        return super.remove(index);
     }
 
     @Override
-    public boolean remove(Object o) {
-        int index = indexOf(o);
-        if (index == -1)
+    public boolean remove(Object object) {
+        int index = indexOf(object);
+        if (index == -1) {
             return false;
+        }
         remove(index);
         return true;
     }
@@ -138,23 +143,26 @@ public class WaypointList extends LinkedList<Waypoint> {
     @Override
     public boolean removeAll(Collection<?> collection) {
         boolean changed = false;
-        for (Object o : collection)
+        for (Object o : collection) {
             changed |= remove(o);
+        }
         return changed;
     }
 
     @Override
     public boolean retainAll(Collection<?> collection) {
         Collection<Waypoint> toRemove = new LinkedList<Waypoint>();
-        for (Waypoint point : this)
-            if (!collection.contains(point))
+        for (Waypoint point : this) {
+            if (!collection.contains(point)) {
                 toRemove.add(point);
+            }
+        }
         return removeAll(toRemove);
     }
 
     @Override
-    public Waypoint set(int i, Waypoint waypoint) {
-        add(i, waypoint);
-        return remove(i + 1);
+    public Waypoint set(int index, Waypoint waypoint) {
+        add(index, waypoint);
+        return remove(index + 1);
     }
 }
