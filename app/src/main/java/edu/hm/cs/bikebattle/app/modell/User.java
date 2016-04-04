@@ -17,11 +17,11 @@ public class User {
     /**
      * Weight of the user.
      */
-    private float weight_in_kg;
+    private float weightInKg;
     /**
      * Size of the user.
      */
-    private int size_in_cm;
+    private int sizeInCm;
     /**
      * Others users which are connected to this user.
      */
@@ -38,22 +38,29 @@ public class User {
     /**
      * Initializes the user.
      *
-     * @param name         name of the user
-     * @param weight_in_kg weight of the user in kg
-     * @param size_in_cm   size of the user in cm
-     * @param friends      connected users
-     * @param tracks       tracks of the user
-     * @param routes       routes of the user
+     * @param name       name of the user
+     * @param weightInKg weight of the user in kg
+     * @param sizeInCm   size of the user in cm
+     * @param friends    connected users
+     * @param tracks     tracks of the user
+     * @param routes     routes of the user
      */
-    public User(final String name, final float weight_in_kg, final int size_in_cm, final List<User> friends, final List<Track> tracks, final List<Route> routes) {
+    public User(final String name, final float weightInKg, final int sizeInCm,
+                final List<User> friends, final List<Track> tracks, final List<Route> routes) {
         setName(name);
-        setWeight_in_kg(weight_in_kg);
-        setSize_in_cm(size_in_cm);
-        if (friends == null) throw new NullPointerException("Friends can not be null!");
+        setWeightInKg(weightInKg);
+        setSizeInCm(sizeInCm);
+        if (friends == null) {
+            throw new NullPointerException("Friends can not be null!");
+        }
         this.friends = friends;
-        if (tracks == null) throw new NullPointerException("Tracks can not be null!");
+        if (tracks == null) {
+            throw new NullPointerException("Tracks can not be null!");
+        }
         this.tracks = tracks;
-        if (routes == null) throw new NullPointerException("Routes can not be null!");
+        if (routes == null) {
+            throw new NullPointerException("Routes can not be null!");
+        }
         this.routes = routes;
     }
 
@@ -62,8 +69,8 @@ public class User {
      *
      * @return size
      */
-    public int getSize_in_cm() {
-        return size_in_cm;
+    public int getSizeInCm() {
+        return sizeInCm;
     }
 
     /**
@@ -80,8 +87,8 @@ public class User {
      *
      * @return weight
      */
-    public float getWeight_in_kg() {
-        return weight_in_kg;
+    public float getWeightInKg() {
+        return weightInKg;
     }
 
     /**
@@ -117,28 +124,31 @@ public class User {
      * @param name new name
      */
     public void setName(String name) {
-        if (name == null) throw new NullPointerException("Name can not be null.");
-        if (name.length() <= 0)
+        if (name == null) {
+            throw new NullPointerException("Name can not be null.");
+        }
+        if (name.length() <= 0) {
             throw new IllegalArgumentException("Name must contain at least one character.");
+        }
         this.name = name;
     }
 
     /**
      * Changes the weight of the user.
      *
-     * @param weight_in_kg new weight in kg.
+     * @param weightInKg new weight in kg.
      */
-    public void setWeight_in_kg(float weight_in_kg) {
-        this.weight_in_kg = weight_in_kg;
+    public void setWeightInKg(float weightInKg) {
+        this.weightInKg = weightInKg;
     }
 
     /**
      * Changes the size of the user.
      *
-     * @param size_in_cm new size in cm
+     * @param sizeInCm new size in cm
      */
-    public void setSize_in_cm(int size_in_cm) {
-        this.size_in_cm = size_in_cm;
+    public void setSizeInCm(int sizeInCm) {
+        this.sizeInCm = sizeInCm;
     }
 
     /**

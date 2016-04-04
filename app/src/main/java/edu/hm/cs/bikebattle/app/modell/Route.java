@@ -5,7 +5,8 @@ import java.util.Collection;
 /**
  * Created by Nils on 30.03.2016.
  * <p/>
- * This class represents a route. Routes are based on tracks. But have additional attributes like a name.
+ * This class represents a route. Routes are based on tracks.
+ * But have additional attributes like a name.
  *
  * @author Nils Bernhardt
  * @version 1.0
@@ -25,12 +26,13 @@ public class Route extends WaypointList {
     /**
      * Initializes the route.
      *
-     * @param waypoints   waypoints of the route
-     * @param name        name of the route
+     * @param waypoints    waypoints of the route
+     * @param name         name of the route
      * @param privateRoute is the route private
-     * @param owner       user who owns the route
+     * @param owner        user who owns the route
      */
-    public Route(Collection<? extends Waypoint> waypoints, String name, boolean privateRoute, User owner) {
+    public Route(Collection<? extends Waypoint> waypoints, String name,
+                 boolean privateRoute, User owner) {
         super(waypoints);
         setName(name);
         setPrivateRoute(privateRoute);
@@ -40,9 +42,9 @@ public class Route extends WaypointList {
     /**
      * Initializes this Route without waypoints.
      *
-     * @param name        name of the route
+     * @param name         name of the route
      * @param privateRoute is the route public
-     * @param owner       user who owns the route
+     * @param owner        user who owns the route
      */
     public Route(String name, boolean privateRoute, User owner) {
         super();
@@ -61,7 +63,6 @@ public class Route extends WaypointList {
     public Route(String name, Collection<? extends Waypoint> waypoints, User owner) {
         this(waypoints, name, false, owner);
     }
-
 
 
     /**
@@ -89,9 +90,12 @@ public class Route extends WaypointList {
      * @param name name
      */
     public void setName(String name) {
-        if (name == null) throw new NullPointerException("Route name can not be null.");
-        if (name.length() <= 0)
+        if (name == null) {
+            throw new NullPointerException("Route name can not be null.");
+        }
+        if (name.length() <= 0) {
             throw new IllegalArgumentException("Route name must contain at least one character.");
+        }
         this.name = name;
     }
 
