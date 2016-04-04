@@ -12,27 +12,29 @@ import android.os.Parcelable;
  * @version 0.1
  */
 public class Waypoint extends Location {
-    /**
-     * @see #Location#CREATOR.
-     */
-    public static final Parcelable.Creator CREATOR = null;//TODO if needed
+  /**
+   * @see #Location#CREATOR.
+   */
+  public static final Parcelable.Creator CREATOR = null;//TODO if needed
 
 
-    /**
-     * Initialization from super class.
-     * @param location location
-     * @see #Location#Location(Location)
-     */
-    public Waypoint(Location location) {
-        super(location);
-    }
+  /**
+   * Initialization from super class.
+   *
+   * @param location location
+   * @see #Location#Location(Location)
+   */
+  public Waypoint(Location location) {
+    super(location);
+  }
 
-    /**
-     * Initialization from super class.
-     * @param provider provider
-     * @see #Location#Location(String) 
-     */
-    public Waypoint(String provider) {
-        super(provider);
-    }
+  /**
+   * Initialization from super class.
+   *
+   * @param provider provider
+   * @see #Location#Location(String)
+   */
+  public Waypoint(String provider) {
+    super(provider);
+  }
 }
