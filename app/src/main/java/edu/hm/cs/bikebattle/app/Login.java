@@ -2,8 +2,11 @@ package edu.hm.cs.bikebattle.app;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.app.Activity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -12,7 +15,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 
-public class Login extends Activity  implements GoogleApiClient.OnConnectionFailedListener{
+public class Login extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener{
 
     private static final String TAG = "SignInBikeBattle";
     private static final int RC_SIGN_IN = 9001;
@@ -29,15 +32,23 @@ public class Login extends Activity  implements GoogleApiClient.OnConnectionFail
         //ImageView viewLogo = (ImageView) findViewById(R.id.logo);
         //viewLogo.setImageResource(R.drawable.fahrrad_comic_2);
 
-       // Button login = (Button)findViewById(R.id.login);
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+
+      /**  GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build();
+
         mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .enableAutoManage(null,this)
+                .enableAutoManage(this,this)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
-
+*/
+        Button login = (Button)findViewById(R.id.login);
+        login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                signIn();
+            }
+        });
     }
 
     private void signIn() {
@@ -52,16 +63,20 @@ public class Login extends Activity  implements GoogleApiClient.OnConnectionFail
 
     @Override public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        String userName;
+        String userMail;
+        String userToken;
 
-        // Result returned from launching the Intent from
-        //   GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             if (result.isSuccess()) {
                 GoogleSignInAccount acct = result.getSignInAccount();
-                // Get account information
-              //  mFullName = acct.getDisplayName();
-             //   mEmail = acct.getEmail();
+                userName = acct.getDisplayName();
+                userMail = acct.getEmail();
+                userToken = acct.getIdToken();
+
+                Toast toast = Toast.makeText(getApplicationContext(), userMail, Toast.LENGTH_SHORT);
+                toast.show();
             }
         }
     }
