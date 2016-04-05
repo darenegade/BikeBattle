@@ -1,6 +1,8 @@
 package edu.hm.cs.bikebattle.app.modell;
 
-import java.util.Collection;
+import android.location.Location;
+
+import java.util.List;
 
 /**
  * Created by Nils on 30.03.2016.
@@ -11,7 +13,7 @@ import java.util.Collection;
  * @author Nils Bernhardt
  * @version 1.0
  */
-public class Route extends WaypointList {
+public class Route extends LocationList {
   /**
    * name of the route.
    */
@@ -26,21 +28,21 @@ public class Route extends WaypointList {
   /**
    * Initializes the route.
    *
-   * @param waypoints    waypoints of the route
+   * @param locations    locations of the route
    * @param name         name of the route
    * @param privateRoute is the route private
    * @param owner        user who owns the route
    */
-  public Route(Collection<? extends Waypoint> waypoints, String name,
+  public Route(List<? extends Location> locations, String name,
                boolean privateRoute, User owner) {
-    super(waypoints);
+    super(locations);
     setName(name);
     setPrivateRoute(privateRoute);
     setOwner(owner);
   }
 
   /**
-   * Initializes this Route without waypoints.
+   * Initializes this Route without locations.
    *
    * @param name         name of the route
    * @param privateRoute is the route public
@@ -57,11 +59,11 @@ public class Route extends WaypointList {
    * Initializes the route with a public flag.
    *
    * @param name      name of the route
-   * @param waypoints waypoints of the route
+   * @param locations locations of the route
    * @param owner     user who owns the route
    */
-  public Route(String name, Collection<? extends Waypoint> waypoints, User owner) {
-    this(waypoints, name, false, owner);
+  public Route(String name, List<? extends Location> locations, User owner) {
+    this(locations, name, false, owner);
   }
 
 
@@ -102,7 +104,7 @@ public class Route extends WaypointList {
   /**
    * Returns true if the route is private.
    *
-   * @return is the route privte
+   * @return is the route private
    */
   public boolean isPrivateRoute() {
     return privateRoute;
