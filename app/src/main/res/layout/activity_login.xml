@@ -57,13 +57,13 @@
         android:layout_gravity="center_horizontal">
 
 
-        <Button
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:id="@+id/login"
-            android:text="@string/sign_in_with_google"
-            android:drawableLeft="@drawable/googlelogin"
-            android:background="#eeeeee" />
+        <com.google.android.gms.common.SignInButton
+                android:id="@+id/sign_in_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:visibility="visible"
+                tools:visibility="gone" />
     </LinearLayout>
 
 </LinearLayout>
