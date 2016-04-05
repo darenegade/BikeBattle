@@ -1,6 +1,8 @@
 package edu.hm.cs.bikebattle.app.modell;
 
-import java.util.Collection;
+import android.location.Location;
+
+import java.util.List;
 
 /**
  * Created by Nils on 30.03.2016.
@@ -10,7 +12,7 @@ import java.util.Collection;
  * @author Nils Bernhardt
  * @version 1.0
  */
-public class Track extends WaypointList {
+public class Track extends LocationList {
 
 
   /**
@@ -21,12 +23,12 @@ public class Track extends WaypointList {
   /**
    * Initializes the track without calculating the distance and time.
    *
-   * @param waypoints   waypoints of the track
+   * @param locations   locations of the track
    * @param distanceInM distance of the track
    * @param owner       user who owns the track
    */
-  public Track(Collection<? extends Waypoint> waypoints, float distanceInM, User owner) {
-    super(waypoints, distanceInM);
+  public Track(List<? extends Location> locations, float distanceInM, User owner) {
+    super(locations, distanceInM);
     if (owner == null) {
       throw new NullPointerException("Owner can not be null!");
     }
@@ -36,11 +38,11 @@ public class Track extends WaypointList {
   /**
    * Initializes the track.
    *
-   * @param waypoints waypoints of the track
+   * @param locations locations of the track
    * @param owner     user who owns the track
    */
-  public Track(Collection<? extends Waypoint> waypoints, User owner) {
-    super(waypoints);
+  public Track(List<? extends Location> locations, User owner) {
+    super(locations);
     if (owner == null) {
       throw new NullPointerException("Owner can not be null!");
     }
@@ -65,7 +67,7 @@ public class Track extends WaypointList {
    */
   public static long calculateTime(Track track) {
     if (track == null) {
-      throw new NullPointerException("Waypoints can not be null!");
+      throw new NullPointerException("Locations can not be null!");
     }
     if (track.size() > 1) {
       return track.get(0).getTime() - track.get(track.size() - 1).getTime();
@@ -88,7 +90,7 @@ public class Track extends WaypointList {
    *
    * @return average speed
    */
-  public float getAveragespeed_in_kmh() {
+  public float getAverageSpeed_in_kmh() {
     return getDistanceInM() * 1000 / (getTime_in_s() / 3600.0f);
   }
 
