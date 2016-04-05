@@ -77,6 +77,8 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
 
                 Toast toast = Toast.makeText(getApplicationContext(), userMail, Toast.LENGTH_LONG);
                 toast.show();
+            } else {
+                Log.d(TAG, "Fehler beim Login: " + result.getStatus().toString());
             }
         }
     }
