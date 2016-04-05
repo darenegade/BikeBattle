@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Toast;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
@@ -31,7 +32,7 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
         //viewLogo.setImageResource(R.drawable.fahrrad_comic_2);
 
 
-      /**  GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+      GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build();
 
@@ -39,7 +40,7 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
                 .enableAutoManage(this,this)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
-*/
+
         SignInButton login = (SignInButton) findViewById(R.id.sign_in_button);
         login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,12 +69,13 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
         if (requestCode == RC_SIGN_IN) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             if (result.isSuccess()) {
+                Log.d(TAG, "Login successful!!!");
                 GoogleSignInAccount acct = result.getSignInAccount();
                 userName = acct.getDisplayName();
                 userMail = acct.getEmail();
                 userToken = acct.getIdToken();
 
-                Toast toast = Toast.makeText(getApplicationContext(), userMail, Toast.LENGTH_SHORT);
+                Toast toast = Toast.makeText(getApplicationContext(), userMail, Toast.LENGTH_LONG);
                 toast.show();
             }
         }
