@@ -34,9 +34,6 @@ public class MainActivity extends Activity {
         }else if (id == R.id.action_googlemap) {
             Intent intent = new Intent(this, GoogleMapActivity.class);
             startActivity(intent);
-        }else if (id == R.id.action_osmmap) {
-            Intent intent = new Intent(this, OSMActivity.class);
-            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);

@@ -43,9 +43,6 @@
         <activity
             android:name=".GoogleMapActivity"
             android:label="@string/title_activity_maps"></activity>
-        <activity
-            android:name=".OSMActivity"
-            android:label="@string/title_activity_maps"></activity>
 
     </application>
 

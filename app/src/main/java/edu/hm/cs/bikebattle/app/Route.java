@@ -18,7 +18,7 @@ public class Route {
     /**
      * The name of the route.
      */
-    private String name;
+    private final String name;
     /**
      * A list which includes all way points.
      */
@@ -32,6 +32,13 @@ public class Route {
      */
     private double length;
 
+    /**
+     * Initialize the route.
+     *
+     * @param name      Name of the route.
+     * @param wayPoints List of waypoints describing the route.
+     * @param length    Length of the route.
+     */
     public Route(String name, ArrayList<LatLng> wayPoints, double length) {
         this.name = name;
         this.wayPoints = wayPoints;
@@ -40,23 +47,28 @@ public class Route {
 
     /**
      * Draw the route on the map and display the marker.
+     *
      * @param map Map to draw on.
      */
-    public void drawOnMap(GoogleMap map){
+    public void drawOnMap(GoogleMap map) {
         PolylineOptions polyRoute = new PolylineOptions();
 
         polyRoute.color(Color.BLUE);
         polyRoute.width(6);
         polyRoute.visible(true);
 
-        for ( LatLng wayPoint : wayPoints)
-        {
+        for (LatLng wayPoint : wayPoints) {
             polyRoute.add(wayPoint);
         }
 
-        map.addPolyline( polyRoute );
+        map.addPolyline(polyRoute);
         positionMarker = map.addMarker(new MarkerOptions().position(wayPoints.get(0)).title(name)
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_bike))
-                .snippet("Length: " + length + "km"));
+            .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_bike))
+            .snippet("Length: " + length + "km"));
+    }
+
+    @Override
+    public String toString() {
+        return name + "\n" + length + " km";
     }
 }
