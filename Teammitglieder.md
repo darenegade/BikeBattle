@@ -4,6 +4,6 @@
 |-------------|-------------------|----------|---------------|
 | René Zarwel | darenegade@gmx.de | IFW13028 | zarwel@hm.edu |
 | Lukas Brauckmann            | lukas.brauckmann@gmail.com                  | IFW13051         |  brauckma@hm.edu             |
-|             |                   |          |               |
+| Nils Bernhardt | nils.bernhardt@live.de | IFW13050 | nbernhar@hm.edu |
 |             |                   |          |               |
 |             |                   |          |               |
