@@ -8,6 +8,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 
+import lombok.NonNull;
+
 /**
  * Created by Nils on 01.04.2016.
  * <p/>
@@ -27,10 +29,11 @@ public class LocationList implements List<Location> {
 
   /**
    * Initializes the list with the given locations and the distance.
-   * @param collection locations
+   *
+   * @param collection  locations
    * @param distanceInM distance
    */
-  public LocationList(List<? extends Location> collection, float distanceInM) {
+  public LocationList(@NonNull List<? extends Location> collection, float distanceInM) {
     data = new LinkedList<Location>(collection);
     this.distanceInM = distanceInM;
   }
@@ -45,15 +48,17 @@ public class LocationList implements List<Location> {
 
   /**
    * Initializes the list and calculates the distance.
+   *
    * @param collection locations
    */
-  public LocationList(List<? extends Location> collection) {
+  public LocationList(@NonNull List<? extends Location> collection) {
     data = new LinkedList<Location>(collection);
     distanceInM = calculateDistance(this);
   }
 
   /**
    * Returns the distance in meter of the route.
+   *
    * @return distance
    */
   public float getDistanceInM() {
@@ -66,10 +71,7 @@ public class LocationList implements List<Location> {
    * @param locations list of locations
    * @return distance
    */
-  public static float calculateDistance(List<? extends Location> locations) {
-    if (locations == null) {
-      throw new NullPointerException("Locations can not be null!");
-    }
+  public static float calculateDistance(@NonNull List<? extends Location> locations) {
     if (locations.size() < 2) {
       return 0;
     }
@@ -81,7 +83,7 @@ public class LocationList implements List<Location> {
   }
 
   @Override
-  public void add(int index, Location location) {
+  public void add(int index, @NonNull Location location) {
     //update distance
     if (size() < 1) {
       distanceInM = 0;
@@ -102,26 +104,26 @@ public class LocationList implements List<Location> {
   }
 
   @Override
-  public boolean add(Location location) {
+  public boolean add(@NonNull Location location) {
     add(this.size(), location);
     return true;
   }
 
+
   @Override
-  public boolean addAll(int index, Collection<? extends Location> collection) {
+  public boolean addAll(int index, @NonNull Collection<? extends Location> collection) {
     if (collection.isEmpty()) {
       return false;
     }
-    Iterator<? extends Location> iterator = collection.iterator();
-    while (iterator.hasNext()) {
-      add(index, iterator.next());
+    for (Location location : collection) {
+      add(index, location);
       index++;
     }
     return true;
   }
 
   @Override
-  public boolean addAll(Collection<? extends Location> collection) {
+  public boolean addAll(@NonNull Collection<? extends Location> collection) {
     return addAll(size(), collection);
   }
 
@@ -237,7 +239,7 @@ public class LocationList implements List<Location> {
 
   @Override
   public int size() {
-    return 0;
+    return data.size();
   }
 
   @Override
@@ -251,7 +253,8 @@ public class LocationList implements List<Location> {
   }
 
   @Override
-  public <Location> Location[] toArray(Location[] array) {
-    return data.toArray(array);
+  public <T> T[] toArray(T[] array) {
+    return null;
   }
+
 }
