@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.action_settings) {
             return true;
         }else if (id == R.id.action_googlemap) {
-            Intent intent = new Intent(this, EmptyActivity.class);
+            Intent intent = new Intent(this, RoutesActivity.class);
             startActivity(intent);
         }
 
