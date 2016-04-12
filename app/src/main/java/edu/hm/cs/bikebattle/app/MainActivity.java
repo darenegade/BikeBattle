@@ -1,17 +1,24 @@
 package edu.hm.cs.bikebattle.app;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class MainActivity extends Activity {
+public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        /*
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        // Sets the Toolbar to act as the ActionBar for this Activity window.
+        // Make sure the toolbar exists in the activity and is not null
+        setSupportActionBar(toolbar);
+        */
     }
 
     @Override
@@ -32,7 +39,7 @@ public class MainActivity extends Activity {
         if (id == R.id.action_settings) {
             return true;
         }else if (id == R.id.action_googlemap) {
-            Intent intent = new Intent(this, GoogleMapActivity.class);
+            Intent intent = new Intent(this, EmptyActivity.class);
             startActivity(intent);
         }
 
