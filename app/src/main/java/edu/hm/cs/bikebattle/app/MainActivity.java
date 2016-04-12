@@ -1,9 +1,14 @@
 package edu.hm.cs.bikebattle.app;
 
 import android.app.Activity;
+import android.content.Context;
+import android.location.Location;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import edu.hm.cs.bikebattle.app.tracker.LocationTracker;
 
 public class MainActivity extends Activity {
 
@@ -11,6 +16,34 @@ public class MainActivity extends Activity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
+
+    final Context context = this;
+    new Thread() {
+      @Override
+      public void run() {
+        try {
+
+          LocationTracker tracker = new LocationTracker(context, 500, 500);
+          synchronized (tracker) {
+            while (!tracker.isReady())
+              tracker.wait();
+          }
+          Log.d("Tracker", "started");
+          tracker.start();
+          synchronized (this) {
+            wait(20000);
+          }
+          tracker.stop();
+          tracker.shutdown();
+          Log.d("Track", tracker.getTrack().size()+"");
+          for(Location l: tracker.getTrack())
+            Log.d("Location", l.toString());
+        } catch (InterruptedException e) {
+          e.printStackTrace();
+        }
+
+      }
+    }.start();
   }
 
 
