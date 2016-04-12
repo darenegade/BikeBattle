@@ -23,15 +23,14 @@ public class MainActivity extends Activity {
       public void run() {
         try {
 
-          LocationTracker tracker = new LocationTracker(context, 500, 500);
+          LocationTracker tracker = new LocationTracker(context, 0);
           synchronized (tracker) {
             while (!tracker.isReady())
               tracker.wait();
           }
-          Log.d("Tracker", "started");
-          tracker.start();
+          //tracker.start();
           synchronized (this) {
-            wait(20000);
+            wait(60000);
           }
           tracker.stop();
           tracker.shutdown();
