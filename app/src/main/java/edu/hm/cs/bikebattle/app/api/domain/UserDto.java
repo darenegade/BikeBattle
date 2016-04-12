@@ -7,12 +7,11 @@ import lombok.NoArgsConstructor;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
  * Organization: HM FK07.
- * Project: BikeBattleBackend, edu.hm.cs.bikebattle.domain
+ * Project: BikeBattle, edu.hm.cs.bikebattle.app.api.domain
  * Author(s): Rene Zarwel
- * Date: 27.03.16
+ * Date: 12.04.16
  * OS: MacOS 10.11
  * Java-Version: 1.8
  * System: 2,3 GHz Intel Core i7, 16 GB 1600 MHz DDR3
@@ -20,17 +19,19 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Route_DTO {
+public class UserDto {
 
-    String name;
+  String name;
 
-    boolean privat;
+  String email;
 
-    float length;
+  float size;
 
-    Difficulty difficulty;
+  float weight;
 
-    Routetyp routetyp;
+  List<String> friends = new ArrayList<String>();
 
-    List<String> routePoints = new ArrayList<String>();
+  List<String> routes = new ArrayList<String>();
+
+  List<String> drives = new ArrayList<String>();
 }

@@ -18,9 +18,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Measurement_DTO {
+public class MeasurementDto {
 
-    float speed;
+  float speed;
 
-    RoutePoint_DTO routePoint;
+  RoutePointDto routePoint;
 }
