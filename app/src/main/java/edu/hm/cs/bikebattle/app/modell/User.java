@@ -1,6 +1,5 @@
 package edu.hm.cs.bikebattle.app.modell;
 
-import lombok.Builder;
 import org.springframework.hateoas.ResourceSupport;
 
 import java.util.List;
@@ -12,7 +11,6 @@ import java.util.List;
  * @author Nils Bernhardt
  * @version 1.0
  */
-@Builder
 public class User  extends ResourceSupport {
   /**
    * Name of the user.
@@ -53,7 +51,7 @@ public class User  extends ResourceSupport {
    * @param tracks     tracks of the user
    * @param routes     routes of the user
    */
-  public User(final String name, final float weightInKg, final int sizeInCm,
+  public User(final String name, final float weightInKg, final float sizeInCm,
               final List<User> friends, final List<Track> tracks, final List<Route> routes) {
     setName(name);
     setWeightInKg(weightInKg);
@@ -72,6 +70,20 @@ public class User  extends ResourceSupport {
     this.routes = routes;
   }
 
+  /**
+   * Initializes the user without relations.
+   *
+   * @param name       name of the user
+   * @param email    email of user
+   * @param weightInKg weight of the user in kg
+   * @param sizeInCm   size of the user in cm
+   */
+  public User(final String name,final String email, final float weightInKg, final float sizeInCm) {
+    setName(name);
+    setWeightInKg(weightInKg);
+    setSizeInCm(sizeInCm);
+    setEmail(email);
+  }
   public String getEmail() {
     return email;
   }
@@ -163,7 +175,7 @@ public class User  extends ResourceSupport {
    *
    * @param sizeInCm new size in cm
    */
-  public void setSizeInCm(int sizeInCm) {
+  public void setSizeInCm(float sizeInCm) {
     this.sizeInCm = sizeInCm;
   }
 

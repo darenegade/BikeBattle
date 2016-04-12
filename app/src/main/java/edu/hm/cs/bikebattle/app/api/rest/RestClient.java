@@ -2,8 +2,6 @@ package edu.hm.cs.bikebattle.app.api.rest;
 
 import lombok.Getter;
 import org.springframework.hateoas.Link;
-import org.springframework.hateoas.MediaTypes;
-import org.springframework.hateoas.client.Traverson;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
@@ -20,7 +18,7 @@ import java.util.Collection;
  */
 public abstract class RestClient<T> {
 
-  private static final URI BASEPATH = URI.create("http://localhost:8080/");
+  public static final URI BASEPATH = URI.create("http://localhost:8080/");
 
   public static final String SEARCH = "search";
 
@@ -32,20 +30,11 @@ public abstract class RestClient<T> {
   private final RestTemplate restTemplate;
 
   /**
-   * Used to follow HATEOAS relations.
-   */
-  @Getter
-  private final Traverson traverson;
-
-  /**
    * Default Constructor.
    * @param restTemplate Connection to Backend
    */
   public RestClient(RestTemplate restTemplate) {
     this.restTemplate = restTemplate;
-
-    traverson = new Traverson(BASEPATH, MediaTypes.HAL_JSON);
-    traverson.setRestOperations(restTemplate);
   }
 
   /**

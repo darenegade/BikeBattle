@@ -61,12 +61,11 @@ public class UserRestClient extends RestClient<UserResource> {
   @Override
   public UserResource create(UserResource user) {
 
-    URI uri = URI.create(
-        getTraverson().follow(BASE_RELATION).asLink().getHref());
+
+    URI uri = URI.create(BASEPATH.toString() + BASE_RELATION);
 
     return getRestTemplate().exchange(
-        uri,
-        HttpMethod.POST,
+        uri, HttpMethod.POST,
         new HttpEntity<UserDto>(user.getContent()),
         UserResource.class
     ).getBody();
@@ -94,9 +93,10 @@ public class UserRestClient extends RestClient<UserResource> {
 
   @Override
   public Collection<UserResource> findAll() {
-    return getTraverson()
-        .follow(BASE_RELATION)
-        .toObject(UserResource.LIST).getContent();
+    URI uri = URI.create(BASEPATH.toString());
+
+    return getRestTemplate().exchange(uri, HttpMethod.GET, null, UserResource.LIST)
+        .getBody().getContent();
   }
 
   @Override

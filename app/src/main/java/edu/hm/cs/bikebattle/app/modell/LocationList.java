@@ -1,7 +1,6 @@
 package edu.hm.cs.bikebattle.app.modell;
 
 import android.location.Location;
-import lombok.Builder;
 import lombok.NonNull;
 import org.springframework.hateoas.ResourceSupport;
 
@@ -18,7 +17,6 @@ import java.util.ListIterator;
  *
  * @author Nils Bernhardt
  */
-@Builder
 public class LocationList extends ResourceSupport implements List<Location> {
   /**
    * distance of the the track.

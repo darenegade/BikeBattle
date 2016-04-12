@@ -9,6 +9,18 @@ buildscript {
 }
 apply plugin: 'com.android.application'
 
+android {
+    lintOptions {
+        abortOnError false
+    }
+    packagingOptions {
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/NOTICE'
+    }
+}
+
 repositories {
     jcenter()
     maven {
@@ -57,7 +69,6 @@ dependencies {
 
     //Spring
     compile ('org.springframework.android:spring-android-rest-template:2.0.0.M3')
-    compile ('org.springframework.hateoas:spring-hateoas:0.19.0.RELEASE')
     compile ('com.fasterxml.jackson.core:jackson-databind:2.7.3')
 
     testCompile 'junit:junit:4.12'

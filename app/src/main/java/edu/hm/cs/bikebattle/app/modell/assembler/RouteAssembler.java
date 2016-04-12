@@ -42,11 +42,11 @@ public class RouteAssembler {
 
     RouteDto routeDto = resource.getContent();
 
-    Route route = Route.builder()
-        .name(routeDto.getName())
-        .difficulty(routeDto.getDifficulty())
-        .privateRoute(routeDto.isPrivat())
-        .build();
+    Route route = new Route(
+        routeDto.getName(),
+        routeDto.isPrivat(),
+        routeDto.getDifficulty()
+    );
 
     route.add(resource.getLinks());
 

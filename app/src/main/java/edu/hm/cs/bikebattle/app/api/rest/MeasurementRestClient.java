@@ -61,15 +61,15 @@ public class MeasurementRestClient extends RestClient<MeasurementResource> {
   @Override
   public MeasurementResource create(MeasurementResource measurement) {
 
-    URI uri = URI.create(
-        getTraverson().follow(BASE_RELATION).asLink().getHref());
+
+    URI uri = URI.create(BASEPATH.toString() + BASE_RELATION);
 
     return getRestTemplate().exchange(
-        uri,
-        HttpMethod.POST,
+        uri, HttpMethod.POST,
         new HttpEntity<MeasurementDto>(measurement.getContent()),
         MeasurementResource.class
     ).getBody();
+
   }
 
   @Override
@@ -94,9 +94,10 @@ public class MeasurementRestClient extends RestClient<MeasurementResource> {
 
   @Override
   public Collection<MeasurementResource> findAll() {
-    return getTraverson()
-        .follow(BASE_RELATION)
-        .toObject(MeasurementResource.LIST).getContent();
+    URI uri = URI.create(BASEPATH.toString());
+
+    return getRestTemplate().exchange(uri, HttpMethod.GET, null, MeasurementResource.LIST)
+        .getBody().getContent();
   }
 
   @Override

@@ -61,12 +61,11 @@ public class RouteRestClient extends RestClient<RouteResource> {
   @Override
   public RouteResource create(RouteResource route) {
 
-    URI uri = URI.create(
-        getTraverson().follow(BASE_RELATION).asLink().getHref());
+
+    URI uri = URI.create(BASEPATH.toString() + BASE_RELATION);
 
     return getRestTemplate().exchange(
-        uri,
-        HttpMethod.POST,
+        uri, HttpMethod.POST,
         new HttpEntity<RouteDto>(route.getContent()),
         RouteResource.class
     ).getBody();
@@ -94,9 +93,10 @@ public class RouteRestClient extends RestClient<RouteResource> {
 
   @Override
   public Collection<RouteResource> findAll() {
-    return getTraverson()
-        .follow(BASE_RELATION)
-        .toObject(RouteResource.LIST).getContent();
+    URI uri = URI.create(BASEPATH.toString());
+
+    return getRestTemplate().exchange(uri, HttpMethod.GET, null, RouteResource.LIST)
+        .getBody().getContent();
   }
 
   @Override

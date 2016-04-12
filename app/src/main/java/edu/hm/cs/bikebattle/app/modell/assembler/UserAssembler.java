@@ -42,12 +42,12 @@ public class UserAssembler {
 
     UserDto userDto = resource.getContent();
 
-    User user = User.builder()
-        .name(userDto.getName())
-        .email(userDto.getEmail())
-        .sizeInCm(userDto.getSize())
-        .weightInKg(userDto.getWeight())
-        .build();
+    User user = new User(
+        userDto.getName(),
+        userDto.getEmail(),
+        userDto.getWeight(),
+        userDto.getSize()
+    );
 
     user.add(resource.getLinks());
 

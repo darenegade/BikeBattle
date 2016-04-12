@@ -40,9 +40,7 @@ public class TrackAssembler {
 
     DriveDto routeDto = resource.getContent();
 
-    Track track = Track.builder()
-
-        .build();
+    Track track = new Track();
 
     track.add(resource.getLinks());
 

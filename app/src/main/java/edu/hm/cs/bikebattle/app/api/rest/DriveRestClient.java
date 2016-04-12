@@ -62,8 +62,7 @@ public class DriveRestClient extends RestClient<DriveResource> {
   @Override
   public DriveResource create(DriveResource drive) {
 
-    URI uri = URI.create(
-        getTraverson().follow(BASE_RELATION).asLink().getHref());
+    URI uri = URI.create(BASEPATH.toString() + BASE_RELATION);
 
     return getRestTemplate().exchange(
         uri, HttpMethod.POST,
@@ -95,9 +94,10 @@ public class DriveRestClient extends RestClient<DriveResource> {
 
   @Override
   public Collection<DriveResource> findAll() {
-    return getTraverson()
-        .follow(BASE_RELATION)
-        .toObject(DriveResource.LIST).getContent();
+    URI uri = URI.create(BASEPATH.toString());
+
+    return getRestTemplate().exchange(uri, HttpMethod.GET, null, DriveResource.LIST)
+        .getBody().getContent();
   }
 
   @Override
