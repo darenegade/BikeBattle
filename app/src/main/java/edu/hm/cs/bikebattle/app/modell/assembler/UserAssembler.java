@@ -1,0 +1,58 @@
+package edu.hm.cs.bikebattle.app.modell.assembler;
+
+import edu.hm.cs.bikebattle.app.api.domain.UserDto;
+import edu.hm.cs.bikebattle.app.modell.User;
+import org.springframework.hateoas.Resource;
+
+/**
+ * Organization: HM FK07.
+ * Project: BikeBattle, edu.hm.cs.bikebattle.app.modell.assembler
+ * Author(s): Rene Zarwel
+ * Date: 12.04.16
+ * OS: MacOS 10.11
+ * Java-Version: 1.8
+ * System: 2,3 GHz Intel Core i7, 16 GB 1600 MHz DDR3
+ */
+public class UserAssembler {
+
+  /**
+   * Assembles a UserDTO from a User.
+   *
+   * @param user to build from
+   * @return userDTO
+   */
+  public static Resource<UserDto> toDto(User user) {
+
+    return new Resource<UserDto>(
+        UserDto.builder()
+            .name(user.getName())
+            .email(user.getEmail())
+            .size(user.getSizeInCm())
+            .build(),
+        user.getLinks());
+  }
+
+  /**
+   * Assembles a User from a UserDTO.
+   *
+   * @param resource to build from
+   * @return user
+   */
+  public static User toBean(Resource<UserDto> resource) {
+
+    UserDto userDto = resource.getContent();
+
+    User user = User.builder()
+        .name(userDto.getName())
+        .email(userDto.getEmail())
+        .sizeInCm(userDto.getSize())
+        .weightInKg(userDto.getWeight())
+        .build();
+
+    user.add(resource.getLinks());
+
+    return user;
+
+  }
+
+}

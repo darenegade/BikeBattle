@@ -1,6 +1,7 @@
 package edu.hm.cs.bikebattle.app.api.domain;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -15,6 +16,7 @@ import lombok.NoArgsConstructor;
  * System: 2,3 GHz Intel Core i7, 16 GB 1600 MHz DDR3
  */
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class RoutePointDto {

@@ -1,6 +1,8 @@
 package edu.hm.cs.bikebattle.app.modell;
 
 import android.location.Location;
+import edu.hm.cs.bikebattle.app.api.domain.Difficulty;
+import lombok.Builder;
 
 import java.util.List;
 
@@ -13,6 +15,7 @@ import java.util.List;
  * @author Nils Bernhardt
  * @version 1.0
  */
+@Builder
 public class Route extends LocationList {
   /**
    * name of the route.
@@ -22,6 +25,8 @@ public class Route extends LocationList {
    * Flag whether this route is public.
    */
   private boolean privateRoute;
+
+  private Difficulty difficulty;
 
   private User owner;
 
@@ -99,6 +104,14 @@ public class Route extends LocationList {
       throw new IllegalArgumentException("Route name must contain at least one character.");
     }
     this.name = name;
+  }
+
+  public Difficulty getDifficulty() {
+    return difficulty;
+  }
+
+  public void setDifficulty(Difficulty difficulty) {
+    this.difficulty = difficulty;
   }
 
   /**

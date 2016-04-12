@@ -1,6 +1,7 @@
 package edu.hm.cs.bikebattle.app.modell;
 
 import android.location.Location;
+import lombok.Builder;
 
 import java.util.List;
 
@@ -12,6 +13,7 @@ import java.util.List;
  * @author Nils Bernhardt
  * @version 1.0
  */
+@Builder
 public class Track extends LocationList {
 
 

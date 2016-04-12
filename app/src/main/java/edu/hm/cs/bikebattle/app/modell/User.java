@@ -1,5 +1,8 @@
 package edu.hm.cs.bikebattle.app.modell;
 
+import lombok.Builder;
+import org.springframework.hateoas.ResourceSupport;
+
 import java.util.List;
 
 /**
@@ -9,11 +12,16 @@ import java.util.List;
  * @author Nils Bernhardt
  * @version 1.0
  */
-public class User {
+@Builder
+public class User  extends ResourceSupport {
   /**
    * Name of the user.
    */
   private String name;
+  /**
+   * EMail of user.
+   */
+  private String email;
   /**
    * Weight of the user.
    */
@@ -21,7 +29,7 @@ public class User {
   /**
    * Size of the user.
    */
-  private int sizeInCm;
+  private float sizeInCm;
   /**
    * Others users which are connected to this user.
    */
@@ -64,12 +72,20 @@ public class User {
     this.routes = routes;
   }
 
+  public String getEmail() {
+    return email;
+  }
+
+  public void setEmail(String email) {
+    this.email = email;
+  }
+
   /**
    * Returns the size of the user.
    *
    * @return size
    */
-  public int getSizeInCm() {
+  public float getSizeInCm() {
     return sizeInCm;
   }
 
