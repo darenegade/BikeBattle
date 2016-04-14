@@ -2,7 +2,6 @@ package edu.hm.cs.bikebattle.app.modell.assembler;
 
 import edu.hm.cs.bikebattle.app.api.domain.RouteDto;
 import edu.hm.cs.bikebattle.app.modell.Route;
-import org.springframework.hateoas.Resource;
 
 /**
  * Organization: HM FK07.
@@ -21,37 +20,28 @@ public class RouteAssembler {
    * @param route to build from
    * @return routeDTO
    */
-  public static Resource<RouteDto> toDto(Route route) {
+  public static RouteDto toDto(Route route) {
 
-    return new Resource<RouteDto>(
-        RouteDto.builder()
+    return RouteDto.builder()
             .name(route.getName())
             .difficulty(route.getDifficulty())
             .privat(route.isPrivateRoute())
-            .build(),
-        route.getLinks());
+            .build();
   }
 
   /**
    * Assembles a User from a UserDTO.
    *
-   * @param resource to build from
+   * @param routeDto to build from
    * @return user
    */
-  public static Route toBean(Resource<RouteDto> resource) {
+  public static Route toBean(RouteDto routeDto) {
 
-    RouteDto routeDto = resource.getContent();
-
-    Route route = new Route(
+    return new Route(
         routeDto.getName(),
         routeDto.isPrivat(),
         routeDto.getDifficulty()
     );
-
-    route.add(resource.getLinks());
-
-    return route;
-
   }
 
 }

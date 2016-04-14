@@ -68,8 +68,6 @@ dependencies {
     compile ('org.projectlombok:lombok:1.16.8')
 
     //Spring
-    compile ('org.springframework.android:spring-android-rest-template:2.0.0.M3')
-    compile ('com.fasterxml.jackson.core:jackson-databind:2.7.3')
 
     testCompile 'junit:junit:4.12'
     testCompile "org.mockito:mockito-core:1.9.5"

@@ -2,7 +2,6 @@ package edu.hm.cs.bikebattle.app.modell.assembler;
 
 import edu.hm.cs.bikebattle.app.api.domain.DriveDto;
 import edu.hm.cs.bikebattle.app.modell.Track;
-import org.springframework.hateoas.Resource;
 
 /**
  * Organization: HM FK07.
@@ -21,30 +20,22 @@ public class TrackAssembler {
    * @param track to build from
    * @return routeDTO
    */
-  public static Resource<DriveDto> toDto(Track track) {
+  public static DriveDto toDto(Track track) {
 
-    return new Resource<DriveDto>(
-        DriveDto.builder()
+    return DriveDto.builder()
 
-            .build(),
-        track.getLinks());
+            .build();
   }
 
   /**
    * Assembles a User from a UserDTO.
    *
-   * @param resource to build from
+   * @param routeDto to build from
    * @return user
    */
-  public static Track toBean(Resource<DriveDto> resource) {
+  public static Track toBean(DriveDto routeDto) {
 
-    DriveDto routeDto = resource.getContent();
-
-    Track track = new Track();
-
-    track.add(resource.getLinks());
-
-    return track;
+    return new Track();
 
   }
 

@@ -1,7 +1,5 @@
 package edu.hm.cs.bikebattle.app.modell;
 
-import org.springframework.hateoas.ResourceSupport;
-
 import java.util.List;
 
 /**
@@ -11,7 +9,7 @@ import java.util.List;
  * @author Nils Bernhardt
  * @version 1.0
  */
-public class User  extends ResourceSupport {
+public class User {
   /**
    * Name of the user.
    */
