@@ -9,23 +9,8 @@ buildscript {
 }
 apply plugin: 'com.android.application'
 
-android {
-    lintOptions {
-        abortOnError false
-    }
-    packagingOptions {
-        exclude 'META-INF/license.txt'
-        exclude 'META-INF/LICENSE'
-        exclude 'META-INF/notice.txt'
-        exclude 'META-INF/NOTICE'
-    }
-}
-
 repositories {
     jcenter()
-    maven {
-        url 'https://repo.spring.io/libs-milestone'
-    }
 }
 
 configurations {
