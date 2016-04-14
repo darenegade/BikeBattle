@@ -34,5 +34,5 @@ public class RouteDto {
 
   Routetyp routetyp;
 
-  List<String> routePoints = new ArrayList<String>();
+  List<RoutePointDto> routePoints = new ArrayList<RoutePointDto>();
 }
