@@ -1,6 +1,7 @@
 package edu.hm.cs.bikebattle.app.api.rest;
 
 import edu.hm.cs.bikebattle.app.api.domain.RouteDto;
+import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
@@ -23,11 +24,11 @@ interface RouteClient {
 
   @POST("/routes")
   @Headers("Content-Type: application/json")
-  RouteDto create(RouteDto entity);
+  RouteDto create(@Body RouteDto entity);
 
   @PUT("/routes")
   @Headers("Content-Type: application/json")
-  RouteDto update(RouteDto entity);
+  RouteDto update(@Body RouteDto entity);
 
   @DELETE("/routes/{id}")
   void delete(@Path("id") String id);

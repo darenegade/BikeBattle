@@ -1,6 +1,7 @@
 package edu.hm.cs.bikebattle.app.api.rest;
 
 import edu.hm.cs.bikebattle.app.api.domain.MeasurementDto;
+import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
@@ -23,11 +24,11 @@ interface MeasurementClient {
 
   @POST("/measurements")
   @Headers("Content-Type: application/json")
-  MeasurementDto create(MeasurementDto entity);
+  MeasurementDto create(@Body MeasurementDto entity);
 
   @PUT("/measurements")
   @Headers("Content-Type: application/json")
-  MeasurementDto update(MeasurementDto entity);
+  MeasurementDto update(@Body MeasurementDto entity);
 
   @DELETE("/measurements/{id}")
   void delete(@Path("id") String id);

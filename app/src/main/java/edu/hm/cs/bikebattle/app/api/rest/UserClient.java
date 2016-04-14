@@ -2,6 +2,7 @@ package edu.hm.cs.bikebattle.app.api.rest;
 
 
 import edu.hm.cs.bikebattle.app.api.domain.UserDto;
+import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
@@ -24,11 +25,11 @@ interface UserClient {
 
   @POST("/users")
   @Headers("Content-Type: application/json")
-  UserDto create(UserDto entity);
+  UserDto create(@Body UserDto entity);
 
   @PUT("/users")
   @Headers("Content-Type: application/json")
-  UserDto update(UserDto entity);
+  UserDto update(@Body UserDto entity);
 
   @DELETE("/users/{id}")
   void delete(@Path("id") String id);

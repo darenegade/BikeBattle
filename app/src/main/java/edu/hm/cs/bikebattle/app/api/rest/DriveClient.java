@@ -1,6 +1,7 @@
 package edu.hm.cs.bikebattle.app.api.rest;
 
 import edu.hm.cs.bikebattle.app.api.domain.DriveDto;
+import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
@@ -23,11 +24,11 @@ interface DriveClient {
 
   @POST("/drives")
   @Headers("Content-Type: application/json")
-  DriveDto create(DriveDto entity);
+  DriveDto create(@Body DriveDto entity);
 
   @PUT("/drives")
   @Headers("Content-Type: application/json")
-  DriveDto update(DriveDto entity);
+  DriveDto update(@Body DriveDto entity);
 
   @DELETE("/drives/{id}")
   void delete(@Path("id") String id);
