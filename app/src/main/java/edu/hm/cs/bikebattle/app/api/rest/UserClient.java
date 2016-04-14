@@ -20,7 +20,7 @@ import java.util.List;
  * Java-Version: 1.8
  * System: 2,3 GHz Intel Core i7, 16 GB 1600 MHz DDR3
  */
-public interface UserClient {
+interface UserClient {
 
   @POST("/users")
   @Headers("Content-Type: application/json")
