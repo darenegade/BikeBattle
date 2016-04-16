@@ -3,6 +3,7 @@ package edu.hm.cs.bikebattle.app.tracker;
 import android.content.Context;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.Looper;
 import android.util.Log;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -70,10 +71,8 @@ public class GoogleAPILocationTracker implements LocationTracker, LocationListen
   @Override
   public boolean start() {
     if (ready) {
-      //TODO looper problems
-      //Looper.prepare();
       LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest,
-          this);
+          this, Looper.getMainLooper());
     }
     return ready;
   }
