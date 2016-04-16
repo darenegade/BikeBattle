@@ -23,7 +23,6 @@ public class Route extends LocationList {
    */
   private boolean privateRoute;
 
-  private User owner;
 
   /**
    * Initializes the route.
@@ -31,14 +30,12 @@ public class Route extends LocationList {
    * @param locations    locations of the route
    * @param name         name of the route
    * @param privateRoute is the route private
-   * @param owner        user who owns the route
    */
   public Route(List<? extends Location> locations, String name,
-               boolean privateRoute, User owner) {
+               boolean privateRoute) {
     super(locations);
     setName(name);
     setPrivateRoute(privateRoute);
-    setOwner(owner);
   }
 
   /**
@@ -46,13 +43,11 @@ public class Route extends LocationList {
    *
    * @param name         name of the route
    * @param privateRoute is the route public
-   * @param owner        user who owns the route
    */
-  public Route(String name, boolean privateRoute, User owner) {
+  public Route(String name, boolean privateRoute) {
     super();
     setName(name);
     setPrivateRoute(privateRoute);
-    setOwner(owner);
   }
 
   /**
@@ -60,21 +55,19 @@ public class Route extends LocationList {
    *
    * @param name      name of the route
    * @param locations locations of the route
-   * @param owner     user who owns the route
    */
-  public Route(String name, List<? extends Location> locations, User owner) {
-    this(locations, name, false, owner);
+  public Route(String name, List<? extends Location> locations) {
+    this(locations, name, false);
   }
 
 
   /**
    * Initializes the Route public and empty.
    *
-   * @param name  name of the route
-   * @param owner user who owns the route
+   * @param name name of the route
    */
-  public Route(String name, User owner) {
-    this(name, true, owner);
+  public Route(String name) {
+    this(name, true);
   }
 
   /**
@@ -117,23 +110,5 @@ public class Route extends LocationList {
    */
   public void setPrivateRoute(boolean privateRoute) {
     this.privateRoute = privateRoute;
-  }
-
-  /**
-   * Changes the owner of the route.
-   *
-   * @param owner owner
-   */
-  public void setOwner(User owner) {
-    this.owner = owner;
-  }
-
-  /**
-   * Returns the user who owns this track.
-   *
-   * @return owner
-   */
-  public User getOwner() {
-    return owner;
   }
 }
