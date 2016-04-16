@@ -32,7 +32,7 @@ public class MyFragmentPagerAdapter extends FragmentPagerAdapter {
       case 0: // Fragment # 0 - This will show FirstFragment
         return new RoutesMapFragment(activity);
       case 1: // Fragment # 0 - This will show FirstFragment different title
-        return new RoutesListFragment();
+        return new RoutesListFragment(activity);
       default:
         return null;
     }
