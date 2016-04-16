@@ -33,7 +33,7 @@ public class MainActivity extends Activity {
               e.printStackTrace();
             }
         }
-        tracker.start();
+        tracker.continueTracking();
         try {
 
 
