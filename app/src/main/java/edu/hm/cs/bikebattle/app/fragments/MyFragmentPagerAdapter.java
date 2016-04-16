@@ -1,9 +1,11 @@
-package edu.hm.cs.bikebattle.app;
+package edu.hm.cs.bikebattle.app.fragments;
 
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+
+import edu.hm.cs.bikebattle.app.RoutesActivity;
 
 /**
  * Created by lukas on 12.04.2016.

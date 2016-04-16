@@ -1,10 +1,12 @@
-package edu.hm.cs.bikebattle.app;
+package edu.hm.cs.bikebattle.app.fragments;
 
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import edu.hm.cs.bikebattle.app.R;
 
 /**
  * Created by lukas on 12.04.2016.
