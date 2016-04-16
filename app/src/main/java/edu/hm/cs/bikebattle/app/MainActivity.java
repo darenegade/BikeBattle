@@ -8,7 +8,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import edu.hm.cs.bikebattle.app.tracker.GoogleAPILocationTracker;
+import edu.hm.cs.bikebattle.app.tracker.AndroidLocationTracker;
+import edu.hm.cs.bikebattle.app.tracker.LocationTracker;
 
 public class MainActivity extends Activity {
 
@@ -23,12 +24,14 @@ public class MainActivity extends Activity {
       public void run() {
         try {
 
-          GoogleAPILocationTracker tracker = new GoogleAPILocationTracker(context, 0);
+          LocationTracker tracker;
+          //tracker = new GoogleAPILocationTracker(context, 0);
+          tracker = new AndroidLocationTracker(0, context);
           synchronized (tracker) {
             while (!tracker.isReady())
               tracker.wait();
           }
-          //tracker.start();
+          tracker.start();
           synchronized (this) {
             wait(60000);
           }
