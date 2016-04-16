@@ -70,7 +70,7 @@ public class GoogleAPILocationTracker implements LocationTracker, LocationListen
   @Override
   public boolean start() {
     if (ready) {
-      Log.d("Tracker", "started"); //TODO looper problems
+      //TODO looper problems
       //Looper.prepare();
       LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest,
           this);
