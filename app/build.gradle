@@ -12,9 +12,17 @@ repositories {
     jcenter()
 }
 
+configurations {
+    provided
+}
+sourceSets {
+    main {
+        compileClasspath += configurations.provided
+    }
+}
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+    buildToolsVersion '23.0.3'
 
     defaultConfig {
         applicationId "edu.hm.cs.bikebattle.app"
@@ -46,4 +54,5 @@ dependencies {
     compile "com.android.support:appcompat-v7:${supportLibVersion}"
     compile "com.android.support:design:${supportLibVersion}"
     compile "com.android.support:support-v4:${supportLibVersion}"
+    compile ('org.projectlombok:lombok:1.16.8')
 }
