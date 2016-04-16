@@ -69,7 +69,7 @@ public class GoogleAPILocationTracker implements LocationTracker, LocationListen
   }
 
   @Override
-  public boolean start() {
+  public boolean continueTracking() {
     if (ready) {
       LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest,
           this, Looper.getMainLooper());
@@ -78,10 +78,10 @@ public class GoogleAPILocationTracker implements LocationTracker, LocationListen
   }
 
   @Override
-  public boolean restart() {
+  public boolean start() {
     if (ready) {
       track.clear();
-      return start();
+      return continueTracking();
     }
     return false;
   }

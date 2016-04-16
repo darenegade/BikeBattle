@@ -7,9 +7,9 @@ import edu.hm.cs.bikebattle.app.modell.Track;
  */
 public interface LocationTracker {
 
-  boolean start();
+  boolean continueTracking();
 
-  boolean restart();
+  boolean start();
 
   void stop();
 
