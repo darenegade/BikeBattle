@@ -8,7 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import java.util.ArrayList;
 
-import edu.hm.cs.bikebattle.app.fragments.MyFragmentPagerAdapter;
+import edu.hm.cs.bikebattle.app.fragments.RoutesFragmentPagerAdapter;
 import edu.hm.cs.bikebattle.app.modell.Route;
 
 public class RoutesActivity extends AppCompatActivity {
@@ -23,7 +23,7 @@ public class RoutesActivity extends AppCompatActivity {
 
     // Get the ViewPager and set it's PagerAdapter so that it can display items
     ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
-    viewPager.setAdapter(new MyFragmentPagerAdapter(getSupportFragmentManager(), this));
+    viewPager.setAdapter(new RoutesFragmentPagerAdapter(getSupportFragmentManager(), this));
 
     // Give the TabLayout the ViewPager
     TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
@@ -67,5 +67,32 @@ public class RoutesActivity extends AppCompatActivity {
     loc6.setLongitude(11.558);
     wayPoints.add(loc6);
     addRoute(new Route("Hochschule", wayPoints, null));
+
+    wayPoints = new ArrayList<Location>();
+    loc1=new Location("");
+    loc1.setLatitude(48.143);
+    loc1.setLongitude(11.588);
+    wayPoints.add(loc1);
+    loc2=new Location("");
+    loc2.setLatitude(48.144);
+    loc2.setLongitude(11.588);
+    wayPoints.add(loc2);
+    loc3=new Location("");
+    loc3.setLatitude(48.145);
+    loc3.setLongitude(11.588);
+    wayPoints.add(loc3);
+    loc4=new Location("");
+    loc4.setLatitude(48.15);
+    loc4.setLongitude(11.588);
+    wayPoints.add(loc4);
+    loc5=new Location("");
+    loc5.setLatitude(48.148);
+    loc5.setLongitude(11.59);
+    wayPoints.add(loc5);
+    loc6=new Location("");
+    loc6.setLatitude(48.146);
+    loc6.setLongitude(11.592);
+    wayPoints.add(loc6);
+    addRoute(new Route("Englischer Garten", wayPoints, null));
   }
 }

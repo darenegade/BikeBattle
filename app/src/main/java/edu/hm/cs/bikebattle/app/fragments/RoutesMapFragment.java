@@ -92,14 +92,14 @@ public class RoutesMapFragment extends Fragment implements OnMapReadyCallback {
 
     for (Location wayPoint : route) {
 
-      polyRoute.add(new LatLng(wayPoint.getLatitude(),wayPoint.getLongitude()));
+      polyRoute.add(new LatLng(wayPoint.getLatitude(), wayPoint.getLongitude()));
     }
 
     googleMap.addPolyline(polyRoute);
 
-    String information = String.format("Length: %.2f km",route.getDistanceInM()/1000);
+    String information = String.format("%s: %.2f km",activity.getString(R.string.length), route.getDistanceInM() / 1000);
     googleMap.addMarker(new MarkerOptions()
-        .position(new LatLng(route.get(0).getLatitude(),route.get(0).getLongitude()))
+        .position(new LatLng(route.get(0).getLatitude(), route.get(0).getLongitude()))
         .title(route.getName())
         .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_bike))
         .snippet(information));

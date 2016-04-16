@@ -14,4 +14,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/view"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:src="@drawable/ic_bike"
+        />
+
 </RelativeLayout>

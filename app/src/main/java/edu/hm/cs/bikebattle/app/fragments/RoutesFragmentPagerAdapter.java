@@ -5,16 +5,17 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import edu.hm.cs.bikebattle.app.R;
 import edu.hm.cs.bikebattle.app.RoutesActivity;
 
 /**
  * Created by lukas on 12.04.2016.
  */
-public class MyFragmentPagerAdapter extends FragmentPagerAdapter {
+public class RoutesFragmentPagerAdapter extends FragmentPagerAdapter {
   final int PAGE_COUNT = 2;
   private RoutesActivity activity;
 
-  public MyFragmentPagerAdapter(FragmentManager fragmentManager, RoutesActivity activity) {
+  public RoutesFragmentPagerAdapter(FragmentManager fragmentManager, RoutesActivity activity) {
     super(fragmentManager);
     this.activity = activity;
   }
@@ -43,9 +44,9 @@ public class MyFragmentPagerAdapter extends FragmentPagerAdapter {
   public CharSequence getPageTitle(int position) {
     switch (position) {
       case 0:
-        return "Map";
+        return activity.getString(R.string.map);
       case 1:
-        return "List";
+        return activity.getString(R.string.list);
       default:
         return null;
     }
