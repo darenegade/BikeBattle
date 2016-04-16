@@ -1,60 +1,66 @@
 package edu.hm.cs.bikebattle.app.tracker;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.GpsStatus;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.location.LocationProvider;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Looper;
+import android.provider.Settings;
 import android.util.Log;
+import android.widget.Toast;
 
 import edu.hm.cs.bikebattle.app.modell.Track;
 
 /**
  * Created by Nils on 16.04.2016.
  */
-public class AndroidLocationTracker implements LocationTracker, LocationListener {
+public class AndroidLocationTracker implements LocationTracker, LocationListener, GpsStatus.Listener {
 
   private Track track = new Track();
 
   private final LocationManager locationManager;
 
-  private Context context;
+  private Activity activity;
 
   private final long frequency;
 
-  public AndroidLocationTracker(long frequency, Context context) {
-    this.context = context;
+  private boolean ready = false;
+
+
+  public AndroidLocationTracker(long frequency, Activity activity) {
+    this.activity = activity;
     this.frequency = frequency;
-    locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+    locationManager = (LocationManager) activity.getSystemService(Context.LOCATION_SERVICE);
+
+    locationManager.addGpsStatusListener(this);
+
   }
 
   @Override
   public boolean start() {
 
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-      if (context.checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && context.checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-        // TODO: Consider calling
-        //    Activity#requestPermissions
-        // here to request the missing permissions, and then overriding
-        //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-        //                                          int[] grantResults)
-        // to handle the case where the user grants the permission. See the documentation
-        // for Activity#requestPermissions for more details.
-        return false;
-      }
-    }
-    Looper.prepare();
-    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, frequency, 0, this);
-    return false;
+    Log.d("Tracker", "started");
+
+    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, frequency, 0, this, Looper.getMainLooper());
+
+    return true;
+  }
+
+  private AndroidLocationTracker getThis() {
+    return this;
   }
 
   @Override
   public boolean restart() {
-    synchronized (track){
+    synchronized (track) {
       track.clear();
     }
     return start();
@@ -62,24 +68,12 @@ public class AndroidLocationTracker implements LocationTracker, LocationListener
 
   @Override
   public void stop() {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-      if (context.checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && context.checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-        // TODO: Consider calling
-        //    Activity#requestPermissions
-        // here to request the missing permissions, and then overriding
-        //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-        //                                          int[] grantResults)
-        // to handle the case where the user grants the permission. See the documentation
-        // for Activity#requestPermissions for more details.
-        return;
-      }
-    }
     locationManager.removeUpdates(this);
   }
 
   @Override
   public boolean isReady() {
-    return true;
+    return ready;
   }
 
   @Override
@@ -111,15 +105,58 @@ public class AndroidLocationTracker implements LocationTracker, LocationListener
   @Override
   public void onStatusChanged(String provider, int status, Bundle extras) {
 
+    String msg = "";
+    switch (status) {
+      case LocationProvider.AVAILABLE:
+        msg = "Available";
+        break;
+      case LocationProvider.OUT_OF_SERVICE:
+        msg = "out of service";
+        break;
+      case LocationProvider.TEMPORARILY_UNAVAILABLE:
+        msg = "temporarily unavailable";
+        break;
+    }
+    Log.d("Tracker location", msg);
   }
 
   @Override
   public void onProviderEnabled(String provider) {
-
+    Log.d("Tracker on", provider);
+    Toast.makeText(activity, "Gps is turned on!! ",
+        Toast.LENGTH_SHORT).show();
   }
 
   @Override
   public void onProviderDisabled(String provider) {
+    Log.d("Tracker off", provider);
+    Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+    activity.startActivity(intent);
+    Toast.makeText(activity, "Gps is turned off!! ",
+        Toast.LENGTH_SHORT).show();
+  }
 
+  @Override
+  public void onGpsStatusChanged(int event) {
+    String msg = "";
+    switch (event) {
+      case GpsStatus.GPS_EVENT_FIRST_FIX:
+        ready = true;
+        synchronized (this) {
+          notifyAll();
+        }
+        msg = "first fix";
+        break;
+      case GpsStatus.GPS_EVENT_SATELLITE_STATUS:
+        msg = "satellite status";
+        break;
+      case GpsStatus.GPS_EVENT_STARTED:
+        msg = "gps started";
+        break;
+      case GpsStatus.GPS_EVENT_STOPPED:
+        msg = "gps stoped";
+        break;
+    }
+    Log.d("Tracker gps status", msg);
   }
 }
