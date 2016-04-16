@@ -1,7 +1,6 @@
 package edu.hm.cs.bikebattle.app;
 
 import android.app.Activity;
-import android.content.Context;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,22 +17,28 @@ public class MainActivity extends Activity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
 
-    final Context context = this;
+
+    final LocationTracker tracker;
+    //tracker = new GoogleAPILocationTracker(context, 0);
+    tracker = new AndroidLocationTracker(0, this);
     new Thread() {
       @Override
       public void run() {
+
+        synchronized (tracker) {
+          while (!tracker.isReady())
+            try {
+              tracker.wait();
+            } catch (InterruptedException e) {
+              e.printStackTrace();
+            }
+        }
+        tracker.start();
         try {
 
-          LocationTracker tracker;
-          //tracker = new GoogleAPILocationTracker(context, 0);
-          tracker = new AndroidLocationTracker(0, context);
-          synchronized (tracker) {
-            while (!tracker.isReady())
-              tracker.wait();
-          }
-          tracker.start();
+
           synchronized (this) {
-            wait(60000);
+            wait(60000*3);
           }
           tracker.stop();
           tracker.shutdown();
