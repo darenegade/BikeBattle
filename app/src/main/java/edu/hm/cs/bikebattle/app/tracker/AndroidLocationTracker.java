@@ -18,7 +18,7 @@ import edu.hm.cs.bikebattle.app.modell.Track;
  */
 public class AndroidLocationTracker implements LocationTracker, LocationListener {
 
-  private Track track = new Track(null);
+  private Track track = new Track();
 
   private final LocationManager locationManager;
 
