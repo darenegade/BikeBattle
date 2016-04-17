@@ -3,7 +3,6 @@ package edu.hm.cs.bikebattle.app.tracker;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.location.GpsStatus;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -18,41 +17,51 @@ import edu.hm.cs.bikebattle.app.modell.Track;
 
 /**
  * Created by Nils on 16.04.2016.
+ * <p/>
+ * Location tracker which uses the Android library to provide gps locations.
+ * Currently implementation with the highest frequency.
+ *
+ * @author Nils Bernhardt
+ * @version 1.0
  */
-public class AndroidLocationTracker implements LocationTracker, LocationListener, GpsStatus.Listener {
-
-  private Track track = new Track();
-
+public class AndroidLocationTracker implements LocationTracker, LocationListener {
+  /**
+   * Track.
+   */
+  private final Track track = new Track();
+  /**
+   * LocationManager for providing locations.
+   */
   private final LocationManager locationManager;
-
-  private Activity activity;
-
+  /**
+   * Activity of this tracker.
+   */
+  private final Activity activity;
+  /**
+   * Update frequency.
+   */
   private final long frequency;
 
-  private boolean ready = false;
-
-
+  /**
+   * Initializes the tracker.
+   *
+   * @param frequency update frequency in milliseconds
+   * @param activity  activity of the tracker
+   */
   public AndroidLocationTracker(long frequency, Activity activity) {
     this.activity = activity;
     this.frequency = frequency;
     locationManager = (LocationManager) activity.getSystemService(Context.LOCATION_SERVICE);
-
-    locationManager.addGpsStatusListener(this);
-
   }
 
   @Override
   public boolean continueTracking() {
-
-    Log.d("Tracker", "started");
-
-    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, frequency, 0, this, Looper.getMainLooper());
-
-    return true;
-  }
-
-  private AndroidLocationTracker getThis() {
-    return this;
+    if (isReady()) {
+      locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, frequency, 0, this,
+          Looper.getMainLooper());
+      return true;
+    }
+    return false;
   }
 
   @Override
@@ -70,17 +79,17 @@ public class AndroidLocationTracker implements LocationTracker, LocationListener
 
   @Override
   public boolean isReady() {
-    return ready;
-  }
-
-  @Override
-  public boolean isCrashed() {
-    return false;
+    return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
   }
 
   @Override
   public void shutdown() {
+    stop();
+  }
 
+  @Override
+  public Location getLastLocation() {
+    return locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
   }
 
   @Override
@@ -101,8 +110,8 @@ public class AndroidLocationTracker implements LocationTracker, LocationListener
 
   @Override
   public void onStatusChanged(String provider, int status, Bundle extras) {
-
-    String msg = "";
+    //not used so far.
+    String msg;
     switch (status) {
       case LocationProvider.AVAILABLE:
         msg = "Available";
@@ -113,47 +122,28 @@ public class AndroidLocationTracker implements LocationTracker, LocationListener
       case LocationProvider.TEMPORARILY_UNAVAILABLE:
         msg = "temporarily unavailable";
         break;
+      default:
+        msg = "unknown status";
+        break;
     }
-    Log.d("Tracker location", msg);
+    Log.d("Tracker status", msg);
   }
 
   @Override
   public void onProviderEnabled(String provider) {
-    Log.d("Tracker on", provider);
-    Toast.makeText(activity, "Gps is turned on!! ",
-        Toast.LENGTH_SHORT).show();
+    synchronized (this) {
+      notifyAll();
+    }
   }
 
   @Override
   public void onProviderDisabled(String provider) {
-    Log.d("Tracker off", provider);
+    Toast.makeText(activity, "Turn GPS on, please! ",
+        Toast.LENGTH_SHORT).show();
     Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
     activity.startActivity(intent);
-    Toast.makeText(activity, "Gps is turned off!! ",
-        Toast.LENGTH_SHORT).show();
-  }
-
-  @Override
-  public void onGpsStatusChanged(int event) {
-    String msg = "";
-    switch (event) {
-      case GpsStatus.GPS_EVENT_FIRST_FIX:
-        ready = true;
-        synchronized (this) {
-          notifyAll();
-        }
-        msg = "first fix";
-        break;
-      case GpsStatus.GPS_EVENT_SATELLITE_STATUS:
-        msg = "satellite status";
-        break;
-      case GpsStatus.GPS_EVENT_STARTED:
-        msg = "gps started";
-        break;
-      case GpsStatus.GPS_EVENT_STOPPED:
-        msg = "gps stoped";
-        break;
+    synchronized (this) {
+      notifyAll();
     }
-    Log.d("Tracker gps status", msg);
   }
 }
