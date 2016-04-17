@@ -1,7 +1,13 @@
 package edu.hm.cs.bikebattle.app.modell.assembler;
 
+import android.location.Location;
 import edu.hm.cs.bikebattle.app.api.domain.DriveDto;
+import edu.hm.cs.bikebattle.app.api.domain.MeasurementDto;
+import edu.hm.cs.bikebattle.app.api.domain.RoutePointDto;
 import edu.hm.cs.bikebattle.app.modell.Track;
+
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Organization: HM FK07.
@@ -22,8 +28,21 @@ public class TrackAssembler {
    */
   public static DriveDto toDto(Track track) {
 
-    return DriveDto.builder()
+    List<MeasurementDto> measurements = new LinkedList<MeasurementDto>();
 
+    for (Location location : track) {
+      measurements.add(new MeasurementDto(location.getSpeed(),
+          new RoutePointDto(
+              location.getLatitude(),
+              location.getLongitude(),
+              location.getAltitude(),
+              location.getTime())));
+    }
+
+
+    return DriveDto.builder()
+            .averageSpeed(track.getAverageSpeed_in_kmh())
+            .measurements(measurements)
             .build();
   }
 
@@ -35,7 +54,20 @@ public class TrackAssembler {
    */
   public static Track toBean(DriveDto routeDto) {
 
-    return new Track();
+    Track bean = new Track();
+
+    for (MeasurementDto measurementDto : routeDto.getMeasurements()) {
+      Location location = new Location("");
+      location.setLatitude(measurementDto.getRoutePoint().getLatitude());
+      location.setLongitude(measurementDto.getRoutePoint().getLongitude());
+      location.setAltitude(measurementDto.getRoutePoint().getAltitude());
+      location.setTime(measurementDto.getRoutePoint().getTime());
+      location.setSpeed(measurementDto.getSpeed());
+
+      bean.add(location);
+    }
+
+    return bean;
 
   }
 

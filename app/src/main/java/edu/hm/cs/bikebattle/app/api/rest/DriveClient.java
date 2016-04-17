@@ -1,7 +1,6 @@
 package edu.hm.cs.bikebattle.app.api.rest;
 
 import edu.hm.cs.bikebattle.app.api.domain.DriveDto;
-import edu.hm.cs.bikebattle.app.api.domain.MeasurementDto;
 import edu.hm.cs.bikebattle.app.api.domain.RouteDto;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
@@ -56,14 +55,7 @@ interface DriveClient {
   @Headers("Content-Type: text/uri-list")
   void setRoute(@Path("id") String id, @Body String route);
 
-  @POST(BASE_PATH + "/{id}/measurements")
-  @Headers("Content-Type: text/uri-list")
-  void setMeasurements(@Path("id") String id, @Body List<String> measurements);
-
   @GET(BASE_PATH + "/{id}/routes")
   List<RouteDto> getRoutes(@Path("id") String id);
-
-  @GET(BASE_PATH + "/{id}/measurements")
-  List<MeasurementDto> getMeasurements(@Path("id") String id);
 
 }

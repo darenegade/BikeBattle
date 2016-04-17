@@ -33,8 +33,4 @@ public class ClientFactory {
   public static DriveClient getDriveClient() {
     return retrofit.create(DriveClient.class);
   }
-
-  public static MeasurementClient getMeasurementClient() {
-    return retrofit.create(MeasurementClient.class);
-  }
 }
