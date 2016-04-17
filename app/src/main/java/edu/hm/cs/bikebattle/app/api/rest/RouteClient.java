@@ -1,5 +1,6 @@
 package edu.hm.cs.bikebattle.app.api.rest;
 
+import edu.hm.cs.bikebattle.app.api.domain.Difficulty;
 import edu.hm.cs.bikebattle.app.api.domain.RouteDto;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
@@ -8,6 +9,7 @@ import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 import java.util.List;
 
@@ -22,21 +24,36 @@ import java.util.List;
  */
 interface RouteClient {
 
-  @POST("/routes")
+  String BASE_PATH = "/routes";
+
+
+  //Route Endpoints
+
+  @POST(BASE_PATH + "")
   @Headers("Content-Type: application/json")
   RouteDto create(@Body RouteDto entity);
 
-  @PUT("/routes")
+  @PUT(BASE_PATH + "")
   @Headers("Content-Type: application/json")
   RouteDto update(@Body RouteDto entity);
 
-  @DELETE("/routes/{id}")
+  @DELETE(BASE_PATH + "/{id}")
   void delete(@Path("id") String id);
 
-  @GET("/routes/{id}")
+  @GET(BASE_PATH + "/{id}")
   RouteDto findeOne(@Path("id") String id);
 
-  @GET("/routes")
+  @GET(BASE_PATH + "")
   List<RouteDto> findAll();
+
+  @GET(BASE_PATH + "/search/findByName")
+  List<RouteDto> findByName(@Query("name") String name);
+
+  @GET(BASE_PATH + "/search/findByNameContainingIgnoreCase")
+  List<RouteDto> findByNameContainingIgnoreCase(@Query("name") String name);
+
+  @GET(BASE_PATH + "/search/findByNameContainingIgnoreCase")
+  List<RouteDto> findByDifficulty(@Query("difficulty") Difficulty difficulty);
+
 
 }

@@ -1,5 +1,6 @@
 package edu.hm.cs.bikebattle.app.api.domain;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -29,8 +30,9 @@ public class DriveDto {
 
   float averageSpeed;
 
-  List<String> measurements = new ArrayList<String>();
+  List<MeasurementDto> measurements = new ArrayList<MeasurementDto>();
 
-  RouteDto route;
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  String route;
 
 }

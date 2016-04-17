@@ -1,6 +1,8 @@
 package edu.hm.cs.bikebattle.app.api.rest;
 
 import edu.hm.cs.bikebattle.app.api.domain.DriveDto;
+import edu.hm.cs.bikebattle.app.api.domain.MeasurementDto;
+import edu.hm.cs.bikebattle.app.api.domain.RouteDto;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
@@ -8,6 +10,7 @@ import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 import java.util.List;
 
@@ -22,21 +25,45 @@ import java.util.List;
  */
 interface DriveClient {
 
-  @POST("/drives")
+  String BASE_PATH = "/drives";
+
+
+  //Drive Endpoints
+
+  @POST(BASE_PATH + "")
   @Headers("Content-Type: application/json")
   DriveDto create(@Body DriveDto entity);
 
-  @PUT("/drives")
+  @PUT(BASE_PATH + "")
   @Headers("Content-Type: application/json")
   DriveDto update(@Body DriveDto entity);
 
-  @DELETE("/drives/{id}")
+  @DELETE(BASE_PATH + "/{id}")
   void delete(@Path("id") String id);
 
-  @GET("/drives/{id}")
+  @GET(BASE_PATH + "/{id}")
   DriveDto findeOne(@Path("id") String id);
 
-  @GET("/drives")
+  @GET(BASE_PATH + "")
   List<DriveDto> findAll();
+
+  @GET(BASE_PATH + "/search/findByRouteOid")
+  List<DriveDto> findByRouteOid(@Query("oid") String oid);
+
+  //Relatiins Endpoints
+
+  @POST(BASE_PATH + "/{id}/route")
+  @Headers("Content-Type: text/uri-list")
+  void setRoute(@Path("id") String id, @Body String route);
+
+  @POST(BASE_PATH + "/{id}/measurements")
+  @Headers("Content-Type: text/uri-list")
+  void setMeasurements(@Path("id") String id, @Body List<String> measurements);
+
+  @GET(BASE_PATH + "/{id}/routes")
+  List<RouteDto> getRoutes(@Path("id") String id);
+
+  @GET(BASE_PATH + "/{id}/measurements")
+  List<MeasurementDto> getMeasurements(@Path("id") String id);
 
 }
