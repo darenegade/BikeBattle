@@ -1,8 +1,6 @@
 package edu.hm.cs.bikebattle.app.modell;
 
 import android.location.Location;
-import android.os.Parcelable;
-
 import junit.framework.TestCase;
 
 /**
@@ -332,7 +330,7 @@ public class LocationListTest extends TestCase {
 
   private class TestLocation extends Location{
 
-    public Parcelable.Creator CREATOR = null;
+    public Creator CREATOR = null;
 
     private double longitude = 0, latitude = 0;
 

@@ -1,11 +1,11 @@
 package edu.hm.cs.bikebattle.app.api.domain;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -31,9 +31,12 @@ public class UserDto {
 
   float weight;
 
-  List<String> friends = new ArrayList<String>();
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  List<String> friends;
 
-  List<String> routes = new ArrayList<String>();
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  List<String> routes;
 
-  List<String> drives = new ArrayList<String>();
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  List<String> drives;
 }

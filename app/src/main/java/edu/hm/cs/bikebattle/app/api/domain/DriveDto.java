@@ -1,6 +1,5 @@
 package edu.hm.cs.bikebattle.app.api.domain;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -32,7 +31,6 @@ public class DriveDto {
 
   List<MeasurementDto> measurements = new ArrayList<MeasurementDto>();
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
   String route;
 
 }

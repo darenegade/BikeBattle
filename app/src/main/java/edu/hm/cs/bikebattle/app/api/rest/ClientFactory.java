@@ -14,13 +14,13 @@ import retrofit2.converter.jackson.JacksonConverterFactory;
  */
 public class ClientFactory {
 
-  private static final String BASEURL = "http://localhost:8080/";
+  private static final String BASEURL = "http://10.0.2.2:8080/";
 
   private static final Retrofit retrofit =
       new Retrofit.Builder()
-      .baseUrl(BASEURL)
-      .addConverterFactory(JacksonConverterFactory.create())
-      .build();
+          .baseUrl(BASEURL)
+          .addConverterFactory(JacksonConverterFactory.create())
+          .build();
 
   public static UserClient getUserClient() {
     return retrofit.create(UserClient.class);

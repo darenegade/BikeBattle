@@ -22,7 +22,7 @@ import java.util.List;
  * Java-Version: 1.8
  * System: 2,3 GHz Intel Core i7, 16 GB 1600 MHz DDR3
  */
-interface DriveClient {
+public interface DriveClient {
 
   String BASE_PATH = "/drives";
 
