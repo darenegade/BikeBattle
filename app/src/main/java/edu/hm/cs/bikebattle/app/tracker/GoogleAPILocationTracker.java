@@ -16,23 +16,43 @@ import edu.hm.cs.bikebattle.app.modell.Track;
 
 /**
  * Created by Nils on 12.04.2016.
+ * <p/>
+ * Location tracker using the GoogleAPI Client. Has usually no higher frequency then 5s.
+ * Combines network and gps.
+ *
+ * @author Nils Bernhardt
+ * @version 1.0
  */
-public class GoogleAPILocationTracker implements LocationTracker, LocationListener, GoogleApiClient.ConnectionCallbacks,
-    GoogleApiClient.OnConnectionFailedListener {
-
-  private Track track = new Track();
-
+public class GoogleApiLocationTracker implements LocationTracker, LocationListener,
+    GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+  /**
+   * Current track.
+   */
+  private final Track track = new Track();
+  /**
+   * Flag if tracker is ready.
+   */
   private boolean ready = false;
-
+  /**
+   * Flag if client has an unresolvable error.
+   */
   private boolean crashed = false;
+  /**
+   * Location request for API.
+   */
+  private final LocationRequest locationRequest;
+  /**
+   * Client for the Google API.
+   */
+  private final GoogleApiClient googleApiClient;
 
-  private boolean running = false;
-
-  private LocationRequest locationRequest;
-
-  private GoogleApiClient googleApiClient;
-
-  public GoogleAPILocationTracker(Context context, long interval) {
+  /**
+   * Initializes the tracker and connects to the google API.
+   *
+   * @param interval Update frequency
+   * @param context  Context of the activity
+   */
+  public GoogleApiLocationTracker(long interval, Context context) {
     locationRequest = createLocationRequest(interval);
     googleApiClient = getGoogleApiClient(context);
     googleApiClient.connect();
@@ -43,7 +63,11 @@ public class GoogleAPILocationTracker implements LocationTracker, LocationListen
     return ready;
   }
 
-  @Override
+  /**
+   * Returns true if the tracker is unresolvable crashed.
+   *
+   * @return true if crashed
+   */
   public boolean isCrashed() {
     return crashed;
   }
@@ -53,6 +77,17 @@ public class GoogleAPILocationTracker implements LocationTracker, LocationListen
     googleApiClient.disconnect();
   }
 
+  @Override
+  public Location getLastLocation() {
+    return LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
+  }
+
+  /**
+   * Builds a GoogleAPI Client for the location services.
+   *
+   * @param context context of the activity
+   * @return Google API client
+   */
   private GoogleApiClient getGoogleApiClient(Context context) {
     return new GoogleApiClient.Builder(context)
         .addConnectionCallbacks(this)
@@ -61,6 +96,12 @@ public class GoogleAPILocationTracker implements LocationTracker, LocationListen
         .build();
   }
 
+  /**
+   * Creates a location request.
+   *
+   * @param interval update frequency
+   * @return location request
+   */
   private LocationRequest createLocationRequest(long interval) {
     LocationRequest locationRequest = new LocationRequest();
     locationRequest.setInterval(interval);
@@ -116,7 +157,7 @@ public class GoogleAPILocationTracker implements LocationTracker, LocationListen
   }
 
   @Override
-  public void onConnectionSuspended(int i) {
+  public void onConnectionSuspended(int index) {
     //service temporarily unavailable
     ready = false;
     stop();
