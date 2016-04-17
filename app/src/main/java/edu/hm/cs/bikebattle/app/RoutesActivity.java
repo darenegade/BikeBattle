@@ -3,15 +3,17 @@ package edu.hm.cs.bikebattle.app;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import edu.hm.cs.bikebattle.app.fragments.RoutesFragmentPagerAdapter;
 import edu.hm.cs.bikebattle.app.modell.Route;
 
-public class RoutesActivity extends AppCompatActivity {
+public class RoutesActivity extends AppCompatActivity implements Serializable {
 
   private ArrayList<Route> routes = new ArrayList<Route>();
 

@@ -33,8 +33,9 @@ public class RoutesMapFragment extends Fragment implements OnMapReadyCallback {
   private GoogleMap googleMap;
   private RoutesActivity activity;
 
-  public RoutesMapFragment(RoutesActivity activity) {
-    this.activity = activity;
+  @Override
+  public void setArguments(Bundle args) {
+    activity = (RoutesActivity) args.getSerializable("RoutesActivity");
   }
 
   @Override
@@ -57,12 +58,13 @@ public class RoutesMapFragment extends Fragment implements OnMapReadyCallback {
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
                            Bundle savedInstanceState) {
     // Inflate the layout for this fragment
-    return inflater.inflate(R.layout.fragment_routesmap, container, false);
+    return inflater.inflate(R.layout.fragment_routes_map, container, false);
   }
 
   @Override
   public void onMapReady(GoogleMap googleMap) {
-    if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+    if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+            == PackageManager.PERMISSION_GRANTED) {
       this.googleMap = googleMap;
       this.googleMap.setMyLocationEnabled(true);
       this.googleMap.getUiSettings().setMapToolbarEnabled(false);
@@ -77,13 +79,15 @@ public class RoutesMapFragment extends Fragment implements OnMapReadyCallback {
    * Request position permission for Android 6.
    */
   private void requestPermission() {
-    if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-      ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+    if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+            != PackageManager.PERMISSION_GRANTED) {
+      ActivityCompat.requestPermissions(getActivity(),
+              new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
           MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
     }
   }
 
-  public void drawRoute(Route route) {
+  private void drawRoute(Route route) {
     PolylineOptions polyRoute = new PolylineOptions();
 
     polyRoute.color(Color.BLUE);
