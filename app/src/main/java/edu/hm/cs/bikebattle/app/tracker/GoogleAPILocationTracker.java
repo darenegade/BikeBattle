@@ -15,8 +15,8 @@ import com.google.android.gms.location.LocationServices;
 import edu.hm.cs.bikebattle.app.modell.Track;
 
 /**
- * Created by Nils on 12.04.2016.
- * <p/>
+ * Created by Nils B. on 12.04.2016.
+ * <p>
  * Location tracker using the GoogleAPI Client. Has usually no higher frequency then 5s.
  * Combines network and gps.
  *
