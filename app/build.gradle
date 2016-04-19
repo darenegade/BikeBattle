@@ -4,9 +4,11 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:1.5.0'
+        classpath 'net.saliman:gradle-properties-plugin:1.4.5'
     }
 }
 apply plugin: 'com.android.application'
+apply plugin: 'net.saliman.properties'
 
 repositories {
     jcenter()
@@ -15,10 +17,10 @@ repositories {
 android {
     signingConfigs {
         config {
-            keyAlias System.getenv("KEYALIAS")
-            keyPassword System.getenv("KEYPWD")
+            storePassword project.getProperties().get('storePassword')
+            keyAlias project.getProperties().get('keyAlias')
+            keyPassword project.getProperties().get('keyPassword')
             storeFile file('bikebattle.keystore')
-            storePassword System.getenv("KEYSTOREPWD")
         }
     }
     compileSdkVersion 23
