@@ -102,9 +102,7 @@ public class AndroidLocationTracker implements LocationTracker, LocationListener
     Log.d("Tracker", location.toString());
     synchronized (track) {
       track.add(location);
-      synchronized (this) {
-        notifyAll();
-      }
+      track.notifyAll();
     }
   }
 
