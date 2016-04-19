@@ -1,10 +1,9 @@
 <resources>
-    <string name="hello_world">Hello World</string>
-    <string name="action_settings">Settings</string>
-
     <string name="app_name">BikeBattle</string>
     <string name="title_text">The hardest battle u will get!</string>
 
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_tracking_test">TrackingTestActivity</string>
 
     <!-- Activity Names and Descriptions -->
     <string name="name_sign_in_activity">Login</string>
