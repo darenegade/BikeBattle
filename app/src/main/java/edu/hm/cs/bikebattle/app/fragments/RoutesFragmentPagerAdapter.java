@@ -1,7 +1,6 @@
 package edu.hm.cs.bikebattle.app.fragments;
 
 
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -32,17 +31,9 @@ public class RoutesFragmentPagerAdapter extends FragmentPagerAdapter {
   public Fragment getItem(int position) {
     switch (position) {
       case 0: // Fragment # 0 - This will show FirstFragment
-        Fragment fragment = new RoutesMapFragment();
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("RoutesActivity", activity);
-        fragment.setArguments(bundle);
-        return fragment;
+        return new RoutesMapFragment();
       case 1: // Fragment # 0 - This will show FirstFragment different title
-        fragment = new RoutesListFragment();
-        bundle = new Bundle();
-        bundle.putSerializable("RoutesActivity", activity);
-        fragment.setArguments(bundle);
-        return fragment;
+        return new RoutesListFragment();
       default:
         return null;
     }

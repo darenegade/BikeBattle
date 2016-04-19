@@ -34,13 +34,10 @@ public class RoutesMapFragment extends Fragment implements OnMapReadyCallback {
   private RoutesActivity activity;
 
   @Override
-  public void setArguments(Bundle args) {
-    activity = (RoutesActivity) args.getSerializable("RoutesActivity");
-  }
-
-  @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+
+    activity = (RoutesActivity) getActivity();
 
     // Obtain the SupportMapFragment and get notified when the map is ready to be used.
     SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager()
@@ -64,7 +61,7 @@ public class RoutesMapFragment extends Fragment implements OnMapReadyCallback {
   @Override
   public void onMapReady(GoogleMap googleMap) {
     if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION)
-            == PackageManager.PERMISSION_GRANTED) {
+        == PackageManager.PERMISSION_GRANTED) {
       this.googleMap = googleMap;
       this.googleMap.setMyLocationEnabled(true);
       this.googleMap.getUiSettings().setMapToolbarEnabled(false);
@@ -80,9 +77,9 @@ public class RoutesMapFragment extends Fragment implements OnMapReadyCallback {
    */
   private void requestPermission() {
     if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION)
-            != PackageManager.PERMISSION_GRANTED) {
+        != PackageManager.PERMISSION_GRANTED) {
       ActivityCompat.requestPermissions(getActivity(),
-              new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+          new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
           MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
     }
   }
@@ -101,7 +98,7 @@ public class RoutesMapFragment extends Fragment implements OnMapReadyCallback {
 
     googleMap.addPolyline(polyRoute);
 
-    String information = String.format("%s: %.2f km",activity.getString(R.string.length), route.getDistanceInM() / 1000);
+    String information = String.format("%s: %.2f km", activity.getString(R.string.length), route.getDistanceInM() / 1000);
     googleMap.addMarker(new MarkerOptions()
         .position(new LatLng(route.get(0).getLatitude(), route.get(0).getLongitude()))
         .title(route.getName())
