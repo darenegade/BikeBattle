@@ -67,6 +67,7 @@ dependencies {
     compile 'org.projectlombok:lombok:1.16.8'
     compile 'com.squareup.retrofit2:retrofit:2.0.2'
     compile 'com.squareup.retrofit2:converter-jackson:2.0.2'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.2.0'
 
     androidTestCompile 'com.android.support.test:testing-support-lib:0.1'
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.0'

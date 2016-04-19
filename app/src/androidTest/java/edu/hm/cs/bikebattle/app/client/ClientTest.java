@@ -6,7 +6,6 @@ import edu.hm.cs.bikebattle.app.api.rest.UserClient;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
-import org.springframework.hateoas.Resource;
 import retrofit2.Response;
 
 import java.io.IOException;
@@ -39,7 +38,7 @@ public class ClientTest {
 
     UserClient client = ClientFactory.getUserClient();
 
-    Response<Resource<UserDto>> userDtoResponse = null;
+    Response<UserDto> userDtoResponse = null;
     try {
       userDtoResponse = client.create(user).execute();
     } catch (IOException e) {
@@ -48,7 +47,13 @@ public class ClientTest {
 
 
     assertEquals(200, userDtoResponse.code());
-    assertEquals(user, userDtoResponse.body().getContent());
+
+
+    UserDto newUser = userDtoResponse.body();
+
+    user.setOid(newUser.getOid());
+
+    assertEquals(user, userDtoResponse.body());
 
   }
 

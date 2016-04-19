@@ -4,7 +4,6 @@ package edu.hm.cs.bikebattle.app.api.rest;
 import edu.hm.cs.bikebattle.app.api.domain.DriveDto;
 import edu.hm.cs.bikebattle.app.api.domain.RouteDto;
 import edu.hm.cs.bikebattle.app.api.domain.UserDto;
-import org.springframework.hateoas.Resource;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
@@ -34,7 +33,7 @@ public interface UserClient {
 
   @POST(BASE_PATH)
   @Headers("Content-Type: application/json")
-  Call<Resource<UserDto>> create(@Body UserDto entity);
+  Call<UserDto> create(@Body UserDto entity);
 
   @PUT(BASE_PATH)
   @Headers("Content-Type: application/json")
