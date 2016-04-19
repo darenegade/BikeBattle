@@ -4,36 +4,35 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:1.5.0'
+        classpath 'net.saliman:gradle-properties-plugin:1.4.5'
     }
 }
 apply plugin: 'com.android.application'
+apply plugin: 'net.saliman.properties'
 
 repositories {
     jcenter()
 }
 
+configurations {
+    provided
+}
+sourceSets {
+    main {
+        compileClasspath += configurations.provided
+    }
+}
 android {
     signingConfigs {
         config {
-<<<<<<< HEAD
-            keyAlias System.getenv("KEYALIAS")
-            keyPassword System.getenv("KEYPWD")
+            storePassword project.getProperties().get('storePassword')
+            keyAlias project.getProperties().get('keyAlias')
+            keyPassword project.getProperties().get('keyPassword')
             storeFile file('bikebattle.keystore')
-            storePassword System.getenv("KEYSTOREPWD")
         }
     }
     compileSdkVersion 23
     buildToolsVersion "23.0.3"
-=======
-            keyAlias ''
-            keyPassword ''
-            storeFile file('')
-            storePassword ''
-        }
-    }
-    compileSdkVersion 23
-    buildToolsVersion '23.0.1'
->>>>>>> fee202e... Login Funktioniert noch ohne Doku
     defaultConfig {
         applicationId "edu.hm.cs.bikebattle"
         minSdkVersion 21
@@ -42,6 +41,7 @@ android {
         versionName "1.0"
         signingConfig signingConfigs.config
     }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_6
         targetCompatibility JavaVersion.VERSION_1_6
@@ -58,10 +58,17 @@ android {
     }
     productFlavors {
     }
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.google.android.gms:play-services:8.4.0'
+    compile ('org.projectlombok:lombok:1.16.8')
+    testCompile 'junit:junit:4.12'
+    testCompile "org.mockito:mockito-core:1.9.5"
     compile 'com.google.android.gms:play-services-auth:8.4.0'
     compile 'com.android.support:appcompat-v7:23.2.0'
 }
