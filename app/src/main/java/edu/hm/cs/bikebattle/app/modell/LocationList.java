@@ -18,7 +18,7 @@ import lombok.NonNull;
  *
  * @author Nils Bernhardt
  */
-public class LocationList implements List<Location> {
+public class LocationList implements List<Location>  {
   /**
    * distance of the the track.
    */
