@@ -10,5 +10,5 @@ package edu.hm.cs.bikebattle.app.api.domain;
  * System: 2,3 GHz Intel Core i7, 16 GB 1600 MHz DDR3
  */
 public enum Routetyp {
-    Offroad, City, Road
+    OFFROAD, CITY, ROAD
 }
