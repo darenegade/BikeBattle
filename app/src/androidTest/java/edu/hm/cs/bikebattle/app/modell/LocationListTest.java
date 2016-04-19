@@ -13,7 +13,7 @@ public class LocationListTest extends TestCase {
     Location add, last = null;
     float distance = 0;
     for (int i = 0; i < 5; i++) {
-      add = new TestLocation();
+      add = new Location("");
       add.setLongitude(100*Math.random());
       add.setLatitude(100*Math.random());
       if (last != null)
@@ -25,7 +25,7 @@ public class LocationListTest extends TestCase {
 
     list.clear();
     assertEquals(0.0f, LocationList.calculateDistance(list));
-    list.add(new TestLocation());
+    list.add(new Location(""));
     assertEquals(0.0f, LocationList.calculateDistance(list));
   }
 
@@ -33,7 +33,7 @@ public class LocationListTest extends TestCase {
     LocationList list = new LocationList();
     Location add, last = null;
     //no element
-    add = new TestLocation();
+    add = new Location("");
     add.setLatitude(10);
     add.setLongitude(15);
     list.add(add);
@@ -42,7 +42,7 @@ public class LocationListTest extends TestCase {
     assertEquals(LocationList.calculateDistance(list), list.getDistanceInM());
 
     //one element
-    add = new TestLocation();
+    add = new Location("");
     add.setLatitude(10);
     add.setLongitude(20);
     list.add(add);
@@ -52,7 +52,7 @@ public class LocationListTest extends TestCase {
 
 
     //n elements
-    add = new TestLocation();
+    add = new Location("");
     add.setLatitude(10);
     add.setLongitude(25);
     list.add(add);
@@ -65,7 +65,7 @@ public class LocationListTest extends TestCase {
     LocationList list = new LocationList();
     Location add, last = null;
     //no element (end)
-    add = new TestLocation();
+    add = new Location("");
     add.setLatitude(10);
     add.setLongitude(15);
     list.add(0, add);
@@ -74,7 +74,7 @@ public class LocationListTest extends TestCase {
     assertEquals(LocationList.calculateDistance(list), list.getDistanceInM());
 
     //one element (begin)
-    add = new TestLocation();
+    add = new Location("");
     add.setLatitude(10);
     add.setLongitude(20);
     list.add(0,add);
@@ -84,7 +84,7 @@ public class LocationListTest extends TestCase {
 
 
     //n elements (middle)
-    add = new TestLocation();
+    add = new Location("");
     add.setLatitude(10);
     add.setLongitude(25);
     list.add(1, add);
@@ -97,17 +97,17 @@ public class LocationListTest extends TestCase {
     LocationList list = new LocationList(), list2;
     Location add, last = null;
 
-    add = new TestLocation();
+    add = new Location("");
     add.setLatitude(10);
     add.setLongitude(15);
     list.add(0, add);
 
-    add = new TestLocation();
+    add = new Location("");
     add.setLatitude(10);
     add.setLongitude(20);
     list.add(0, add);
 
-    add = new TestLocation();
+    add = new Location("");
     add.setLatitude(10);
     add.setLongitude(25);
     list.add(1, add);
@@ -123,17 +123,17 @@ public class LocationListTest extends TestCase {
     LocationList list = new LocationList(), list2;
     Location add, last = null;
 
-    add = new TestLocation();
+    add = new Location("");
     add.setLatitude(10);
     add.setLongitude(15);
     list.add(0, add);
 
-    add = new TestLocation();
+    add = new Location("");
     add.setLatitude(10);
     add.setLongitude(20);
     list.add(0, add);
 
-    add = new TestLocation();
+    add = new Location("");
     add.setLatitude(10);
     add.setLongitude(25);
     list.add(1, add);
@@ -153,17 +153,17 @@ public class LocationListTest extends TestCase {
     LocationList list = new LocationList();
     Location add, last = null;
 
-    add = new TestLocation();
+    add = new Location("");
     add.setLatitude(10);
     add.setLongitude(15);
     list.add(0, add);
 
-    add = new TestLocation();
+    add = new Location("");
     add.setLatitude(10);
     add.setLongitude(20);
     list.add(0, add);
 
-    add = new TestLocation();
+    add = new Location("");
     add.setLatitude(10);
     add.setLongitude(25);
     list.add(1, add);
@@ -176,17 +176,17 @@ public class LocationListTest extends TestCase {
     LocationList list = new LocationList(), list2;
     Location add, last = null;
 
-    add = new TestLocation();
+    add = new Location("");
     add.setLatitude(10);
     add.setLongitude(15);
     list.add(0, add);
 
-    add = new TestLocation();
+    add = new Location("");
     add.setLatitude(10);
     add.setLongitude(20);
     list.add(0, add);
 
-    add = new TestLocation();
+    add = new Location("");
     add.setLatitude(10);
     add.setLongitude(25);
     list.add(1, add);
@@ -199,22 +199,22 @@ public class LocationListTest extends TestCase {
     LocationList list = new LocationList(), list2;
     Location add, last = null;
 
-    add = new TestLocation();
+    add = new Location("");
     add.setLatitude(10);
     add.setLongitude(15);
     list.add(0, add);
 
-    add = new TestLocation();
+    add = new Location("");
     add.setLatitude(10);
     add.setLongitude(20);
     list.add(0, add);
 
-    add = new TestLocation();
+    add = new Location("");
     add.setLatitude(10);
     add.setLongitude(25);
     list.add(1, add);
 
-    add = new TestLocation();
+    add = new Location("");
     add.setLatitude(10);
     add.setLongitude(40);
     list.add(1, add);
@@ -234,28 +234,28 @@ public class LocationListTest extends TestCase {
     LocationList list = new LocationList(), list2;
     Location add, last = null;
 
-    add = new TestLocation();
+    add = new Location("");
     add.setLatitude(10);
     add.setLongitude(15);
     list.add(0, add);
 
-    add = new TestLocation();
+    add = new Location("");
     add.setLatitude(10);
     add.setLongitude(20);
     list.add(0, add);
 
-    add = new TestLocation();
+    add = new Location("");
     add.setLatitude(10);
     add.setLongitude(25);
     list.add(1, add);
 
     //empty
     list2 = new LocationList(list);
-    add = new TestLocation();
+    add = new Location("");
     add.setLatitude(10);
     add.setLongitude(40);
     list2.add(0, add);
-    add = new TestLocation();
+    add = new Location("");
     add.setLatitude(10);
     add.setLongitude(25);
     list2.add(add);
@@ -268,28 +268,28 @@ public class LocationListTest extends TestCase {
     LocationList list = new LocationList(), list2;
     Location add, last = null;
 
-    add = new TestLocation();
+    add = new Location("");
     add.setLatitude(10);
     add.setLongitude(15);
     list.add(0, add);
 
-    add = new TestLocation();
+    add = new Location("");
     add.setLatitude(10);
     add.setLongitude(20);
     list.add(0, add);
 
-    add = new TestLocation();
+    add = new Location("");
     add.setLatitude(10);
     add.setLongitude(25);
     list.add(1, add);
 
     //empty
     list2 = new LocationList(list);
-    add = new TestLocation();
+    add = new Location("");
     add.setLatitude(10);
     add.setLongitude(40);
     list2.add(0, add);
-    add = new TestLocation();
+    add = new Location("");
     add.setLatitude(10);
     add.setLongitude(25);
     list2.add(add);
@@ -302,22 +302,22 @@ public class LocationListTest extends TestCase {
     LocationList list = new LocationList();
     Location add, last = null;
 
-    add = new TestLocation();
+    add = new Location("");
     add.setLatitude(10);
     add.setLongitude(15);
     list.add(0, add);
 
-    add = new TestLocation();
+    add = new Location("");
     add.setLatitude(10);
     add.setLongitude(20);
     list.add(0, add);
 
-    add = new TestLocation();
+    add = new Location("");
     add.setLatitude(10);
     add.setLongitude(25);
     list.add(1, add);
 
-    add = new TestLocation();
+    add = new Location("");
     add.setLatitude(10);
     add.setLongitude(25);
     list.set(1, add);
@@ -326,40 +326,5 @@ public class LocationListTest extends TestCase {
     assertEquals(add, list.get(1));
     assertEquals(LocationList.calculateDistance(list), list.getDistanceInM());
     assertEquals(3, list.size());
-  }
-
-  private class TestLocation extends Location{
-
-    public Creator CREATOR = null;
-
-    private double longitude = 0, latitude = 0;
-
-    public TestLocation(){
-      super("");
-    }
-    @Override
-    public void setLatitude(double latitude) {
-      this.latitude = latitude;
-    }
-
-    @Override
-    public double getLongitude() {
-      return longitude;
-    }
-
-    @Override
-    public void setLongitude(double longitude) {
-      this.longitude = longitude;
-    }
-
-    @Override
-    public double getLatitude() {
-      return latitude;
-    }
-
-    @Override
-    public float distanceTo(Location dest) {
-      return (float) Math.hypot(latitude-dest.getLatitude(), longitude-dest.getLongitude());
-    }
   }
 }
