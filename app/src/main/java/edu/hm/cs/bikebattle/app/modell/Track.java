@@ -14,49 +14,30 @@ import java.util.List;
  */
 public class Track extends LocationList {
 
-
-  /**
-   * owner of the track.
-   */
-  private User owner;
-
   /**
    * Initializes the track without calculating the distance and time.
    *
    * @param locations   locations of the track
    * @param distanceInM distance of the track
-   * @param owner       user who owns the track
    */
-  public Track(List<? extends Location> locations, float distanceInM, User owner) {
+  public Track(List<? extends Location> locations, float distanceInM) {
     super(locations, distanceInM);
-    if (owner == null) {
-      throw new NullPointerException("Owner can not be null!");
-    }
-    setOwner(owner);
   }
 
   /**
    * Initializes the track.
    *
    * @param locations locations of the track
-   * @param owner     user who owns the track
    */
-  public Track(List<? extends Location> locations, User owner) {
+  public Track(List<? extends Location> locations) {
     super(locations);
-    if (owner == null) {
-      throw new NullPointerException("Owner can not be null!");
-    }
-    setOwner(owner);
   }
 
   /**
    * Initializes an empty track.
-   *
-   * @param owner user who owns the track
    */
-  public Track(User owner) {
+  public Track() {
     super();
-    setOwner(owner);
   }
 
   /**
@@ -92,25 +73,6 @@ public class Track extends LocationList {
    */
   public float getAverageSpeed_in_kmh() {
     return getDistanceInM() * 1000 / (getTime_in_s() / 3600.0f);
-  }
-
-
-  /**
-   * Changes the owner of the route.
-   *
-   * @param owner owner
-   */
-  public void setOwner(User owner) {
-    this.owner = owner;
-  }
-
-  /**
-   * Returns the user who owns this track.
-   *
-   * @return owner
-   */
-  public User getOwner() {
-    return owner;
   }
 
 
