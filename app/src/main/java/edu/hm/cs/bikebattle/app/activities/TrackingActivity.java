@@ -74,7 +74,7 @@ public class TrackingActivity extends AppCompatActivity {
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
     switch (item.getItemId()) {
-      case R.id.action_record_tracki:
+      case R.id.action_record_tracking:
         if (isTracking) {
           tracker.stop();
           isTracking = false;

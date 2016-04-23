@@ -1,8 +1,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto"
       xmlns:tools="http://schemas.android.com/tools"
-      tools:context=".activities.MainActivity">
-    <item android:id="@+id/action_record_tracki"
-          android:title="Record track"
-          android:icon="@drawable/ic_record"
-          android:showAsAction="ifRoom"/>
+      tools:context=".activities.TrackingActivity">
+    <item
+        android:id="@+id/action_record_tracking"
+        android:icon="@drawable/ic_record"
+        android:title="Record track"
+        app:showAsAction="ifRoom"/>
 </menu>

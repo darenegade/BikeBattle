@@ -1,15 +1,21 @@
 package edu.hm.cs.bikebattle.app.activities;
 
+import android.Manifest;
+import android.content.Context;
+import android.content.pm.PackageManager;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 
 import java.util.ArrayList;
 
 import edu.hm.cs.bikebattle.app.R;
 import edu.hm.cs.bikebattle.app.fragments.routes.RouteInformationFragment;
+import edu.hm.cs.bikebattle.app.fragments.routes.RoutesMapFragment;
 import edu.hm.cs.bikebattle.app.fragments.routes.RoutesOverviewFragment;
 import edu.hm.cs.bikebattle.app.modell.Route;
 
@@ -28,6 +34,14 @@ public class RoutesActivity extends AppCompatActivity {
    */
   private RouteInformationFragment informationFragment;
   /**
+   * Fragment for displaying the map.
+   */
+  private final RoutesMapFragment mapFragment = new RoutesMapFragment();
+  /**
+   * LocationManager for providing locations.
+   */
+  private LocationManager locationManager;
+  /**
    * ArrayList for all routes that should be shown.
    */
   private ArrayList<Route> routes = new ArrayList<Route>();
@@ -42,6 +56,10 @@ public class RoutesActivity extends AppCompatActivity {
     setContentView(R.layout.activity_routes);
 
     createTestRoute();
+
+    locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+    mapFragment.setLastLocation(getLastLocation());
 
     overviewFragment = new RoutesOverviewFragment();
     informationFragment = new RouteInformationFragment();
@@ -100,6 +118,23 @@ public class RoutesActivity extends AppCompatActivity {
     } else {
       super.onBackPressed();
     }
+  }
+
+  /**
+   * Gets the last location from the location manager.
+   *
+   * @return Last location.
+   */
+  private Location getLastLocation() {
+    if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+        == PackageManager.PERMISSION_GRANTED) {
+      return locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+    }
+    return null;
+  }
+
+  public RoutesMapFragment getMapFragment() {
+    return mapFragment;
   }
 
   /**

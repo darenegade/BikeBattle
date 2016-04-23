@@ -8,7 +8,6 @@ import android.support.v4.app.FragmentPagerAdapter;
 import edu.hm.cs.bikebattle.app.R;
 import edu.hm.cs.bikebattle.app.activities.RoutesActivity;
 import edu.hm.cs.bikebattle.app.fragments.routes.RoutesListFragment;
-import edu.hm.cs.bikebattle.app.fragments.routes.RoutesMapFragment;
 
 /**
  * Fragment adapter for the routes activity.
@@ -45,7 +44,7 @@ public class RoutesFragmentPagerAdapter extends FragmentPagerAdapter {
   public Fragment getItem(int position) {
     switch (position) {
       case 0: // Fragment # 0 - This will show FirstFragment
-        return new RoutesMapFragment();
+        return activity.getMapFragment();
       case 1: // Fragment # 0 - This will show FirstFragment different title
         return new RoutesListFragment();
       default:

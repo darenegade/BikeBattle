@@ -11,10 +11,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
@@ -37,6 +39,10 @@ public class RoutesMapFragment extends Fragment implements OnMapReadyCallback {
    * Activity in which the content is displayed.
    */
   private RoutesActivity activity;
+  /**
+   * Last location.
+   */
+  private Location lastLocation;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -72,6 +78,7 @@ public class RoutesMapFragment extends Fragment implements OnMapReadyCallback {
       for (Route r : activity.getRoutes()) {
         drawRoute(r);
       }
+      updateCamera();
     }
   }
 
@@ -101,5 +108,18 @@ public class RoutesMapFragment extends Fragment implements OnMapReadyCallback {
         .title(route.getName())
         .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_bike))
         .snippet(information));
+  }
+
+  public void setLastLocation(Location lastLocation) {
+    this.lastLocation=lastLocation;
+  }
+
+  /**
+   * Moves the camera to the users position.
+   */
+  private void updateCamera() {
+    LatLng latLng = new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude());
+    googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(
+        new CameraPosition.Builder().target(latLng).zoom(15).build()));
   }
 }
