@@ -1,4 +1,4 @@
-package edu.hm.cs.bikebattle.app.fragments;
+package edu.hm.cs.bikebattle.app.fragments.routes;
 
 
 import android.content.Context;
@@ -13,10 +13,18 @@ import edu.hm.cs.bikebattle.app.R;
 import edu.hm.cs.bikebattle.app.modell.Route;
 
 /**
- * A simple {@link Fragment} subclass.
+ * Fragment to display detailed route information for one route.
+ *
+ * @author Lukas Brauckmann
  */
 public class RouteInformationFragment extends Fragment {
+  /**
+   * TextView to display the name.
+   */
   private TextView nameView;
+  /**
+   * TextView to display the length.
+   */
   private TextView lengthView;
 
   @Override
@@ -30,8 +38,14 @@ public class RouteInformationFragment extends Fragment {
     return view;
   }
 
-  public void setRoute(Route route){
+  /**
+   * Sets the route to be displayed.
+   *
+   * @param route New route.
+   */
+  public void setRoute(Route route) {
     nameView.setText(route.getName());
-    lengthView.setText(String.valueOf(route.getDistanceInM()));
+    String information = String.format("Length: %.2f", route.getDistanceInM() / 1000);
+    lengthView.setText(information);
   }
 }

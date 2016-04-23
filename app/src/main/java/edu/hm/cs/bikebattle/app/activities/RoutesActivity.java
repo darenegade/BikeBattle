@@ -1,22 +1,39 @@
-package edu.hm.cs.bikebattle.app;
+package edu.hm.cs.bikebattle.app.activities;
 
 import android.location.Location;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 
 import java.util.ArrayList;
 
-import edu.hm.cs.bikebattle.app.fragments.RouteInformationFragment;
-import edu.hm.cs.bikebattle.app.fragments.RoutesOverviewFragment;
+import edu.hm.cs.bikebattle.app.R;
+import edu.hm.cs.bikebattle.app.fragments.routes.RouteInformationFragment;
+import edu.hm.cs.bikebattle.app.fragments.routes.RoutesOverviewFragment;
 import edu.hm.cs.bikebattle.app.modell.Route;
 
-public class RoutesActivity extends FragmentActivity {
-
+/**
+ * Activity for showing routes near to the user.
+ *
+ * @author Lukas Brauckmann
+ */
+public class RoutesActivity extends AppCompatActivity {
+  /**
+   * Fragment for navigation tabs.
+   */
   private RoutesOverviewFragment overviewFragment;
+  /**
+   * Fragment for detailed route information.
+   */
   private RouteInformationFragment informationFragment;
+  /**
+   * ArrayList for all routes that should be shown.
+   */
   private ArrayList<Route> routes = new ArrayList<Route>();
+  /**
+   * Flag whether the information fragment is displayed.
+   */
   private boolean showRouteInfo = false;
 
   @Override
@@ -37,14 +54,29 @@ public class RoutesActivity extends FragmentActivity {
     ft.commit();
   }
 
+  /**
+   * Returns the List with all routes.
+   *
+   * @return List with all routes.
+   */
   public ArrayList<Route> getRoutes() {
     return routes;
   }
 
+  /**
+   * Adds a route to the List.
+   *
+   * @param route The route that should be added.
+   */
   public void addRoute(Route route) {
     routes.add(route);
   }
 
+  /**
+   * Show detailed information fragment for one route.
+   *
+   * @param routeId Id of the route, that should be displayed.
+   */
   public void showRouteInfo(int routeId) {
     showRouteInfo = true;
     informationFragment.setRoute(routes.get(routeId));
@@ -70,6 +102,9 @@ public class RoutesActivity extends FragmentActivity {
     }
   }
 
+  /**
+   * Only for testing purpose.
+   */
   private void createTestRoute() {
     ArrayList<Location> wayPoints = new ArrayList<Location>();
     Location loc1 = new Location("");
@@ -96,7 +131,7 @@ public class RoutesActivity extends FragmentActivity {
     loc6.setLatitude(48.151);
     loc6.setLongitude(11.558);
     wayPoints.add(loc6);
-    addRoute(new Route("Hochschule", wayPoints, null));
+    addRoute(new Route(wayPoints, "Hochschule", false));
 
     wayPoints = new ArrayList<Location>();
     loc1 = new Location("");
@@ -123,6 +158,6 @@ public class RoutesActivity extends FragmentActivity {
     loc6.setLatitude(48.146);
     loc6.setLongitude(11.592);
     wayPoints.add(loc6);
-    addRoute(new Route("Englischer Garten", wayPoints, null));
+    addRoute(new Route(wayPoints, "Englischer Garten", false));
   }
 }

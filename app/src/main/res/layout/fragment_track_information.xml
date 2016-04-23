@@ -9,14 +9,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="New Text"
-        android:id="@+id/routeInfo_textView_name"
+        android:id="@+id/trackInfo_textView_speed"
         android:textSize="35dp"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="New Text"
-        android:id="@+id/routeInfo_textView_length"
-        android:textSize="30dp"/>
+        android:id="@+id/trackInfo_textView_altitude"
+        android:textSize="35dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Text"
+        android:id="@+id/trackInfo_textView_distance"
+        android:textSize="35dp"/>
 
 </LinearLayout>

@@ -1,4 +1,4 @@
-package edu.hm.cs.bikebattle.app.fragments;
+package edu.hm.cs.bikebattle.app.fragments.routes;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -10,14 +10,18 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import edu.hm.cs.bikebattle.app.R;
-import edu.hm.cs.bikebattle.app.RoutesActivity;
-import edu.hm.cs.bikebattle.app.RoutesListAdapter;
+import edu.hm.cs.bikebattle.app.activities.RoutesActivity;
+import edu.hm.cs.bikebattle.app.adapter.RoutesListAdapter;
 
 /**
- * Created by lukas on 12.04.2016.
+ * Fragment to display a list with routes.
+ *
+ * @author Lukas Brauckmann
  */
 public class RoutesListFragment extends Fragment {
-
+  /**
+   * Activity in which the content is displayed.
+   */
   private RoutesActivity activity;
 
   @Override
@@ -29,6 +33,7 @@ public class RoutesListFragment extends Fragment {
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
                            Bundle savedInstanceState) {
+    // Inflate the layout for this fragment
     inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     View view = inflater.inflate(R.layout.fragment_routes_list, container, false);
     ListView list = (ListView) view.findViewById(R.id.listView);
@@ -40,7 +45,7 @@ public class RoutesListFragment extends Fragment {
         activity.showRouteInfo(position);
       }
     });
-    // Inflate the layout for this fragment
+
     return view;
   }
 }

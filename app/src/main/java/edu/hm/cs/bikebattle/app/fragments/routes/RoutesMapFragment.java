@@ -1,11 +1,10 @@
-package edu.hm.cs.bikebattle.app.fragments;
+package edu.hm.cs.bikebattle.app.fragments.routes;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
@@ -21,16 +20,22 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 import edu.hm.cs.bikebattle.app.R;
-import edu.hm.cs.bikebattle.app.RoutesActivity;
+import edu.hm.cs.bikebattle.app.activities.RoutesActivity;
 import edu.hm.cs.bikebattle.app.modell.Route;
 
 /**
- * Created by lukas on 12.04.2016.
+ * Fragment to display a google map which shows routes.
+ *
+ * @author Lukas Brauckmann
  */
 public class RoutesMapFragment extends Fragment implements OnMapReadyCallback {
-  private static final int MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 0;
-
+  /**
+   * The google map in which routes can be displayed.
+   */
   private GoogleMap googleMap;
+  /**
+   * Activity in which the content is displayed.
+   */
   private RoutesActivity activity;
 
   @Override
@@ -47,15 +52,13 @@ public class RoutesMapFragment extends Fragment implements OnMapReadyCallback {
       getChildFragmentManager().beginTransaction().replace(R.id.map, mapFragment).commit();
     }
     mapFragment.getMapAsync(this);
-
-    requestPermission();
   }
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
                            Bundle savedInstanceState) {
     // Inflate the layout for this fragment
-    return inflater.inflate(R.layout.fragment_routes_map, container, false);
+    return inflater.inflate(R.layout.fragment_map, container, false);
   }
 
   @Override
@@ -73,17 +76,10 @@ public class RoutesMapFragment extends Fragment implements OnMapReadyCallback {
   }
 
   /**
-   * Request position permission for Android 6.
+   * Displays a route in the map.
+   *
+   * @param route Route that should be displayed.
    */
-  private void requestPermission() {
-    if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION)
-        != PackageManager.PERMISSION_GRANTED) {
-      ActivityCompat.requestPermissions(getActivity(),
-          new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-          MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
-    }
-  }
-
   private void drawRoute(Route route) {
     PolylineOptions polyRoute = new PolylineOptions();
 
@@ -98,7 +94,8 @@ public class RoutesMapFragment extends Fragment implements OnMapReadyCallback {
 
     googleMap.addPolyline(polyRoute);
 
-    String information = String.format("%s: %.2f km", activity.getString(R.string.length), route.getDistanceInM() / 1000);
+    String information = String.format("%s: %.2f km", activity.getString(R.string.length),
+        route.getDistanceInM() / 1000);
     googleMap.addMarker(new MarkerOptions()
         .position(new LatLng(route.get(0).getLatitude(), route.get(0).getLongitude()))
         .title(route.getName())

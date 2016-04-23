@@ -1,4 +1,4 @@
-package edu.hm.cs.bikebattle.app.fragments;
+package edu.hm.cs.bikebattle.app.adapter;
 
 
 import android.support.v4.app.Fragment;
@@ -6,27 +6,41 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import edu.hm.cs.bikebattle.app.R;
-import edu.hm.cs.bikebattle.app.RoutesActivity;
+import edu.hm.cs.bikebattle.app.activities.RoutesActivity;
+import edu.hm.cs.bikebattle.app.fragments.routes.RoutesListFragment;
+import edu.hm.cs.bikebattle.app.fragments.routes.RoutesMapFragment;
 
 /**
- * Created by lukas on 12.04.2016.
+ * Fragment adapter for the routes activity.
+ *
+ * @author Lukas Brauckmann
  */
 public class RoutesFragmentPagerAdapter extends FragmentPagerAdapter {
-  final int PAGE_COUNT = 2;
+  /**
+   * Number of tabs.
+   */
+  private static final int PAGE_COUNT = 2;
+  /**
+   * Activity in which the content is displayed.
+   */
   private RoutesActivity activity;
 
+  /**
+   * Initialize the adapter.
+   *
+   * @param fragmentManager FragmentManager.
+   * @param activity        Activity in which the content is displayed.
+   */
   public RoutesFragmentPagerAdapter(FragmentManager fragmentManager, RoutesActivity activity) {
     super(fragmentManager);
     this.activity = activity;
   }
 
-  // Returns total number of pages
   @Override
   public int getCount() {
     return PAGE_COUNT;
   }
 
-  // Returns the fragment to display for that page
   @Override
   public Fragment getItem(int position) {
     switch (position) {
@@ -39,7 +53,6 @@ public class RoutesFragmentPagerAdapter extends FragmentPagerAdapter {
     }
   }
 
-  // Returns the page title for the top indicator
   @Override
   public CharSequence getPageTitle(int position) {
     switch (position) {

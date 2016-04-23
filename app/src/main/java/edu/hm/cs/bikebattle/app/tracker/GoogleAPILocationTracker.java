@@ -23,7 +23,7 @@ import edu.hm.cs.bikebattle.app.modell.Track;
  * @author Nils Bernhardt
  * @version 1.0
  */
-public class GoogleApiLocationTracker implements LocationTracker, LocationListener,
+public class GoogleAPILocationTracker implements LocationTracker, LocationListener,
     GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
   /**
    * Current track.
@@ -52,7 +52,7 @@ public class GoogleApiLocationTracker implements LocationTracker, LocationListen
    * @param interval Update frequency
    * @param context  Context of the activity
    */
-  public GoogleApiLocationTracker(long interval, Context context) {
+  public GoogleAPILocationTracker(long interval, Context context) {
     locationRequest = createLocationRequest(interval);
     googleApiClient = getGoogleApiClient(context);
     googleApiClient.connect();

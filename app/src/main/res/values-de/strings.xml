@@ -1,11 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">BikeBattle</string>
-    <string name="list">Liste</string>
-    <string name="title_activity_maps">Karte</string>
     <string name="title_activity_route"></string>
-    <string name="hello_world">Hallo Welt!</string>
-    <string name="map">Karte</string>
-    <string name="action_settings">Einstellungen</string>
-    <string name="length">Länge</string>
 </resources>
