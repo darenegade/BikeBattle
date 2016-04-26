@@ -1,8 +1,10 @@
 package edu.hm.cs.bikebattle.app.tracker;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -10,6 +12,7 @@ import android.location.LocationProvider;
 import android.os.Bundle;
 import android.os.Looper;
 import android.provider.Settings;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -56,7 +59,9 @@ public class AndroidLocationTracker implements LocationTracker, LocationListener
 
   @Override
   public boolean continueTracking() {
-    if (isReady()) {
+    if (isReady()
+        && (ContextCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION)
+        == PackageManager.PERMISSION_GRANTED)) {
       locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, frequency, 0, this,
           Looper.getMainLooper());
       return true;
@@ -74,7 +79,10 @@ public class AndroidLocationTracker implements LocationTracker, LocationListener
 
   @Override
   public void stop() {
-    locationManager.removeUpdates(this);
+    if (ContextCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION)
+        == PackageManager.PERMISSION_GRANTED) {
+      locationManager.removeUpdates(this);
+    }
   }
 
   @Override
@@ -89,7 +97,11 @@ public class AndroidLocationTracker implements LocationTracker, LocationListener
 
   @Override
   public Location getLastLocation() {
-    return locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+    if (ContextCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION)
+        == PackageManager.PERMISSION_GRANTED) {
+      return locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+    }
+    return null;
   }
 
   @Override
@@ -99,7 +111,6 @@ public class AndroidLocationTracker implements LocationTracker, LocationListener
 
   @Override
   public void onLocationChanged(Location location) {
-    Log.d("Tracker", location.toString());
     synchronized (track) {
       track.add(location);
       synchronized (this) {

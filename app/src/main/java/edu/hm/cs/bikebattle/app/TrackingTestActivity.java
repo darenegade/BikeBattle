@@ -2,6 +2,7 @@ package edu.hm.cs.bikebattle.app;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -74,6 +75,7 @@ public class TrackingTestActivity extends Activity {
             }
             synchronized (tracker.getTrack()) {
               while (views < tracker.getTrack().size()) {
+                Log.e("Activity", "New Location");
                 final TextView tv = new TextView(context);
                 tv.setText(tracker.getTrack().get(views).toString());
                 context.runOnUiThread(new Runnable() {
