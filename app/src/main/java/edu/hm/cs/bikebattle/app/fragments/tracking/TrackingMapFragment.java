@@ -88,6 +88,7 @@ public class TrackingMapFragment extends Fragment implements OnMapReadyCallback 
     for (Location wayPoint : track) {
       polyRoute.add(new LatLng(wayPoint.getLatitude(), wayPoint.getLongitude()));
     }
+    polyRoute.add(new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude()));
     googleMap.clear();
     googleMap.addPolyline(polyRoute);
   }
@@ -113,10 +114,12 @@ public class TrackingMapFragment extends Fragment implements OnMapReadyCallback 
   private void updateCamera() {
     LatLng latLng = new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude());
     googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(
-        new CameraPosition.Builder().target(latLng).zoom(17).tilt(30).build()));
+        new CameraPosition.Builder().target(latLng).zoom(17).tilt(30)
+            .bearing(lastLocation.getBearing()).build()));
     googleMap.addMarker(new MarkerOptions()
         .position(new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude()))
-        .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_navigation)));
+        .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_navigation)))
+        .setFlat(true);
   }
 
   /**

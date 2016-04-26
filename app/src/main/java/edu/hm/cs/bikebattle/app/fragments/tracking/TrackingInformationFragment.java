@@ -54,14 +54,9 @@ public class TrackingInformationFragment extends Fragment {
     getActivity().runOnUiThread(new Runnable() {
       @Override
       public void run() {
-        float dist = 0;
-        for (int i = 0; i < track.size() - 2; i++) {
-          dist += track.get(i).distanceTo(track.get(i + 1));
-        }
-
         String speed = String.format("Speed: %.2fm/s", lastLocation.getSpeed());
         String altitude = String.format("Altitude: %.2fm", lastLocation.getAltitude());
-        String distance = String.format("Distance: %.2fm", dist);
+        String distance = String.format("Distance: %.2fm", track.getDistanceInM());
         speedView.setText(speed);
         altitudeView.setText(altitude);
         distanceView.setText(distance);
