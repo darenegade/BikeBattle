@@ -39,8 +39,11 @@ public class TrackingInformationFragment extends Fragment {
     inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     View view = inflater.inflate(R.layout.fragment_track_information, container, false);
     speedView = (TextView) view.findViewById(R.id.trackInfo_textView_speed);
+    speedView.setText("No tracking!");
     altitudeView = (TextView) view.findViewById(R.id.trackInfo_textView_altitude);
+    altitudeView.setText("");
     distanceView = (TextView) view.findViewById(R.id.trackInfo_textView_distance);
+    distanceView.setText("");
     return view;
   }
 
