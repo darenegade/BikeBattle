@@ -1,8 +1,10 @@
 package edu.hm.cs.bikebattle.app.api.domain;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
@@ -20,6 +22,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 public class UserDto extends BaseDto {
 
   String name;
@@ -30,9 +33,12 @@ public class UserDto extends BaseDto {
 
   float weight;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   List<String> friends;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   List<String> routes;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   List<String> drives;
 }

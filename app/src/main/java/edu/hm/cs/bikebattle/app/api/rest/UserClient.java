@@ -4,6 +4,8 @@ package edu.hm.cs.bikebattle.app.api.rest;
 import edu.hm.cs.bikebattle.app.api.domain.DriveDto;
 import edu.hm.cs.bikebattle.app.api.domain.RouteDto;
 import edu.hm.cs.bikebattle.app.api.domain.UserDto;
+import org.springframework.hateoas.Resource;
+import org.springframework.hateoas.Resources;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
@@ -32,50 +34,49 @@ public interface UserClient {
   //User Endpoints
 
   @POST(BASE_PATH)
-  @Headers("Content-Type: application/json")
-  Call<UserDto> create(@Body UserDto entity);
+  Call<Void>  create(@Body UserDto entity);
 
   @PUT(BASE_PATH)
   @Headers("Content-Type: application/json")
-  UserDto update(@Body UserDto entity);
+  Call<Void>  update(@Body UserDto entity);
 
   @DELETE(BASE_PATH + "/{id}")
-  void delete(@Path("id") String id);
+  Call<Void> delete(@Path("id") String id);
 
   @GET(BASE_PATH + "/{id}")
-  UserDto findeOne(@Path("id") String id);
+  Call<Resource<UserDto>> findeOne(@Path("id") String id);
 
   @GET(BASE_PATH + "")
-  List<UserDto> findAll();
+  Call<Resources<List<Resource<UserDto>>>> findAll();
 
   @GET(BASE_PATH + "/search/findByName")
-  List<UserDto> findByName(@Query("name") String name);
+  Call<Resources<List<Resource<UserDto>>>>  findByName(@Query("name") String name);
 
   @GET(BASE_PATH + "/search/findByNameContainingIgnoreCase")
-  List<UserDto> findByNameContainingIgnoreCase(@Query("name") String name);
+  Call<Resources<List<Resource<UserDto>>>>  findByNameContainingIgnoreCase(@Query("name") String name);
 
   //Relation Endpoints
 
   @POST(BASE_PATH + "/{id}/routes")
   @Headers("Content-Type: text/uri-list")
-  void setRoutes(@Path("id") String id, @Body List<String> routes);
+  Call<Void> setRoutes(@Path("id") String id, @Body List<String> routes);
 
   @POST(BASE_PATH + "/{id}/friends")
   @Headers("Content-Type: text/uri-list")
-  void setFriends(@Path("id") String id, @Body List<String> friends);
+  Call<Void> setFriends(@Path("id") String id, @Body List<String> friends);
 
   @POST(BASE_PATH + "/{id}/drives")
   @Headers("Content-Type: text/uri-list")
-  void setDrives(@Path("id") String id, @Body List<String> drives);
+  Call<Void> setDrives(@Path("id") String id, @Body List<String> drives);
 
   @GET(BASE_PATH + "/{id}/routes")
-  List<RouteDto> getRoutes(@Path("id") String id);
+  Call<Resources<List<Resource<RouteDto>>>>  getRoutes(@Path("id") String id);
 
   @GET(BASE_PATH + "/{id}/friends")
-  List<UserDto> getFriends(@Path("id") String id);
+  Call<Resources<List<Resource<UserDto>>>>  getFriends(@Path("id") String id);
 
   @GET(BASE_PATH + "/{id}/drives")
-  List<DriveDto> getDrives(@Path("id") String id);
+  Call<Resources<List<Resource<DriveDto>>>>  getDrives(@Path("id") String id);
 
 
 }

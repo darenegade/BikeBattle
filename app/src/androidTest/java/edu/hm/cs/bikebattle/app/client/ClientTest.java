@@ -1,12 +1,14 @@
 package edu.hm.cs.bikebattle.app.client;
 
+import android.util.Log;
 import edu.hm.cs.bikebattle.app.api.domain.UserDto;
 import edu.hm.cs.bikebattle.app.api.rest.ClientFactory;
 import edu.hm.cs.bikebattle.app.api.rest.UserClient;
 import junit.framework.TestCase;
+import org.springframework.hateoas.Resource;
 import retrofit2.Response;
 
-import java.io.IOException;
+import java.util.UUID;
 
 /**
  * Organization: HM FK07.
@@ -19,35 +21,38 @@ import java.io.IOException;
  */
 public class ClientTest extends TestCase {
 
+  private UserClient client = ClientFactory.getUserClient();
+
+  private UserDto user = UserDto.builder()
+      .name("hans")
+      .email("hans@hans.de")
+      .size(1.8F)
+      .weight(65F)
+      .build();
+
+  protected void setUp() throws Exception {
+    Response<Void> response = client.create(user).execute();
+
+    String[] tmp = response.headers().get("Location").split("/");
+    String oid = tmp[tmp.length - 1];
+
+    user.setOid(UUID.fromString(oid));
+    Log.d("----TEST----", oid);
+  }
+
+  protected void tearDown() throws Exception {
+    client.delete(user.getOid().toString()).execute();
+  }
+
   //User Tests
+  public void testGetUser() throws Exception{
 
-  public void testCreateUser(){
 
-    UserDto user = UserDto.builder()
-        .name("hans")
-        .email("hans@hans.de")
-        .size(1.8F)
-        .weight(65F)
-        .build();
-
-    UserClient client = ClientFactory.getUserClient();
-
-    Response<UserDto> userDtoResponse = null;
-    try {
-      userDtoResponse = client.create(user).execute();
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-
+    Response<Resource<UserDto>> userDtoResponse = client.findeOne(user.getOid().toString()).execute();
 
     assertEquals(200, userDtoResponse.code());
 
-
-    UserDto newUser = userDtoResponse.body();
-
-    user.setOid(newUser.getOid());
-
-    assertEquals(user, userDtoResponse.body());
+    assertEquals(user, userDtoResponse.body().getContent());
 
   }
 
