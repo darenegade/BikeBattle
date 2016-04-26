@@ -11,7 +11,9 @@ import edu.hm.cs.bikebattle.app.tracker.AndroidLocationTracker;
  * Created by Nils on 19.04.2016.
  */
 public class AndroidLocationRouter extends AndroidLocationTracker implements Router {
-
+  /**
+   * Route for navigation.
+   */
   private final Route route;
 
   private int target = 0;
