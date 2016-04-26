@@ -1,9 +1,16 @@
 <resources>
     <string name="app_name">BikeBattle</string>
+    <string name="title_text">The hardest battle u will get!</string>
 
-    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_tracking_test">TrackingTestActivity</string>
+
+    <!-- Activity Names and Descriptions -->
+    <string name="name_sign_in_activity">Login</string>
+
+    <!-- Server Client ID.  This should be a valid Web OAuth 2.0 Client ID obtained
+         from https://console.developers.google.com/ -->
+    <string name="server_client_id">277886887036-ma7a7kn9eiq6avjg2f3pkqksnf2pqgso.apps.googleusercontent.com</string>
     <string name="action_googlemap" translatable="false">Google Map</string>
     <string name="list">List</string>
     <string name="map">Map</string>

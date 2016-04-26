@@ -1,0 +1,56 @@
+{
+  "project_info": {
+    "project_id": "bikebattle-1272",
+    "project_number": "277886887036",
+    "name": "BikeBattle"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:277886887036:android:37242461cb356c34",
+        "client_id": "android:edu.hm.cs.bikebattle",
+        "client_type": 1,
+        "android_client_info": {
+          "package_name": "edu.hm.cs.bikebattle",
+          "certificate_hash": []
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "277886887036-ma7a7kn9eiq6avjg2f3pkqksnf2pqgso.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "edu.hm.cs.bikebattle",
+            "certificate_hash": "42EF55F107601E7E1F5E450F610671FF362631ED"
+          }
+        },
+        {
+          "client_id": "277886887036-9r8i9qa0kpfm201t0h6ghb09elmepcca.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "cloud_messaging_service": {
+          "status": 1,
+          "apns_config": []
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "google_signin_service": {
+          "status": 2
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "client_info": [],
+  "ARTIFACT_VERSION": "1"
+}
