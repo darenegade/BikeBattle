@@ -41,14 +41,6 @@ public class Track extends LocationList {
   }
 
   /**
-   * Initializes an empty track.
-   *
-   * */
-  public Track() {
-    super();
-  }
-
-  /**
    * Calculates the time of the track.
    *
    * @param track track
