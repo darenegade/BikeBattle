@@ -20,7 +20,7 @@ import edu.hm.cs.bikebattle.app.modell.Track;
  * Location tracker using the GoogleAPI Client. Has usually no higher frequency then 5s.
  * Combines network and gps.
  *
- * @author Nils Bernhardt
+ * @author Nils Bernhardt Hallo
  * @version 1.0
  */
 public class GoogleApiLocationTracker implements LocationTracker, LocationListener,
