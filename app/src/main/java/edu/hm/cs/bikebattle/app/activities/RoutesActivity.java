@@ -128,11 +128,15 @@ public class RoutesActivity extends AppCompatActivity {
   private Location getLastLocation() {
     if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
         == PackageManager.PERMISSION_GRANTED) {
-      return locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+      return locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
     }
     return null;
   }
 
+  /**
+   * Gets the fragment that displays the map.
+   * @return Map fragment.
+   */
   public RoutesMapFragment getMapFragment() {
     return mapFragment;
   }
