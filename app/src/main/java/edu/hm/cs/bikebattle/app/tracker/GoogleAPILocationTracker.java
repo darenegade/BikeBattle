@@ -23,7 +23,7 @@ import edu.hm.cs.bikebattle.app.modell.Track;
  * @author Nils Bernhardt
  * @version 1.0
  */
-public class GoogleAPILocationTracker implements LocationTracker, LocationListener,
+public class GoogleApiLocationTracker implements LocationTracker, LocationListener,
     GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
   /**
    * Current track.
