@@ -15,7 +15,9 @@ public class AndroidLocationRouter extends AndroidLocationTracker implements Rou
    * Route for navigation.
    */
   private final Route route;
-
+  /**
+   * Current target to reach.
+   */
   private int target = 0;
 
   public final static double TOLERANCE_IN_METER = 40;
