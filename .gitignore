@@ -1,3 +1,5 @@
+gradle-local.properties
+*.keystore
 .gradle
 /local.properties
 /.idea/workspace.xml
@@ -72,6 +74,9 @@ crashlytics-build.properties
 
 # Files for the Dalvik VM
 *.dex
+
+# Java class files
+*.class
 
 # Generated files
 bin/
