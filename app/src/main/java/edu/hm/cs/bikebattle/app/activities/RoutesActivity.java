@@ -10,14 +10,14 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-
-import java.util.ArrayList;
-
 import edu.hm.cs.bikebattle.app.R;
 import edu.hm.cs.bikebattle.app.fragments.routes.RouteInformationFragment;
 import edu.hm.cs.bikebattle.app.fragments.routes.RoutesMapFragment;
 import edu.hm.cs.bikebattle.app.fragments.routes.RoutesOverviewFragment;
 import edu.hm.cs.bikebattle.app.modell.Route;
+import edu.hm.cs.bikebattle.app.modell.User;
+
+import java.util.ArrayList;
 
 /**
  * Activity for showing routes near to the user.
@@ -170,7 +170,7 @@ public class RoutesActivity extends AppCompatActivity {
     loc6.setLatitude(48.151);
     loc6.setLongitude(11.558);
     wayPoints.add(loc6);
-    addRoute(new Route(wayPoints, "Hochschule", false));
+    addRoute(new Route(wayPoints, "Hochschule", false, new User("","",0,0)));
 
     wayPoints = new ArrayList<Location>();
     loc1 = new Location("");
@@ -197,6 +197,6 @@ public class RoutesActivity extends AppCompatActivity {
     loc6.setLatitude(48.146);
     loc6.setLongitude(11.592);
     wayPoints.add(loc6);
-    addRoute(new Route(wayPoints, "Englischer Garten", false));
+    addRoute(new Route(wayPoints, "Englischer Garten", false, new User("","",0,0)));
   }
 }

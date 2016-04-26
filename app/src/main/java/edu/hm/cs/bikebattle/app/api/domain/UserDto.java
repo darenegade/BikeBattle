@@ -1,6 +1,5 @@
 package edu.hm.cs.bikebattle.app.api.domain;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -31,12 +30,9 @@ public class UserDto extends BaseDto {
 
   float weight;
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
   List<String> friends;
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
   List<String> routes;
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
   List<String> drives;
 }

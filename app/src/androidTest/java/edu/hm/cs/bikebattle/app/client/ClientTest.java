@@ -3,14 +3,10 @@ package edu.hm.cs.bikebattle.app.client;
 import edu.hm.cs.bikebattle.app.api.domain.UserDto;
 import edu.hm.cs.bikebattle.app.api.rest.ClientFactory;
 import edu.hm.cs.bikebattle.app.api.rest.UserClient;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import junit.framework.TestCase;
 import retrofit2.Response;
 
 import java.io.IOException;
-
-import static org.junit.Assert.assertEquals;
 
 /**
  * Organization: HM FK07.
@@ -21,13 +17,11 @@ import static org.junit.Assert.assertEquals;
  * Java-Version: 1.8
  * System: 2,3 GHz Intel Core i7, 16 GB 1600 MHz DDR3
  */
-@RunWith(JUnit4.class)
-public class ClientTest {
+public class ClientTest extends TestCase {
 
   //User Tests
 
-  @Test
-  public void CreateUser(){
+  public void testCreateUser(){
 
     UserDto user = UserDto.builder()
         .name("hans")

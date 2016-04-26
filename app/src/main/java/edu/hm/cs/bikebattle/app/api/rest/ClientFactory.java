@@ -1,9 +1,7 @@
 package edu.hm.cs.bikebattle.app.api.rest;
 
-import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
-import retrofit2.converter.jackson.JacksonConverterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Organization: HM FK07.
@@ -21,22 +19,10 @@ public class ClientFactory {
   private static final Retrofit retrofit;
 
   static {
-    HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-    // set your desired log level
-    logging.setLevel(HttpLoggingInterceptor.Level.BODY);
-
-    OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
-
-    // add other interceptors here:
-
-    // add logging as last interceptor
-    httpClient.addInterceptor(logging);
-
 
     retrofit = new Retrofit.Builder()
             .baseUrl(BASEURL)
-            .client(httpClient.build())
-            .addConverterFactory(JacksonConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create())
             .build();
   }
 
