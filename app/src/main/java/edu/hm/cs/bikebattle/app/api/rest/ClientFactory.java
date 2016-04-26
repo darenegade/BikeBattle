@@ -1,5 +1,8 @@
 package edu.hm.cs.bikebattle.app.api.rest;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.hateoas.hal.Jackson2HalModule;
 import retrofit2.Retrofit;
 import retrofit2.converter.jackson.JacksonConverterFactory;
 
@@ -19,9 +22,13 @@ public class ClientFactory {
   private static final Retrofit retrofit;
 
   static {
+    ObjectMapper mapper = new ObjectMapper();
+    mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+    mapper.registerModule(new Jackson2HalModule());
+
     retrofit = new Retrofit.Builder()
         .baseUrl(BASE_URL)
-        .addConverterFactory(JacksonConverterFactory.create())
+        .addConverterFactory(JacksonConverterFactory.create(mapper))
         .build();
   }
 

@@ -1,13 +1,15 @@
 package edu.hm.cs.bikebattle.app.client;
 
-import android.util.Log;
 import edu.hm.cs.bikebattle.app.api.domain.UserDto;
 import edu.hm.cs.bikebattle.app.api.rest.ClientFactory;
 import edu.hm.cs.bikebattle.app.api.rest.UserClient;
 import junit.framework.TestCase;
 import org.springframework.hateoas.Resource;
+import org.springframework.hateoas.Resources;
 import retrofit2.Response;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.UUID;
 
 /**
@@ -23,37 +25,76 @@ public class ClientTest extends TestCase {
 
   private UserClient client = ClientFactory.getUserClient();
 
-  private UserDto user = UserDto.builder()
+  private UserDto user1 = UserDto.builder()
       .name("hans")
       .email("hans@hans.de")
       .size(1.8F)
       .weight(65F)
       .build();
 
+  private UserDto user2 = UserDto.builder()
+      .name("peter")
+      .email("peter@hans.de")
+      .size(1.8F)
+      .weight(65F)
+      .build();
+
   protected void setUp() throws Exception {
-    Response<Void> response = client.create(user).execute();
 
-    String[] tmp = response.headers().get("Location").split("/");
-    String oid = tmp[tmp.length - 1];
+    Response<Void> response;
+    String[] tmp;
+    String oid;
 
-    user.setOid(UUID.fromString(oid));
-    Log.d("----TEST----", oid);
+    //Create User 1
+    response = client.create(user1).execute();
+
+    tmp = response.headers().get("Location").split("/");
+    oid = tmp[tmp.length - 1];
+
+    user1.setOid(UUID.fromString(oid));
+
+    //Create User 2
+    response = client.create(user2).execute();
+
+    tmp = response.headers().get("Location").split("/");
+    oid = tmp[tmp.length - 1];
+
+    user2.setOid(UUID.fromString(oid));
   }
 
   protected void tearDown() throws Exception {
-    client.delete(user.getOid().toString()).execute();
+    client.delete(user1.getOid().toString()).execute();
+    client.delete(user2.getOid().toString()).execute();
   }
 
   //User Tests
-  public void testGetUser() throws Exception{
+  public void testFindOne() throws Exception{
 
 
-    Response<Resource<UserDto>> userDtoResponse = client.findeOne(user.getOid().toString()).execute();
+    Response<Resource<UserDto>> userDtoResponse = client.findeOne(user1.getOid().toString()).execute();
 
     assertEquals(200, userDtoResponse.code());
 
-    assertEquals(user, userDtoResponse.body().getContent());
+    assertEquals(user1, userDtoResponse.body().getContent());
 
   }
 
+  public void testFindAll() throws Exception{
+
+
+    Response<Resources<Resource<UserDto>>> userDtoResponse = client.findAll().execute();
+
+    assertEquals(200, userDtoResponse.code());
+
+    Collection<Resource<UserDto>> usersResources = userDtoResponse.body().getContent();
+
+    ArrayList<UserDto> users = new ArrayList<UserDto>();
+    for (Resource<UserDto> userResource : usersResources) {
+      users.add(userResource.getContent());
+    }
+
+    assertTrue(users.contains(user1));
+    assertTrue(users.contains(user2));
+
+  }
 }

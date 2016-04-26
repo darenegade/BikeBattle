@@ -47,13 +47,13 @@ public interface UserClient {
   Call<Resource<UserDto>> findeOne(@Path("id") String id);
 
   @GET(BASE_PATH + "")
-  Call<Resources<List<Resource<UserDto>>>> findAll();
+  Call<Resources<Resource<UserDto>>> findAll();
 
   @GET(BASE_PATH + "/search/findByName")
-  Call<Resources<List<Resource<UserDto>>>>  findByName(@Query("name") String name);
+  Call<Resources<Resource<UserDto>>>  findByName(@Query("name") String name);
 
   @GET(BASE_PATH + "/search/findByNameContainingIgnoreCase")
-  Call<Resources<List<Resource<UserDto>>>>  findByNameContainingIgnoreCase(@Query("name") String name);
+  Call<Resources<Resource<UserDto>>>  findByNameContainingIgnoreCase(@Query("name") String name);
 
   //Relation Endpoints
 
@@ -73,7 +73,7 @@ public interface UserClient {
   Call<Resources<List<Resource<RouteDto>>>>  getRoutes(@Path("id") String id);
 
   @GET(BASE_PATH + "/{id}/friends")
-  Call<Resources<List<Resource<UserDto>>>>  getFriends(@Path("id") String id);
+  Call<Resources<Resource<UserDto>>>  getFriends(@Path("id") String id);
 
   @GET(BASE_PATH + "/{id}/drives")
   Call<Resources<List<Resource<DriveDto>>>>  getDrives(@Path("id") String id);
