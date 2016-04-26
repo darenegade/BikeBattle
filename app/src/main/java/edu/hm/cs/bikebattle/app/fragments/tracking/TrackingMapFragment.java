@@ -5,6 +5,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
@@ -22,6 +23,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 import edu.hm.cs.bikebattle.app.R;
+import edu.hm.cs.bikebattle.app.activities.TrackingActivity;
 import edu.hm.cs.bikebattle.app.modell.Track;
 
 /**
@@ -38,6 +40,8 @@ public class TrackingMapFragment extends Fragment implements OnMapReadyCallback 
    * Last location which represents the users position.
    */
   private Location lastLocation;
+
+  private FloatingActionButton trackingButton;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -57,7 +61,25 @@ public class TrackingMapFragment extends Fragment implements OnMapReadyCallback 
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
                            Bundle savedInstanceState) {
     // Inflate the layout for this fragment
-    return inflater.inflate(R.layout.fragment_map, container, false);
+    View view = inflater.inflate(R.layout.fragment_map, container, false);
+    trackingButton = (FloatingActionButton) view.findViewById(R.id.tracking_button);
+    trackingButton.setImageDrawable(
+        ContextCompat.getDrawable(getContext(), R.drawable.ic_action_start));
+    trackingButton.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View view) {
+        // Click action
+        TrackingActivity activity = (TrackingActivity) getActivity();
+        if (activity.changeTrackingMode()) {
+          trackingButton.setImageDrawable(
+              ContextCompat.getDrawable(getContext(), R.drawable.ic_action_stop));
+        } else {
+          trackingButton.setImageDrawable(
+              ContextCompat.getDrawable(getContext(), R.drawable.ic_action_start));
+        }
+      }
+    });
+    return view;
   }
 
   @Override

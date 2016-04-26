@@ -5,8 +5,6 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Menu;
-import android.view.MenuItem;
 
 import edu.hm.cs.bikebattle.app.R;
 import edu.hm.cs.bikebattle.app.fragments.tracking.TrackingInformationFragment;
@@ -64,34 +62,21 @@ public class TrackingActivity extends AppCompatActivity {
     mapFragment.setLastLocation(tracker.getLastLocation());
   }
 
-  @Override
-  public boolean onCreateOptionsMenu(Menu menu) {
-    // Inflate the menu; this adds items to the action bar if it is present.
-    getMenuInflater().inflate(R.menu.menu_tracking, menu);
-    return true;
-  }
-
-  @Override
-  public boolean onOptionsItemSelected(MenuItem item) {
-    switch (item.getItemId()) {
-      case R.id.action_record_tracking:
-        if (isTracking) {
-          tracker.stop();
-          isTracking = false;
-        } else {
-          if (tracker.start()) {
-            startTracking();
-            isTracking = true;
-          }
-        }
-        return true;
-
-      default:
-        // If we got here, the user's action was not recognized.
-        // Invoke the superclass to handle it.
-        return super.onOptionsItemSelected(item);
-
+  /**
+   * Change tracking mode to on or off.
+   * @return Is tracking currently turned on.
+   */
+  public boolean changeTrackingMode() {
+    if (isTracking) {
+      tracker.stop();
+      isTracking = false;
+    } else {
+      if (tracker.start()) {
+        startTracking();
+        isTracking = true;
+      }
     }
+    return isTracking;
   }
 
   @Override
