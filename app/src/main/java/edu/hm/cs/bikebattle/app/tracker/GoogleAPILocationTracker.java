@@ -52,7 +52,7 @@ public class GoogleAPILocationTracker implements LocationTracker, LocationListen
    * @param interval Update frequency
    * @param context  Context of the activity
    */
-  public GoogleApiLocationTracker(long interval, Context context) {
+  public GoogleAPILocationTracker(long interval, Context context) {
     locationRequest = createLocationRequest(interval);
     googleApiClient = getGoogleApiClient(context);
     googleApiClient.connect();
