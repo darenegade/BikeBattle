@@ -2,6 +2,10 @@ package edu.hm.cs.bikebattle.app.api.rest;
 
 import edu.hm.cs.bikebattle.app.api.domain.Difficulty;
 import edu.hm.cs.bikebattle.app.api.domain.RouteDto;
+import edu.hm.cs.bikebattle.app.api.domain.UserDto;
+import org.springframework.hateoas.Resource;
+import org.springframework.hateoas.Resources;
+import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
@@ -10,8 +14,6 @@ import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
-
-import java.util.List;
 
 /**
  * Organization: HM FK07.
@@ -29,31 +31,42 @@ public interface RouteClient {
 
   //Route Endpoints
 
-  @POST(BASE_PATH + "")
-  @Headers("Content-Type: application/json")
-  RouteDto create(@Body RouteDto entity);
+  @POST(BASE_PATH)
+  Call<Void> create(@Body RouteDto entity);
 
-  @PUT(BASE_PATH + "")
+  @PUT(BASE_PATH)
   @Headers("Content-Type: application/json")
-  RouteDto update(@Body RouteDto entity);
+  Call<Void>  update(@Body RouteDto entity);
 
   @DELETE(BASE_PATH + "/{id}")
-  void delete(@Path("id") String id);
+  Call<Void> delete(@Path("id") String id);
 
   @GET(BASE_PATH + "/{id}")
-  RouteDto findeOne(@Path("id") String id);
+  Call<Resource<RouteDto>> findeOne(@Path("id") String id);
 
   @GET(BASE_PATH + "")
-  List<RouteDto> findAll();
+  Call<Resources<Resource<RouteDto>>> findAll();
 
   @GET(BASE_PATH + "/search/findByName")
-  List<RouteDto> findByName(@Query("name") String name);
+  Call<Resources<Resource<RouteDto>>>  findByName(@Query("name") String name);
 
   @GET(BASE_PATH + "/search/findByNameContainingIgnoreCase")
-  List<RouteDto> findByNameContainingIgnoreCase(@Query("name") String name);
+  Call<Resources<Resource<RouteDto>>>  findByNameContainingIgnoreCase(@Query("name") String name);
 
-  @GET(BASE_PATH + "/search/findByNameContainingIgnoreCase")
-  List<RouteDto> findByDifficulty(@Query("difficulty") Difficulty difficulty);
+  @GET(BASE_PATH + "/search/findByOwnerOid")
+  Call<Resources<Resource<RouteDto>>>  findByOwnerOid(@Query("oid") String oid);
+
+  @GET(BASE_PATH + "/search/findByDifficulty")
+  Call<Resources<Resource<RouteDto>>>  findByOwnerOid(@Query("difficulty") Difficulty difficulty);
+
+  //Relation Endpoints
+
+  @PUT(BASE_PATH + "/{id}/owner")
+  @Headers("Content-Type: text/uri-list")
+  Call<Void> setOwner(@Path("id") String id, @Body String owner);
+
+  @GET(BASE_PATH + "/{id}/owner")
+  Call<Resource<UserDto>>  getOwner(@Path("id") String id);
 
 
 }

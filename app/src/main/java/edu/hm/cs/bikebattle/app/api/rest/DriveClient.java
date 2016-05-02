@@ -2,6 +2,10 @@ package edu.hm.cs.bikebattle.app.api.rest;
 
 import edu.hm.cs.bikebattle.app.api.domain.DriveDto;
 import edu.hm.cs.bikebattle.app.api.domain.RouteDto;
+import edu.hm.cs.bikebattle.app.api.domain.UserDto;
+import org.springframework.hateoas.Resource;
+import org.springframework.hateoas.Resources;
+import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
@@ -10,8 +14,6 @@ import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
-
-import java.util.List;
 
 /**
  * Organization: HM FK07.
@@ -29,33 +31,42 @@ public interface DriveClient {
 
   //Drive Endpoints
 
-  @POST(BASE_PATH + "")
-  @Headers("Content-Type: application/json")
-  DriveDto create(@Body DriveDto entity);
+  @POST(BASE_PATH)
+  Call<Void> create(@Body DriveDto entity);
 
-  @PUT(BASE_PATH + "")
+  @PUT(BASE_PATH)
   @Headers("Content-Type: application/json")
-  DriveDto update(@Body DriveDto entity);
+  Call<Void>  update(@Body DriveDto entity);
 
   @DELETE(BASE_PATH + "/{id}")
-  void delete(@Path("id") String id);
+  Call<Void> delete(@Path("id") String id);
 
   @GET(BASE_PATH + "/{id}")
-  DriveDto findeOne(@Path("id") String id);
+  Call<Resource<DriveDto>> findeOne(@Path("id") String id);
 
   @GET(BASE_PATH + "")
-  List<DriveDto> findAll();
+  Call<Resources<Resource<DriveDto>>> findAll();
 
   @GET(BASE_PATH + "/search/findByRouteOid")
-  List<DriveDto> findByRouteOid(@Query("oid") String oid);
+  Call<Resources<Resource<DriveDto>>>  findByRouteOid(@Query("oid") String oid);
 
-  //Relatiins Endpoints
+  @GET(BASE_PATH + "/search/findByOwnerOid")
+  Call<Resources<Resource<DriveDto>>>  findByOwnerOid(@Query("oid") String oid);
 
-  @POST(BASE_PATH + "/{id}/route")
+  //Relation Endpoints
+
+  @PUT(BASE_PATH + "/{id}/route")
   @Headers("Content-Type: text/uri-list")
-  void setRoute(@Path("id") String id, @Body String route);
+  Call<Void> setRoutes(@Path("id") String id, @Body String route);
 
-  @GET(BASE_PATH + "/{id}/routes")
-  List<RouteDto> getRoutes(@Path("id") String id);
+  @PUT(BASE_PATH + "/{id}/owner")
+  @Headers("Content-Type: text/uri-list")
+  Call<Void> setOwner(@Path("id") String id, @Body String owner);
+
+  @GET(BASE_PATH + "/{id}/route")
+  Call<Resource<RouteDto>>  getRoute(@Path("id") String id);
+
+  @GET(BASE_PATH + "/{id}/owner")
+  Call<Resource<UserDto>>  getOwner(@Path("id") String id);
 
 }

@@ -1,8 +1,6 @@
 package edu.hm.cs.bikebattle.app.api.rest;
 
 
-import edu.hm.cs.bikebattle.app.api.domain.DriveDto;
-import edu.hm.cs.bikebattle.app.api.domain.RouteDto;
 import edu.hm.cs.bikebattle.app.api.domain.UserDto;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
@@ -57,26 +55,11 @@ public interface UserClient {
 
   //Relation Endpoints
 
-  @POST(BASE_PATH + "/{id}/routes")
-  @Headers("Content-Type: text/uri-list")
-  Call<Void> setRoutes(@Path("id") String id, @Body List<String> routes);
-
-  @POST(BASE_PATH + "/{id}/friends")
+  @PUT(BASE_PATH + "/{id}/friends")
   @Headers("Content-Type: text/uri-list")
   Call<Void> setFriends(@Path("id") String id, @Body List<String> friends);
 
-  @POST(BASE_PATH + "/{id}/drives")
-  @Headers("Content-Type: text/uri-list")
-  Call<Void> setDrives(@Path("id") String id, @Body List<String> drives);
-
-  @GET(BASE_PATH + "/{id}/routes")
-  Call<Resources<List<Resource<RouteDto>>>>  getRoutes(@Path("id") String id);
-
   @GET(BASE_PATH + "/{id}/friends")
   Call<Resources<Resource<UserDto>>>  getFriends(@Path("id") String id);
-
-  @GET(BASE_PATH + "/{id}/drives")
-  Call<Resources<List<Resource<DriveDto>>>>  getDrives(@Path("id") String id);
-
 
 }
