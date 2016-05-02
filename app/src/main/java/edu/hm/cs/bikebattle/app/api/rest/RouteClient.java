@@ -65,7 +65,7 @@ public interface RouteClient {
 
   @PUT(BASE_PATH + "/{id}/owner")
   @Headers("Content-Type: text/uri-list")
-  Call<Void> setOwner(@Path("id") UUID id, @Body UUID owner);
+  Call<Void> setOwner(@Path("id") UUID id, @Body String owner);
 
   @GET(BASE_PATH + "/{id}/owner")
   Call<Resource<UserDto>>  getOwner(@Path("id") UUID id);

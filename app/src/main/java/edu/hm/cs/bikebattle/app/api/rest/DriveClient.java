@@ -59,11 +59,11 @@ public interface DriveClient {
 
   @PUT(BASE_PATH + "/{id}/route")
   @Headers("Content-Type: text/uri-list")
-  Call<Void> setRoute(@Path("id") UUID id, @Body UUID route);
+  Call<Void> setRoute(@Path("id") UUID id, @Body String route);
 
   @PUT(BASE_PATH + "/{id}/owner")
   @Headers("Content-Type: text/uri-list")
-  Call<Void> setOwner(@Path("id") UUID id, @Body UUID owner);
+  Call<Void> setOwner(@Path("id") UUID id, @Body String owner);
 
   @GET(BASE_PATH + "/{id}/route")
   Call<Resource<RouteDto>>  getRoute(@Path("id") UUID id);

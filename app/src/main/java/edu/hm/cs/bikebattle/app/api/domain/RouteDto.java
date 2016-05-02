@@ -1,5 +1,6 @@
 package edu.hm.cs.bikebattle.app.api.domain;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,7 +23,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class RouteDto {
+public class RouteDto extends BaseDto {
 
   String name;
 
@@ -35,4 +36,7 @@ public class RouteDto {
   Routetyp routetyp;
 
   List<RoutePointDto> routePoints = new ArrayList<RoutePointDto>();
+
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  String owner;
 }
