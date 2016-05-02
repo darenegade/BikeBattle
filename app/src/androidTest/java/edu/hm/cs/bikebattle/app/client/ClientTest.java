@@ -23,7 +23,7 @@ import java.util.UUID;
  */
 public class ClientTest extends TestCase {
 
-  private UserClient client = ClientFactory.getUserClient();
+  private UserClient client;
 
   private UserDto user1 = UserDto.builder()
       .name("hans")
@@ -41,12 +41,18 @@ public class ClientTest extends TestCase {
 
   protected void setUp() throws Exception {
 
+    //Change BaseUrl to test against local running Backend
+    ClientFactory.changeBaseUrl("http://10.0.2.2:8080/");
+
+    client = ClientFactory.getUserClient();
+
     Response<Void> response;
     String[] tmp;
     String oid;
 
     //Create User 1
     response = client.create(user1).execute();
+    assertEquals(201, response.code());
 
     tmp = response.headers().get("Location").split("/");
     oid = tmp[tmp.length - 1];
@@ -55,6 +61,7 @@ public class ClientTest extends TestCase {
 
     //Create User 2
     response = client.create(user2).execute();
+    assertEquals(201, response.code());
 
     tmp = response.headers().get("Location").split("/");
     oid = tmp[tmp.length - 1];

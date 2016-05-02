@@ -17,17 +17,29 @@ import retrofit2.converter.jackson.JacksonConverterFactory;
  */
 public class ClientFactory {
 
-  private static final String BASE_URL = "http://10.0.2.2:8080/";
+  private static final String DEFAULT_BASE_URL = "https://moan.cs.hm.edu:8443/BikeBattleBackend/";
 
-  private static final Retrofit retrofit;
+  private static Retrofit retrofit;
+
+  private static final ObjectMapper mapper = new ObjectMapper();
 
   static {
-    ObjectMapper mapper = new ObjectMapper();
     mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     mapper.registerModule(new Jackson2HalModule());
 
     retrofit = new Retrofit.Builder()
-        .baseUrl(BASE_URL)
+        .baseUrl(DEFAULT_BASE_URL)
+        .addConverterFactory(JacksonConverterFactory.create(mapper))
+        .build();
+  }
+
+  /**
+   * Changes the Base URL of the Clients.
+   * @param baseUrl which the clients will use.
+   */
+  public static void changeBaseUrl(String baseUrl) {
+    retrofit = new Retrofit.Builder()
+        .baseUrl(baseUrl)
         .addConverterFactory(JacksonConverterFactory.create(mapper))
         .build();
   }
