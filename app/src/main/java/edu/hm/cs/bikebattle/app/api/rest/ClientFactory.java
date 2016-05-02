@@ -28,11 +28,7 @@ public class ClientFactory {
     mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     mapper.registerModule(new Jackson2HalModule());
 
-    retrofit = new Retrofit.Builder()
-        .baseUrl(DEFAULT_BASE_URL)
-        .addConverterFactory(ScalarsConverterFactory.create())
-        .addConverterFactory(JacksonConverterFactory.create(mapper))
-        .build();
+    retrofit = createRetrofit(DEFAULT_BASE_URL);
   }
 
   /**
@@ -40,8 +36,13 @@ public class ClientFactory {
    * @param baseUrl which the clients will use.
    */
   public static void changeBaseUrl(String baseUrl) {
-    retrofit = new Retrofit.Builder()
+    retrofit = createRetrofit(baseUrl);
+  }
+
+  private static Retrofit createRetrofit(String baseUrl) {
+    return new Retrofit.Builder()
         .baseUrl(baseUrl)
+        .addConverterFactory(ScalarsConverterFactory.create())
         .addConverterFactory(JacksonConverterFactory.create(mapper))
         .build();
   }

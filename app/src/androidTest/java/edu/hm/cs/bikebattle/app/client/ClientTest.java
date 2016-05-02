@@ -4,8 +4,6 @@ import edu.hm.cs.bikebattle.app.api.domain.UserDto;
 import edu.hm.cs.bikebattle.app.api.rest.ClientFactory;
 import edu.hm.cs.bikebattle.app.api.rest.UserClient;
 import junit.framework.TestCase;
-import okhttp3.MediaType;
-import okhttp3.RequestBody;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
 import retrofit2.Response;
@@ -114,13 +112,13 @@ public class ClientTest extends TestCase {
 
     //Put Friends
     Response<Void> userDtoResponse = client.addFriend(
-        user1.getOid(), RequestBody.create(MediaType.parse("text/plain"), user1.getOid().toString()))
+        user1.getOid(), user1.getOid().toString())
         .execute();
 
     assertEquals(204, userDtoResponse.code());
 
     userDtoResponse = client.addFriend(
-        user1.getOid(), RequestBody.create(MediaType.parse("text/plain"), user2.getOid().toString()))
+        user1.getOid(),  user2.getOid().toString())
         .execute();
 
     assertEquals(204, userDtoResponse.code());
