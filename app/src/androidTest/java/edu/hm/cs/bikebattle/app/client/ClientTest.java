@@ -23,6 +23,8 @@ import java.util.UUID;
  */
 public class ClientTest extends TestCase {
 
+  public static final String TEST_BASE_URL = "http://10.0.2.2:8080/";
+
   private UserClient client;
 
   private UserDto user1 = UserDto.builder()
@@ -42,7 +44,7 @@ public class ClientTest extends TestCase {
   protected void setUp() throws Exception {
 
     //Change BaseUrl to test against local running Backend
-    ClientFactory.changeBaseUrl("http://10.0.2.2:8080/");
+    ClientFactory.changeBaseUrl(TEST_BASE_URL);
 
     client = ClientFactory.getUserClient();
 
@@ -70,15 +72,15 @@ public class ClientTest extends TestCase {
   }
 
   protected void tearDown() throws Exception {
-    client.delete(user1.getOid().toString()).execute();
-    client.delete(user2.getOid().toString()).execute();
+    client.delete(user1.getOid()).execute();
+    client.delete(user2.getOid()).execute();
   }
 
   //User Tests
   public void testFindOne() throws Exception{
 
 
-    Response<Resource<UserDto>> userDtoResponse = client.findeOne(user1.getOid().toString()).execute();
+    Response<Resource<UserDto>> userDtoResponse = client.findeOne(user1.getOid()).execute();
 
     assertEquals(200, userDtoResponse.code());
 
@@ -94,6 +96,37 @@ public class ClientTest extends TestCase {
     assertEquals(200, userDtoResponse.code());
 
     Collection<Resource<UserDto>> usersResources = userDtoResponse.body().getContent();
+
+    ArrayList<UserDto> users = new ArrayList<UserDto>();
+    for (Resource<UserDto> userResource : usersResources) {
+      users.add(userResource.getContent());
+    }
+
+    assertTrue(users.contains(user1));
+    assertTrue(users.contains(user2));
+
+  }
+
+  public void testPutGetFriends() throws Exception{
+
+
+    //Put Friends
+    Response<Void> userDtoResponse = client.addFriend(user1.getOid(), user1.getOid())
+        .execute();
+
+    assertEquals(204, userDtoResponse.code());
+
+    userDtoResponse = client.addFriend(user1.getOid(), user2.getOid())
+        .execute();
+
+    assertEquals(204, userDtoResponse.code());
+
+    //Get Friends
+    Response<Resources<Resource<UserDto>>> userDtoResponse2 = client.getFriends(user1.getOid()).execute();
+
+    assertEquals(200, userDtoResponse2.code());
+
+    Collection<Resource<UserDto>> usersResources = userDtoResponse2.body().getContent();
 
     ArrayList<UserDto> users = new ArrayList<UserDto>();
     for (Resource<UserDto> userResource : usersResources) {

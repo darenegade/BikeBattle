@@ -14,7 +14,7 @@ import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
-import java.util.List;
+import java.util.UUID;
 
 /**
  * Organization: HM FK07.
@@ -34,15 +34,15 @@ public interface UserClient {
   @POST(BASE_PATH)
   Call<Void>  create(@Body UserDto entity);
 
-  @PUT(BASE_PATH)
+  @PUT(BASE_PATH + "/{id}")
   @Headers("Content-Type: application/json")
-  Call<Void>  update(@Body UserDto entity);
+  Call<Void>  update(@Path("id") UUID id, @Body UserDto entity);
 
   @DELETE(BASE_PATH + "/{id}")
-  Call<Void> delete(@Path("id") String id);
+  Call<Void> delete(@Path("id") UUID id);
 
   @GET(BASE_PATH + "/{id}")
-  Call<Resource<UserDto>> findeOne(@Path("id") String id);
+  Call<Resource<UserDto>> findeOne(@Path("id") UUID id);
 
   @GET(BASE_PATH + "")
   Call<Resources<Resource<UserDto>>> findAll();
@@ -55,11 +55,11 @@ public interface UserClient {
 
   //Relation Endpoints
 
-  @PUT(BASE_PATH + "/{id}/friends")
-  @Headers("Content-Type: text/uri-list")
-  Call<Void> setFriends(@Path("id") String id, @Body List<String> friends);
+  @POST(BASE_PATH + "/{id}/friends")
+  @Headers({"Content-Type: text/plain","Content-Type: text/uri-list"})
+  Call<Void> addFriend(@Path("id") UUID id, @Body UUID friend);
 
   @GET(BASE_PATH + "/{id}/friends")
-  Call<Resources<Resource<UserDto>>>  getFriends(@Path("id") String id);
+  Call<Resources<Resource<UserDto>>>  getFriends(@Path("id") UUID id);
 
 }
