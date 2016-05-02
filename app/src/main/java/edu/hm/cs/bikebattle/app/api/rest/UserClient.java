@@ -56,7 +56,7 @@ public interface UserClient {
   //Relation Endpoints
 
   @POST(BASE_PATH + "/{id}/friends")
-  @Headers({"Content-Type: text/plain","Content-Type: text/uri-list"})
+  @Headers("Content-Type: text/uri-list")
   Call<Void> addFriend(@Path("id") UUID id, @Body UUID friend);
 
   @GET(BASE_PATH + "/{id}/friends")
