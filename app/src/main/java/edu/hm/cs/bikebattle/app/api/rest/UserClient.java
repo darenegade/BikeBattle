@@ -2,6 +2,7 @@ package edu.hm.cs.bikebattle.app.api.rest;
 
 
 import edu.hm.cs.bikebattle.app.api.domain.UserDto;
+import okhttp3.RequestBody;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
 import retrofit2.Call;
@@ -57,7 +58,7 @@ public interface UserClient {
 
   @POST(BASE_PATH + "/{id}/friends")
   @Headers("Content-Type: text/uri-list")
-  Call<Void> addFriend(@Path("id") UUID id, @Body UUID friend);
+  Call<Void> addFriend(@Path("id") UUID id, @Body RequestBody friend);
 
   @GET(BASE_PATH + "/{id}/friends")
   Call<Resources<Resource<UserDto>>>  getFriends(@Path("id") UUID id);
