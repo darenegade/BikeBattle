@@ -58,7 +58,7 @@ public class TrackingActivity extends AppCompatActivity {
     ft.commit();
 
     //tracker = new GoogleApiLocationTracker(this, 0);
-    tracker = new AndroidLocationTracker(1, this);
+    tracker = new AndroidLocationTracker(1, this);//TODO
     mapFragment.setLastLocation(tracker.getLastLocation());
   }
 

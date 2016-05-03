@@ -31,7 +31,7 @@ public class AndroidLocationTracker implements LocationTracker, LocationListener
   /**
    * Track.
    */
-  private final Track track = new Track();
+  private final Track track;
   /**
    * LocationManager for providing locations.
    */
@@ -52,6 +52,7 @@ public class AndroidLocationTracker implements LocationTracker, LocationListener
    * @param activity  activity of the tracker
    */
   public AndroidLocationTracker(long frequency, Activity activity) {
+    track = new Track();
     this.activity = activity;
     this.frequency = frequency;
     locationManager = (LocationManager) activity.getSystemService(Context.LOCATION_SERVICE);

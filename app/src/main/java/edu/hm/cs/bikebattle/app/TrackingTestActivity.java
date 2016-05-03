@@ -29,7 +29,7 @@ public class TrackingTestActivity extends Activity {
     setContentView(R.layout.activity_tracking_test);
     final LocationTracker tracker;
     //tracker = new GoogleApiLocationTracker(this, 0);
-    tracker = new AndroidLocationTracker(0, this);
+    tracker = new AndroidLocationTracker(0, this); //TODO
     final TextView status = (TextView) findViewById(R.id.statusText);
     status.setText("Stoped");
     final LinearLayout locations = (LinearLayout) findViewById(R.id.locations);
