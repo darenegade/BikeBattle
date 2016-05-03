@@ -1,7 +1,12 @@
 package edu.hm.cs.bikebattle.app.modell.assembler;
 
+import android.location.Location;
 import edu.hm.cs.bikebattle.app.api.domain.RouteDto;
+import edu.hm.cs.bikebattle.app.api.domain.RoutePointDto;
 import edu.hm.cs.bikebattle.app.modell.Route;
+
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Organization: HM FK07.
@@ -22,10 +27,20 @@ public class RouteAssembler {
    */
   public static RouteDto toDto(Route route) {
 
+    List<RoutePointDto> routePoints = new LinkedList<RoutePointDto>();
+    for (Location location : route) {
+      routePoints.add(new RoutePointDto(
+          location.getLatitude(),
+          location.getLongitude(),
+          location.getAltitude(),
+          location.getTime()));
+    }
+
     return RouteDto.builder()
             .name(route.getName())
             .difficulty(route.getDifficulty())
             .privat(route.isPrivateRoute())
+            .routePoints(routePoints)
             .build();
   }
 
@@ -37,11 +52,24 @@ public class RouteAssembler {
    */
   public static Route toBean(RouteDto routeDto) {
 
-    return new Route(
+    Route route = new Route(
         routeDto.getName(),
         routeDto.isPrivat(),
         routeDto.getDifficulty()
     );
+
+    for (RoutePointDto routePointDto : routeDto.getRoutePoints()) {
+      Location location = new Location("");
+
+      location.setLongitude(routePointDto.getLongitude());
+      location.setLatitude(routePointDto.getLatitude());
+      location.setAltitude(routePointDto.getAltitude());
+      location.setTime(routePointDto.getTime());
+
+      route.add(location);
+    }
+
+    return route;
   }
 
 }
