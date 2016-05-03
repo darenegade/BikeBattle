@@ -21,7 +21,7 @@ import java.util.UUID;
  * Java-Version: 1.8
  * System: 2,3 GHz Intel Core i7, 16 GB 1600 MHz DDR3
  */
-public class ClientTest extends TestCase {
+public class UserClientTest extends TestCase {
 
   public static final String TEST_BASE_URL = "http://10.0.2.2:8080/";
 

@@ -1,6 +1,7 @@
 package edu.hm.cs.bikebattle.app.client;
 
 import edu.hm.cs.bikebattle.app.api.rest.ClientFactory;
+import edu.hm.cs.bikebattle.app.api.rest.DriveClient;
 import edu.hm.cs.bikebattle.app.api.rest.RouteClient;
 import edu.hm.cs.bikebattle.app.api.rest.UserClient;
 import junit.framework.TestCase;
@@ -14,10 +15,11 @@ import junit.framework.TestCase;
  * Java-Version: 1.8
  * System: 2,3 GHz Intel Core i7, 16 GB 1600 MHz DDR3
  */
-public class RouteTest extends TestCase {
+public class DriveClientTest extends TestCase {
 
   private UserClient userClient;
   private RouteClient routeClient;
+  private DriveClient driveClient;
 
 
 
@@ -28,6 +30,7 @@ public class RouteTest extends TestCase {
 
     userClient = ClientFactory.getUserClient();
     routeClient = ClientFactory.getRouteClient();
+    driveClient = ClientFactory.getDriveClient();
 
 
   }
@@ -35,7 +38,7 @@ public class RouteTest extends TestCase {
   protected void tearDown() throws Exception {
   }
 
-  //Route Tests
+  //Drive Tests
   public void testFindOne() throws Exception{
 
 
