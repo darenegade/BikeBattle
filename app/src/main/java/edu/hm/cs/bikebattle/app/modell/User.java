@@ -7,7 +7,7 @@ package edu.hm.cs.bikebattle.app.modell;
  * @author Nils Bernhardt
  * @version 1.0
  */
-public class User {
+public class User extends BaseEntity {
 
   /**
    * Name of the user.
