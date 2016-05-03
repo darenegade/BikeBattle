@@ -57,6 +57,10 @@ public class RouteAssembler {
         routeDto.isPrivat()
     );
 
+    route.setOid(routeDto.getOid());
+    route.setDifficulty(routeDto.getDifficulty());
+    route.setRoutetyp(routeDto.getRoutetyp());
+
     for (RoutePointDto routePointDto : routeDto.getRoutePoints()) {
       Location location = new Location("");
 

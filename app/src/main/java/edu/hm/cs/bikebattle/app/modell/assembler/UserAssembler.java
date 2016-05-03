@@ -24,7 +24,7 @@ public class UserAssembler {
 
     return UserDto.builder()
             .name(user.getName())
-            .size(user.getSizeInCm())
+            .size(user.getSizeInMeter())
             .weight(user.getWeightInKg())
             .build();
   }
@@ -37,12 +37,15 @@ public class UserAssembler {
    */
   public static User toBean(UserDto userDto) {
 
-    return new User(
+    User user = new User(
         userDto.getName(),
         userDto.getWeight(),
         userDto.getSize()
     );
 
+    user.setOid(userDto.getOid());
+
+    return user;
   }
 
 }

@@ -16,7 +16,7 @@ import java.util.ListIterator;
  *
  * @author Nils Bernhardt
  */
-public class LocationList implements List<Location> {
+public class LocationList extends BaseEntity implements List<Location> {
   /**
    * distance of the the track.
    */

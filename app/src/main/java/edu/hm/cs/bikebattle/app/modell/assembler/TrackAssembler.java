@@ -55,6 +55,7 @@ public class TrackAssembler {
   public static Track toBean(DriveDto routeDto) {
 
     Track bean = new Track();
+    bean.setOid(routeDto.getOid());
 
     for (MeasurementDto measurementDto : routeDto.getMeasurements()) {
       Location location = new Location("");
