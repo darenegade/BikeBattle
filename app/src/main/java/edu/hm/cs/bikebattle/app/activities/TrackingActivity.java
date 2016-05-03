@@ -11,7 +11,6 @@ import edu.hm.cs.bikebattle.app.fragments.tracking.TrackingInformationFragment;
 import edu.hm.cs.bikebattle.app.fragments.tracking.TrackingMapFragment;
 import edu.hm.cs.bikebattle.app.fragments.tracking.TrackingOverviewFragment;
 import edu.hm.cs.bikebattle.app.modell.Track;
-import edu.hm.cs.bikebattle.app.modell.User;
 import edu.hm.cs.bikebattle.app.tracker.AndroidLocationTracker;
 import edu.hm.cs.bikebattle.app.tracker.LocationTracker;
 
@@ -59,7 +58,7 @@ public class TrackingActivity extends AppCompatActivity {
     ft.commit();
 
     //tracker = new GoogleApiLocationTracker(this, 0);
-    tracker = new AndroidLocationTracker(1, this, new User("Test", 60, 170));//TODO
+    tracker = new AndroidLocationTracker(1, this);//TODO
     mapFragment.setLastLocation(tracker.getLastLocation());
   }
 

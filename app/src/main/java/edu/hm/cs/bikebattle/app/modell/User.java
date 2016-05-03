@@ -20,19 +20,19 @@ public class User {
   /**
    * Size of the user.
    */
-  private int sizeInCm;
+  private float sizeInMeter;
 
   /**
    * Initializes the user.
    *
    * @param name       name of the user
    * @param weightInKg weight of the user in kg
-   * @param sizeInCm   size of the user in cm
+   * @param sizeInMeter   size of the user in cm
    */
-  public User(final String name, final float weightInKg, final int sizeInCm) {
+  public User(final String name, final float weightInKg, final float sizeInMeter) {
     setName(name);
     setWeightInKg(weightInKg);
-    setSizeInCm(sizeInCm);
+    setSizeInMeter(sizeInMeter);
   }
 
   /**
@@ -40,8 +40,8 @@ public class User {
    *
    * @return size
    */
-  public int getSizeInCm() {
-    return sizeInCm;
+  public float getSizeInMeter() {
+    return sizeInMeter;
   }
 
   /**
@@ -89,9 +89,9 @@ public class User {
   /**
    * Changes the size of the user.
    *
-   * @param sizeInCm new size in cm
+   * @param sizeInMeter new size in cm
    */
-  public void setSizeInCm(int sizeInCm) {
-    this.sizeInCm = sizeInCm;
+  public void setSizeInMeter(float sizeInMeter) {
+    this.sizeInMeter = sizeInMeter;
   }
 }
