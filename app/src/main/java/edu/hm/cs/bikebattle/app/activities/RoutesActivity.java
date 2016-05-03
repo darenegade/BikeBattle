@@ -18,6 +18,7 @@ import edu.hm.cs.bikebattle.app.fragments.routes.RouteInformationFragment;
 import edu.hm.cs.bikebattle.app.fragments.routes.RoutesMapFragment;
 import edu.hm.cs.bikebattle.app.fragments.routes.RoutesOverviewFragment;
 import edu.hm.cs.bikebattle.app.modell.Route;
+import edu.hm.cs.bikebattle.app.modell.User;
 
 /**
  * Activity for showing routes near to the user.
@@ -170,7 +171,7 @@ public class RoutesActivity extends AppCompatActivity {
     loc6.setLatitude(48.151);
     loc6.setLongitude(11.558);
     wayPoints.add(loc6);
-    addRoute(new Route(wayPoints, "Hochschule", false));
+    addRoute(new Route(wayPoints, "Hochschule", false, new User("test", 60, 170)));
 
     wayPoints = new ArrayList<Location>();
     loc1 = new Location("");
@@ -197,6 +198,6 @@ public class RoutesActivity extends AppCompatActivity {
     loc6.setLatitude(48.146);
     loc6.setLongitude(11.592);
     wayPoints.add(loc6);
-    addRoute(new Route(wayPoints, "Englischer Garten", false));
+    addRoute(new Route(wayPoints, "Englischer Garten", false,  new User("test", 60, 170)));
   }
 }

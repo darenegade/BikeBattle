@@ -13,6 +13,7 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 
 import edu.hm.cs.bikebattle.app.modell.Track;
+import edu.hm.cs.bikebattle.app.modell.User;
 
 /**
  * Created by Nils B. on 12.04.2016.
@@ -28,7 +29,7 @@ public class GoogleApiLocationTracker implements LocationTracker, LocationListen
   /**
    * Current track.
    */
-  private final Track track = new Track();
+  private final Track track;
   /**
    * Flag if tracker is ready.
    */
@@ -52,7 +53,8 @@ public class GoogleApiLocationTracker implements LocationTracker, LocationListen
    * @param interval Update frequency
    * @param context  Context of the activity
    */
-  public GoogleApiLocationTracker(long interval, Context context) {
+  public GoogleApiLocationTracker(long interval, Context context, User user) {
+    track = new Track(user);
     locationRequest = createLocationRequest(interval);
     googleApiClient = getGoogleApiClient(context);
     googleApiClient.connect();
