@@ -3,7 +3,6 @@ package edu.hm.cs.bikebattle.app.data;
 import android.location.Location;
 
 import java.util.List;
-import java.util.UUID;
 
 import edu.hm.cs.bikebattle.app.modell.Route;
 import edu.hm.cs.bikebattle.app.modell.Track;
@@ -18,8 +17,6 @@ import edu.hm.cs.bikebattle.app.modell.User;
  * @version 1.0
  */
 public interface DataConnector {
-
-
   /**
    * Returns all Route which are within the distance to the given location.
    *
@@ -65,7 +62,6 @@ public interface DataConnector {
    * Adds a track to the users database.
    *
    * @param track new Track
-   * @param user  owner
    */
   void addTrack(Track track);
 
@@ -73,7 +69,6 @@ public interface DataConnector {
    * Deletes a track of the user.
    *
    * @param track to delete
-   * @param user  owner
    */
   void deleteTrack(Track track);
 
@@ -81,7 +76,6 @@ public interface DataConnector {
    * Adds a route to the users database.
    *
    * @param route new Route
-   * @param user  owner
    */
   void addRoute(Route route);
 
@@ -89,7 +83,6 @@ public interface DataConnector {
    * Deletes a route of the user.
    *
    * @param route to delete
-   * @param user  owner
    */
   void deleteRoute(Route route);
 
@@ -107,8 +100,19 @@ public interface DataConnector {
    */
   void changeUserData(User user);
 
+  /**
+   * Adds a friend to the users friend list.
+   *
+   * @param user   user
+   * @param friend friend to add
+   */
   void addFriend(User user, User friend);
 
+  /**
+   * Returns all friends of the user.
+   *
+   * @param user user
+   * @return list of friends.
+   */
   List<User> getFriends(User user);
-
 }
