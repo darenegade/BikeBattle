@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import edu.hm.cs.bikebattle.app.modell.User;
 import edu.hm.cs.bikebattle.app.tracker.AndroidLocationTracker;
 import edu.hm.cs.bikebattle.app.tracker.LocationTracker;
 
@@ -29,7 +30,7 @@ public class TrackingTestActivity extends Activity {
     setContentView(R.layout.activity_tracking_test);
     final LocationTracker tracker;
     //tracker = new GoogleApiLocationTracker(this, 0);
-    tracker = new AndroidLocationTracker(0, this);
+    tracker = new AndroidLocationTracker(0, this, new User("test", 60 ,170)); //TODO
     final TextView status = (TextView) findViewById(R.id.statusText);
     status.setText("Stoped");
     final LinearLayout locations = (LinearLayout) findViewById(R.id.locations);

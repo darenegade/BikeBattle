@@ -20,8 +20,8 @@ public class Track extends LocationList {
    * @param locations   locations of the track
    * @param distanceInM distance of the track
    */
-  public Track(List<? extends Location> locations, float distanceInM) {
-    super(locations, distanceInM);
+  public Track(List<? extends Location> locations, float distanceInM, User owner) {
+    super(locations, owner, distanceInM);
   }
 
   /**
@@ -29,15 +29,15 @@ public class Track extends LocationList {
    *
    * @param locations locations of the track
    */
-  public Track(List<? extends Location> locations) {
-    super(locations);
+  public Track(List<? extends Location> locations, User owner) {
+    super(locations, owner);
   }
 
   /**
    * Initializes an empty track.
    */
-  public Track() {
-    super();
+  public Track(User owner) {
+    super(owner);
   }
 
   /**

@@ -2,7 +2,6 @@ package edu.hm.cs.bikebattle.app.modell;
 
 import android.location.Location;
 
-import java.io.Serializable;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -20,6 +19,10 @@ import lombok.NonNull;
  */
 public class LocationList implements List<Location>  {
   /**
+   * User who owns this List.
+   */
+  private final User owner;
+  /**
    * distance of the the track.
    */
   private float distanceInM;
@@ -34,17 +37,19 @@ public class LocationList implements List<Location>  {
    * @param collection  locations
    * @param distanceInM distance
    */
-  public LocationList(@NonNull List<? extends Location> collection, float distanceInM) {
+  public LocationList(@NonNull List<? extends Location> collection, @NonNull User owner, float distanceInM) {
     data = new LinkedList<Location>(collection);
     this.distanceInM = distanceInM;
+    this.owner = owner;
   }
 
   /**
    * Initializes an empty list.
    */
-  public LocationList() {
+  public LocationList(@NonNull User owner) {
     distanceInM = 0;
     data = new LinkedList<Location>();
+    this.owner = owner;
   }
 
   /**
@@ -52,9 +57,10 @@ public class LocationList implements List<Location>  {
    *
    * @param collection locations
    */
-  public LocationList(@NonNull List<? extends Location> collection) {
+  public LocationList(@NonNull List<? extends Location> collection, @NonNull User owner) {
     data = new LinkedList<Location>(collection);
     distanceInM = calculateDistance(this);
+    this.owner = owner;
   }
 
   /**
@@ -256,6 +262,14 @@ public class LocationList implements List<Location>  {
   @Override
   public <T> T[] toArray(T[] array) {
     return null;
+  }
+
+  /**
+   * Returns the owner of this list.
+   * @return owner
+   */
+  public User getOwner(){
+    return owner;
   }
 
 }
