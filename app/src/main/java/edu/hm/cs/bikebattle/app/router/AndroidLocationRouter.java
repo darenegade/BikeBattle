@@ -22,7 +22,7 @@ public class AndroidLocationRouter extends AndroidLocationTracker implements Rou
   /**
    * Tolerance in within a target is marked as reached.
    */
-  public final static double TOLERANCE_IN_METER = 40;
+  public static final double TOLERANCE_IN_METER = 40;
   /**
    * Flag if routing is activated.
    */
