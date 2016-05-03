@@ -2,6 +2,7 @@ package edu.hm.cs.bikebattle.app.api.rest;
 
 import edu.hm.cs.bikebattle.app.api.domain.Difficulty;
 import edu.hm.cs.bikebattle.app.api.domain.RouteDto;
+import edu.hm.cs.bikebattle.app.api.domain.Routetyp;
 import edu.hm.cs.bikebattle.app.api.domain.UserDto;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
@@ -59,7 +60,10 @@ public interface RouteClient {
   Call<Resources<Resource<RouteDto>>>  findByOwnerOid(@Query("oid") UUID oid);
 
   @GET(BASE_PATH + "/search/findByDifficulty")
-  Call<Resources<Resource<RouteDto>>>  findByOwnerOid(@Query("difficulty") Difficulty difficulty);
+  Call<Resources<Resource<RouteDto>>>  findByDifficulty(@Query("difficulty") Difficulty difficulty);
+
+  @GET(BASE_PATH + "/search/findByRoutetype")
+  Call<Resources<Resource<RouteDto>>>  findByRoutetype(@Query("routetype") Routetyp routetyp);
 
   //Relation Endpoints
 
