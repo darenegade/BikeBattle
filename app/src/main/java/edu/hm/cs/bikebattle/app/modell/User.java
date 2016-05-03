@@ -1,5 +1,6 @@
 package edu.hm.cs.bikebattle.app.modell;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**

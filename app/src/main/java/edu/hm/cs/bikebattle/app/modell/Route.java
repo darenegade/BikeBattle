@@ -2,6 +2,7 @@ package edu.hm.cs.bikebattle.app.modell;
 
 import android.location.Location;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -13,7 +14,7 @@ import java.util.List;
  * @author Nils Bernhardt
  * @version 1.0
  */
-public class Route extends LocationList {
+public class Route extends LocationList implements Serializable {
   /**
    * name of the route.
    */

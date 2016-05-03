@@ -2,6 +2,7 @@ package edu.hm.cs.bikebattle.app.modell;
 
 import android.location.Location;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -17,7 +18,7 @@ import lombok.NonNull;
  *
  * @author Nils Bernhardt
  */
-public class LocationList implements List<Location> {
+public class LocationList implements List<Location>  {
   /**
    * distance of the the track.
    */
