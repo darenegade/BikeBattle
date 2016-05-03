@@ -19,15 +19,29 @@ public class AndroidLocationRouter extends AndroidLocationTracker implements Rou
    * Current target to reach.
    */
   private int target = 0;
-
+  /**
+   * Tolerance in within a target is marked as reached.
+   */
   public final static double TOLERANCE_IN_METER = 40;
-
+  /**
+   * Flag if routing is activated.
+   */
   private boolean routing = false;
-
+  /**
+   * Flag if tracking is activated.
+   */
   private boolean tracking = false;
-
+  /**
+   * Result of the track. Created after the user reaches the final target.
+   */
   private Track result = null;
 
+  /**
+   * Initializes the Router.
+   * @param route Route
+   * @param frequency frequency for tracker
+   * @param activity Activity
+   */
   public AndroidLocationRouter(Route route, long frequency, Activity activity) {
     super(frequency, activity);
     this.route = route;
@@ -60,6 +74,10 @@ public class AndroidLocationRouter extends AndroidLocationTracker implements Rou
 
   }
 
+  /**
+   * Checks the targets at the current location. If no target is left the route ist finished.
+   * @param location Location
+   */
   private void checkTargets(Location location) {
     while (location.distanceTo(route.get(target)) < TOLERANCE_IN_METER) {
       target++;
