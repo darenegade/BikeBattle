@@ -18,7 +18,7 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
  */
 public class ClientFactory {
 
-  private static final String DEFAULT_BASE_URL = "https://moan.cs.hm.edu:8443/BikeBattleBackend/";
+  public static final String DEFAULT_BASE_URL = "https://moan.cs.hm.edu:8443/BikeBattleBackend/";
 
   private static Retrofit retrofit;
 
