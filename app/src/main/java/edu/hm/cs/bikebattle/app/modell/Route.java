@@ -1,6 +1,8 @@
 package edu.hm.cs.bikebattle.app.modell;
 
 import android.location.Location;
+import edu.hm.cs.bikebattle.app.api.domain.Difficulty;
+import edu.hm.cs.bikebattle.app.api.domain.Routetyp;
 
 import java.io.Serializable;
 import java.util.List;
@@ -23,6 +25,10 @@ public class Route extends LocationList implements Serializable {
    * Flag whether this route is public.
    */
   private boolean privateRoute;
+
+  private Difficulty difficulty;
+
+  private Routetyp routetyp;
 
 
   /**
@@ -111,5 +117,21 @@ public class Route extends LocationList implements Serializable {
    */
   public void setPrivateRoute(boolean privateRoute) {
     this.privateRoute = privateRoute;
+  }
+
+  public Difficulty getDifficulty() {
+    return difficulty;
+  }
+
+  public void setDifficulty(Difficulty difficulty) {
+    this.difficulty = difficulty;
+  }
+
+  public Routetyp getRoutetyp() {
+    return routetyp;
+  }
+
+  public void setRoutetyp(Routetyp routetyp) {
+    this.routetyp = routetyp;
   }
 }

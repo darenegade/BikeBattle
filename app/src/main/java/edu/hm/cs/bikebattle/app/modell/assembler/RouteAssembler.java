@@ -54,8 +54,7 @@ public class RouteAssembler {
 
     Route route = new Route(
         routeDto.getName(),
-        routeDto.isPrivat(),
-        routeDto.getDifficulty()
+        routeDto.isPrivat()
     );
 
     for (RoutePointDto routePointDto : routeDto.getRoutePoints()) {
