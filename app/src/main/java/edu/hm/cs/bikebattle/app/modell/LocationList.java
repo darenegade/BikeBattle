@@ -17,11 +17,7 @@ import lombok.NonNull;
  *
  * @author Nils Bernhardt
  */
-public class LocationList implements List<Location>  {
-  /**
-   * User who owns this List.
-   */
-  private final User owner;
+public class LocationList implements List<Location> {
   /**
    * distance of the the track.
    */
@@ -37,19 +33,17 @@ public class LocationList implements List<Location>  {
    * @param collection  locations
    * @param distanceInM distance
    */
-  public LocationList(@NonNull List<? extends Location> collection, @NonNull User owner, float distanceInM) {
+  public LocationList(@NonNull List<? extends Location> collection, float distanceInM) {
     data = new LinkedList<Location>(collection);
     this.distanceInM = distanceInM;
-    this.owner = owner;
   }
 
   /**
    * Initializes an empty list.
    */
-  public LocationList(@NonNull User owner) {
+  public LocationList() {
     distanceInM = 0;
     data = new LinkedList<Location>();
-    this.owner = owner;
   }
 
   /**
@@ -57,10 +51,9 @@ public class LocationList implements List<Location>  {
    *
    * @param collection locations
    */
-  public LocationList(@NonNull List<? extends Location> collection, @NonNull User owner) {
+  public LocationList(@NonNull List<? extends Location> collection) {
     data = new LinkedList<Location>(collection);
     distanceInM = calculateDistance(this);
-    this.owner = owner;
   }
 
   /**
@@ -262,14 +255,6 @@ public class LocationList implements List<Location>  {
   @Override
   public <T> T[] toArray(T[] array) {
     return null;
-  }
-
-  /**
-   * Returns the owner of this list.
-   * @return owner
-   */
-  public User getOwner(){
-    return owner;
   }
 
 }

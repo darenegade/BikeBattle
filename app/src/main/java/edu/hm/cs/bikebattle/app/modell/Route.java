@@ -33,8 +33,8 @@ public class Route extends LocationList implements Serializable {
    * @param privateRoute is the route private
    */
   public Route(List<? extends Location> locations, String name,
-               boolean privateRoute, User owner) {
-    super(locations, owner);
+               boolean privateRoute) {
+    super(locations);
     setName(name);
     setPrivateRoute(privateRoute);
   }
@@ -45,8 +45,8 @@ public class Route extends LocationList implements Serializable {
    * @param name         name of the route
    * @param privateRoute is the route public
    */
-  public Route(String name, boolean privateRoute, User owner) {
-    super(owner);
+  public Route(String name, boolean privateRoute) {
+    super();
     setName(name);
     setPrivateRoute(privateRoute);
   }
@@ -57,8 +57,8 @@ public class Route extends LocationList implements Serializable {
    * @param name      name of the route
    * @param locations locations of the route
    */
-  public Route(String name, List<? extends Location> locations, User owner) {
-    this(locations, name, false, owner);
+  public Route(String name, List<? extends Location> locations) {
+    this(locations, name, false);
   }
 
 
@@ -67,8 +67,8 @@ public class Route extends LocationList implements Serializable {
    *
    * @param name name of the route
    */
-  public Route(String name, User owner) {
-    this(name, true, owner);
+  public Route(String name) {
+    this(name, true);
   }
 
   /**
