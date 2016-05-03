@@ -17,6 +17,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import edu.hm.cs.bikebattle.app.modell.Track;
+import edu.hm.cs.bikebattle.app.modell.User;
 
 /**
  * Created by Nils on 16.04.2016.
@@ -31,7 +32,7 @@ public class AndroidLocationTracker implements LocationTracker, LocationListener
   /**
    * Track.
    */
-  private final Track track = new Track();
+  private final Track track;
   /**
    * LocationManager for providing locations.
    */
@@ -51,7 +52,8 @@ public class AndroidLocationTracker implements LocationTracker, LocationListener
    * @param frequency update frequency in milliseconds
    * @param activity  activity of the tracker
    */
-  public AndroidLocationTracker(long frequency, Activity activity) {
+  public AndroidLocationTracker(long frequency, Activity activity, User user) {
+    track = new Track( user);
     this.activity = activity;
     this.frequency = frequency;
     locationManager = (LocationManager) activity.getSystemService(Context.LOCATION_SERVICE);

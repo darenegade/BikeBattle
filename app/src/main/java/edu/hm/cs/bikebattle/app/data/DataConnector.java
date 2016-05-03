@@ -2,6 +2,8 @@ package edu.hm.cs.bikebattle.app.data;
 
 import android.location.Location;
 
+import java.util.List;
+
 import edu.hm.cs.bikebattle.app.modell.Route;
 import edu.hm.cs.bikebattle.app.modell.Track;
 import edu.hm.cs.bikebattle.app.modell.User;
@@ -38,7 +40,7 @@ public interface DataConnector {
    * @param name user name
    * @return user
    */
-  User getUserByName(String name);
+  List<User> getUserByName(String name);
 
   /**
    * Returns all tracks of the given user.
@@ -46,7 +48,7 @@ public interface DataConnector {
    * @param user User
    * @return tracks of the user
    */
-  Track[] getTracksByUser(User user);
+  List<Track> getTracksByUser(User user);
 
   /**
    * Returns all routes of the given user.
@@ -54,39 +56,35 @@ public interface DataConnector {
    * @param user User
    * @return routes of the user
    */
-  Route[] getRoutesByUser(User user);
+  List<Route> getRoutesByUser(User user);
 
   /**
    * Adds a track to the users database.
    *
    * @param track new Track
-   * @param user  owner
    */
-  void addTrack(Track track, User user);
+  void addTrack(Track track);
 
   /**
    * Deletes a track of the user.
    *
    * @param track to delete
-   * @param user  owner
    */
-  void deleteTrack(Track track, User user);
+  void deleteTrack(Track track);
 
   /**
    * Adds a route to the users database.
    *
    * @param route new Route
-   * @param user  owner
    */
-  void addRoute(Route route, User user);
+  void addRoute(Route route);
 
   /**
    * Deletes a route of the user.
    *
    * @param route to delete
-   * @param user  owner
    */
-  void deleteRoute(Route route, User user);
+  void deleteRoute(Route route);
 
   /**
    * Creates a new user.
@@ -102,4 +100,19 @@ public interface DataConnector {
    */
   void changeUserData(User user);
 
+  /**
+   * Adds a friend to the users friend list.
+   *
+   * @param user   user
+   * @param friend friend to add
+   */
+  void addFriend(User user, User friend);
+
+  /**
+   * Returns all friends of the user.
+   *
+   * @param user user
+   * @return list of friends.
+   */
+  List<User> getFriends(User user);
 }

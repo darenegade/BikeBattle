@@ -1,7 +1,6 @@
 package edu.hm.cs.bikebattle.app.modell;
 
 import android.location.Location;
-import edu.hm.cs.bikebattle.app.api.domain.Difficulty;
 
 import java.io.Serializable;
 import java.util.List;
@@ -25,9 +24,6 @@ public class Route extends LocationList implements Serializable {
    */
   private boolean privateRoute;
 
-  private Difficulty difficulty;
-
-  private User owner;
 
   /**
    * Initializes the route.
@@ -35,14 +31,12 @@ public class Route extends LocationList implements Serializable {
    * @param locations    locations of the route
    * @param name         name of the route
    * @param privateRoute is the route private
-   * @param owner        user who owns the route
    */
   public Route(List<? extends Location> locations, String name,
                boolean privateRoute, User owner) {
-    super(locations);
+    super(locations, owner);
     setName(name);
     setPrivateRoute(privateRoute);
-    setOwner(owner);
   }
 
   /**
@@ -50,27 +44,11 @@ public class Route extends LocationList implements Serializable {
    *
    * @param name         name of the route
    * @param privateRoute is the route public
-   * @param owner        user who owns the route
    */
   public Route(String name, boolean privateRoute, User owner) {
-    super();
+    super(owner);
     setName(name);
     setPrivateRoute(privateRoute);
-    setOwner(owner);
-  }
-
-  /**
-   * Initializes this Route without locations and Owner.
-   *
-   * @param name         name of the route
-   * @param privateRoute is the route public
-   * @param difficulty        difficulty of route
-   */
-  public Route(String name, boolean privateRoute, Difficulty difficulty) {
-    super();
-    setName(name);
-    setPrivateRoute(privateRoute);
-    setDifficulty(difficulty);
   }
 
   /**
@@ -78,7 +56,6 @@ public class Route extends LocationList implements Serializable {
    *
    * @param name      name of the route
    * @param locations locations of the route
-   * @param owner     user who owns the route
    */
   public Route(String name, List<? extends Location> locations, User owner) {
     this(locations, name, false, owner);
@@ -88,8 +65,7 @@ public class Route extends LocationList implements Serializable {
   /**
    * Initializes the Route public and empty.
    *
-   * @param name  name of the route
-   * @param owner user who owns the route
+   * @param name name of the route
    */
   public Route(String name, User owner) {
     this(name, true, owner);
@@ -119,14 +95,6 @@ public class Route extends LocationList implements Serializable {
     this.name = name;
   }
 
-  public Difficulty getDifficulty() {
-    return difficulty;
-  }
-
-  public void setDifficulty(Difficulty difficulty) {
-    this.difficulty = difficulty;
-  }
-
   /**
    * Returns true if the route is private.
    *
@@ -143,23 +111,5 @@ public class Route extends LocationList implements Serializable {
    */
   public void setPrivateRoute(boolean privateRoute) {
     this.privateRoute = privateRoute;
-  }
-
-  /**
-   * Changes the owner of the route.
-   *
-   * @param owner owner
-   */
-  public void setOwner(User owner) {
-    this.owner = owner;
-  }
-
-  /**
-   * Returns the user who owns this track.
-   *
-   * @return owner
-   */
-  public User getOwner() {
-    return owner;
   }
 }
