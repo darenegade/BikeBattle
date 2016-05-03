@@ -3,6 +3,7 @@ package edu.hm.cs.bikebattle.app.data;
 import android.location.Location;
 
 import java.util.List;
+import java.util.UUID;
 
 import edu.hm.cs.bikebattle.app.modell.Route;
 import edu.hm.cs.bikebattle.app.modell.Track;
@@ -32,7 +33,7 @@ public interface DataConnector {
    * @param id user id
    * @return user
    */
-  User getUserById(int id);
+  User getUserById(UUID id);
 
   /**
    * Returns the user with the given name.
