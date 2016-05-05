@@ -43,8 +43,13 @@
                 android:name=".TrackingTestActivity"
                 android:label="@string/title_activity_tracking_test">
         </activity>
-        <activity android:name=".activities.RoutesActivity"></activity>
-        <activity android:name=".activities.TrackingActivity"></activity>
+        <activity
+                android:name=".Login"
+                android:label="@string/name_sign_in_activity"
+                android:theme="@style/ThemeOverlay.MyNoTitleActivity">
+        </activity>
+        <activity android:name=".activities.RoutesActivity"/>
+        <activity android:name=".activities.TrackingActivity"/>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -56,12 +61,6 @@
         <meta-data
                 android:name="com.google.android.geo.API_KEY"
                 android:value="@string/google_maps_key"/>
-
-        <activity
-                android:name="edu.hm.cs.bikebattle.app.Login"
-                android:label="@string/name_sign_in_activity"
-                android:theme="@style/ThemeOverlay.MyNoTitleActivity">
-        </activity>
     </application>
 
     <meta-data
