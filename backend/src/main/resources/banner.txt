@@ -1,0 +1,9 @@
+
+${AnsiStyle.BOLD}${AnsiColor.BRIGHT_BLUE}  ____  _ _        ____        _   _   _     ${AnsiColor.DEFAULT} ____             _                  _
+${AnsiStyle.BOLD}${AnsiColor.BRIGHT_BLUE} |  _ \(_) |      |  _ \      | | | | | |    ${AnsiColor.DEFAULT}|  _ \           | |                | |
+${AnsiStyle.BOLD}${AnsiColor.BRIGHT_BLUE} | |_) |_| | _____| |_) | __ _| |_| |_| | ___${AnsiColor.DEFAULT}| |_) | __ _  ___| | _____ _ __   __| |
+${AnsiStyle.BOLD}${AnsiColor.BRIGHT_BLUE} |  _ <| | |/ / _ \  _ < / _` | __| __| |/ _ \${AnsiColor.DEFAULT}  _ < / _` |/ __| |/ / _ \ '_ \ / _` |
+${AnsiStyle.BOLD}${AnsiColor.BRIGHT_BLUE} | |_) | |   <  __/ |_) | (_| | |_| |_| |  __/${AnsiColor.DEFAULT} |_) | (_| | (__|   <  __/ | | | (_| |
+${AnsiStyle.BOLD}${AnsiColor.BRIGHT_BLUE} |____/|_|_|\_\___|____/ \__,_|\__|\__|_|\___${AnsiColor.DEFAULT}|____/ \__,_|\___|_|\_\___|_| |_|\__,_|
+
+${AnsiStyle.BOLD}:: THE ONE AND ONLY :: Running Spring Boot ${spring-boot.version} :: *Heavy Breathing*
