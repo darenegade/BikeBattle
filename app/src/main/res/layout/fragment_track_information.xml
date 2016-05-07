@@ -37,6 +37,8 @@
             android:layout_height="wrap_content"
             android:text="-"
             android:id="@+id/trackInfo_textView_altitude"
+            android:drawableLeft="@drawable/ic_trackinfo_altitude"
+            android:drawablePadding="5dp"
             android:textSize="35dp"
             android:layout_gravity="left"
             android:layout_columnWeight="1" />
