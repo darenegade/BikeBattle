@@ -5,7 +5,6 @@ import android.content.Context;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,7 +38,7 @@ public class TrackingInformationFragment extends Fragment {
      */
     private TextView timerView;
     /**
-     * TextView to display the distance in altitude.
+     * TextView to display the difference in altitude.
      */
     private TextView diffAltView;
 
@@ -69,15 +68,32 @@ public class TrackingInformationFragment extends Fragment {
             public void run() {
                 speedView.setText(String.valueOf(String.format(
                         Locale.getDefault(), "%.2f m/s", lastLocation.getSpeed())));
+
                 altitudeView.setText(String.valueOf((String.format(
                         Locale.getDefault(), "%.0f m", lastLocation.getAltitude()))));
+
                 distanceView.setText(String.valueOf((String.format(
                         Locale.getDefault(), "%.2f m", track.getDistanceInM()))));
-                Log.i("Time: ", String.valueOf(track.getTime_in_s()));
+
+                diffAltView.setText(String.format(Locale.getDefault(),"%d m",calcDiffAlt(track)));
+
                 long seconds = (track.getTime_in_s()/1000+60)%60;
                 long minutes = track.getTime_in_s()/1000/60;
                 timerView.setText(String.format(Locale.getDefault(),"%02d:%02d",minutes,seconds));
             }
         });
+    }
+
+    /**
+     * Calculates the difference in altitude for a track.
+     * @param track Track for calculation.
+     * @return Difference in altitude.
+     */
+    private int calcDiffAlt(Track track){
+        int result=0;
+        for (int i=0;i<track.size()-2;i++){
+            result+=Math.abs(track.get(i).getAltitude()-track.get(i+1).getAltitude());
+        }
+        return result;
     }
 }
