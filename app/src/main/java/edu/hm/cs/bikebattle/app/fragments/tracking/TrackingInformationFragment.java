@@ -39,11 +39,8 @@ public class TrackingInformationFragment extends Fragment {
     inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     View view = inflater.inflate(R.layout.fragment_track_information, container, false);
     speedView = (TextView) view.findViewById(R.id.trackInfo_textView_speed);
-    speedView.setText("No tracking!");
     altitudeView = (TextView) view.findViewById(R.id.trackInfo_textView_altitude);
-    altitudeView.setText("");
     distanceView = (TextView) view.findViewById(R.id.trackInfo_textView_distance);
-    distanceView.setText("");
     return view;
   }
 
@@ -57,12 +54,9 @@ public class TrackingInformationFragment extends Fragment {
     getActivity().runOnUiThread(new Runnable() {
       @Override
       public void run() {
-        String speed = String.format("Speed: %.2fm/s", lastLocation.getSpeed());
-        String altitude = String.format("Altitude: %.2fm", lastLocation.getAltitude());
-        String distance = String.format("Distance: %.2fm", track.getDistanceInM());
-        speedView.setText(speed);
-        altitudeView.setText(altitude);
-        distanceView.setText(distance);
+        speedView.setText(String.valueOf(lastLocation.getSpeed()));
+        altitudeView.setText(String.valueOf(lastLocation.getAltitude()));
+        distanceView.setText(String.valueOf(track.getDistanceInM()));
       }
     });
   }

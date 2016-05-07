@@ -8,22 +8,60 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Text"
-        android:id="@+id/trackInfo_textView_speed"
-        android:textSize="35dp"/>
+        android:text="--:--"
+        android:id="@+id/trackInfo_textView_time"
+        android:drawableLeft="@drawable/ic_trackinfo_timer"
+        android:drawablePadding="5dp"
+        android:layout_gravity="center"
+        android:textSize="35dp" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="New Text"
-        android:id="@+id/trackInfo_textView_altitude"
-        android:textSize="35dp"/>
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:columnCount="2"
+        android:layout_gravity="center">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="New Text"
-        android:id="@+id/trackInfo_textView_distance"
-        android:textSize="35dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="-"
+            android:id="@+id/trackInfo_textView_speed"
+            android:textSize="35dp"
+            android:drawableLeft="@drawable/ic_trackinfo_speed"
+            android:drawablePadding="5dp"
+            android:layout_gravity="left"
+            android:layout_columnWeight="1" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="-"
+            android:id="@+id/trackInfo_textView_altitude"
+            android:textSize="35dp"
+            android:layout_gravity="left"
+            android:layout_columnWeight="1" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="-"
+            android:id="@+id/trackInfo_textView_distance"
+            android:drawableLeft="@drawable/ic_trackinfo_distance"
+            android:drawablePadding="5dp"
+            android:textSize="35dp"
+            android:layout_gravity="left"
+            android:layout_columnWeight="1" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="-"
+            android:id="@+id/trackInfo_textView_differenceAlt"
+            android:drawableLeft="@drawable/ic_trackinfo_diffalt"
+            android:drawablePadding="5dp"
+            android:textSize="35dp"
+            android:layout_gravity="left"
+            android:layout_columnWeight="1" />
+    </GridLayout>
 
 </LinearLayout>
