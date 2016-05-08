@@ -19,7 +19,6 @@ import retrofit2.Response;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Organization: HM FK07.
@@ -34,6 +33,7 @@ public class DriveClientTest extends TestCase {
 
   public static final String TEST_BASE_URL = "http://10.0.2.2:8080/";
 
+  public static final String TOKEN = "INSERT TOKEN HERE";
 
   private UserClient userClient;
   private RouteClient routeClient;
@@ -47,7 +47,7 @@ public class DriveClientTest extends TestCase {
 
   private RouteDto route1 = RouteDto.builder()
       .name("route")
-      .difficulty(Difficulty.LEICHT)
+      .difficulty(Difficulty.EASY)
       .routetyp(Routetyp.CITY)
       .length(12)
       .build();
@@ -67,9 +67,9 @@ public class DriveClientTest extends TestCase {
     //Change BaseUrl to test against local running Backend
     ClientFactory.changeBaseUrl(TEST_BASE_URL);
 
-    userClient = ClientFactory.getUserClient();
-    routeClient = ClientFactory.getRouteClient();
-    driveClient = ClientFactory.getDriveClient();
+    userClient = ClientFactory.getUserClient(TOKEN);
+    routeClient = ClientFactory.getRouteClient(TOKEN);
+    driveClient = ClientFactory.getDriveClient(TOKEN);
 
     Response<Void> response;
     String[] tmp;
@@ -82,7 +82,7 @@ public class DriveClientTest extends TestCase {
     tmp = response.headers().get("Location").split("/");
     oid = tmp[tmp.length - 1];
 
-    user1.setOid(UUID.fromString(oid));
+    user1.setOid(oid);
 
     //RoutePoints
 
@@ -99,7 +99,7 @@ public class DriveClientTest extends TestCase {
     tmp = response.headers().get("Location").split("/");
     oid = tmp[tmp.length - 1];
 
-    route1.setOid(UUID.fromString(oid));
+    route1.setOid(oid);
 
     //Create Drive 1
     drive1.setOwner("http://localhost:8080/users/" + user1.getOid());
@@ -115,7 +115,7 @@ public class DriveClientTest extends TestCase {
     tmp = response.headers().get("Location").split("/");
     oid = tmp[tmp.length - 1];
 
-    drive1.setOid(UUID.fromString(oid));
+    drive1.setOid(oid);
 
     //Create Drive 2
     drive2.setOwner("http://localhost:8080/users/" + user1.getOid());
@@ -128,7 +128,7 @@ public class DriveClientTest extends TestCase {
     tmp = response.headers().get("Location").split("/");
     oid = tmp[tmp.length - 1];
 
-    drive2.setOid(UUID.fromString(oid));
+    drive2.setOid(oid);
 
   }
 

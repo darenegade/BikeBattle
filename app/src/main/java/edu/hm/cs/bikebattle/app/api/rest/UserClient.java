@@ -14,8 +14,6 @@ import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
-import java.util.UUID;
-
 /**
  * Organization: HM FK07.
  * Project: BikeBattle, edu.hm.cs.bikebattle.app.api.rest
@@ -36,13 +34,13 @@ public interface UserClient {
 
   @PUT(BASE_PATH + "/{id}")
   @Headers("Content-Type: application/json")
-  Call<Void>  update(@Path("id") UUID id, @Body UserDto entity);
+  Call<Void>  update(@Path("id") String id, @Body UserDto entity);
 
   @DELETE(BASE_PATH + "/{id}")
-  Call<Void> delete(@Path("id") UUID id);
+  Call<Void> delete(@Path("id") String id);
 
   @GET(BASE_PATH + "/{id}")
-  Call<Resource<UserDto>> findeOne(@Path("id") UUID id);
+  Call<Resource<UserDto>> findeOne(@Path("id") String id);
 
   @GET(BASE_PATH + "")
   Call<Resources<Resource<UserDto>>> findAll();
@@ -57,9 +55,9 @@ public interface UserClient {
 
   @POST(BASE_PATH + "/{id}/friends")
   @Headers("Content-Type: text/uri-list")
-  Call<Void> addFriend(@Path("id") UUID id, @Body String friend);
+  Call<Void> addFriend(@Path("id") String id, @Body String friend);
 
   @GET(BASE_PATH + "/{id}/friends")
-  Call<Resources<Resource<UserDto>>>  getFriends(@Path("id") UUID id);
+  Call<Resources<Resource<UserDto>>>  getFriends(@Path("id") String id);
 
 }
