@@ -33,7 +33,7 @@ public interface DataConnector {
    * @param id user id
    * @return user
    */
-  User getUserById(UUID id);
+  User getUserById(String id);
 
   /**
    * Returns the user with the given name.
@@ -63,8 +63,9 @@ public interface DataConnector {
    * Adds a track to the users database.
    *
    * @param track new Track
+   * @param owner owner of the track
    */
-  void addTrack(Track track);
+  void addTrack(Track track, User owner);
 
   /**
    * Deletes a track of the user.
@@ -77,8 +78,9 @@ public interface DataConnector {
    * Adds a route to the users database.
    *
    * @param route new Route
+   * @param owner owner
    */
-  void addRoute(Route route);
+  void addRoute(Route route, User owner);
 
   /**
    * Deletes a route of the user.

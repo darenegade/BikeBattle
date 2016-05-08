@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.UUID;
 
 import edu.hm.cs.bikebattle.app.api.domain.DriveDto;
 import edu.hm.cs.bikebattle.app.api.domain.RouteDto;
@@ -73,8 +72,8 @@ public class BasicDataConnector implements DataConnector {
   }
 
   @Override
-  public User getUserById(UUID id) {
-    Call<Resource<UserDto>> call = userClient.findeOne(id.toString());
+  public User getUserById(String id) {
+    Call<Resource<UserDto>> call = userClient.findeOne(id);
     try {
       //TODO check response code (see test cases) and handle errors
       Response<Resource<UserDto>> userDtoResponse = call.execute();
@@ -135,9 +134,11 @@ public class BasicDataConnector implements DataConnector {
   }
 
   @Override
-  public void addTrack(Track track) {
+  public void addTrack(Track track, User owner) {
     try {
-      driveClient.create(TrackAssembler.toDto(track)).execute();
+      DriveDto driveDto = TrackAssembler.toDto(track);
+      driveDto.setOwner(owner.getOid().toString());
+      driveClient.create(driveDto).execute();
     } catch (IOException exception) {
       exception.printStackTrace();
     }
@@ -153,9 +154,11 @@ public class BasicDataConnector implements DataConnector {
   }
 
   @Override
-  public void addRoute(Route route) {
+  public void addRoute(Route route, User user) {
     try {
-      routeClient.create(RouteAssembler.toDto(route)).execute();
+      RouteDto routeDto = RouteAssembler.toDto(route);
+      routeDto.setOwner(user.getOid());
+      routeClient.create(routeDto).execute();
     } catch (IOException exception) {
       exception.printStackTrace();
     }
