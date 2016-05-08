@@ -59,13 +59,22 @@ public class BasicDataConnector implements DataConnector {
 
   @Override
   public List<Route> getRoutesByLocation(Location location, float distance) {
-    //TODO api missing empty route list
-    return null;
+    List<Route> routes = new LinkedList<Route>();
+    try {
+      Collection<Resource<RouteDto>> resources = routeClient.findNear(location.getLongitude(),
+          location.getLatitude(), distance).execute().body().getContent();
+      for (Resource<RouteDto> resource : resources) {
+        routes.add(RouteAssembler.toBean(resource.getContent()));
+      }
+    } catch (IOException exception) {
+      exception.printStackTrace();
+    }
+    return routes;
   }
 
   @Override
   public User getUserById(UUID id) {
-    Call<Resource<UserDto>> call = userClient.findeOne(id);
+    Call<Resource<UserDto>> call = userClient.findeOne(id.toString());
     try {
       //TODO check response code (see test cases) and handle errors
       Response<Resource<UserDto>> userDtoResponse = call.execute();
