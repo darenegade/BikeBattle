@@ -39,6 +39,7 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
 
     GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
         .requestEmail()
+        .requestIdToken(getString(R.string.server_client_id))
         .build();
 
     googleApiClient = new GoogleApiClient.Builder(this)
@@ -106,6 +107,10 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
       userName = acct.getDisplayName();
       userMail = acct.getEmail();
       userToken = acct.getIdToken();
+
+      Log.d(TAG, "Name:" + userName);
+      Log.d(TAG, "Mail:" + userMail);
+      Log.d(TAG, "Token:" + userToken);
 
       Toast toast = Toast.makeText(getApplicationContext(), "Anmeldung erfolgreich",
           Toast.LENGTH_LONG);
