@@ -24,7 +24,7 @@ import java.io.IOException;
  */
 public class ClientFactory {
 
-  public static final String DEFAULT_BASE_URL = "https://moan.cs.hm.edu:8443/BikeBattleBackend/";
+  public static final String DEFAULT_BASE_URL = "https://moan.cs.hm.edu:8443/";
 
   private static final ObjectMapper mapper = new ObjectMapper();
   private static OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
