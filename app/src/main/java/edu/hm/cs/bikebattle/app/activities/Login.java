@@ -1,4 +1,4 @@
-package edu.hm.cs.bikebattle.app;
+package edu.hm.cs.bikebattle.app.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,10 +14,11 @@ import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
+import edu.hm.cs.bikebattle.app.R;
 
 /**
  * Erstellt das Login Fenster, indem man sich über den Googleaccount anmeldet.
- * @author munichsven
+ * @author munichsven, darenegade
  */
 public class Login extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
