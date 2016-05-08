@@ -65,6 +65,12 @@ public interface RouteClient {
   @GET(BASE_PATH + "/search/findByRoutetype")
   Call<Resources<Resource<RouteDto>>>  findByRoutetype(@Query("routetype") Routetyp routetyp);
 
+  @GET(BASE_PATH + "/search/findNear")
+  Call<Resources<Resource<RouteDto>>>  findNear(
+      @Query("longitude") double longitude,
+      @Query("latitude") double latitude,
+      @Query("r") double r);
+
   //Relation Endpoints
 
   @PUT(BASE_PATH + "/{id}/owner")
