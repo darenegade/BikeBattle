@@ -25,7 +25,7 @@ public interface DataConnector {
    * @param distance maximum distance
    * @return all Routes
    */
-  Route[] getRoutesByLocation(Location location, float distance);
+  List<Route> getRoutesByLocation(Location location, float distance);
 
   /**
    * Returns the user with the given id.

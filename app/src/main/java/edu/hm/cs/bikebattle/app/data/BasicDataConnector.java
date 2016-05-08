@@ -58,9 +58,9 @@ public class BasicDataConnector implements DataConnector {
   }
 
   @Override
-  public Route[] getRoutesByLocation(Location location, float distance) {
+  public List<Route> getRoutesByLocation(Location location, float distance) {
     //TODO api missing empty route list
-    return new Route[0];
+    return null;
   }
 
   @Override
