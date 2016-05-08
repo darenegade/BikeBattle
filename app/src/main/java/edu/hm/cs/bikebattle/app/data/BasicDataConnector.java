@@ -28,6 +28,11 @@ import retrofit2.Response;
 
 /**
  * Created by Nils on 03.05.2016.
+ * Basic implementation for a connection to the backend.
+ * No error handling!
+ *
+ * @version 1.0
+ * @author Nils Bernhardt
  */
 public class BasicDataConnector implements DataConnector {
 
@@ -110,41 +115,78 @@ public class BasicDataConnector implements DataConnector {
 
   @Override
   public void addTrack(Track track) {
-
+    try {
+      driveClient.create(TrackAssembler.toDto(track)).execute();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 
   @Override
   public void deleteTrack(Track track) {
-
+    try {
+      driveClient.delete(track.getOid()).execute();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 
   @Override
   public void addRoute(Route route) {
-
+    try {
+      routeClient.create(RouteAssembler.toDto(route)).execute();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 
   @Override
   public void deleteRoute(Route route) {
-
+    try {
+      routeClient.delete(route.getOid()).execute();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 
   @Override
   public void createUser(User user) {
-
+    try {
+      userClient.create(UserAssembler.toDto(user)).execute();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 
   @Override
   public void changeUserData(User user) {
-
+    try {
+      userClient.update(user.getOid(), UserAssembler.toDto(user)).execute();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 
   @Override
   public void addFriend(User user, User friend) {
-
+    try {
+      userClient.addFriend(user.getOid(), friend.getOid().toString()).execute();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 
   @Override
   public List<User> getFriends(User user) {
-    return null;
+    List<User> friends = new LinkedList<User>();
+    try {
+      Collection<Resource<UserDto>> resources = userClient.getFriends(user.getOid()).execute().body().getContent();
+      for(Resource<UserDto> resource: resources){
+        friends.add(UserAssembler.toBean(resource.getContent()));
+      }
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    return friends;
   }
 }

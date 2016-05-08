@@ -1,49 +1,42 @@
 {
   "project_info": {
-    "project_id": "bikebattle-1272",
-    "project_number": "277886887036",
-    "name": "BikeBattle"
+    "project_number": "1005553311508",
+    "project_id": "bikebattle-d4273"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:277886887036:android:37242461cb356c34",
-        "client_id": "android:edu.hm.cs.bikebattle",
-        "client_type": 1,
+        "mobilesdk_app_id": "1:1005553311508:android:47ff88c1f6395fb5",
         "android_client_info": {
-          "package_name": "edu.hm.cs.bikebattle",
-          "certificate_hash": []
+          "package_name": "edu.hm.cs.bikebattle.app"
         }
       },
       "oauth_client": [
         {
-          "client_id": "277886887036-ma7a7kn9eiq6avjg2f3pkqksnf2pqgso.apps.googleusercontent.com",
+          "client_id": "1005553311508-d47ibve3474eko6021j815rrdso1h27l.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "edu.hm.cs.bikebattle",
+            "package_name": "edu.hm.cs.bikebattle.app",
             "certificate_hash": "42EF55F107601E7E1F5E450F610671FF362631ED"
           }
         },
         {
-          "client_id": "277886887036-9r8i9qa0kpfm201t0h6ghb09elmepcca.apps.googleusercontent.com",
+          "client_id": "1005553311508-r90po1hf888rkr2u464ccoo8vvojk75u.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
-      "api_key": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD9-iXLN4t282Q2EW22NCVTUTev4okhZYE"
+        }
+      ],
       "services": {
         "analytics_service": {
           "status": 1
         },
-        "cloud_messaging_service": {
-          "status": 1,
-          "apns_config": []
-        },
         "appinvite_service": {
           "status": 1,
           "other_platform_oauth_client": []
-        },
-        "google_signin_service": {
-          "status": 2
         },
         "ads_service": {
           "status": 1
@@ -51,6 +44,5 @@
       }
     }
   ],
-  "client_info": [],
-  "ARTIFACT_VERSION": "1"
+  "configuration_version": "1"
 }
