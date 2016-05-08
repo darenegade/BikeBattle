@@ -10,7 +10,6 @@ import retrofit2.Response;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.UUID;
 
 /**
  * Organization: HM FK07.
@@ -24,6 +23,7 @@ import java.util.UUID;
 public class UserClientTest extends TestCase {
 
   public static final String TEST_BASE_URL = "http://10.0.2.2:8080/";
+  public static final String TOKEN = "INSERT TOKEN HERE";
 
   private UserClient client;
 
@@ -46,7 +46,7 @@ public class UserClientTest extends TestCase {
     //Change BaseUrl to test against local running Backend
     ClientFactory.changeBaseUrl(TEST_BASE_URL);
 
-    client = ClientFactory.getUserClient();
+    client = ClientFactory.getUserClient(TOKEN);
 
     Response<Void> response;
     String[] tmp;
@@ -59,7 +59,7 @@ public class UserClientTest extends TestCase {
     tmp = response.headers().get("Location").split("/");
     oid = tmp[tmp.length - 1];
 
-    user1.setOid(UUID.fromString(oid));
+    user1.setOid(oid);
 
     //Create User 2
     response = client.create(user2).execute();
@@ -68,7 +68,7 @@ public class UserClientTest extends TestCase {
     tmp = response.headers().get("Location").split("/");
     oid = tmp[tmp.length - 1];
 
-    user2.setOid(UUID.fromString(oid));
+    user2.setOid(oid);
   }
 
   protected void tearDown() throws Exception {
@@ -112,12 +112,6 @@ public class UserClientTest extends TestCase {
 
     //Put Friends
     Response<Void> userDtoResponse = client.addFriend(
-        user1.getOid(), user1.getOid().toString())
-        .execute();
-
-    assertEquals(204, userDtoResponse.code());
-
-    userDtoResponse = client.addFriend(
         user1.getOid(),  user2.getOid().toString())
         .execute();
 
@@ -135,7 +129,6 @@ public class UserClientTest extends TestCase {
       users.add(userResource.getContent());
     }
 
-    assertTrue(users.contains(user1));
     assertTrue(users.contains(user2));
 
   }
