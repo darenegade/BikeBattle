@@ -16,8 +16,6 @@ import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
-import java.util.UUID;
-
 /**
  * Organization: HM FK07.
  * Project: BikeBattle, edu.hm.cs.bikebattle.app.api.rest
@@ -42,10 +40,10 @@ public interface RouteClient {
   Call<Void>  update(@Body RouteDto entity);
 
   @DELETE(BASE_PATH + "/{id}")
-  Call<Void> delete(@Path("id") UUID id);
+  Call<Void> delete(@Path("id") String id);
 
   @GET(BASE_PATH + "/{id}")
-  Call<Resource<RouteDto>> findeOne(@Path("id") UUID id);
+  Call<Resource<RouteDto>> findeOne(@Path("id") String id);
 
   @GET(BASE_PATH + "")
   Call<Resources<Resource<RouteDto>>> findAll();
@@ -57,7 +55,7 @@ public interface RouteClient {
   Call<Resources<Resource<RouteDto>>>  findByNameContainingIgnoreCase(@Query("name") String name);
 
   @GET(BASE_PATH + "/search/findByOwnerOid")
-  Call<Resources<Resource<RouteDto>>>  findByOwnerOid(@Query("oid") UUID oid);
+  Call<Resources<Resource<RouteDto>>>  findByOwnerOid(@Query("oid") String oid);
 
   @GET(BASE_PATH + "/search/findByDifficulty")
   Call<Resources<Resource<RouteDto>>>  findByDifficulty(@Query("difficulty") Difficulty difficulty);
@@ -75,10 +73,10 @@ public interface RouteClient {
 
   @PUT(BASE_PATH + "/{id}/owner")
   @Headers("Content-Type: text/uri-list")
-  Call<Void> setOwner(@Path("id") UUID id, @Body String owner);
+  Call<Void> setOwner(@Path("id") String id, @Body String owner);
 
   @GET(BASE_PATH + "/{id}/owner")
-  Call<Resource<UserDto>>  getOwner(@Path("id") UUID id);
+  Call<Resource<UserDto>>  getOwner(@Path("id") String id);
 
 
 }
