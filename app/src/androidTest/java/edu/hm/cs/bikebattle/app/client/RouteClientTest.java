@@ -15,7 +15,6 @@ import retrofit2.Response;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.UUID;
 
 /**
  * Organization: HM FK07.
@@ -30,6 +29,8 @@ public class RouteClientTest extends TestCase {
 
   public static final String TEST_BASE_URL = "http://10.0.2.2:8080/";
 
+  public static final String TOKEN = "INSERT TOKEN HERE";
+
 
   private UserClient userClient;
   private RouteClient routeClient;
@@ -42,14 +43,14 @@ public class RouteClientTest extends TestCase {
 
   private RouteDto route1 = RouteDto.builder()
       .name("route")
-      .difficulty(Difficulty.LEICHT)
+      .difficulty(Difficulty.EASY)
       .routetyp(Routetyp.CITY)
       .length(12)
       .build();
 
   private RouteDto route2 = RouteDto.builder()
       .name("route2")
-      .difficulty(Difficulty.SCHWER)
+      .difficulty(Difficulty.EASY)
       .routetyp(Routetyp.OFFROAD)
       .length(100)
       .build();
@@ -59,8 +60,8 @@ public class RouteClientTest extends TestCase {
     //Change BaseUrl to test against local running Backend
     ClientFactory.changeBaseUrl(TEST_BASE_URL);
 
-    userClient = ClientFactory.getUserClient();
-    routeClient = ClientFactory.getRouteClient();
+    userClient = ClientFactory.getUserClient(TOKEN);
+    routeClient = ClientFactory.getRouteClient(TOKEN);
 
     Response<Void> response;
     String[] tmp;
@@ -73,7 +74,7 @@ public class RouteClientTest extends TestCase {
     tmp = response.headers().get("Location").split("/");
     oid = tmp[tmp.length - 1];
 
-    user1.setOid(UUID.fromString(oid));
+    user1.setOid(oid);
 
     //RoutePoints
 
@@ -90,7 +91,7 @@ public class RouteClientTest extends TestCase {
     tmp = response.headers().get("Location").split("/");
     oid = tmp[tmp.length - 1];
 
-    route1.setOid(UUID.fromString(oid));
+    route1.setOid(oid);
 
     //Create Route 2
     route2.setOwner("http://localhost:8080/users/" + user1.getOid());
@@ -101,7 +102,7 @@ public class RouteClientTest extends TestCase {
     tmp = response.headers().get("Location").split("/");
     oid = tmp[tmp.length - 1];
 
-    route2.setOid(UUID.fromString(oid));
+    route2.setOid(oid);
 
   }
 

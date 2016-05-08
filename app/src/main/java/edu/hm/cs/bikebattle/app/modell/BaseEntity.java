@@ -2,8 +2,6 @@ package edu.hm.cs.bikebattle.app.modell;
 
 import lombok.Data;
 
-import java.util.UUID;
-
 /**
  * Organization: HM FK07.
  * Project: BikeBattle, edu.hm.cs.bikebattle.app.modell
@@ -15,5 +13,5 @@ import java.util.UUID;
  */
 @Data
 public class BaseEntity {
-  UUID oid;
+  String oid;
 }

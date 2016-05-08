@@ -4,8 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.UUID;
-
 /**
  * Organization: HM FK07.
  * Project: BikeBattle, edu.hm.cs.bikebattle.app.api.domain
@@ -20,5 +18,5 @@ import java.util.UUID;
 @NoArgsConstructor
 public class BaseDto {
 
-  UUID oid;
+  String oid;
 }
