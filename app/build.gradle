@@ -11,6 +11,8 @@ buildscript {
 apply plugin: 'com.android.application'
 apply plugin: 'net.saliman.properties'
 
+description = 'app'
+
 repositories {
     jcenter()
 }
