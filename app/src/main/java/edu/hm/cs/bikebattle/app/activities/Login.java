@@ -1,12 +1,15 @@
 package edu.hm.cs.bikebattle.app.activities;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
-
+import com.google.android.gms.auth.GoogleAuthException;
+import com.google.android.gms.auth.GoogleAuthUtil;
+import com.google.android.gms.auth.UserRecoverableAuthException;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -14,7 +17,12 @@ import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
+import edu.hm.cs.bikebattle.app.BuildConfig;
 import edu.hm.cs.bikebattle.app.R;
+import edu.hm.cs.bikebattle.app.api.rest.ClientFactory;
+import retrofit2.Response;
+
+import java.io.IOException;
 
 /**
  * Erstellt das Login Fenster, indem man sich über den Googleaccount anmeldet.
@@ -116,11 +124,47 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
       Toast toast = Toast.makeText(getApplicationContext(), "Anmeldung erfolgreich",
           Toast.LENGTH_LONG);
       toast.show();
+
+      new RetrieveTokenTask().execute(userMail);
     } else {
       Log.d(TAG, "Fehler beim Login: " + result.getStatus().toString());
       Toast toast = Toast.makeText(getApplicationContext(), "Anmeldung fehlgeschlagen",
           Toast.LENGTH_LONG);
       toast.show();
+    }
+  }
+
+  private class RetrieveTokenTask extends AsyncTask<String, Void, String> {
+
+    @Override
+    protected String doInBackground(String... params) {
+      String accountName = params[0];
+      String scopes = "oauth2:profile email";
+      String token = null;
+      try {
+        token = GoogleAuthUtil.getToken(getApplicationContext(), accountName, scopes);
+      } catch (IOException e) {
+        Log.e(TAG, e.getMessage());
+      } catch (UserRecoverableAuthException e) {
+        startActivityForResult(e.getIntent(), RC_SIGN_IN);
+      } catch (GoogleAuthException e) {
+        Log.e(TAG, e.getMessage());
+      }
+      return token;
+    }
+
+    @Override
+    protected void onPostExecute(String s) {
+      super.onPostExecute(s);
+      Log.d(TAG, "Token retrieved: " + s);
+      try {
+        Response response = ClientFactory.getUserClient(s).findAll().execute();
+        if(BuildConfig.DEBUG && 200 == response.code()){
+         throw new AssertionError(response.code());
+        }
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
     }
   }
 }
