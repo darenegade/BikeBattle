@@ -1,12 +1,13 @@
 package edu.hm.cs.bikebattle.app.modell.assembler;
 
 import android.location.Location;
-import edu.hm.cs.bikebattle.app.api.domain.RouteDto;
-import edu.hm.cs.bikebattle.app.api.domain.RoutePointDto;
-import edu.hm.cs.bikebattle.app.modell.Route;
 
 import java.util.LinkedList;
 import java.util.List;
+
+import edu.hm.cs.bikebattle.app.api.domain.RouteDto;
+import edu.hm.cs.bikebattle.app.api.domain.RoutePointDto;
+import edu.hm.cs.bikebattle.app.modell.Route;
 
 /**
  * Organization: HM FK07.
@@ -37,11 +38,11 @@ public class RouteAssembler {
     }
 
     return RouteDto.builder()
-            .name(route.getName())
-            .difficulty(route.getDifficulty())
-            .privat(route.isPrivateRoute())
-            .routePoints(routePoints)
-            .build();
+        .name(route.getName())
+        .difficulty(route.getDifficulty())
+        .privat(route.isPrivateRoute())
+        .routePoints(routePoints).length(route.getDistanceInM()).routetyp(route.getRoutetyp())
+        .build();
   }
 
   /**
