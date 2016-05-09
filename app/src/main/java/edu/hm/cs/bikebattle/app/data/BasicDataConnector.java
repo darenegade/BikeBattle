@@ -47,7 +47,7 @@ public class BasicDataConnector implements DataConnector {
    */
   private final DriveClient driveClient;
 
-  private final String address = "https://moan.cs.hm.edu:8443/BikeBattleBackend/users/<oid>";
+  private final String address = "https://moan.cs.hm.edu:8443/BikeBattleBackend/users/";
 
   /**
    * Creates the clients for the backend.
