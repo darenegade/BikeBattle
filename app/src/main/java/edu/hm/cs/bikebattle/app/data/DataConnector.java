@@ -3,7 +3,6 @@ package edu.hm.cs.bikebattle.app.data;
 import android.location.Location;
 
 import java.util.List;
-import java.util.UUID;
 
 import edu.hm.cs.bikebattle.app.modell.Route;
 import edu.hm.cs.bikebattle.app.modell.Track;
@@ -11,7 +10,7 @@ import edu.hm.cs.bikebattle.app.modell.User;
 
 /**
  * Created by Nils on 26.04.2016.
- * <p/>
+ * <p>
  * Interface for the connection to the data local and on the server.
  *
  * @author Nils Bernhardt
@@ -26,6 +25,13 @@ public interface DataConnector {
    * @return all Routes
    */
   List<Route> getRoutesByLocation(Location location, float distance);
+
+  /**
+   * Returns all Route.
+   *
+   * @return all Routes
+   */
+  List<Route> getAllRoutes();
 
   /**
    * Returns the user with the given id.

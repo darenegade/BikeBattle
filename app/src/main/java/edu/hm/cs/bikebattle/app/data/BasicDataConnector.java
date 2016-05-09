@@ -160,7 +160,7 @@ public class BasicDataConnector implements DataConnector {
   public void addRoute(Route route, User user) {
     try {
       RouteDto routeDto = RouteAssembler.toDto(route);
-      String owner =address+user.getOid();
+      String owner = address + user.getOid();
       Log.d("owner", owner);
       routeDto.setOwner(owner);
       routeClient.create(routeDto).execute();
@@ -218,5 +218,19 @@ public class BasicDataConnector implements DataConnector {
       exception.printStackTrace();
     }
     return friends;
+  }
+
+  @Override
+  public List<Route> getAllRoutes() {
+    List<Route> routes = new LinkedList<Route>();
+    try {
+      Collection<Resource<RouteDto>> resources = routeClient.findAll().execute().body().getContent();
+      for (Resource<RouteDto> resource : resources) {
+        routes.add(RouteAssembler.toBean(resource.getContent()));
+      }
+    } catch (IOException exception) {
+      exception.printStackTrace();
+    }
+    return routes;
   }
 }
