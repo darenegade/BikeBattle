@@ -1,6 +1,7 @@
 package edu.hm.cs.bikebattle.app.data;
 
 import android.location.Location;
+import android.util.Log;
 
 import org.springframework.hateoas.Resource;
 
@@ -159,7 +160,9 @@ public class BasicDataConnector implements DataConnector {
   public void addRoute(Route route, User user) {
     try {
       RouteDto routeDto = RouteAssembler.toDto(route);
-      routeDto.setOwner(address + user.getOid());
+      String owner =address+user.getOid();
+      Log.d("owner", owner);
+      routeDto.setOwner(owner);
       routeClient.create(routeDto).execute();
     } catch (IOException exception) {
       exception.printStackTrace();
