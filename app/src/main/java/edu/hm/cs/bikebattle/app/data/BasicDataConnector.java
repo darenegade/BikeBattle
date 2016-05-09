@@ -47,6 +47,8 @@ public class BasicDataConnector implements DataConnector {
    */
   private final DriveClient driveClient;
 
+  private final String address = "https://moan.cs.hm.edu:8443/BikeBattleBackend/users/<oid>";
+
   /**
    * Creates the clients for the backend.
    */
@@ -137,7 +139,7 @@ public class BasicDataConnector implements DataConnector {
   public void addTrack(Track track, User owner) {
     try {
       DriveDto driveDto = TrackAssembler.toDto(track);
-      driveDto.setOwner(owner.getOid().toString());
+      driveDto.setOwner(address + owner.getOid().toString());
       driveClient.create(driveDto).execute();
     } catch (IOException exception) {
       exception.printStackTrace();
@@ -157,7 +159,7 @@ public class BasicDataConnector implements DataConnector {
   public void addRoute(Route route, User user) {
     try {
       RouteDto routeDto = RouteAssembler.toDto(route);
-      routeDto.setOwner(user.getOid());
+      routeDto.setOwner(address + user.getOid());
       routeClient.create(routeDto).execute();
     } catch (IOException exception) {
       exception.printStackTrace();
