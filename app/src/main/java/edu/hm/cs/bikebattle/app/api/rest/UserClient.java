@@ -25,7 +25,7 @@ import retrofit2.http.Query;
  */
 public interface UserClient {
 
-  String BASE_PATH = "/users";
+  String BASE_PATH = "BikeBattleBackend/users";
 
   //User Endpoints
 

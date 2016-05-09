@@ -23,6 +23,7 @@ import edu.hm.cs.bikebattle.app.api.rest.ClientFactory;
 import retrofit2.Response;
 
 import java.io.IOException;
+import edu.hm.cs.bikebattle.app.R;
 
 /**
  * Erstellt das Login Fenster, indem man sich über den Googleaccount anmeldet.
@@ -124,6 +125,9 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
       Toast toast = Toast.makeText(getApplicationContext(), "Anmeldung erfolgreich",
           Toast.LENGTH_LONG);
       toast.show();
+
+      Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+      startActivity(intent);
 
       new RetrieveTokenTask().execute(userMail);
     } else {

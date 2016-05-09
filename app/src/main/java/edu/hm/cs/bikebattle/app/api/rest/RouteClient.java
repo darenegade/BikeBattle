@@ -27,7 +27,7 @@ import retrofit2.http.Query;
  */
 public interface RouteClient {
 
-  String BASE_PATH = "/routes";
+  String BASE_PATH = "BikeBattleBackend/routes";
 
 
   //Route Endpoints
