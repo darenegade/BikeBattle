@@ -6,13 +6,11 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.View;
-
 import edu.hm.cs.bikebattle.app.R;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
   /**
    * Permission request parameter value.
    */

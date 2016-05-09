@@ -4,8 +4,6 @@ import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
-
 import edu.hm.cs.bikebattle.app.R;
 import edu.hm.cs.bikebattle.app.fragments.tracking.TrackingInformationFragment;
 import edu.hm.cs.bikebattle.app.fragments.tracking.TrackingMapFragment;
@@ -19,7 +17,7 @@ import edu.hm.cs.bikebattle.app.tracker.LocationTracker;
  *
  * @author Lukas Brauckmann
  */
-public class TrackingActivity extends AppCompatActivity {
+public class TrackingActivity extends BaseActivity {
   /**
    * Counter for received location updates.
    */

@@ -13,6 +13,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 import edu.hm.cs.bikebattle.app.R;
 
 /**
@@ -48,8 +49,10 @@ public abstract class BaseActivity extends AppCompatActivity implements GoogleAp
         .build();
   }
 
+
   /**
-   *Lässt den User seinen gewünschten Google Account auswählen.
+   * Reconnect to GoogleAPI.
+   * Start Login Activity if Recconect fails.
    */
   public void reconnect() {
 
@@ -67,6 +70,22 @@ public abstract class BaseActivity extends AppCompatActivity implements GoogleAp
           Log.d(TAG, "Mail:" + acct.getEmail());
           Log.d(TAG, "Token:" + acct.getIdToken());
         }
+      }
+    });
+  }
+
+  /**
+   * Signs out the current signed-in user if any.
+   * It also clears the account previously selected by the user and a future sign in attempt
+   * will require the user pick an account again.
+   */
+  public void signOut(){
+    Auth.GoogleSignInApi.signOut(googleApiClient).setResultCallback(new ResultCallback<Status>() {
+      @Override
+      public void onResult(@NonNull Status status) {
+
+        Intent intent = new Intent(getApplicationContext(), Login.class);
+        startActivity(intent);
       }
     });
   }
