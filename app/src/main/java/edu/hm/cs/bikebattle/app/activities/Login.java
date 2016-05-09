@@ -19,6 +19,8 @@ public class Login extends BaseActivity {
 
   private static final String TAG = "SignInBikeBattle";
 
+  public static final int RC_SIGN_IN = 9001;
+
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {

@@ -29,8 +29,6 @@ public abstract class BaseActivity extends AppCompatActivity implements GoogleAp
 
   private static final String TAG = "BaseActivity";
 
-  public static final int RC_SIGN_IN = 9001;
-
   private GoogleApiClient googleApiClient;
   private GoogleSignInOptions googleSignInOptions;
 
@@ -52,7 +50,7 @@ public abstract class BaseActivity extends AppCompatActivity implements GoogleAp
 
   /**
    * Reconnect to GoogleAPI.
-   * Start Login Activity if Recconect fails.
+   * Start Login Activity if reconnect fails.
    */
   public void reconnect() {
 
