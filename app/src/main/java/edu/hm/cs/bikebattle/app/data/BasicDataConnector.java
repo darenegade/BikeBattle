@@ -60,34 +60,45 @@ public class BasicDataConnector implements DataConnector {
   }
 
   @Override
-  public List<Route> getRoutesByLocation(Location location, float distance) {
-    List<Route> routes = new LinkedList<Route>();
-    try {
-      Collection<Resource<RouteDto>> resources = routeClient.findNear(location.getLongitude(),
-          location.getLatitude(), distance).execute().body().getContent();
-      for (Resource<RouteDto> resource : resources) {
-        routes.add(RouteAssembler.toBean(resource.getContent()));
+  public void getRoutesByLocation(final Location location, final float distance, final Consumer<List<Route>> consumer) {
+    new Thread(){
+      @Override
+      public void run(){
+        List<Route> routes = new LinkedList<Route>();
+        try {
+          Collection<Resource<RouteDto>> resources = routeClient.findNear(location.getLongitude(),
+              location.getLatitude(), distance).execute().body().getContent();
+          for (Resource<RouteDto> resource : resources) {
+            routes.add(RouteAssembler.toBean(resource.getContent()));
+          }
+        } catch (IOException exception) {
+          exception.printStackTrace();
+          consumer.error(0);
+        }
+        consumer.consume(routes);
       }
-    } catch (IOException exception) {
-      exception.printStackTrace();
-    }
-    return routes;
+    }.start();
+
   }
 
   @Override
-  public User getUserById(String id) {
-    Call<Resource<UserDto>> call = userClient.findeOne(id);
-    try {
-      //TODO check response code (see test cases) and handle errors
-      Response<Resource<UserDto>> userDtoResponse = call.execute();
-      Resource<UserDto> resource = userDtoResponse.body();
-      UserDto userDto = resource.getContent();
-      User user = UserAssembler.toBean(userDto);
-      return user;
-    } catch (IOException exception) {
-      exception.printStackTrace();
-    }
-    return null;
+  public void getUserById(final String id, final Consumer<User > consumer) {
+    new Thread(){
+      @Override
+      public void run(){
+        Call<Resource<UserDto>> call = userClient.findeOne(id);
+        try {
+          //TODO check response code (see test cases) and handle errors
+          Response<Resource<UserDto>> userDtoResponse = call.execute();
+          Resource<UserDto> resource = userDtoResponse.body();
+          UserDto userDto = resource.getContent();
+          User user = UserAssembler.toBean(userDto);
+          consumer.consume(user);
+        } catch (IOException exception) {
+          exception.printStackTrace();
+        }
+      }
+    }.start();
   }
 
   @Override
@@ -221,16 +232,22 @@ public class BasicDataConnector implements DataConnector {
   }
 
   @Override
-  public List<Route> getAllRoutes() {
-    List<Route> routes = new LinkedList<Route>();
-    try {
-      Collection<Resource<RouteDto>> resources = routeClient.findAll().execute().body().getContent();
-      for (Resource<RouteDto> resource : resources) {
-        routes.add(RouteAssembler.toBean(resource.getContent()));
+  public void getAllRoutes(final Consumer<List<Route>> consumer) {
+    new Thread(){
+      @Override
+      public void run(){
+        List<Route> routes = new LinkedList<Route>();
+        try {
+          Collection<Resource<RouteDto>> resources = routeClient.findAll().execute().body().getContent();
+          for (Resource<RouteDto> resource : resources) {
+            routes.add(RouteAssembler.toBean(resource.getContent()));
+          }
+        } catch (IOException exception) {
+          exception.printStackTrace();
+          consumer.error(0);
+        }
+        consumer.consume(routes);
       }
-    } catch (IOException exception) {
-      exception.printStackTrace();
-    }
-    return routes;
+    }.start();
   }
 }

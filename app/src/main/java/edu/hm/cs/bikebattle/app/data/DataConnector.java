@@ -17,21 +17,22 @@ import edu.hm.cs.bikebattle.app.modell.User;
  * @version 1.0
  */
 public interface DataConnector {
+
+
   /**
    * Returns all Route which are within the distance to the given location.
    *
    * @param location Location
    * @param distance maximum distance
-   * @return all Routes
    */
-  List<Route> getRoutesByLocation(Location location, float distance);
+  void getRoutesByLocation(Location location, float distance, Consumer<List<Route>> consumer);
 
   /**
    * Returns all Route.
    *
    * @return all Routes
    */
-  List<Route> getAllRoutes();
+  void getAllRoutes(Consumer<List<Route>> consumer);
 
   /**
    * Returns the user with the given id.
@@ -39,7 +40,7 @@ public interface DataConnector {
    * @param id user id
    * @return user
    */
-  User getUserById(String id);
+  void getUserById(String id, Consumer<User> user);
 
   /**
    * Returns the user with the given name.
