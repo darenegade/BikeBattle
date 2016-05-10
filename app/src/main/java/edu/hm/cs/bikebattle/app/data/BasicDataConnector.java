@@ -1,5 +1,6 @@
 package edu.hm.cs.bikebattle.app.data;
 
+import android.app.Activity;
 import android.location.Location;
 import android.util.Log;
 
@@ -50,10 +51,13 @@ public class BasicDataConnector implements DataConnector {
 
   private final String address = "https://moan.cs.hm.edu:8443/BikeBattleBackend/users/";
 
+  private final Activity activity;
+
   /**
    * Creates the clients for the backend.
    */
-  public BasicDataConnector() {
+  public BasicDataConnector(Activity activity) {
+    this.activity = activity;
     userClient = ClientFactory.getUserClient();
     routeClient = ClientFactory.getRouteClient();
     driveClient = ClientFactory.getDriveClient();
@@ -61,9 +65,9 @@ public class BasicDataConnector implements DataConnector {
 
   @Override
   public void getRoutesByLocation(final Location location, final float distance, final Consumer<List<Route>> consumer) {
-    new Thread(){
+    new Thread() {
       @Override
-      public void run(){
+      public void run() {
         List<Route> routes = new LinkedList<Route>();
         try {
           Collection<Resource<RouteDto>> resources = routeClient.findNear(location.getLongitude(),
@@ -74,6 +78,7 @@ public class BasicDataConnector implements DataConnector {
         } catch (IOException exception) {
           exception.printStackTrace();
           consumer.error(0);
+
         }
         consumer.consume(routes);
       }
@@ -82,10 +87,10 @@ public class BasicDataConnector implements DataConnector {
   }
 
   @Override
-  public void getUserById(final String id, final Consumer<User > consumer) {
-    new Thread(){
+  public void getUserById(final String id, final Consumer<User> consumer) {
+    new Thread() {
       @Override
-      public void run(){
+      public void run() {
         Call<Resource<UserDto>> call = userClient.findeOne(id);
         try {
           //TODO check response code (see test cases) and handle errors
@@ -233,10 +238,10 @@ public class BasicDataConnector implements DataConnector {
 
   @Override
   public void getAllRoutes(final Consumer<List<Route>> consumer) {
-    new Thread(){
+    new Thread() {
       @Override
-      public void run(){
-        List<Route> routes = new LinkedList<Route>();
+      public void run() {
+        final List<Route> routes = new LinkedList<Route>();
         try {
           Collection<Resource<RouteDto>> resources = routeClient.findAll().execute().body().getContent();
           for (Resource<RouteDto> resource : resources) {
@@ -246,7 +251,12 @@ public class BasicDataConnector implements DataConnector {
           exception.printStackTrace();
           consumer.error(0);
         }
-        consumer.consume(routes);
+        activity.runOnUiThread(new Runnable() {
+          @Override
+          public void run() {
+            consumer.consume(routes);
+          }
+        });
       }
     }.start();
   }
