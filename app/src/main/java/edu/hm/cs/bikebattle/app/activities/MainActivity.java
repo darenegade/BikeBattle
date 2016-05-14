@@ -40,6 +40,21 @@ public class MainActivity extends AppCompatActivity {
       }
     });
 
+    //TODO delete debug von Nils
+    /*final Toast toast = Toast.makeText(this, "User created", Toast.LENGTH_LONG);
+    BasicDataConnector connector = new BasicDataConnector(this);
+    User user = new User("Nils", "nils.bernhardt@live.de", 70, 181);
+    connector.createUser(user, new Consumer() {
+      @Override
+      public void consume(Object input) {
+        toast.show();
+      }
+
+      @Override
+      public void error(int error, IOException exception) {
+        Log.e("Error", error+"");
+      }
+    });*/
     requestPermission();
   }
 

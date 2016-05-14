@@ -2,6 +2,7 @@ package edu.hm.cs.bikebattle.app.data;
 
 import android.app.Activity;
 import android.location.Location;
+import android.util.Log;
 
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
@@ -203,6 +204,7 @@ public class BasicDataConnector implements DataConnector {
       @Override
       public void run() {
         try {
+          Log.d("Call", call.toString());
           checkHttpCode(call.execute().code(), consumer);
         } catch (IOException exception) {
           runErrorOnUiThread(consumer, Consumer.IO_EXCEPTION, exception);

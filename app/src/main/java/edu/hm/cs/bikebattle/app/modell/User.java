@@ -22,15 +22,22 @@ public class User extends BaseEntity {
    */
   private float sizeInMeter;
 
+
+  /**
+   * Email of the user.
+   */
+  private String email;
+
   /**
    * Initializes the user.
    *
-   * @param name       name of the user
-   * @param weightInKg weight of the user in kg
-   * @param sizeInMeter   size of the user in cm
+   * @param name        name of the user
+   * @param weightInKg  weight of the user in kg
+   * @param sizeInMeter size of the user in cm
    */
-  public User(final String name, final float weightInKg, final float sizeInMeter) {
+  public User(final String name, String email, final float weightInKg, final float sizeInMeter) {
     setName(name);
+    this.email = email;
     setWeightInKg(weightInKg);
     setSizeInMeter(sizeInMeter);
   }
@@ -93,5 +100,23 @@ public class User extends BaseEntity {
    */
   public void setSizeInMeter(float sizeInMeter) {
     this.sizeInMeter = sizeInMeter;
+  }
+
+  /**
+   * Returns the email.
+   *
+   * @return email
+   */
+  public String getEmail() {
+    return email;
+  }
+
+  /**
+   * Sets a new email.
+   *
+   * @param email email
+   */
+  public void setEmail(String email) {
+    this.email = email;
   }
 }

@@ -25,7 +25,7 @@ public class UserAssembler {
     return UserDto.builder()
         .name(user.getName())
         .size(user.getSizeInMeter())
-        .weight(user.getWeightInKg()).email("test@test.com")  //TODO
+        .weight(user.getWeightInKg()).email(user.getEmail())
         .build();
   }
 
@@ -39,6 +39,7 @@ public class UserAssembler {
 
     User user = new User(
         userDto.getName(),
+        userDto.getEmail(),
         userDto.getWeight(),
         userDto.getSize()
     );
