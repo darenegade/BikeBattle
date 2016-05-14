@@ -204,6 +204,7 @@ public class BasicDataConnector implements DataConnector {
       public void run() {
         try {
           checkHttpCode(call.execute().code(), consumer);
+          runConsumerOnUiThread(consumer, null);
         } catch (IOException exception) {
           runErrorOnUiThread(consumer, Consumer.IO_EXCEPTION, exception);
         }
