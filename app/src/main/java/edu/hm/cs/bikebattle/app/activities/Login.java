@@ -1,4 +1,4 @@
-package edu.hm.cs.bikebattle.app;
+package edu.hm.cs.bikebattle.app.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
-
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -14,6 +13,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
+import edu.hm.cs.bikebattle.app.R;
 
 /**
  * Erstellt das Login Fenster, indem man sich über den Googleaccount anmeldet.
@@ -115,6 +115,9 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
       Toast toast = Toast.makeText(getApplicationContext(), "Anmeldung erfolgreich",
           Toast.LENGTH_LONG);
       toast.show();
+
+      Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+      startActivity(intent);
     } else {
       Log.d(TAG, "Fehler beim Login: " + result.getStatus().toString());
       Toast toast = Toast.makeText(getApplicationContext(), "Anmeldung fehlgeschlagen",

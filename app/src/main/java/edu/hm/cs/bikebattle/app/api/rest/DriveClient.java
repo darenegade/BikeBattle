@@ -26,7 +26,7 @@ import retrofit2.http.Query;
  */
 public interface DriveClient {
 
-  String BASE_PATH = "/drives";
+  String BASE_PATH = "BikeBattleBackend/drives";
 
 
   //Drive Endpoints
