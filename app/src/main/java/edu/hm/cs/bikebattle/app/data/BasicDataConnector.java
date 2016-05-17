@@ -203,8 +203,10 @@ public class BasicDataConnector implements DataConnector {
       @Override
       public void run() {
         try {
-          checkHttpCode(call.execute().code(), consumer);
-          runConsumerOnUiThread(consumer, null);
+
+          if (checkHttpCode(call.execute().code(), consumer)) {
+            runConsumerOnUiThread(consumer, null);
+          }
         } catch (IOException exception) {
           runErrorOnUiThread(consumer, Consumer.IO_EXCEPTION, exception);
         }
@@ -254,7 +256,7 @@ public class BasicDataConnector implements DataConnector {
   @Override
   public void addRoute(Route route, User user, Consumer consumer) {
     RouteDto routeDto = RouteAssembler.toDto(route);
-    routeDto.setOwner(address + user.getOid()); //TODO rene backend
+    routeDto.setOwner(address + user.getOid().toString()); //TODO rene backend
     executeWriteCall(routeClient.create(routeDto), consumer);
   }
 

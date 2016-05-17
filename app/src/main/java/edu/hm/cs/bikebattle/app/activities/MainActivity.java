@@ -40,6 +40,50 @@ public class MainActivity extends AppCompatActivity {
       }
     });
 
+    /*final DataConnector connector = new BasicDataConnector(this);
+    connector.getUserByName("Nils", new Consumer<List<User>>() {
+      @Override
+      public void consume(List<User> input) {
+        if(input.size()>0){
+          Log.d("user", input.get(0).getName());
+          Route route = new Route("Test");
+          Location location;
+          location = new Location("");
+          location.setLongitude(0);
+          location.setLatitude(0);
+          route.add(location);
+          location = new Location("");
+          location.setLongitude(1);
+          location.setLatitude(0);
+          route.add(location);
+          location = new Location("");
+          location.setLongitude(2);
+          location.setLatitude(1);
+          route.add(location);
+          location = new Location("");
+          location.setLongitude(0);
+          location.setLatitude(0);
+          route.add(location);
+          connector.addRoute(route, input.get(0), new Consumer() {
+            @Override
+            public void consume(Object input) {
+              Log.d("Route", "added");
+            }
+
+            @Override
+            public void error(int error, IOException exception) {
+              Log.e("Error2", error+"");
+            }
+          });
+        }
+      }
+
+      @Override
+      public void error(int error, IOException exception) {
+        Log.e("Error1", error+"");
+      }
+    });*/
+
     requestPermission();
   }
 
