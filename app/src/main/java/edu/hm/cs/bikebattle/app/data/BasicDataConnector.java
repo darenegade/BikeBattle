@@ -1,7 +1,7 @@
 package edu.hm.cs.bikebattle.app.data;
 
-import android.app.Activity;
 import android.location.Location;
+import android.util.Log;
 import edu.hm.cs.bikebattle.app.api.domain.BaseDto;
 import edu.hm.cs.bikebattle.app.api.domain.DriveDto;
 import edu.hm.cs.bikebattle.app.api.domain.RouteDto;
@@ -19,6 +19,7 @@ import edu.hm.cs.bikebattle.app.modell.assembler.UserAssembler;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
 import retrofit2.Call;
+import retrofit2.Callback;
 import retrofit2.Response;
 
 import java.io.IOException;
@@ -35,6 +36,8 @@ import java.util.List;
  * @version 1.0
  */
 public class BasicDataConnector implements DataConnector {
+
+  public static final String TAG = "DataConnector";
   /**
    * Backend user client.
    */
@@ -51,70 +54,15 @@ public class BasicDataConnector implements DataConnector {
    * Adress of the server. Remove.
    */
   private final String address = "https://moan.cs.hm.edu:8443/BikeBattleBackend/users/"; //TODO remove
-  /**
-   * Activity to run consumer methods on.
-   */
-  private final Activity activity;
 
   /**
    * Creates the clients for the backend.
    *
-   * @param activity Activity to run consumer tasks on.
    */
-  public BasicDataConnector(Activity activity) {
-    this.activity = activity;
+  public BasicDataConnector() {
     userClient = ClientFactory.getUserClient();
     routeClient = ClientFactory.getRouteClient();
     driveClient = ClientFactory.getDriveClient();
-  }
-
-  /**
-   * Checks the Http code. If the Code is not successful the consumer is notified.
-   *
-   * @param code     http code
-   * @param consumer to notify
-   * @return true if successful
-   */
-  private <T> boolean checkHttpCode(int code, Consumer<T> consumer) {
-    if (code / 100 == 2) {
-      return true;
-    } else {
-      runErrorOnUiThread(consumer, code, null);
-      return false;
-    }
-  }
-
-  /**
-   * Runs the consumer consume method on the UI thread of the activity.
-   *
-   * @param consumer consumer
-   * @param argument argument for consume
-   * @param <T>      Consumer value
-   */
-  private <T> void runConsumerOnUiThread(final Consumer<T> consumer, final T argument) {
-    activity.runOnUiThread(new Runnable() {
-      @Override
-      public void run() {
-        consumer.consume(argument);
-      }
-    });
-  }
-
-  /**
-   * Runs the error method of the consumer on the activity UI thread.
-   *
-   * @param consumer  consumer
-   * @param code      error code
-   * @param exception thrown exception
-   */
-  private <T> void runErrorOnUiThread(final Consumer<T> consumer, final int code,
-                                  final IOException exception) {
-    activity.runOnUiThread(new Runnable() {
-      @Override
-      public void run() {
-        consumer.error(code, exception);
-      }
-    });
   }
 
   /**
@@ -123,13 +71,14 @@ public class BasicDataConnector implements DataConnector {
    * @param dto to convert.
    * @return converted object
    */
-  private Object toBean(BaseDto dto) {
+  @SuppressWarnings("unchecked")
+  private static <V> V toBean(BaseDto dto) {
     if (dto.getClass().equals(RouteDto.class)) {
-      return RouteAssembler.toBean((RouteDto) dto);
+      return (V) RouteAssembler.toBean((RouteDto) dto);
     } else if (dto.getClass().equals(DriveDto.class)) {
-      return TrackAssembler.toBean((DriveDto) dto);
+      return (V)TrackAssembler.toBean((DriveDto) dto);
     } else if (dto.getClass().equals(UserDto.class)) {
-      return UserAssembler.toBean((UserDto) dto);
+      return (V)UserAssembler.toBean((UserDto) dto);
     } else {
       throw new IllegalArgumentException("Unknown dto type.");
     }
@@ -145,24 +94,36 @@ public class BasicDataConnector implements DataConnector {
    */
   private <T extends BaseDto, V> void executeGetListCall(final Call<Resources<Resource<T>>> call,
                                                          final Consumer<List<V>> consumer) {
-    new Thread() {
+
+    call.enqueue(new Callback<Resources<Resource<T>>>() {
       @Override
-      public void run() {
-        try {
-          Response<Resources<Resource<T>>> response = call.execute();
-          if (checkHttpCode(response.code(), consumer)) {
-            List<V> list = new LinkedList<V>();
-            Collection<Resource<T>> resources = response.body().getContent();
-            for (Resource<T> resource : resources) {
-              list.add((V) toBean(resource.getContent()));
-            }
-            runConsumerOnUiThread(consumer, list);
+      public void onResponse(Call<Resources<Resource<T>>> call, Response<Resources<Resource<T>>> response) {
+
+        if (response.isSuccessful()) {
+
+          List<V> list = new LinkedList<V>();
+          Collection<Resource<T>> resources = response.body().getContent();
+
+          for (Resource<T> resource : resources) {
+            list.add(BasicDataConnector.<V>toBean(resource.getContent()));
           }
-        } catch (IOException exception) {
-          runErrorOnUiThread(consumer, Consumer.IO_EXCEPTION, exception);
+          consumer.consume(list);
+        } else {
+
+          try {
+            Log.d(TAG, response.errorBody().string());
+          } catch (IOException e) {
+            throw new AssertionError("ERROR BODY NOT READABLE");
+          }
+          consumer.error(response.code(), null);
         }
       }
-    }.start();
+
+      @Override
+      public void onFailure(Call<Resources<Resource<T>>> call, Throwable t) {
+        consumer.error(-1, t);
+      }
+    });
   }
 
   /**
@@ -175,19 +136,30 @@ public class BasicDataConnector implements DataConnector {
    */
   private <T extends BaseDto, V> void executeGetCall(final Call<Resource<T>> call,
                                                      final Consumer<V> consumer) {
-    new Thread() {
+
+    call.enqueue(new Callback<Resource<T>>() {
       @Override
-      public void run() {
-        try {
-          Response<Resource<T>> response = call.execute();
-          if (checkHttpCode(response.code(), consumer)) {
-            runConsumerOnUiThread(consumer, (V) toBean(response.body().getContent()));
+      public void onResponse(Call<Resource<T>> call, Response<Resource<T>> response) {
+
+        if (response.isSuccessful()) {
+
+          consumer.consume(BasicDataConnector.<V>toBean(response.body().getContent()));
+
+        } else {
+          try {
+            Log.d(TAG, response.errorBody().string());
+          } catch (IOException e) {
+            throw new AssertionError("ERROR BODY NOT READABLE");
           }
-        } catch (IOException exception) {
-          runErrorOnUiThread(consumer, Consumer.IO_EXCEPTION, exception);
+          consumer.error(response.code(), null);
         }
       }
-    }.start();
+
+      @Override
+      public void onFailure(Call<Resource<T>> call, Throwable t) {
+        consumer.error(Consumer.EXCEPTION, t);
+      }
+    });
   }
 
   /**
@@ -197,21 +169,33 @@ public class BasicDataConnector implements DataConnector {
    * @param consumer for errors
    */
   private void executeWriteCall(final Call<Void> call, final Consumer<Void> consumer) {
-    new Thread() {
+
+    call.enqueue(new Callback<Void>() {
       @Override
-      public void run() {
-        try {
+      public void onResponse(Call<Void> call, Response<Void> response) {
 
-          Response<Void> response = call.execute();
+        if (response.isSuccessful()) {
 
-          if (checkHttpCode(response.code(), consumer)) {
-            runConsumerOnUiThread(consumer, null);
+          consumer.consume(null);
+
+        } else {
+
+          try {
+            Log.d(TAG, response.errorBody().string());
+          } catch (IOException e) {
+            throw new AssertionError("ERROR BODY NOT READABLE");
           }
-        } catch (IOException exception) {
-          runErrorOnUiThread(consumer, Consumer.IO_EXCEPTION, exception);
+          consumer.error(response.code(), null);
+
         }
       }
-    }.start();
+
+      @Override
+      public void onFailure(Call<Void> call, Throwable t) {
+        consumer.error(Consumer.EXCEPTION, t);
+      }
+    });
+
   }
 
   @Override

@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
       }
     });
 
-    /**final DataConnector connector = new BasicDataConnector(this);
+    /**final DataConnector connector = new BasicDataConnector();
     connector.getUserByName("Nils", new Consumer<List<User>>() {
       @Override
       public void consume(List<User> input) {
@@ -72,10 +72,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void consume(Void input) {
               Log.d(TAG, "Route added");
+              ((Button)findViewById(R.id.track_button)).setText("Test");
             }
 
             @Override
-            public void error(int error, IOException exception) {
+            public void error(int error, Throwable exception) {
               Log.e(TAG,"Error2: " + error+"");
             }
           });
@@ -83,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
       }
 
       @Override
-      public void error(int error, IOException exception) {
+      public void error(int error, Throwable exception) {
         Log.e(TAG,"Error1: " + error+"");
       }
     });**/

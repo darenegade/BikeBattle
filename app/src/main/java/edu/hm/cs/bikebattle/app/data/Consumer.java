@@ -1,7 +1,5 @@
 package edu.hm.cs.bikebattle.app.data;
 
-import java.io.IOException;
-
 /**
  * Created by Nils on 10.05.2016.
  * Interface for executing code after a specific tasks.
@@ -15,7 +13,7 @@ public interface Consumer<T> {
   /**
    * Failure code if an exception was thrown.
    */
-  public static final int IO_EXCEPTION = -1;
+  public static final int EXCEPTION = -1;
 
   /**
    * Method to execute on success.
@@ -28,6 +26,6 @@ public interface Consumer<T> {
    * @param error code
    * @param exception thrown exception (may be null)
    */
-  public void error(int error, IOException exception);
+  public void error(int error, Throwable exception);
 }
 
