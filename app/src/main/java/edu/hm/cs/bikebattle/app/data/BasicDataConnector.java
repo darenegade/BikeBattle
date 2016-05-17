@@ -2,15 +2,6 @@ package edu.hm.cs.bikebattle.app.data;
 
 import android.app.Activity;
 import android.location.Location;
-
-import org.springframework.hateoas.Resource;
-import org.springframework.hateoas.Resources;
-
-import java.io.IOException;
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
-
 import edu.hm.cs.bikebattle.app.api.domain.BaseDto;
 import edu.hm.cs.bikebattle.app.api.domain.DriveDto;
 import edu.hm.cs.bikebattle.app.api.domain.RouteDto;
@@ -25,8 +16,15 @@ import edu.hm.cs.bikebattle.app.modell.User;
 import edu.hm.cs.bikebattle.app.modell.assembler.RouteAssembler;
 import edu.hm.cs.bikebattle.app.modell.assembler.TrackAssembler;
 import edu.hm.cs.bikebattle.app.modell.assembler.UserAssembler;
+import org.springframework.hateoas.Resource;
+import org.springframework.hateoas.Resources;
 import retrofit2.Call;
 import retrofit2.Response;
+
+import java.io.IOException;
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Created by Nils on 03.05.2016.
@@ -77,7 +75,7 @@ public class BasicDataConnector implements DataConnector {
    * @param consumer to notify
    * @return true if successful
    */
-  private boolean checkHttpCode(int code, Consumer consumer) {
+  private <T> boolean checkHttpCode(int code, Consumer<T> consumer) {
     if (code / 100 == 2) {
       return true;
     } else {
@@ -109,7 +107,7 @@ public class BasicDataConnector implements DataConnector {
    * @param code      error code
    * @param exception thrown exception
    */
-  private void runErrorOnUiThread(final Consumer consumer, final int code,
+  private <T> void runErrorOnUiThread(final Consumer<T> consumer, final int code,
                                   final IOException exception) {
     activity.runOnUiThread(new Runnable() {
       @Override
@@ -198,13 +196,15 @@ public class BasicDataConnector implements DataConnector {
    * @param call     to execute
    * @param consumer for errors
    */
-  private void executeWriteCall(final Call<Void> call, final Consumer consumer) {
+  private void executeWriteCall(final Call<Void> call, final Consumer<Void> consumer) {
     new Thread() {
       @Override
       public void run() {
         try {
 
-          if (checkHttpCode(call.execute().code(), consumer)) {
+          Response<Void> response = call.execute();
+
+          if (checkHttpCode(response.code(), consumer)) {
             runConsumerOnUiThread(consumer, null);
           }
         } catch (IOException exception) {
@@ -242,41 +242,41 @@ public class BasicDataConnector implements DataConnector {
   }
 
   @Override
-  public void addTrack(Track track, User owner, Consumer consumer) {
+  public void addTrack(Track track, User owner, Consumer<Void> consumer) {
     DriveDto driveDto = TrackAssembler.toDto(track);
     driveDto.setOwner(address + owner.getOid().toString()); //TODO rene backend
     executeWriteCall(driveClient.create(driveDto), consumer);
   }
 
   @Override
-  public void deleteTrack(Track track, Consumer consumer) {
+  public void deleteTrack(Track track, Consumer<Void> consumer) {
     executeWriteCall(driveClient.delete(track.getOid()), consumer);
   }
 
   @Override
-  public void addRoute(Route route, User user, Consumer consumer) {
+  public void addRoute(Route route, User user, Consumer<Void> consumer) {
     RouteDto routeDto = RouteAssembler.toDto(route);
     routeDto.setOwner(address + user.getOid().toString()); //TODO rene backend
     executeWriteCall(routeClient.create(routeDto), consumer);
   }
 
   @Override
-  public void deleteRoute(Route route, Consumer consumer) {
+  public void deleteRoute(Route route, Consumer<Void> consumer) {
     executeWriteCall(routeClient.delete(route.getOid()), consumer);
   }
 
   @Override
-  public void createUser(User user, Consumer consumer) {
+  public void createUser(User user, Consumer<Void> consumer) {
     executeWriteCall(userClient.create(UserAssembler.toDto(user)), consumer);
   }
 
   @Override
-  public void changeUserData(User user, Consumer consumer) {
+  public void changeUserData(User user, Consumer<Void> consumer) {
     executeWriteCall(userClient.update(user.getOid(), UserAssembler.toDto(user)), consumer);
   }
 
   @Override
-  public void addFriend(User user, User friend, Consumer consumer) {
+  public void addFriend(User user, User friend, Consumer<Void> consumer) {
     executeWriteCall(userClient.addFriend(user.getOid(), friend.getOid().toString()), consumer);
   }
 

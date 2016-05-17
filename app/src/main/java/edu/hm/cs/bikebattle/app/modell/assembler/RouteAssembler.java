@@ -1,13 +1,12 @@
 package edu.hm.cs.bikebattle.app.modell.assembler;
 
 import android.location.Location;
-
-import java.util.LinkedList;
-import java.util.List;
-
 import edu.hm.cs.bikebattle.app.api.domain.RouteDto;
 import edu.hm.cs.bikebattle.app.api.domain.RoutePointDto;
 import edu.hm.cs.bikebattle.app.modell.Route;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Organization: HM FK07.
@@ -28,7 +27,7 @@ public class RouteAssembler {
    */
   public static RouteDto toDto(Route route) {
 
-    List<RoutePointDto> routePoints = new LinkedList<RoutePointDto>();
+    List<RoutePointDto> routePoints = new ArrayList<RoutePointDto>();
     for (Location location : route) {
       routePoints.add(new RoutePointDto(
           location.getLatitude(),
@@ -41,7 +40,9 @@ public class RouteAssembler {
         .name(route.getName())
         .difficulty(route.getDifficulty())
         .privat(route.isPrivateRoute())
-        .routePoints(routePoints).length(route.getDistanceInM()).routetyp(route.getRoutetyp())
+        .routePoints(routePoints)
+        .length(route.getDistanceInM())
+        .routetyp(route.getRoutetyp())
         .build();
   }
 

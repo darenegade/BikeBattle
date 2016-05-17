@@ -1,12 +1,11 @@
 package edu.hm.cs.bikebattle.app.data;
 
 import android.location.Location;
-
-import java.util.List;
-
 import edu.hm.cs.bikebattle.app.modell.Route;
 import edu.hm.cs.bikebattle.app.modell.Track;
 import edu.hm.cs.bikebattle.app.modell.User;
+
+import java.util.List;
 
 /**
  * Created by Nils on 26.04.2016.
@@ -73,7 +72,7 @@ public interface DataConnector {
    * @param consumer consumer to call
    * @param owner    owner of the track
    */
-  void addTrack(Track track, User owner, Consumer consumer);
+  void addTrack(Track track, User owner, Consumer<Void> consumer);
 
   /**
    * Deletes a track of the user.
@@ -81,7 +80,7 @@ public interface DataConnector {
    * @param track    to delete
    * @param consumer consumer to call
    */
-  void deleteTrack(Track track, Consumer consumer);
+  void deleteTrack(Track track, Consumer<Void> consumer);
 
   /**
    * Adds a route to the users database.
@@ -90,7 +89,7 @@ public interface DataConnector {
    * @param owner    owner
    * @param consumer consumer to call
    */
-  void addRoute(Route route, User owner, Consumer consumer);
+  void addRoute(Route route, User owner, Consumer<Void> consumer);
 
   /**
    * Deletes a route of the user.
@@ -98,7 +97,7 @@ public interface DataConnector {
    * @param route    to delete
    * @param consumer consumer to call
    */
-  void deleteRoute(Route route, Consumer consumer);
+  void deleteRoute(Route route, Consumer<Void> consumer);
 
   /**
    * Creates a new user.
@@ -106,7 +105,7 @@ public interface DataConnector {
    * @param user     user
    * @param consumer consumer to call
    */
-  void createUser(User user, Consumer consumer);
+  void createUser(User user, Consumer<Void> consumer);
 
   /**
    * Updates the user data.
@@ -114,7 +113,7 @@ public interface DataConnector {
    * @param user     user
    * @param consumer consumer to call
    */
-  void changeUserData(User user, Consumer consumer);
+  void changeUserData(User user, Consumer<Void> consumer);
 
   /**
    * Adds a friend to the users friend list.
@@ -123,7 +122,7 @@ public interface DataConnector {
    * @param friend   friend to add
    * @param consumer consumer to call
    */
-  void addFriend(User user, User friend, Consumer consumer);
+  void addFriend(User user, User friend, Consumer<Void> consumer);
 
   /**
    * Returns all friends of the user.

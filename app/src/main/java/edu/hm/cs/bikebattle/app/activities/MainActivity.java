@@ -9,10 +9,12 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.View;
-
 import edu.hm.cs.bikebattle.app.R;
 
 public class MainActivity extends AppCompatActivity {
+
+  private static final String TAG = "MainActivity";
+
   /**
    * Permission request parameter value.
    */
@@ -40,12 +42,12 @@ public class MainActivity extends AppCompatActivity {
       }
     });
 
-    /*final DataConnector connector = new BasicDataConnector(this);
+    /**final DataConnector connector = new BasicDataConnector(this);
     connector.getUserByName("Nils", new Consumer<List<User>>() {
       @Override
       public void consume(List<User> input) {
         if(input.size()>0){
-          Log.d("user", input.get(0).getName());
+          Log.d(TAG, "got user " + input.get(0).getName() + " - OID: " + input.get(0).getOid());
           Route route = new Route("Test");
           Location location;
           location = new Location("");
@@ -64,15 +66,17 @@ public class MainActivity extends AppCompatActivity {
           location.setLongitude(0);
           location.setLatitude(0);
           route.add(location);
-          connector.addRoute(route, input.get(0), new Consumer() {
+          route.setRoutetyp(Routetyp.CITY);
+          route.setDifficulty(Difficulty.EASY);
+          connector.addRoute(route, input.get(0), new Consumer<Void>() {
             @Override
-            public void consume(Object input) {
-              Log.d("Route", "added");
+            public void consume(Void input) {
+              Log.d(TAG, "Route added");
             }
 
             @Override
             public void error(int error, IOException exception) {
-              Log.e("Error2", error+"");
+              Log.e(TAG,"Error2: " + error+"");
             }
           });
         }
@@ -80,9 +84,9 @@ public class MainActivity extends AppCompatActivity {
 
       @Override
       public void error(int error, IOException exception) {
-        Log.e("Error1", error+"");
+        Log.e(TAG,"Error1: " + error+"");
       }
-    });*/
+    });**/
 
     requestPermission();
   }
