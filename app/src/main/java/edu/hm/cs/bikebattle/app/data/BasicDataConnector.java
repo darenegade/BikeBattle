@@ -113,7 +113,7 @@ public class BasicDataConnector implements DataConnector {
           try {
             Log.d(TAG, response.errorBody().string());
           } catch (IOException e) {
-            throw new AssertionError("ERROR BODY NOT READABLE");
+            Log.e(TAG,"ERROR BODY NOT READABLE");
           }
           consumer.error(response.code(), null);
         }
@@ -149,7 +149,7 @@ public class BasicDataConnector implements DataConnector {
           try {
             Log.d(TAG, response.errorBody().string());
           } catch (IOException e) {
-            throw new AssertionError("ERROR BODY NOT READABLE");
+            Log.e(TAG,"ERROR BODY NOT READABLE");
           }
           consumer.error(response.code(), null);
         }
@@ -183,7 +183,7 @@ public class BasicDataConnector implements DataConnector {
           try {
             Log.d(TAG, response.errorBody().string());
           } catch (IOException e) {
-            throw new AssertionError("ERROR BODY NOT READABLE");
+            Log.e(TAG,"ERROR BODY NOT READABLE");
           }
           consumer.error(response.code(), null);
 
