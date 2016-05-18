@@ -58,7 +58,7 @@ public class RouteClientTest extends TestCase {
   protected void setUp() throws Exception {
 
     //Change BaseUrl to test against local running Backend
-    ClientFactory.changeBaseUrl(TEST_BASE_URL);
+    //ClientFactory.changeBaseUrl(TEST_BASE_URL);
 
     userClient = ClientFactory.getUserClient(TOKEN);
     routeClient = ClientFactory.getRouteClient(TOKEN);
