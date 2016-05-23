@@ -124,4 +124,12 @@ public abstract class BaseActivity extends AppCompatActivity implements GoogleAp
   public GoogleSignInOptions getGoogleSignInOptions() {
     return googleSignInOptions;
   }
+
+  public User getPrincipal() {
+    return principal;
+  }
+
+  public DataConnector getDataConnector() {
+    return dataConnector;
+  }
 }
