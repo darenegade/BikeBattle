@@ -15,6 +15,10 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import edu.hm.cs.bikebattle.app.R;
+import edu.hm.cs.bikebattle.app.data.BasicDataConnector;
+import edu.hm.cs.bikebattle.app.data.Consumer;
+import edu.hm.cs.bikebattle.app.data.DataConnector;
+import edu.hm.cs.bikebattle.app.modell.User;
 
 /**
  * Organization: HM FK07.
@@ -32,6 +36,10 @@ public abstract class BaseActivity extends AppCompatActivity implements GoogleAp
   private GoogleApiClient googleApiClient;
   private GoogleSignInOptions googleSignInOptions;
 
+  private DataConnector dataConnector;
+
+  private User principal;
+
   @Override
   protected void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -45,6 +53,10 @@ public abstract class BaseActivity extends AppCompatActivity implements GoogleAp
         .enableAutoManage(this, this)
         .addApi(Auth.GOOGLE_SIGN_IN_API, googleSignInOptions)
         .build();
+
+    dataConnector = new BasicDataConnector(googleApiClient);
+
+    reconnect();
   }
 
 
@@ -67,6 +79,18 @@ public abstract class BaseActivity extends AppCompatActivity implements GoogleAp
           Log.d(TAG, "Name:" + acct.getDisplayName());
           Log.d(TAG, "Mail:" + acct.getEmail());
           Log.d(TAG, "Token:" + acct.getIdToken());
+
+          dataConnector.login(acct.getEmail(), new Consumer<User>() {
+            @Override
+            public void consume(User input) {
+              principal = input;
+            }
+
+            @Override
+            public void error(int error, Throwable exception) {
+              Log.e(TAG, "LOGIN FAILURE");
+            }
+          });
         }
       }
     });

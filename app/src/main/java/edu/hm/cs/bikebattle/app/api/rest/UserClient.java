@@ -8,6 +8,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
@@ -30,34 +31,48 @@ public interface UserClient {
   //User Endpoints
 
   @POST(BASE_PATH)
-  Call<Void>  create(@Body UserDto entity);
+  @Headers("Authorization: Bearer {token}")
+  Call<Void>  create(@Header("token")String token, @Body UserDto entity);
 
   @PUT(BASE_PATH + "/{id}")
-  @Headers("Content-Type: application/json")
-  Call<Void>  update(@Path("id") String id, @Body UserDto entity);
+  @Headers({
+      "Authorization: Bearer {token}",
+      "Content-Type: application/json"})
+  Call<Void>  update(@Header("token")String token, @Path("id") String id, @Body UserDto entity);
 
   @DELETE(BASE_PATH + "/{id}")
-  Call<Void> delete(@Path("id") String id);
+  @Headers("Authorization: Bearer {token}")
+  Call<Void> delete(@Header("token")String token, @Path("id") String id);
 
   @GET(BASE_PATH + "/{id}")
-  Call<Resource<UserDto>> findeOne(@Path("id") String id);
+  @Headers("Authorization: Bearer {token}")
+  Call<Resource<UserDto>> findeOne(@Header("token")String token, @Path("id") String id);
 
   @GET(BASE_PATH + "")
-  Call<Resources<Resource<UserDto>>> findAll();
+  @Headers("Authorization: Bearer {token}")
+  Call<Resources<Resource<UserDto>>> findAll(@Header("token")String token);
 
   @GET(BASE_PATH + "/search/findByName")
-  Call<Resources<Resource<UserDto>>>  findByName(@Query("name") String name);
+  @Headers("Authorization: Bearer {token}")
+  Call<Resources<Resource<UserDto>>>  findByName(@Header("token")String token, @Query("name") String name);
 
   @GET(BASE_PATH + "/search/findByNameContainingIgnoreCase")
-  Call<Resources<Resource<UserDto>>>  findByNameContainingIgnoreCase(@Query("name") String name);
+  @Headers("Authorization: Bearer {token}")
+  Call<Resources<Resource<UserDto>>>  findByNameContainingIgnoreCase(@Header("token")String token, @Query("name") String name);
+
+  @GET(BASE_PATH + "/search/findByEmail")
+  @Headers("Authorization: Bearer {token}")
+  Call<Resource<UserDto>> findByEmail(@Header("token")String token, @Query("email") String email);
 
   //Relation Endpoints
 
   @POST(BASE_PATH + "/{id}/friends")
-  @Headers("Content-Type: text/uri-list")
-  Call<Void> addFriend(@Path("id") String id, @Body String friend);
+  @Headers({
+      "Authorization: Bearer {token}",
+      "Content-Type: text/uri-list"})
+  Call<Void> addFriend(@Header("token")String token, @Path("id") String id, @Body String friend);
 
   @GET(BASE_PATH + "/{id}/friends")
-  Call<Resources<Resource<UserDto>>>  getFriends(@Path("id") String id);
+  Call<Resources<Resource<UserDto>>>  getFriends(@Header("token")String token, @Path("id") String id);
 
 }

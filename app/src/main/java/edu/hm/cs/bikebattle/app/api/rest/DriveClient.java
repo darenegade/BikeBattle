@@ -9,6 +9,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
@@ -32,41 +33,57 @@ public interface DriveClient {
   //Drive Endpoints
 
   @POST(BASE_PATH)
-  Call<Void> create(@Body DriveDto entity);
+  @Headers({
+      "Authorization: Bearer {token}",
+      "Content-Type: application/json"})
+  Call<Void> create(@Header("token")String token, @Body DriveDto entity);
 
   @PUT(BASE_PATH)
-  @Headers("Content-Type: application/json")
-  Call<Void>  update(@Body DriveDto entity);
+  @Headers({
+      "Authorization: Bearer {token}",
+      "Content-Type: application/json"})
+  Call<Void>  update(@Header("token")String token, @Body DriveDto entity);
 
   @DELETE(BASE_PATH + "/{id}")
-  Call<Void> delete(@Path("id") String id);
+  @Headers("Authorization: Bearer {token}")
+  Call<Void> delete(@Header("token")String token, @Path("id") String id);
 
   @GET(BASE_PATH + "/{id}")
-  Call<Resource<DriveDto>> findeOne(@Path("id") String id);
+  @Headers("Authorization: Bearer {token}")
+  Call<Resource<DriveDto>> findeOne(@Header("token")String token, @Path("id") String id);
 
   @GET(BASE_PATH + "")
-  Call<Resources<Resource<DriveDto>>> findAll();
+  @Headers("Authorization: Bearer {token}")
+  Call<Resources<Resource<DriveDto>>> findAll(@Header("token")String token);
 
   @GET(BASE_PATH + "/search/findByRouteOid")
-  Call<Resources<Resource<DriveDto>>>  findByRouteOid(@Query("oid") String oid);
+  @Headers("Authorization: Bearer {token}")
+  Call<Resources<Resource<DriveDto>>>  findByRouteOid(@Header("token")String token, @Query("oid") String oid);
 
   @GET(BASE_PATH + "/search/findByOwnerOid")
-  Call<Resources<Resource<DriveDto>>>  findByOwnerOid(@Query("oid") String oid);
+  @Headers("Authorization: Bearer {token}")
+  Call<Resources<Resource<DriveDto>>>  findByOwnerOid(@Header("token")String token, @Query("oid") String oid);
 
   //Relation Endpoints
 
   @PUT(BASE_PATH + "/{id}/route")
-  @Headers("Content-Type: text/uri-list")
-  Call<Void> setRoute(@Path("id") String id, @Body String route);
+  @Headers({
+      "Authorization: Bearer {token}",
+      "Content-Type: text/uri-list"})
+  Call<Void> setRoute(@Header("token")String token, @Path("id") String id, @Body String route);
 
   @PUT(BASE_PATH + "/{id}/owner")
-  @Headers("Content-Type: text/uri-list")
-  Call<Void> setOwner(@Path("id") String id, @Body String owner);
+  @Headers({
+      "Authorization: Bearer {token}",
+      "Content-Type: text/uri-list"})
+  Call<Void> setOwner(@Header("token")String token, @Path("id") String id, @Body String owner);
 
   @GET(BASE_PATH + "/{id}/route")
-  Call<Resource<RouteDto>>  getRoute(@Path("id") String id);
+  @Headers("Authorization: Bearer {token}")
+  Call<Resource<RouteDto>>  getRoute(@Header("token")String token, @Path("id") String id);
 
   @GET(BASE_PATH + "/{id}/owner")
-  Call<Resource<UserDto>>  getOwner(@Path("id") String id);
+  @Headers("Authorization: Bearer {token}")
+  Call<Resource<UserDto>>  getOwner(@Header("token")String token, @Path("id") String id);
 
 }
