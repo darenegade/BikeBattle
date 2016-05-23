@@ -23,10 +23,10 @@ public class UserAssembler {
   public static UserDto toDto(User user) {
 
     return UserDto.builder()
-            .name(user.getName())
-            .size(user.getSizeInMeter())
-            .weight(user.getWeightInKg())
-            .build();
+        .name(user.getName())
+        .size(user.getSizeInMeter())
+        .weight(user.getWeightInKg()).email(user.getEmail())
+        .build();
   }
 
   /**
@@ -39,6 +39,7 @@ public class UserAssembler {
 
     User user = new User(
         userDto.getName(),
+        userDto.getEmail(),
         userDto.getWeight(),
         userDto.getSize()
     );

@@ -114,9 +114,7 @@ public class AndroidLocationTracker implements LocationTracker, LocationListener
   public void onLocationChanged(Location location) {
     synchronized (track) {
       track.add(location);
-      synchronized (this) {
-        notifyAll();
-      }
+      track.notifyAll();
     }
   }
 

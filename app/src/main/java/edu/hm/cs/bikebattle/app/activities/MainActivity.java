@@ -11,6 +11,9 @@ import android.view.View;
 import edu.hm.cs.bikebattle.app.R;
 
 public class MainActivity extends BaseActivity {
+
+  private static final String TAG = "MainActivity";
+
   /**
    * Permission request parameter value.
    */
@@ -38,6 +41,53 @@ public class MainActivity extends BaseActivity {
       }
     });
 
+    /**final DataConnector connector = new BasicDataConnector();
+    connector.getUserByName("Nils", new Consumer<List<User>>() {
+      @Override
+      public void consume(List<User> input) {
+        if(input.size()>0){
+          Log.d(TAG, "got user " + input.get(0).getName() + " - OID: " + input.get(0).getOid());
+          Route route = new Route("Test");
+          Location location;
+          location = new Location("");
+          location.setLongitude(0);
+          location.setLatitude(0);
+          route.add(location);
+          location = new Location("");
+          location.setLongitude(1);
+          location.setLatitude(0);
+          route.add(location);
+          location = new Location("");
+          location.setLongitude(2);
+          location.setLatitude(1);
+          route.add(location);
+          location = new Location("");
+          location.setLongitude(0);
+          location.setLatitude(0);
+          route.add(location);
+          route.setRoutetyp(Routetyp.CITY);
+          route.setDifficulty(Difficulty.EASY);
+          connector.addRoute(route, input.get(0), new Consumer<Void>() {
+            @Override
+            public void consume(Void input) {
+              Log.d(TAG, "Route added");
+              ((Button)findViewById(R.id.track_button)).setText("Test");
+            }
+
+            @Override
+            public void error(int error, Throwable exception) {
+              Log.e(TAG,"Error2: " + error+"");
+            }
+          });
+        }
+      }
+
+      @Override
+      public void error(int error, Throwable exception) {
+        Log.e(TAG,"Error1: " + error+"");
+      }
+    });**/
+
     requestPermission();
   }
 
@@ -55,7 +105,7 @@ public class MainActivity extends BaseActivity {
     if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
         != PackageManager.PERMISSION_GRANTED) {
       ActivityCompat.requestPermissions(this,
-          new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+          new String[] {Manifest.permission.ACCESS_FINE_LOCATION},
           MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
     }
   }

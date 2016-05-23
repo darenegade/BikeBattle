@@ -1,118 +1,134 @@
 package edu.hm.cs.bikebattle.app.data;
 
 import android.location.Location;
-
-import java.util.List;
-
 import edu.hm.cs.bikebattle.app.modell.Route;
 import edu.hm.cs.bikebattle.app.modell.Track;
 import edu.hm.cs.bikebattle.app.modell.User;
 
+import java.util.List;
+
 /**
  * Created by Nils on 26.04.2016.
- * <p/>
  * Interface for the connection to the data local and on the server.
  *
  * @author Nils Bernhardt
  * @version 1.0
  */
 public interface DataConnector {
+
+
   /**
    * Returns all Route which are within the distance to the given location.
    *
    * @param location Location
    * @param distance maximum distance
-   * @return all Routes
+   * @param consumer consumer to call
    */
-  Route[] getRoutesByLocation(Location location, float distance);
+  void getRoutesByLocation(Location location, float distance, Consumer<List<Route>> consumer);
+
+  /**
+   * Returns all Route.
+   *
+   * @param consumer consumer to call
+   */
+  void getAllRoutes(Consumer<List<Route>> consumer);
 
   /**
    * Returns the user with the given id.
    *
-   * @param id user id
-   * @return user
+   * @param id       user id
+   * @param consumer consumer to call
    */
-  User getUserById(int id);
+  void getUserById(String id, Consumer<User> consumer);
 
   /**
    * Returns the user with the given name.
    *
-   * @param name user name
-   * @return user
+   * @param name     user name
+   * @param consumer consumer to call
    */
-  List<User> getUserByName(String name);
+  void getUserByName(String name, Consumer<List<User>> consumer);
 
   /**
    * Returns all tracks of the given user.
    *
-   * @param user User
-   * @return tracks of the user
+   * @param user     User
+   * @param consumer consumer to call
    */
-  List<Track> getTracksByUser(User user);
+  void getTracksByUser(User user, Consumer<List<Track>> consumer);
 
   /**
    * Returns all routes of the given user.
    *
-   * @param user User
-   * @return routes of the user
+   * @param user     User
+   * @param consumer consumer to call
    */
-  List<Route> getRoutesByUser(User user);
+  void getRoutesByUser(User user, Consumer<List<Route>> consumer);
 
   /**
    * Adds a track to the users database.
    *
-   * @param track new Track
+   * @param track    new Track
+   * @param consumer consumer to call
+   * @param owner    owner of the track
    */
-  void addTrack(Track track);
+  void addTrack(Track track, User owner, Consumer<Void> consumer);
 
   /**
    * Deletes a track of the user.
    *
-   * @param track to delete
+   * @param track    to delete
+   * @param consumer consumer to call
    */
-  void deleteTrack(Track track);
+  void deleteTrack(Track track, Consumer<Void> consumer);
 
   /**
    * Adds a route to the users database.
    *
-   * @param route new Route
+   * @param route    new Route
+   * @param owner    owner
+   * @param consumer consumer to call
    */
-  void addRoute(Route route);
+  void addRoute(Route route, User owner, Consumer<Void> consumer);
 
   /**
    * Deletes a route of the user.
    *
-   * @param route to delete
+   * @param route    to delete
+   * @param consumer consumer to call
    */
-  void deleteRoute(Route route);
+  void deleteRoute(Route route, Consumer<Void> consumer);
 
   /**
    * Creates a new user.
    *
-   * @param user user
+   * @param user     user
+   * @param consumer consumer to call
    */
-  void createUser(User user);
+  void createUser(User user, Consumer<Void> consumer);
 
   /**
    * Updates the user data.
    *
-   * @param user user
+   * @param user     user
+   * @param consumer consumer to call
    */
-  void changeUserData(User user);
+  void changeUserData(User user, Consumer<Void> consumer);
 
   /**
    * Adds a friend to the users friend list.
    *
-   * @param user   user
-   * @param friend friend to add
+   * @param user     user
+   * @param friend   friend to add
+   * @param consumer consumer to call
    */
-  void addFriend(User user, User friend);
+  void addFriend(User user, User friend, Consumer<Void> consumer);
 
   /**
    * Returns all friends of the user.
    *
-   * @param user user
-   * @return list of friends.
+   * @param user     user
+   * @param consumer consumer to call
    */
-  List<User> getFriends(User user);
+  void getFriends(User user, Consumer<List<User>> consumer);
 }
