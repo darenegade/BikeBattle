@@ -62,11 +62,6 @@ public class BasicDataConnector implements DataConnector {
   private final GoogleApiClient googleApiClient;
 
   /**
-   * Adress of the server. Remove.
-   */
-  private final String address = "https://moan.cs.hm.edu:8443/BikeBattleBackend/users/"; //TODO remove
-
-  /**
    * Creates the clients for the backend.
    */
   public BasicDataConnector(GoogleApiClient client) {
