@@ -84,6 +84,7 @@ public abstract class BaseActivity extends AppCompatActivity implements GoogleAp
             @Override
             public void consume(User input) {
               principal = input;
+              Log.d(TAG, principal.toString());
             }
 
             @Override
