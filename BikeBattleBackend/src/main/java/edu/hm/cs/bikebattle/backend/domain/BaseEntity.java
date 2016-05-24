@@ -5,7 +5,6 @@ import lombok.Setter;
 import org.springframework.data.annotation.Id;
 
 import java.io.Serializable;
-import java.math.BigInteger;
 
 /**
  * Organization: HM FK07.
@@ -21,7 +20,7 @@ import java.math.BigInteger;
 public abstract class BaseEntity implements Cloneable, Serializable {
 
     @Id
-    BigInteger oid;
+    String oid;
 
     @Override
     public Object clone() throws CloneNotSupportedException {

@@ -3,9 +3,14 @@ package edu.hm.cs.bikebattle.backend.config;
 import edu.hm.cs.bikebattle.backend.domain.Drive;
 import edu.hm.cs.bikebattle.backend.domain.Route;
 import edu.hm.cs.bikebattle.backend.domain.User;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.mongodb.core.mapping.event.ValidatingMongoEventListener;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
+import org.springframework.data.rest.core.event.ValidatingRepositoryEventListener;
 import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurerAdapter;
+import org.springframework.validation.Validator;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 /**
  * Organization: HM FK07.
@@ -24,5 +29,23 @@ public class RepositoryConfig extends RepositoryRestConfigurerAdapter {
     config.exposeIdsFor(Drive.class);
     config.exposeIdsFor(Route.class);
     config.exposeIdsFor(User.class);
+  }
+
+  @Bean
+  public ValidatingMongoEventListener validatingMongoEventListener() {
+    return new ValidatingMongoEventListener(validator());
+  }
+
+  @Bean
+  public LocalValidatorFactoryBean validator() {
+    return new LocalValidatorFactoryBean();
+  }
+
+  @Override
+  public void configureValidatingRepositoryEventListener(ValidatingRepositoryEventListener validatingListener) {
+    Validator validator = validator();
+    //bean validation always before save and create
+    validatingListener.addValidator("beforeCreate", validator);
+    validatingListener.addValidator("beforeSave", validator);
   }
 }

@@ -39,8 +39,6 @@ public class Drive extends BaseEntity {
 
   List<Measurement> measurements = new ArrayList<>();
 
-  @NotNull
-  @NonNull
   @DBRef
   Route route;
 

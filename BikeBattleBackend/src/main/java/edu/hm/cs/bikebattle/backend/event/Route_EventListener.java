@@ -1,7 +1,10 @@
 package edu.hm.cs.bikebattle.backend.event;
 
 import edu.hm.cs.bikebattle.backend.domain.Route;
+import edu.hm.cs.bikebattle.backend.domain.User;
 import org.springframework.data.rest.core.event.AbstractRepositoryEventListener;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 /**
@@ -31,6 +34,13 @@ public class Route_EventListener extends AbstractRepositoryEventListener<Route> 
           entity.getRoutePoints().get(0).getLongitude(),
           entity.getRoutePoints().get(0).getLatitude()
       });
+
+    UsernamePasswordAuthenticationToken auth = (UsernamePasswordAuthenticationToken) SecurityContextHolder
+        .getContext().getAuthentication();
+
+    User user = (User) auth.getPrincipal();
+
+    entity.setOwner(user);
 
     super.onBeforeCreate(entity);
   }

@@ -12,8 +12,6 @@ buildscript {
 	}
 }
 
-description = 'backend'
-
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
@@ -69,5 +67,5 @@ eclipse {
 }
 
 task wrapper(type: Wrapper) {
-	gradleVersion = '2.10'
+	gradleVersion = '2.9'
 }
