@@ -4,11 +4,14 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.0.0'
+        classpath 'com.google.gms:google-services:2.0.0-beta6'
         classpath 'net.saliman:gradle-properties-plugin:1.4.5'
     }
 }
 apply plugin: 'com.android.application'
 apply plugin: 'net.saliman.properties'
+
+description = 'app'
 
 repositories {
     jcenter()
