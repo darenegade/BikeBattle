@@ -215,7 +215,7 @@ public class BasicDataConnector implements DataConnector {
       public void onResult(@NonNull GoogleSignInResult googleSignInResult) {
 
         if (googleSignInResult.isSuccess() && googleSignInResult.getSignInAccount() != null) {
-          tokenConsumer.consume(googleSignInResult.getSignInAccount().getIdToken());
+          tokenConsumer.consume("Bearer " + googleSignInResult.getSignInAccount().getIdToken());
         } else {
           tokenConsumer.error(googleSignInResult.getStatus().getStatusCode(), null);
         }

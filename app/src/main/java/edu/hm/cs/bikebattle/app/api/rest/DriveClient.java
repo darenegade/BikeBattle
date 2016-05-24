@@ -33,57 +33,42 @@ public interface DriveClient {
   //Drive Endpoints
 
   @POST(BASE_PATH)
-  @Headers({
-      "Authorization: Bearer {token}",
-      "Content-Type: application/json"})
-  Call<Void> create(@Header("token")String token, @Body DriveDto entity);
+  @Headers("Content-Type: application/json")
+  Call<Void> create(@Header("Authorization")String token, @Body DriveDto entity);
 
   @PUT(BASE_PATH)
-  @Headers({
-      "Authorization: Bearer {token}",
-      "Content-Type: application/json"})
-  Call<Void>  update(@Header("token")String token, @Body DriveDto entity);
+  @Headers("Content-Type: application/json")
+  Call<Void>  update(@Header("Authorization")String token, @Body DriveDto entity);
 
   @DELETE(BASE_PATH + "/{id}")
-  @Headers("Authorization: Bearer {token}")
-  Call<Void> delete(@Header("token")String token, @Path("id") String id);
+  Call<Void> delete(@Header("Authorization")String token, @Path("id") String id);
 
   @GET(BASE_PATH + "/{id}")
-  @Headers("Authorization: Bearer {token}")
-  Call<Resource<DriveDto>> findeOne(@Header("token")String token, @Path("id") String id);
+  Call<Resource<DriveDto>> findeOne(@Header("Authorization")String token, @Path("id") String id);
 
   @GET(BASE_PATH + "")
-  @Headers("Authorization: Bearer {token}")
-  Call<Resources<Resource<DriveDto>>> findAll(@Header("token")String token);
+  Call<Resources<Resource<DriveDto>>> findAll(@Header("Authorization")String token);
 
   @GET(BASE_PATH + "/search/findByRouteOid")
-  @Headers("Authorization: Bearer {token}")
-  Call<Resources<Resource<DriveDto>>>  findByRouteOid(@Header("token")String token, @Query("oid") String oid);
+  Call<Resources<Resource<DriveDto>>>  findByRouteOid(@Header("Authorization")String token, @Query("oid") String oid);
 
   @GET(BASE_PATH + "/search/findByOwnerOid")
-  @Headers("Authorization: Bearer {token}")
-  Call<Resources<Resource<DriveDto>>>  findByOwnerOid(@Header("token")String token, @Query("oid") String oid);
+  Call<Resources<Resource<DriveDto>>>  findByOwnerOid(@Header("Authorization")String token, @Query("oid") String oid);
 
   //Relation Endpoints
 
   @PUT(BASE_PATH + "/{id}/route")
-  @Headers({
-      "Authorization: Bearer {token}",
-      "Content-Type: text/uri-list"})
-  Call<Void> setRoute(@Header("token")String token, @Path("id") String id, @Body String route);
+  @Headers("Content-Type: text/uri-list")
+  Call<Void> setRoute(@Header("Authorization")String token, @Path("id") String id, @Body String route);
 
   @PUT(BASE_PATH + "/{id}/owner")
-  @Headers({
-      "Authorization: Bearer {token}",
-      "Content-Type: text/uri-list"})
-  Call<Void> setOwner(@Header("token")String token, @Path("id") String id, @Body String owner);
+  @Headers("Content-Type: text/uri-list")
+  Call<Void> setOwner(@Header("Authorization")String token, @Path("id") String id, @Body String owner);
 
   @GET(BASE_PATH + "/{id}/route")
-  @Headers("Authorization: Bearer {token}")
-  Call<Resource<RouteDto>>  getRoute(@Header("token")String token, @Path("id") String id);
+  Call<Resource<RouteDto>>  getRoute(@Header("Authorization")String token, @Path("id") String id);
 
   @GET(BASE_PATH + "/{id}/owner")
-  @Headers("Authorization: Bearer {token}")
-  Call<Resource<UserDto>>  getOwner(@Header("token")String token, @Path("id") String id);
+  Call<Resource<UserDto>>  getOwner(@Header("Authorization")String token, @Path("id") String id);
 
 }

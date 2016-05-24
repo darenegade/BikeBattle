@@ -31,48 +31,37 @@ public interface UserClient {
   //User Endpoints
 
   @POST(BASE_PATH)
-  @Headers("Authorization: Bearer {token}")
-  Call<Void>  create(@Header("token")String token, @Body UserDto entity);
+  Call<Void>  create(@Header("Authorization")String token, @Body UserDto entity);
 
   @PUT(BASE_PATH + "/{id}")
-  @Headers({
-      "Authorization: Bearer {token}",
-      "Content-Type: application/json"})
-  Call<Void>  update(@Header("token")String token, @Path("id") String id, @Body UserDto entity);
+  @Headers("Content-Type: application/json")
+  Call<Void>  update(@Header("Authorization")String token, @Path("id") String id, @Body UserDto entity);
 
   @DELETE(BASE_PATH + "/{id}")
-  @Headers("Authorization: Bearer {token}")
-  Call<Void> delete(@Header("token")String token, @Path("id") String id);
+  Call<Void> delete(@Header("Authorization")String token, @Path("id") String id);
 
   @GET(BASE_PATH + "/{id}")
-  @Headers("Authorization: Bearer {token}")
-  Call<Resource<UserDto>> findeOne(@Header("token")String token, @Path("id") String id);
+  Call<Resource<UserDto>> findeOne(@Header("Authorization")String token, @Path("id") String id);
 
   @GET(BASE_PATH + "")
-  @Headers("Authorization: Bearer {token}")
-  Call<Resources<Resource<UserDto>>> findAll(@Header("token")String token);
+  Call<Resources<Resource<UserDto>>> findAll(@Header("Authorization")String token);
 
   @GET(BASE_PATH + "/search/findByName")
-  @Headers("Authorization: Bearer {token}")
-  Call<Resources<Resource<UserDto>>>  findByName(@Header("token")String token, @Query("name") String name);
+  Call<Resources<Resource<UserDto>>>  findByName(@Header("Authorization")String token, @Query("name") String name);
 
   @GET(BASE_PATH + "/search/findByNameContainingIgnoreCase")
-  @Headers("Authorization: Bearer {token}")
-  Call<Resources<Resource<UserDto>>>  findByNameContainingIgnoreCase(@Header("token")String token, @Query("name") String name);
+  Call<Resources<Resource<UserDto>>>  findByNameContainingIgnoreCase(@Header("Authorization")String token, @Query("name") String name);
 
   @GET(BASE_PATH + "/search/findByEmail")
-  @Headers("Authorization: Bearer {token}")
-  Call<Resource<UserDto>> findByEmail(@Header("token")String token, @Query("email") String email);
+  Call<Resource<UserDto>> findByEmail(@Header("Authorization")String token, @Query("email") String email);
 
   //Relation Endpoints
 
   @POST(BASE_PATH + "/{id}/friends")
-  @Headers({
-      "Authorization: Bearer {token}",
-      "Content-Type: text/uri-list"})
-  Call<Void> addFriend(@Header("token")String token, @Path("id") String id, @Body String friend);
+  @Headers("Content-Type: text/uri-list")
+  Call<Void> addFriend(@Header("Authorization")String token, @Path("id") String id, @Body String friend);
 
   @GET(BASE_PATH + "/{id}/friends")
-  Call<Resources<Resource<UserDto>>>  getFriends(@Header("token")String token, @Path("id") String id);
+  Call<Resources<Resource<UserDto>>>  getFriends(@Header("Authorization")String token, @Path("id") String id);
 
 }
