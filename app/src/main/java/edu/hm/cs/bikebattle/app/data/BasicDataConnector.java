@@ -62,10 +62,6 @@ public class BasicDataConnector implements DataConnector {
   private final GoogleApiClient googleApiClient;
 
   /**
-   * Current maybe valid token.
-   */
-  private String currentToken;
-  /**
    * Adress of the server. Remove.
    */
   private final String address = "https://moan.cs.hm.edu:8443/BikeBattleBackend/users/"; //TODO remove
@@ -218,96 +214,259 @@ public class BasicDataConnector implements DataConnector {
    *
    * @return current valid token;
    */
-  private String refreshAndGetToken() {
+  private void generateToken(final Consumer<String> tokenConsumer) {
     Auth.GoogleSignInApi.silentSignIn(googleApiClient).setResultCallback(new ResultCallback<GoogleSignInResult>() {
       @Override
       public void onResult(@NonNull GoogleSignInResult googleSignInResult) {
 
         if (googleSignInResult.isSuccess() && googleSignInResult.getSignInAccount() != null) {
-          currentToken = googleSignInResult.getSignInAccount().getIdToken();
+          tokenConsumer.consume(googleSignInResult.getSignInAccount().getIdToken());
         } else {
-          //TODO Do something clever here.
+          tokenConsumer.error(googleSignInResult.getStatus().getStatusCode(), null);
         }
       }
     });
-    return currentToken;
   }
 
   @Override
-  public void login(String email, Consumer<User> consumer) {
-    executeGetCall(userClient.findByEmail(refreshAndGetToken(), email), consumer);
+  public void login(final String email, final Consumer<User> consumer) {
+
+    generateToken(new Consumer<String>() {
+      @Override
+      public void consume(String input) {
+        executeGetCall(userClient.findByEmail(input, email), consumer);
+      }
+
+      @Override
+      public void error(int error, Throwable exception) {
+        consumer.error(error, exception);
+      }
+    });
   }
 
   @Override
   public void getRoutesByLocation(final Location location, final float distance,
                                   final Consumer<List<Route>> consumer) {
 
-    executeGetListCall(routeClient.findNear(refreshAndGetToken(), location.getLongitude(),
-        location.getLatitude(), distance), consumer);
+    generateToken(new Consumer<String>() {
+      @Override
+      public void consume(String input) {
+        executeGetListCall(routeClient.findNear(input, location.getLongitude(),
+            location.getLatitude(), distance), consumer);
+      }
+
+      @Override
+      public void error(int error, Throwable exception) {
+        consumer.error(error, exception);
+      }
+    });
   }
 
   @Override
   public void getUserById(final String id, final Consumer<User> consumer) {
-    executeGetCall(userClient.findeOne(refreshAndGetToken(), id), consumer);
+
+    generateToken(new Consumer<String>() {
+      @Override
+      public void consume(String input) {
+        executeGetCall(userClient.findeOne(input, id), consumer);
+      }
+
+      @Override
+      public void error(int error, Throwable exception) {
+        consumer.error(error, exception);
+      }
+    });
   }
 
   @Override
-  public void getUserByName(String name, Consumer<List<User>> consumer) {
-    executeGetListCall(userClient.findByNameContainingIgnoreCase(refreshAndGetToken(), name), consumer);
+  public void getUserByName(final String name, final Consumer<List<User>> consumer) {
+
+    generateToken(new Consumer<String>() {
+      @Override
+      public void consume(String input) {
+        executeGetListCall(userClient.findByNameContainingIgnoreCase(input, name), consumer);
+      }
+
+      @Override
+      public void error(int error, Throwable exception) {
+        consumer.error(error, exception);
+      }
+    });
   }
 
   @Override
-  public void getTracksByUser(User user, Consumer<List<Track>> consumer) {
-    executeGetListCall(driveClient.findByOwnerOid(refreshAndGetToken(), user.getOid()), consumer);
+  public void getTracksByUser(final User user, final Consumer<List<Track>> consumer) {
+
+    generateToken(new Consumer<String>() {
+      @Override
+      public void consume(String input) {
+        executeGetListCall(driveClient.findByOwnerOid(input, user.getOid()), consumer);
+      }
+
+      @Override
+      public void error(int error, Throwable exception) {
+        consumer.error(error, exception);
+      }
+    });
   }
 
   @Override
-  public void getRoutesByUser(User user, Consumer<List<Route>> consumer) {
-    executeGetListCall(routeClient.findByOwnerOid(refreshAndGetToken(), user.getOid()), consumer);
+  public void getRoutesByUser(final User user, final Consumer<List<Route>> consumer) {
+
+    generateToken(new Consumer<String>() {
+      @Override
+      public void consume(String input) {
+        executeGetListCall(routeClient.findByOwnerOid(input, user.getOid()), consumer);
+      }
+
+      @Override
+      public void error(int error, Throwable exception) {
+        consumer.error(error, exception);
+      }
+    });
   }
 
   @Override
-  public void addTrack(Track track, User owner, Consumer<Void> consumer) {
-    executeWriteCall(driveClient.create(refreshAndGetToken(), TrackAssembler.toDto(track)), consumer);
+  public void addTrack(final Track track, final User owner, final Consumer<Void> consumer) {
+
+    generateToken(new Consumer<String>() {
+      @Override
+      public void consume(String input) {
+        executeWriteCall(driveClient.create(input, TrackAssembler.toDto(track)), consumer);
+      }
+
+      @Override
+      public void error(int error, Throwable exception) {
+        consumer.error(error, exception);
+      }
+    });
   }
 
   @Override
-  public void deleteTrack(Track track, Consumer<Void> consumer) {
-    executeWriteCall(driveClient.delete(refreshAndGetToken(), track.getOid()), consumer);
+  public void deleteTrack(final Track track, final Consumer<Void> consumer) {
+
+    generateToken(new Consumer<String>() {
+      @Override
+      public void consume(String input) {
+        executeWriteCall(driveClient.delete(input, track.getOid()), consumer);
+      }
+
+      @Override
+      public void error(int error, Throwable exception) {
+        consumer.error(error, exception);
+      }
+    });
   }
 
   @Override
-  public void addRoute(Route route, User user, Consumer<Void> consumer) {
-    executeWriteCall(routeClient.create(refreshAndGetToken(), RouteAssembler.toDto(route)), consumer);
+  public void addRoute(final Route route, final User user, final Consumer<Void> consumer) {
+
+    generateToken(new Consumer<String>() {
+      @Override
+      public void consume(String input) {
+        executeWriteCall(routeClient.create(input, RouteAssembler.toDto(route)), consumer);
+      }
+
+      @Override
+      public void error(int error, Throwable exception) {
+        consumer.error(error, exception);
+      }
+    });
   }
 
   @Override
-  public void deleteRoute(Route route, Consumer<Void> consumer) {
-    executeWriteCall(routeClient.delete(refreshAndGetToken(), route.getOid()), consumer);
+  public void deleteRoute(final Route route, final Consumer<Void> consumer) {
+
+    generateToken(new Consumer<String>() {
+      @Override
+      public void consume(String input) {
+        executeWriteCall(routeClient.delete(input, route.getOid()), consumer);
+      }
+
+      @Override
+      public void error(int error, Throwable exception) {
+        consumer.error(error, exception);
+      }
+    });
   }
 
   @Override
-  public void createUser(User user, Consumer<Void> consumer) {
-    executeWriteCall(userClient.create(refreshAndGetToken(), UserAssembler.toDto(user)), consumer);
+  public void createUser(final User user, final Consumer<Void> consumer) {
+
+    generateToken(new Consumer<String>() {
+      @Override
+      public void consume(String input) {
+        executeWriteCall(userClient.create(input, UserAssembler.toDto(user)), consumer);
+      }
+
+      @Override
+      public void error(int error, Throwable exception) {
+        consumer.error(error, exception);
+      }
+    });
   }
 
   @Override
-  public void changeUserData(User user, Consumer<Void> consumer) {
-    executeWriteCall(userClient.update(refreshAndGetToken(), user.getOid(), UserAssembler.toDto(user)), consumer);
+  public void changeUserData(final User user, final Consumer<Void> consumer) {
+
+    generateToken(new Consumer<String>() {
+      @Override
+      public void consume(String input) {
+        executeWriteCall(userClient.update(input, user.getOid(), UserAssembler.toDto(user)), consumer);
+      }
+
+      @Override
+      public void error(int error, Throwable exception) {
+        consumer.error(error, exception);
+      }
+    });
   }
 
   @Override
-  public void addFriend(User user, User friend, Consumer<Void> consumer) {
-    executeWriteCall(userClient.addFriend(refreshAndGetToken(), user.getOid(), friend.getOid()), consumer);
+  public void addFriend(final User user, final User friend, final Consumer<Void> consumer) {
+
+    generateToken(new Consumer<String>() {
+      @Override
+      public void consume(String input) {
+        executeWriteCall(userClient.addFriend(input, user.getOid(), friend.getOid()), consumer);
+      }
+
+      @Override
+      public void error(int error, Throwable exception) {
+        consumer.error(error, exception);
+      }
+    });
   }
 
   @Override
-  public void getFriends(User user, Consumer<List<User>> consumer) {
-    executeGetListCall(userClient.getFriends(refreshAndGetToken(), user.getOid()), consumer);
+  public void getFriends(final User user, final Consumer<List<User>> consumer) {
+
+    generateToken(new Consumer<String>() {
+      @Override
+      public void consume(String input) {
+        executeGetListCall(userClient.getFriends(input, user.getOid()), consumer);
+      }
+
+      @Override
+      public void error(int error, Throwable exception) {
+        consumer.error(error, exception);
+      }
+    });
   }
 
   @Override
   public void getAllRoutes(final Consumer<List<Route>> consumer) {
-    executeGetListCall(routeClient.findAll(refreshAndGetToken()), consumer);
+
+    generateToken(new Consumer<String>() {
+      @Override
+      public void consume(String input) {
+        executeGetListCall(routeClient.findAll(input), consumer);
+      }
+
+      @Override
+      public void error(int error, Throwable exception) {
+        consumer.error(error, exception);
+      }
+    });
   }
 }
