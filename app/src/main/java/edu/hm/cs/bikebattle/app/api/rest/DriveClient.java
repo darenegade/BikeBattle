@@ -9,13 +9,12 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
-
-import java.util.UUID;
 
 /**
  * Organization: HM FK07.
@@ -28,47 +27,48 @@ import java.util.UUID;
  */
 public interface DriveClient {
 
-  String BASE_PATH = "/drives";
+  String BASE_PATH = "BikeBattleBackend/drives";
 
 
   //Drive Endpoints
 
   @POST(BASE_PATH)
-  Call<Void> create(@Body DriveDto entity);
+  @Headers("Content-Type: application/json")
+  Call<Void> create(@Header("Authorization")String token, @Body DriveDto entity);
 
   @PUT(BASE_PATH)
   @Headers("Content-Type: application/json")
-  Call<Void>  update(@Body DriveDto entity);
+  Call<Void>  update(@Header("Authorization")String token, @Body DriveDto entity);
 
   @DELETE(BASE_PATH + "/{id}")
-  Call<Void> delete(@Path("id") UUID id);
+  Call<Void> delete(@Header("Authorization")String token, @Path("id") String id);
 
   @GET(BASE_PATH + "/{id}")
-  Call<Resource<DriveDto>> findeOne(@Path("id") UUID id);
+  Call<Resource<DriveDto>> findeOne(@Header("Authorization")String token, @Path("id") String id);
 
   @GET(BASE_PATH + "")
-  Call<Resources<Resource<DriveDto>>> findAll();
+  Call<Resources<Resource<DriveDto>>> findAll(@Header("Authorization")String token);
 
   @GET(BASE_PATH + "/search/findByRouteOid")
-  Call<Resources<Resource<DriveDto>>>  findByRouteOid(@Query("oid") UUID oid);
+  Call<Resources<Resource<DriveDto>>>  findByRouteOid(@Header("Authorization")String token, @Query("oid") String oid);
 
   @GET(BASE_PATH + "/search/findByOwnerOid")
-  Call<Resources<Resource<DriveDto>>>  findByOwnerOid(@Query("oid") UUID oid);
+  Call<Resources<Resource<DriveDto>>>  findByOwnerOid(@Header("Authorization")String token, @Query("oid") String oid);
 
   //Relation Endpoints
 
   @PUT(BASE_PATH + "/{id}/route")
   @Headers("Content-Type: text/uri-list")
-  Call<Void> setRoute(@Path("id") UUID id, @Body String route);
+  Call<Void> setRoute(@Header("Authorization")String token, @Path("id") String id, @Body String route);
 
   @PUT(BASE_PATH + "/{id}/owner")
   @Headers("Content-Type: text/uri-list")
-  Call<Void> setOwner(@Path("id") UUID id, @Body String owner);
+  Call<Void> setOwner(@Header("Authorization")String token, @Path("id") String id, @Body String owner);
 
   @GET(BASE_PATH + "/{id}/route")
-  Call<Resource<RouteDto>>  getRoute(@Path("id") UUID id);
+  Call<Resource<RouteDto>>  getRoute(@Header("Authorization")String token, @Path("id") String id);
 
   @GET(BASE_PATH + "/{id}/owner")
-  Call<Resource<UserDto>>  getOwner(@Path("id") UUID id);
+  Call<Resource<UserDto>>  getOwner(@Header("Authorization")String token, @Path("id") String id);
 
 }

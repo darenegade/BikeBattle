@@ -9,22 +9,20 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
-
-import java.util.ArrayList;
-
 import edu.hm.cs.bikebattle.app.R;
 import edu.hm.cs.bikebattle.app.fragments.routes.RouteInformationFragment;
 import edu.hm.cs.bikebattle.app.fragments.routes.RoutesMapFragment;
 import edu.hm.cs.bikebattle.app.fragments.routes.RoutesOverviewFragment;
 import edu.hm.cs.bikebattle.app.modell.Route;
 
+import java.util.ArrayList;
+
 /**
  * Activity for showing routes near to the user.
  *
  * @author Lukas Brauckmann
  */
-public class RoutesActivity extends AppCompatActivity {
+public class RoutesActivity extends BaseActivity {
   /**
    * Fragment for navigation tabs.
    */

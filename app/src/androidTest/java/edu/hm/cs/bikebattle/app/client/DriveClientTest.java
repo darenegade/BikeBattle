@@ -19,7 +19,6 @@ import retrofit2.Response;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Organization: HM FK07.
@@ -34,6 +33,7 @@ public class DriveClientTest extends TestCase {
 
   public static final String TEST_BASE_URL = "http://10.0.2.2:8080/";
 
+  public static final String TOKEN = "Bearer INSERT TOKEN HERE";
 
   private UserClient userClient;
   private RouteClient routeClient;
@@ -47,7 +47,7 @@ public class DriveClientTest extends TestCase {
 
   private RouteDto route1 = RouteDto.builder()
       .name("route")
-      .difficulty(Difficulty.LEICHT)
+      .difficulty(Difficulty.EASY)
       .routetyp(Routetyp.CITY)
       .length(12)
       .build();
@@ -67,22 +67,22 @@ public class DriveClientTest extends TestCase {
     //Change BaseUrl to test against local running Backend
     ClientFactory.changeBaseUrl(TEST_BASE_URL);
 
-    userClient = ClientFactory.getUserClient();
-    routeClient = ClientFactory.getRouteClient();
-    driveClient = ClientFactory.getDriveClient();
+    userClient = ClientFactory.getUserClient(TOKEN);
+    routeClient = ClientFactory.getRouteClient(TOKEN);
+    driveClient = ClientFactory.getDriveClient(TOKEN);
 
     Response<Void> response;
     String[] tmp;
     String oid;
 
     //Create User 1
-    response = userClient.create(user1).execute();
+    response = userClient.create(TOKEN,user1).execute();
     assertEquals(201, response.code());
 
     tmp = response.headers().get("Location").split("/");
     oid = tmp[tmp.length - 1];
 
-    user1.setOid(UUID.fromString(oid));
+    user1.setOid(oid);
 
     //RoutePoints
 
@@ -94,12 +94,12 @@ public class DriveClientTest extends TestCase {
     route1.setOwner( "http://localhost:8080/users/" + user1.getOid());
     route1.setRoutePoints(routePoints);
 
-    response = routeClient.create(route1).execute();
+    response = routeClient.create(TOKEN,route1).execute();
 
     tmp = response.headers().get("Location").split("/");
     oid = tmp[tmp.length - 1];
 
-    route1.setOid(UUID.fromString(oid));
+    route1.setOid(oid);
 
     //Create Drive 1
     drive1.setOwner("http://localhost:8080/users/" + user1.getOid());
@@ -110,12 +110,12 @@ public class DriveClientTest extends TestCase {
     measurements.add(new MeasurementDto(24, routePoints.get(1)));
     drive1.setMeasurements(measurements);
 
-    response = driveClient.create(drive1).execute();
+    response = driveClient.create(TOKEN,drive1).execute();
 
     tmp = response.headers().get("Location").split("/");
     oid = tmp[tmp.length - 1];
 
-    drive1.setOid(UUID.fromString(oid));
+    drive1.setOid(oid);
 
     //Create Drive 2
     drive2.setOwner("http://localhost:8080/users/" + user1.getOid());
@@ -123,26 +123,26 @@ public class DriveClientTest extends TestCase {
 
     drive2.setMeasurements(measurements);
 
-    response = driveClient.create(drive2).execute();
+    response = driveClient.create(TOKEN,drive2).execute();
 
     tmp = response.headers().get("Location").split("/");
     oid = tmp[tmp.length - 1];
 
-    drive2.setOid(UUID.fromString(oid));
+    drive2.setOid(oid);
 
   }
 
   protected void tearDown() throws Exception {
-    driveClient.delete(drive1.getOid()).execute();
-    driveClient.delete(drive2.getOid()).execute();
-    routeClient.delete(route1.getOid()).execute();
-    userClient.delete(user1.getOid()).execute();
+    driveClient.delete(TOKEN,drive1.getOid()).execute();
+    driveClient.delete(TOKEN,drive2.getOid()).execute();
+    routeClient.delete(TOKEN,route1.getOid()).execute();
+    userClient.delete(TOKEN,user1.getOid()).execute();
   }
 
   //Route Tests
   public void testFindOne() throws Exception{
 
-    Response<Resource<DriveDto>> driveDtoResponse = driveClient.findeOne(drive1.getOid()).execute();
+    Response<Resource<DriveDto>> driveDtoResponse = driveClient.findeOne(TOKEN,drive1.getOid()).execute();
 
     assertEquals(200, driveDtoResponse.code());
 
@@ -153,7 +153,7 @@ public class DriveClientTest extends TestCase {
 
   public void testFindAll() throws Exception{
 
-    Response<Resources<Resource<DriveDto>>> driveDtoResponse = driveClient.findAll().execute();
+    Response<Resources<Resource<DriveDto>>> driveDtoResponse = driveClient.findAll(TOKEN).execute();
 
     assertEquals(200, driveDtoResponse.code());
 

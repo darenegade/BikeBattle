@@ -2,10 +2,16 @@ package edu.hm.cs.bikebattle.app.api.rest;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import org.springframework.hateoas.hal.Jackson2HalModule;
 import retrofit2.Retrofit;
 import retrofit2.converter.jackson.JacksonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
+
+import java.io.IOException;
 
 /**
  * Organization: HM FK07.
@@ -18,44 +24,103 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
  */
 public class ClientFactory {
 
-  public static final String DEFAULT_BASE_URL = "https://moan.cs.hm.edu:8443/BikeBattleBackend/";
-
-  private static Retrofit retrofit;
+  public static final String DEFAULT_BASE_URL = "https://moan.cs.hm.edu:8443/";
 
   private static final ObjectMapper mapper = new ObjectMapper();
+  private static OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
 
   static {
+    //Configure ObjectMapper to operate with Spring Data
     mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     mapper.registerModule(new Jackson2HalModule());
+  }
 
-    retrofit = createRetrofit(DEFAULT_BASE_URL);
+  private static Retrofit.Builder retrofitBuilder = new Retrofit.Builder()
+      .baseUrl(DEFAULT_BASE_URL)
+      .addConverterFactory(ScalarsConverterFactory.create())
+      .addConverterFactory(JacksonConverterFactory.create(mapper));
+
+  private static <S> S createService(Class<S> serviceClass, final String token) {
+
+    //Add authorization if existing
+    if (token != null) {
+      httpClient.addInterceptor(new Interceptor() {
+        @Override
+        public Response intercept(Chain chain) throws IOException {
+          Request original = chain.request();
+
+          Request.Builder requestBuilder = original.newBuilder()
+              .header("Accept", "application/json")
+              .header("Authorization",
+                  "Bearer" + " " + token)
+              .method(original.method(), original.body());
+
+          Request request = requestBuilder.build();
+          return chain.proceed(request);
+        }
+      });
+    }
+
+    //Build Service
+    OkHttpClient client = httpClient.build();
+    return retrofitBuilder.client(client).build()
+        .create(serviceClass);
   }
 
   /**
    * Changes the Base URL of the Clients.
+   *
    * @param baseUrl which the clients will use.
    */
   public static void changeBaseUrl(String baseUrl) {
-    retrofit = createRetrofit(baseUrl);
+    retrofitBuilder.baseUrl(baseUrl);
   }
 
-  private static Retrofit createRetrofit(String baseUrl) {
-    return new Retrofit.Builder()
-        .baseUrl(baseUrl)
-        .addConverterFactory(ScalarsConverterFactory.create())
-        .addConverterFactory(JacksonConverterFactory.create(mapper))
-        .build();
-  }
-
+  /**
+   * Get simple UserClient.
+   * @return UserClient
+   */
   public static UserClient getUserClient() {
-    return retrofit.create(UserClient.class);
+    return createService(UserClient.class, null);
   }
 
+  /**
+   * Get simple UserClient with Authorization.
+   * @return UserClient
+   */
+  public static UserClient getUserClient(final String token) {
+    return createService(UserClient.class, token);
+  }
+
+  /**
+   * Get simple RouteClient.
+   * @return RouteClient
+   */
   public static RouteClient getRouteClient() {
-    return retrofit.create(RouteClient.class);
+    return createService(RouteClient.class, null);
   }
 
+  /**
+   * Get simple RouteClient with Authorization.
+   * @return RouteClient
+   */
+  public static RouteClient getRouteClient(final String token) {
+    return createService(RouteClient.class, token);
+  }
+
+  /**
+   * Get simple DriveClient.
+   * @return DriveClient
+   */
   public static DriveClient getDriveClient() {
-    return retrofit.create(DriveClient.class);
+    return createService(DriveClient.class, null);
+  }
+
+  /**
+   * Get simple DriveClient with Authorization.
+   * @return DriveClient
+   */
+  public static DriveClient getDriveClient(final String token) {
+    return createService(DriveClient.class, token);
   }
 }

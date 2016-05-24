@@ -51,7 +51,7 @@ public class Track extends LocationList {
       throw new NullPointerException("Locations can not be null!");
     }
     if (track.size() > 1) {
-      return track.get(0).getTime() - track.get(track.size() - 1).getTime();
+      return track.get(track.size() - 1).getTime() - track.get(0).getTime();
     }
     return 0;
   }

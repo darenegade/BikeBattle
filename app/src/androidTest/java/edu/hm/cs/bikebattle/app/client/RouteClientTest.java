@@ -15,7 +15,6 @@ import retrofit2.Response;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.UUID;
 
 /**
  * Organization: HM FK07.
@@ -30,6 +29,8 @@ public class RouteClientTest extends TestCase {
 
   public static final String TEST_BASE_URL = "http://10.0.2.2:8080/";
 
+  public static final String TOKEN = "Bearer INSERT TOKEN HERE";
+
 
   private UserClient userClient;
   private RouteClient routeClient;
@@ -42,14 +43,14 @@ public class RouteClientTest extends TestCase {
 
   private RouteDto route1 = RouteDto.builder()
       .name("route")
-      .difficulty(Difficulty.LEICHT)
+      .difficulty(Difficulty.EASY)
       .routetyp(Routetyp.CITY)
       .length(12)
       .build();
 
   private RouteDto route2 = RouteDto.builder()
       .name("route2")
-      .difficulty(Difficulty.SCHWER)
+      .difficulty(Difficulty.EASY)
       .routetyp(Routetyp.OFFROAD)
       .length(100)
       .build();
@@ -57,7 +58,7 @@ public class RouteClientTest extends TestCase {
   protected void setUp() throws Exception {
 
     //Change BaseUrl to test against local running Backend
-    ClientFactory.changeBaseUrl(TEST_BASE_URL);
+    //ClientFactory.changeBaseUrl(TEST_BASE_URL);
 
     userClient = ClientFactory.getUserClient();
     routeClient = ClientFactory.getRouteClient();
@@ -67,13 +68,13 @@ public class RouteClientTest extends TestCase {
     String oid;
 
     //Create User 1
-    response = userClient.create(user1).execute();
+    response = userClient.create(TOKEN,user1).execute();
     assertEquals(201, response.code());
 
     tmp = response.headers().get("Location").split("/");
     oid = tmp[tmp.length - 1];
 
-    user1.setOid(UUID.fromString(oid));
+    user1.setOid(oid);
 
     //RoutePoints
 
@@ -85,36 +86,36 @@ public class RouteClientTest extends TestCase {
     route1.setOwner( "http://localhost:8080/users/" + user1.getOid());
     route1.setRoutePoints(routePoints);
 
-    response = routeClient.create(route1).execute();
+    response = routeClient.create(TOKEN,route1).execute();
 
     tmp = response.headers().get("Location").split("/");
     oid = tmp[tmp.length - 1];
 
-    route1.setOid(UUID.fromString(oid));
+    route1.setOid(oid);
 
     //Create Route 2
     route2.setOwner("http://localhost:8080/users/" + user1.getOid());
     route2.setRoutePoints(routePoints);
 
-    response = routeClient.create(route2).execute();
+    response = routeClient.create(TOKEN,route2).execute();
 
     tmp = response.headers().get("Location").split("/");
     oid = tmp[tmp.length - 1];
 
-    route2.setOid(UUID.fromString(oid));
+    route2.setOid(oid);
 
   }
 
   protected void tearDown() throws Exception {
-    routeClient.delete(route1.getOid()).execute();
-    routeClient.delete(route2.getOid()).execute();
-    userClient.delete(user1.getOid()).execute();
+    routeClient.delete(TOKEN,route1.getOid()).execute();
+    routeClient.delete(TOKEN,route2.getOid()).execute();
+    userClient.delete(TOKEN,user1.getOid()).execute();
   }
 
   //Route Tests
   public void testFindOne() throws Exception{
 
-    Response<Resource<RouteDto>> routeDtoResponse = routeClient.findeOne(route1.getOid()).execute();
+    Response<Resource<RouteDto>> routeDtoResponse = routeClient.findeOne(TOKEN,route1.getOid()).execute();
 
     assertEquals(200, routeDtoResponse.code());
 
@@ -125,7 +126,7 @@ public class RouteClientTest extends TestCase {
 
   public void testFindAll() throws Exception{
 
-    Response<Resources<Resource<RouteDto>>> routeDtoResponse = routeClient.findAll().execute();
+    Response<Resources<Resource<RouteDto>>> routeDtoResponse = routeClient.findAll(TOKEN).execute();
 
     assertEquals(200, routeDtoResponse.code());
 

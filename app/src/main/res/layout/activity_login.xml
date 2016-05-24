@@ -8,7 +8,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="edu.hm.cs.bikebattle.app.Login"
+    tools:context=".activities.Login"
     android:background="#ffffff">
 
     <LinearLayout
@@ -18,21 +18,21 @@
         android:id="@+id/overview">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/app_name"
-            android:id="@+id/textView"
-            android:layout_gravity="center_horizontal"
-            android:textSize="40dp" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="@string/app_name"
+                android:id="@+id/textView"
+                android:layout_gravity="center_horizontal"
+                android:textSize="40sp" android:textColor="#000000"/>
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="@string/title_text"
-            android:id="@+id/textView2"
-            android:layout_gravity="center_horizontal" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/title_text"
+                android:id="@+id/textView2"
+                android:layout_gravity="center_horizontal" android:textColor="#000000"/>
     </LinearLayout>
 
     <LinearLayout
@@ -52,18 +52,17 @@
 
     <LinearLayout
         android:orientation="horizontal"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal">
 
 
         <com.google.android.gms.common.SignInButton
                 android:id="@+id/sign_in_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:visibility="visible"
-                tools:visibility="visible" />
+                tools:visibility="visible"/>
     </LinearLayout>
 
 </LinearLayout>

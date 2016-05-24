@@ -1,11 +1,12 @@
 package edu.hm.cs.bikebattle.app.modell;
 
 import android.location.Location;
-import edu.hm.cs.bikebattle.app.api.domain.Difficulty;
-import edu.hm.cs.bikebattle.app.api.domain.Routetyp;
 
 import java.io.Serializable;
 import java.util.List;
+
+import edu.hm.cs.bikebattle.app.api.domain.Difficulty;
+import edu.hm.cs.bikebattle.app.api.domain.Routetyp;
 
 /**
  * Created by Nils on 30.03.2016.
@@ -14,7 +15,7 @@ import java.util.List;
  * But have additional attributes like a name.
  *
  * @author Nils Bernhardt
- * @version 1.0
+ * @version 1.2
  */
 public class Route extends LocationList implements Serializable {
   /**
