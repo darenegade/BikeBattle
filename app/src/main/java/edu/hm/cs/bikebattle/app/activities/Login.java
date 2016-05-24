@@ -2,28 +2,25 @@ package edu.hm.cs.bikebattle.app.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
-import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
-import com.google.android.gms.common.api.GoogleApiClient;
 import edu.hm.cs.bikebattle.app.R;
 
 /**
  * Erstellt das Login Fenster, indem man sich über den Googleaccount anmeldet.
- * @author munichsven
+ * @author munichsven, darenegade
  */
-public class Login extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
+public class Login extends BaseActivity {
 
   private static final String TAG = "SignInBikeBattle";
-  private static final int RC_SIGN_IN = 9001;
-  private GoogleApiClient googleApiClient;
+
+  public static final int RC_SIGN_IN = 9001;
+
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -37,19 +34,9 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
    */
   private void initCompoents() {
 
-    GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-        .requestEmail()
-        .requestIdToken(getString(R.string.server_client_id))
-        .build();
-
-    googleApiClient = new GoogleApiClient.Builder(this)
-        .enableAutoManage(this, this)
-        .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-        .build();
-
     //Lädt die Eigenschaften des login Button und fügt ihm einen Actionslistener hinzu.
     SignInButton login = (SignInButton) findViewById(R.id.sign_in_button);
-    login.setScopes(gso.getScopeArray());
+    login.setScopes(getGoogleSignInOptions().getScopeArray());
     login.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View view) {
@@ -61,14 +48,15 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
   /**
    *Lässt den User seinen gewünschten Google Account auswählen.
    */
-  private void signIn() {
-    Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
+  public void signIn() {
+    Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(getGoogleApiClient());
     startActivityForResult(signInIntent, RC_SIGN_IN);
   }
 
   @Override
-  public void onConnectionFailed(ConnectionResult connectionResult) {
-    Log.d(TAG, "onConnectionFailed:" + connectionResult);
+  protected void onStart() {
+    super.onStart();
+    getGoogleApiClient().connect();
   }
 
   @Override
@@ -79,12 +67,6 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
       GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
       handleSignInResult(result);
     }
-  }
-
-  @Override
-  protected void onStart() {
-    super.onStart();
-    googleApiClient.connect();
   }
 
   /**
@@ -118,6 +100,7 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
 
       Intent intent = new Intent(getApplicationContext(), MainActivity.class);
       startActivity(intent);
+
     } else {
       Log.d(TAG, "Fehler beim Login: " + result.getStatus().toString());
       Toast toast = Toast.makeText(getApplicationContext(), "Anmeldung fehlgeschlagen",

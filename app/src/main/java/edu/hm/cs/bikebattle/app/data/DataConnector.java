@@ -42,6 +42,14 @@ public interface DataConnector {
   void getUserById(String id, Consumer<User> consumer);
 
   /**
+   * Login on Backend and returns the current user.
+   *
+   * @param email       user email
+   * @param consumer consumer to call
+   */
+  void login(String email, Consumer<User> consumer);
+
+  /**
    * Returns the user with the given name.
    *
    * @param name     user name

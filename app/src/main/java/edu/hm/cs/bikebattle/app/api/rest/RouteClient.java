@@ -10,6 +10,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
@@ -33,38 +34,39 @@ public interface RouteClient {
   //Route Endpoints
 
   @POST(BASE_PATH)
-  Call<Void> create(@Body RouteDto entity);
+  Call<Void> create(@Header("Authorization")String token, @Body RouteDto entity);
 
   @PUT(BASE_PATH)
   @Headers("Content-Type: application/json")
-  Call<Void>  update(@Body RouteDto entity);
+  Call<Void>  update(@Header("Authorization")String token, @Body RouteDto entity);
 
   @DELETE(BASE_PATH + "/{id}")
-  Call<Void> delete(@Path("id") String id);
+  Call<Void> delete(@Header("Authorization")String token, @Path("id") String id);
 
   @GET(BASE_PATH + "/{id}")
-  Call<Resource<RouteDto>> findeOne(@Path("id") String id);
+  Call<Resource<RouteDto>> findeOne(@Header("Authorization")String token, @Path("id") String id);
 
   @GET(BASE_PATH + "")
-  Call<Resources<Resource<RouteDto>>> findAll();
+  Call<Resources<Resource<RouteDto>>> findAll(@Header("Authorization")String token);
 
   @GET(BASE_PATH + "/search/findByName")
-  Call<Resources<Resource<RouteDto>>>  findByName(@Query("name") String name);
+  Call<Resources<Resource<RouteDto>>>  findByName(@Header("Authorization")String token, @Query("name") String name);
 
   @GET(BASE_PATH + "/search/findByNameContainingIgnoreCase")
-  Call<Resources<Resource<RouteDto>>>  findByNameContainingIgnoreCase(@Query("name") String name);
+  Call<Resources<Resource<RouteDto>>>  findByNameContainingIgnoreCase(@Header("Authorization")String token, @Query("name") String name);
 
   @GET(BASE_PATH + "/search/findByOwnerOid")
-  Call<Resources<Resource<RouteDto>>>  findByOwnerOid(@Query("oid") String oid);
+  Call<Resources<Resource<RouteDto>>>  findByOwnerOid(@Header("Authorization")String token, @Query("oid") String oid);
 
   @GET(BASE_PATH + "/search/findByDifficulty")
-  Call<Resources<Resource<RouteDto>>>  findByDifficulty(@Query("difficulty") Difficulty difficulty);
+  Call<Resources<Resource<RouteDto>>>  findByDifficulty(@Header("Authorization")String token, @Query("difficulty") Difficulty difficulty);
 
   @GET(BASE_PATH + "/search/findByRoutetype")
-  Call<Resources<Resource<RouteDto>>>  findByRoutetype(@Query("routetype") Routetyp routetyp);
+  Call<Resources<Resource<RouteDto>>>  findByRoutetype(@Header("Authorization")String token, @Query("routetype") Routetyp routetyp);
 
   @GET(BASE_PATH + "/search/findNear")
   Call<Resources<Resource<RouteDto>>>  findNear(
+      @Header("Authorization")String token,
       @Query("longitude") double longitude,
       @Query("latitude") double latitude,
       @Query("r") double r);
@@ -73,10 +75,10 @@ public interface RouteClient {
 
   @PUT(BASE_PATH + "/{id}/owner")
   @Headers("Content-Type: text/uri-list")
-  Call<Void> setOwner(@Path("id") String id, @Body String owner);
+  Call<Void> setOwner(@Header("Authorization")String token, @Path("id") String id, @Body String owner);
 
   @GET(BASE_PATH + "/{id}/owner")
-  Call<Resource<UserDto>>  getOwner(@Path("id") String id);
+  Call<Resource<UserDto>>  getOwner(@Header("Authorization")String token, @Path("id") String id);
 
 
 }

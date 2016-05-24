@@ -29,7 +29,7 @@ public class RouteClientTest extends TestCase {
 
   public static final String TEST_BASE_URL = "http://10.0.2.2:8080/";
 
-  public static final String TOKEN = "INSERT TOKEN HERE";
+  public static final String TOKEN = "Bearer INSERT TOKEN HERE";
 
 
   private UserClient userClient;
@@ -60,15 +60,15 @@ public class RouteClientTest extends TestCase {
     //Change BaseUrl to test against local running Backend
     //ClientFactory.changeBaseUrl(TEST_BASE_URL);
 
-    userClient = ClientFactory.getUserClient(TOKEN);
-    routeClient = ClientFactory.getRouteClient(TOKEN);
+    userClient = ClientFactory.getUserClient();
+    routeClient = ClientFactory.getRouteClient();
 
     Response<Void> response;
     String[] tmp;
     String oid;
 
     //Create User 1
-    response = userClient.create(user1).execute();
+    response = userClient.create(TOKEN,user1).execute();
     assertEquals(201, response.code());
 
     tmp = response.headers().get("Location").split("/");
@@ -86,7 +86,7 @@ public class RouteClientTest extends TestCase {
     route1.setOwner( "http://localhost:8080/users/" + user1.getOid());
     route1.setRoutePoints(routePoints);
 
-    response = routeClient.create(route1).execute();
+    response = routeClient.create(TOKEN,route1).execute();
 
     tmp = response.headers().get("Location").split("/");
     oid = tmp[tmp.length - 1];
@@ -97,7 +97,7 @@ public class RouteClientTest extends TestCase {
     route2.setOwner("http://localhost:8080/users/" + user1.getOid());
     route2.setRoutePoints(routePoints);
 
-    response = routeClient.create(route2).execute();
+    response = routeClient.create(TOKEN,route2).execute();
 
     tmp = response.headers().get("Location").split("/");
     oid = tmp[tmp.length - 1];
@@ -107,15 +107,15 @@ public class RouteClientTest extends TestCase {
   }
 
   protected void tearDown() throws Exception {
-    routeClient.delete(route1.getOid()).execute();
-    routeClient.delete(route2.getOid()).execute();
-    userClient.delete(user1.getOid()).execute();
+    routeClient.delete(TOKEN,route1.getOid()).execute();
+    routeClient.delete(TOKEN,route2.getOid()).execute();
+    userClient.delete(TOKEN,user1.getOid()).execute();
   }
 
   //Route Tests
   public void testFindOne() throws Exception{
 
-    Response<Resource<RouteDto>> routeDtoResponse = routeClient.findeOne(route1.getOid()).execute();
+    Response<Resource<RouteDto>> routeDtoResponse = routeClient.findeOne(TOKEN,route1.getOid()).execute();
 
     assertEquals(200, routeDtoResponse.code());
 
@@ -126,7 +126,7 @@ public class RouteClientTest extends TestCase {
 
   public void testFindAll() throws Exception{
 
-    Response<Resources<Resource<RouteDto>>> routeDtoResponse = routeClient.findAll().execute();
+    Response<Resources<Resource<RouteDto>>> routeDtoResponse = routeClient.findAll(TOKEN).execute();
 
     assertEquals(200, routeDtoResponse.code());
 

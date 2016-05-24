@@ -33,7 +33,7 @@ public class DriveClientTest extends TestCase {
 
   public static final String TEST_BASE_URL = "http://10.0.2.2:8080/";
 
-  public static final String TOKEN = "INSERT TOKEN HERE";
+  public static final String TOKEN = "Bearer INSERT TOKEN HERE";
 
   private UserClient userClient;
   private RouteClient routeClient;
@@ -76,7 +76,7 @@ public class DriveClientTest extends TestCase {
     String oid;
 
     //Create User 1
-    response = userClient.create(user1).execute();
+    response = userClient.create(TOKEN,user1).execute();
     assertEquals(201, response.code());
 
     tmp = response.headers().get("Location").split("/");
@@ -94,7 +94,7 @@ public class DriveClientTest extends TestCase {
     route1.setOwner( "http://localhost:8080/users/" + user1.getOid());
     route1.setRoutePoints(routePoints);
 
-    response = routeClient.create(route1).execute();
+    response = routeClient.create(TOKEN,route1).execute();
 
     tmp = response.headers().get("Location").split("/");
     oid = tmp[tmp.length - 1];
@@ -110,7 +110,7 @@ public class DriveClientTest extends TestCase {
     measurements.add(new MeasurementDto(24, routePoints.get(1)));
     drive1.setMeasurements(measurements);
 
-    response = driveClient.create(drive1).execute();
+    response = driveClient.create(TOKEN,drive1).execute();
 
     tmp = response.headers().get("Location").split("/");
     oid = tmp[tmp.length - 1];
@@ -123,7 +123,7 @@ public class DriveClientTest extends TestCase {
 
     drive2.setMeasurements(measurements);
 
-    response = driveClient.create(drive2).execute();
+    response = driveClient.create(TOKEN,drive2).execute();
 
     tmp = response.headers().get("Location").split("/");
     oid = tmp[tmp.length - 1];
@@ -133,16 +133,16 @@ public class DriveClientTest extends TestCase {
   }
 
   protected void tearDown() throws Exception {
-    driveClient.delete(drive1.getOid()).execute();
-    driveClient.delete(drive2.getOid()).execute();
-    routeClient.delete(route1.getOid()).execute();
-    userClient.delete(user1.getOid()).execute();
+    driveClient.delete(TOKEN,drive1.getOid()).execute();
+    driveClient.delete(TOKEN,drive2.getOid()).execute();
+    routeClient.delete(TOKEN,route1.getOid()).execute();
+    userClient.delete(TOKEN,user1.getOid()).execute();
   }
 
   //Route Tests
   public void testFindOne() throws Exception{
 
-    Response<Resource<DriveDto>> driveDtoResponse = driveClient.findeOne(drive1.getOid()).execute();
+    Response<Resource<DriveDto>> driveDtoResponse = driveClient.findeOne(TOKEN,drive1.getOid()).execute();
 
     assertEquals(200, driveDtoResponse.code());
 
@@ -153,7 +153,7 @@ public class DriveClientTest extends TestCase {
 
   public void testFindAll() throws Exception{
 
-    Response<Resources<Resource<DriveDto>>> driveDtoResponse = driveClient.findAll().execute();
+    Response<Resources<Resource<DriveDto>>> driveDtoResponse = driveClient.findAll(TOKEN).execute();
 
     assertEquals(200, driveDtoResponse.code());
 
