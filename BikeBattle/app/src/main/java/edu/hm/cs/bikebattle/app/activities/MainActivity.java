@@ -24,6 +24,9 @@ public class MainActivity extends BaseActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
 
+    //Reconnect to Google and set Principle from Backend
+    reconnect();
+
     findViewById(R.id.routes_button).setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View view) {

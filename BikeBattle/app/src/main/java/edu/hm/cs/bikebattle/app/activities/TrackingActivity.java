@@ -48,6 +48,9 @@ public class TrackingActivity extends BaseActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_routes);
 
+    //Reconnect to Google and set Principle from Backend
+    reconnect();
+
     final TrackingOverviewFragment overviewFragment = new TrackingOverviewFragment();
 
     FragmentManager fm = getSupportFragmentManager();

@@ -53,6 +53,9 @@ public class RoutesActivity extends BaseActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_routes);
 
+    //Reconnect to Google and set Principle from Backend
+    reconnect();
+
     createTestRoute();
 
     locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);

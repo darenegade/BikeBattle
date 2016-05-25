@@ -56,7 +56,6 @@ public abstract class BaseActivity extends AppCompatActivity implements GoogleAp
 
     dataConnector = new BasicDataConnector(googleApiClient);
 
-    reconnect();
   }
 
 
