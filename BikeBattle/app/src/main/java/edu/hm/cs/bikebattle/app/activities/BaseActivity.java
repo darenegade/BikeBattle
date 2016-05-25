@@ -1,6 +1,7 @@
 package edu.hm.cs.bikebattle.app.activities;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -39,6 +40,7 @@ public abstract class BaseActivity extends AppCompatActivity implements GoogleAp
   private DataConnector dataConnector;
 
   private User principal;
+  private Uri userPhoto;
 
   @Override
   protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -78,6 +80,8 @@ public abstract class BaseActivity extends AppCompatActivity implements GoogleAp
           Log.d(TAG, "Name:" + acct.getDisplayName());
           Log.d(TAG, "Mail:" + acct.getEmail());
           Log.d(TAG, "Token:" + acct.getIdToken());
+
+          userPhoto = acct.getPhotoUrl();
 
           dataConnector.login(acct.getEmail(), new Consumer<User>() {
             @Override
@@ -127,6 +131,10 @@ public abstract class BaseActivity extends AppCompatActivity implements GoogleAp
 
   public User getPrincipal() {
     return principal;
+  }
+
+  public Uri getUserPhoto(){
+    return userPhoto;
   }
 
   public DataConnector getDataConnector() {
