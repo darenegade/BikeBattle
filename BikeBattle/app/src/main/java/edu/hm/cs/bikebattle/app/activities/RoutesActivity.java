@@ -9,13 +9,18 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import edu.hm.cs.bikebattle.app.R;
+import edu.hm.cs.bikebattle.app.data.Consumer;
 import edu.hm.cs.bikebattle.app.fragments.routes.RouteInformationFragment;
+import edu.hm.cs.bikebattle.app.fragments.routes.RoutesListFragment;
 import edu.hm.cs.bikebattle.app.fragments.routes.RoutesMapFragment;
 import edu.hm.cs.bikebattle.app.fragments.routes.RoutesOverviewFragment;
 import edu.hm.cs.bikebattle.app.modell.Route;
-
-import java.util.ArrayList;
 
 /**
  * Activity for showing routes near to the user.
@@ -36,13 +41,17 @@ public class RoutesActivity extends BaseActivity {
    */
   private final RoutesMapFragment mapFragment = new RoutesMapFragment();
   /**
+   * Fragment for displaying the routes in a list.
+   */
+  private final RoutesListFragment listFragment = new RoutesListFragment();
+  /**
    * LocationManager for providing locations.
    */
   private LocationManager locationManager;
   /**
    * ArrayList for all routes that should be shown.
    */
-  private ArrayList<Route> routes = new ArrayList<Route>();
+  private List<Route> routes = new ArrayList<Route>();
   /**
    * Flag whether the information fragment is displayed.
    */
@@ -53,12 +62,10 @@ public class RoutesActivity extends BaseActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_routes);
 
-    //Reconnect to Google and set Principle from Backend
-    reconnect();
-
-    createTestRoute();
-
     locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+    loadRoutes();
+    //createTestRoute();
 
     mapFragment.setLastLocation(getLastLocation());
 
@@ -78,17 +85,8 @@ public class RoutesActivity extends BaseActivity {
    *
    * @return List with all routes.
    */
-  public ArrayList<Route> getRoutes() {
+  public List<Route> getRoutes() {
     return routes;
-  }
-
-  /**
-   * Adds a route to the List.
-   *
-   * @param route The route that should be added.
-   */
-  public void addRoute(Route route) {
-    routes.add(route);
   }
 
   /**
@@ -136,10 +134,41 @@ public class RoutesActivity extends BaseActivity {
 
   /**
    * Gets the fragment that displays the map.
+   *
    * @return Map fragment.
    */
   public RoutesMapFragment getMapFragment() {
     return mapFragment;
+  }
+
+  /**
+   * Gets the fragment that displays the list.
+   *
+   * @return List fragment.
+   */
+  public RoutesListFragment getListFragment() {
+    return listFragment;
+  }
+
+  private void loadRoutes() {
+    Consumer consumer = new Consumer<List<Route>>(){
+
+      @Override
+      public void consume(List<Route> input) {
+        Log.d("Data","Loaded routes!");
+        routes=input;
+        Log.d("Routes size",String.valueOf(routes.size()));
+        mapFragment.showRoutes();
+        listFragment.updateList();
+      }
+
+      @Override
+      public void error(int error, Throwable exception) {
+
+      }
+
+    };
+    this.getDataConnector().getRoutesByLocation(getLastLocation(),10,consumer);
   }
 
   /**
@@ -148,56 +177,29 @@ public class RoutesActivity extends BaseActivity {
   private void createTestRoute() {
     ArrayList<Location> wayPoints = new ArrayList<Location>();
     Location loc1 = new Location("");
-    loc1.setLatitude(48.154);
-    loc1.setLongitude(11.554);
-    wayPoints.add(loc1);
-    Location loc2 = new Location("");
-    loc2.setLatitude(48.155);
-    loc2.setLongitude(11.556);
-    wayPoints.add(loc2);
-    Location loc3 = new Location("");
-    loc3.setLatitude(48.154);
-    loc3.setLongitude(11.557);
-    wayPoints.add(loc3);
-    Location loc4 = new Location("");
-    loc4.setLatitude(48.153);
-    loc4.setLongitude(11.561);
-    wayPoints.add(loc4);
-    Location loc5 = new Location("");
-    loc5.setLatitude(48.152);
-    loc5.setLongitude(11.56);
-    wayPoints.add(loc5);
-    Location loc6 = new Location("");
-    loc6.setLatitude(48.151);
-    loc6.setLongitude(11.558);
-    wayPoints.add(loc6);
-    addRoute(new Route(wayPoints, "Hochschule", false));
-
-    wayPoints = new ArrayList<Location>();
-    loc1 = new Location("");
     loc1.setLatitude(48.143);
     loc1.setLongitude(11.588);
     wayPoints.add(loc1);
-    loc2 = new Location("");
+    Location loc2 = new Location("");
     loc2.setLatitude(48.144);
     loc2.setLongitude(11.588);
     wayPoints.add(loc2);
-    loc3 = new Location("");
+    Location loc3 = new Location("");
     loc3.setLatitude(48.145);
     loc3.setLongitude(11.588);
     wayPoints.add(loc3);
-    loc4 = new Location("");
+    Location loc4 = new Location("");
     loc4.setLatitude(48.15);
     loc4.setLongitude(11.588);
     wayPoints.add(loc4);
-    loc5 = new Location("");
+    Location loc5 = new Location("");
     loc5.setLatitude(48.148);
     loc5.setLongitude(11.59);
     wayPoints.add(loc5);
-    loc6 = new Location("");
+    Location loc6 = new Location("");
     loc6.setLatitude(48.146);
     loc6.setLongitude(11.592);
     wayPoints.add(loc6);
-    addRoute(new Route(wayPoints, "Englischer Garten", false));
+    routes.add(new Route(wayPoints, "Englischer Garten", false));
   }
 }

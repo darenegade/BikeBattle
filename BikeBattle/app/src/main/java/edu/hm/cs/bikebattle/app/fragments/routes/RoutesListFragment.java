@@ -24,6 +24,8 @@ public class RoutesListFragment extends Fragment {
    */
   private RoutesActivity activity;
 
+  private ListView list;
+
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -36,7 +38,7 @@ public class RoutesListFragment extends Fragment {
     // Inflate the layout for this fragment
     inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     View view = inflater.inflate(R.layout.fragment_routes_list, container, false);
-    ListView list = (ListView) view.findViewById(R.id.listView);
+    list = (ListView) view.findViewById(R.id.listView);
     list.setAdapter(new RoutesListAdapter(getContext(), activity.getRoutes()));
     list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
       @Override
@@ -47,5 +49,9 @@ public class RoutesListFragment extends Fragment {
     });
 
     return view;
+  }
+
+  public void updateList(){
+    list.setAdapter(new RoutesListAdapter(getContext(), activity.getRoutes()));
   }
 }

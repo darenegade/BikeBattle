@@ -2,8 +2,10 @@ package edu.hm.cs.bikebattle.app.activities;
 
 import android.location.Location;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+
 import edu.hm.cs.bikebattle.app.R;
 import edu.hm.cs.bikebattle.app.fragments.tracking.TrackingInformationFragment;
 import edu.hm.cs.bikebattle.app.fragments.tracking.TrackingMapFragment;
@@ -43,13 +45,14 @@ public class TrackingActivity extends BaseActivity {
    */
   private boolean isTracking = false;
 
+  private boolean routing;
+
+  private String routesOid;
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_routes);
-
-    //Reconnect to Google and set Principle from Backend
-    reconnect();
 
     final TrackingOverviewFragment overviewFragment = new TrackingOverviewFragment();
 
@@ -58,18 +61,48 @@ public class TrackingActivity extends BaseActivity {
     ft.add(R.id.fragment_container, overviewFragment);
     ft.commit();
 
+    Bundle args = getIntent().getExtras();
+    try {
+      routesOid = args.getString("oid");
+    } catch (NullPointerException exception) {
+      routesOid = null;
+    }
+    routing = routesOid != null;
+    if(routing){
+      loadTrack();
+    }
+
     //tracker = new GoogleApiLocationTracker(this, 0);
     tracker = new AndroidLocationTracker(1, this);//TODO
     mapFragment.setLastLocation(tracker.getLastLocation());
   }
 
+  private void loadTrack() {
+    //TODO: Load route for routing.
+  }
+
   /**
    * Change tracking mode to on or off.
+   *
    * @return Is tracking currently turned on.
    */
   public boolean changeTrackingMode() {
     if (isTracking) {
       tracker.stop();
+      //TODO: Backend implementation
+      /*
+      new Thread() {
+        @Override
+        public void run() {
+          dataConnector.addTrack(track,new User("Lukas",80,190));
+          Log.e("Data:","Saved track!");
+        }
+      }.start();
+      */
+
+      DialogFragment dialog = new CreateRouteDialog();
+      dialog.show(getSupportFragmentManager(), "Create new route?");
+
       isTracking = false;
     } else {
       if (tracker.start()) {
@@ -84,6 +117,15 @@ public class TrackingActivity extends BaseActivity {
   public void onBackPressed() {
     tracker.stop();
     super.onBackPressed();
+  }
+
+  /**
+   * Returns the flag for routing.
+   *
+   * @return Routing flag.
+   */
+  public boolean isRouting() {
+    return routing;
   }
 
   /**
@@ -144,5 +186,18 @@ public class TrackingActivity extends BaseActivity {
    */
   public TrackingInformationFragment getInformationFragment() {
     return informationFragment;
+  }
+
+  public void addRoute(final String name) {
+    //TODO: Backend implementation
+    /*
+    new Thread() {
+      @Override
+      public void run() {
+        dataConnector.addRoute(new Route(name,track),new User("Lukas",80,190));
+        Log.e("Data:","Saved route!");
+      }
+    }.start();
+    */
   }
 }
