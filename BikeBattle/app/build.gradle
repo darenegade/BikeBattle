@@ -92,22 +92,22 @@ dependencies {
     compile "com.android.support:appcompat-v7:${supportLibVersion}"
     compile "com.android.support:design:${supportLibVersion}"
     compile "com.android.support:support-v4:${supportLibVersion}"
-    compile 'com.google.android.gms:play-services:8.4.0'
-    compile 'com.google.android.gms:play-services-auth:8.4.0'
-    compile 'com.android.support:multidex:1.0.0'
+    compile "com.google.android.gms:play-services:8.4.0"
+    compile "com.google.android.gms:play-services-auth:8.4.0"
+    compile "com.android.support:multidex:1.0.0"
 
-    compile 'org.projectlombok:lombok:1.16.8'
+    compile "org.projectlombok:lombok:1.16.8"
 
     //API
-    compile 'com.squareup.retrofit2:retrofit:2.0.2'
-    compile 'com.squareup.retrofit2:converter-jackson:2.0.2'
-    compile 'com.squareup.retrofit2:converter-scalars:2.0.2'
-    compile 'com.squareup.okhttp3:logging-interceptor:3.2.0'
-    compile('org.springframework.hateoas:spring-hateoas:0.19.0.RELEASE')
+    compile "com.squareup.retrofit2:retrofit:2.0.2"
+    compile "com.squareup.retrofit2:converter-jackson:2.0.2"
+    compile "com.squareup.retrofit2:converter-scalars:2.0.2"
+    compile "com.squareup.okhttp3:logging-interceptor:3.2.0"
+    compile "org.springframework.hateoas:spring-hateoas:0.19.0.RELEASE"
 
-    testCompile 'junit:junit:4.12'
+    testCompile "junit:junit:4.12"
     testCompile "org.mockito:mockito-core:1.9.5"
-    androidTestCompile('com.android.support:multidex-instrumentation:1.0.1') {
+    androidTestCompile ("com.android.support:multidex-instrumentation:1.0.1") {
         exclude group: 'com.android.support', module: 'multidex'
     }
 }
