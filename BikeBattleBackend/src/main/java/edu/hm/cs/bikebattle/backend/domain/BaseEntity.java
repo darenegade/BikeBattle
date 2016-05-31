@@ -1,10 +1,14 @@
 package edu.hm.cs.bikebattle.backend.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.annotation.Version;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * Organization: HM FK07.
@@ -21,6 +25,13 @@ public abstract class BaseEntity implements Cloneable, Serializable {
 
     @Id
     String oid;
+
+    @Version
+    private Long version;
+
+    @LastModifiedDate
+    @JsonIgnore
+    private Date lastModified;
 
     @Override
     public Object clone() throws CloneNotSupportedException {
