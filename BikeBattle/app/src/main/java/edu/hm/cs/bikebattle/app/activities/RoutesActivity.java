@@ -73,6 +73,11 @@ public class RoutesActivity extends BaseActivity {
     ft.commit();
   }
 
+  @Override
+  public void refreshUserInfo() {
+
+  }
+
   /**
    * Returns the List with all routes.
    *

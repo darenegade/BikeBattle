@@ -88,6 +88,7 @@ public abstract class BaseActivity extends AppCompatActivity implements GoogleAp
             public void consume(User input) {
               principal = input;
               Log.d(TAG, principal.toString());
+              refreshUserInfo();
             }
 
             @Override
@@ -140,4 +141,6 @@ public abstract class BaseActivity extends AppCompatActivity implements GoogleAp
   public DataConnector getDataConnector() {
     return dataConnector;
   }
+
+  public abstract  void refreshUserInfo();
 }

@@ -3,6 +3,7 @@ package edu.hm.cs.bikebattle.app.activities;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -16,12 +17,17 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+
 import edu.hm.cs.bikebattle.app.R;
+import edu.hm.cs.bikebattle.app.modell.User;
 
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener{
 
   private static final String TAG = "MainActivity";
-
+  private NavigationView navigationView;
+  private View headerView;
   /**
    * Permission request parameter value.
    */
@@ -37,6 +43,11 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
     setSupportActionBar(toolbar);
+
+     navigationView = (NavigationView)findViewById(R.id.nav_view);
+     headerView = navigationView.getHeaderView(0);
+
+
 
     FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
     fab.setOnClickListener(new View.OnClickListener() {
@@ -118,6 +129,29 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     });**/
 
     requestPermission();
+  }
+
+  @Override
+  public void refreshUserInfo() {
+
+    final User user = getPrincipal();
+    final String name = user.getName();
+    final String email = user.getEmail();
+    final Uri foto = getUserPhoto();
+
+    runOnUiThread(new Runnable(){
+      public void run() {
+
+        TextView nameField = (TextView)headerView.findViewById(R.id.yournamefield);
+        nameField.setText(name);
+        TextView mailField = (TextView)headerView.findViewById(R.id.youradressfield);
+        mailField.setText(email);
+        ImageView profilImage = (ImageView) headerView.findViewById(R.id.imageView);
+        if(foto != null){
+          profilImage.setImageURI(foto);
+        }
+      }
+    });
   }
 
   @Override

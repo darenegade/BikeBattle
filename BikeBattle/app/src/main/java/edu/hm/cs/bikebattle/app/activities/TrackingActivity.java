@@ -63,6 +63,11 @@ public class TrackingActivity extends BaseActivity {
     mapFragment.setLastLocation(tracker.getLastLocation());
   }
 
+  @Override
+  public void refreshUserInfo() {
+
+  }
+
   /**
    * Change tracking mode to on or off.
    * @return Is tracking currently turned on.
