@@ -65,7 +65,7 @@ public class RoutesMapFragment extends Fragment implements OnMapReadyCallback {
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
                            Bundle savedInstanceState) {
     // Inflate the layout for this fragment
-    return inflater.inflate(R.layout.fragment_map, container, false);
+    return inflater.inflate(R.layout.fragment_routes_map, container, false);
   }
 
   @Override

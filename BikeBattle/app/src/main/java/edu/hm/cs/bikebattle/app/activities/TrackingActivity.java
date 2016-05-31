@@ -1,15 +1,23 @@
 package edu.hm.cs.bikebattle.app.activities;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
+
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolylineOptions;
 
 import edu.hm.cs.bikebattle.app.R;
-import edu.hm.cs.bikebattle.app.fragments.tracking.TrackingInformationFragment;
-import edu.hm.cs.bikebattle.app.fragments.tracking.TrackingMapFragment;
-import edu.hm.cs.bikebattle.app.fragments.tracking.TrackingOverviewFragment;
 import edu.hm.cs.bikebattle.app.modell.Track;
 import edu.hm.cs.bikebattle.app.tracker.AndroidLocationTracker;
 import edu.hm.cs.bikebattle.app.tracker.LocationTracker;
@@ -19,19 +27,11 @@ import edu.hm.cs.bikebattle.app.tracker.LocationTracker;
  *
  * @author Lukas Brauckmann
  */
-public class TrackingActivity extends BaseActivity {
+public class TrackingActivity extends BaseActivity implements OnMapReadyCallback {
   /**
    * Counter for received location updates.
    */
   private int locationUpdates = 0;
-  /**
-   * Fragment for showing the map.
-   */
-  private final TrackingMapFragment mapFragment = new TrackingMapFragment();
-  /**
-   * Fragment for showing tracking information.
-   */
-  private final TrackingInformationFragment informationFragment = new TrackingInformationFragment();
   /**
    * Track that is recorded so far.
    */
@@ -44,22 +44,28 @@ public class TrackingActivity extends BaseActivity {
    * Flag whether tracking is turned on.
    */
   private boolean isTracking = false;
-
+  /**
+   * Flag whether routing is active.
+   */
   private boolean routing;
 
   private String routesOid;
+  /**
+   * The google map which shows the recorded track and the users position.
+   */
+  private GoogleMap googleMap;
+  /**
+   * Last location which represents the users position.
+   */
+  private Location lastLocation;
+
+  private TrackingViewController viewController;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_routes);
-
-    final TrackingOverviewFragment overviewFragment = new TrackingOverviewFragment();
-
-    FragmentManager fm = getSupportFragmentManager();
-    FragmentTransaction ft = fm.beginTransaction();
-    ft.add(R.id.fragment_container, overviewFragment);
-    ft.commit();
+    setContentView(R.layout.activity_tracking);
+    viewController=new TrackingViewController(this);
 
     Bundle args = getIntent().getExtras();
     try {
@@ -73,8 +79,9 @@ public class TrackingActivity extends BaseActivity {
     }
 
     //tracker = new GoogleApiLocationTracker(this, 0);
-    tracker = new AndroidLocationTracker(1, this);//TODO
-    mapFragment.setLastLocation(tracker.getLastLocation());
+    tracker = new AndroidLocationTracker(1, this);
+    //TODO: Auto update to current location.
+    this.lastLocation=tracker.getLastLocation();
   }
 
   private void loadTrack() {
@@ -120,15 +127,6 @@ public class TrackingActivity extends BaseActivity {
   }
 
   /**
-   * Returns the flag for routing.
-   *
-   * @return Routing flag.
-   */
-  public boolean isRouting() {
-    return routing;
-  }
-
-  /**
    * Starts a thread for receiving location updates.
    */
   private void startTracking() {
@@ -165,27 +163,32 @@ public class TrackingActivity extends BaseActivity {
    */
   private void updateTrack(Track track, Location lastLocation) {
     this.track = track;
-    mapFragment.updateTrack(track);
-    mapFragment.setLastLocation(lastLocation);
-    informationFragment.updateTrack(track, lastLocation);
+    drawTrack(track);
+    this.lastLocation=lastLocation;
+    updateCamera();
+    //informationFragment.updateTrack(track, lastLocation);
   }
 
   /**
-   * Returns the map fragment.
+   * Displays a track in the map.
    *
-   * @return Map fragment.
+   * @param track Track that should be displayed.
    */
-  public TrackingMapFragment getMapFragment() {
-    return mapFragment;
-  }
+  private void drawTrack(Track track) {
+    googleMap.clear();
 
-  /**
-   * Returns the information fragment.
-   *
-   * @return Infomration fragment.
-   */
-  public TrackingInformationFragment getInformationFragment() {
-    return informationFragment;
+    PolylineOptions polyRoute = new PolylineOptions();
+
+    polyRoute.color(Color.BLUE);
+    polyRoute.width(6);
+    polyRoute.visible(true);
+
+    for (Location wayPoint : track) {
+      polyRoute.add(new LatLng(wayPoint.getLatitude(), wayPoint.getLongitude()));
+    }
+    polyRoute.add(new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude()));
+    googleMap.clear();
+    googleMap.addPolyline(polyRoute);
   }
 
   public void addRoute(final String name) {
@@ -199,5 +202,30 @@ public class TrackingActivity extends BaseActivity {
       }
     }.start();
     */
+  }
+
+  @Override
+  public void onMapReady(GoogleMap googleMap) {
+    if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+        == PackageManager.PERMISSION_GRANTED) {
+      this.googleMap = googleMap;
+      this.googleMap.getUiSettings().setMapToolbarEnabled(false);
+      this.googleMap.getUiSettings().setCompassEnabled(true);
+      updateCamera();
+    }
+  }
+
+  /**
+   * Moves the camera to the users position.
+   */
+  private void updateCamera() {
+    LatLng latLng = new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude());
+    googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(
+        new CameraPosition.Builder().target(latLng).zoom(17).tilt(30)
+            .bearing(lastLocation.getBearing()).build()));
+    googleMap.addMarker(new MarkerOptions()
+        .position(new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude()))
+        .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_navigation)))
+        .setFlat(true);
   }
 }
