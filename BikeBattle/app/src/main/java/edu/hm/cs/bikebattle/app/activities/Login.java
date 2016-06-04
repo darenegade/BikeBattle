@@ -29,11 +29,6 @@ public class Login extends BaseActivity {
     initCompoents();
   }
 
-  @Override
-  public void refreshUserInfo() {
-
-  }
-
   /**
    * Initialisiert die verschiedenen Komponenten, welche für das activity_login benötigt werden.
    */

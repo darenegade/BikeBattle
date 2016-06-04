@@ -3,7 +3,9 @@ package edu.hm.cs.bikebattle.app.activities;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -20,14 +22,19 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.InputStream;
+import java.net.URL;
+
 import edu.hm.cs.bikebattle.app.R;
 import edu.hm.cs.bikebattle.app.modell.User;
+import edu.hm.cs.bikebattle.app.task.URIParser;
 
-public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener{
+public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
 
   private static final String TAG = "MainActivity";
   private NavigationView navigationView;
   private View headerView;
+  private ImageView profilImage;
   /**
    * Permission request parameter value.
    */
@@ -44,9 +51,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
     setSupportActionBar(toolbar);
 
-     navigationView = (NavigationView)findViewById(R.id.nav_view);
-     headerView = navigationView.getHeaderView(0);
-
+    navigationView = (NavigationView) findViewById(R.id.nav_view);
+    headerView = navigationView.getHeaderView(0);
 
 
     FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -82,50 +88,46 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     });
 
     /**final DataConnector connector = new BasicDataConnector();
-    connector.getUserByName("Nils", new Consumer<List<User>>() {
-      @Override
-      public void consume(List<User> input) {
-        if(input.size()>0){
-          Log.d(TAG, "got user " + input.get(0).getName() + " - OID: " + input.get(0).getOid());
-          Route route = new Route("Test");
-          Location location;
-          location = new Location("");
-          location.setLongitude(0);
-          location.setLatitude(0);
-          route.add(location);
-          location = new Location("");
-          location.setLongitude(1);
-          location.setLatitude(0);
-          route.add(location);
-          location = new Location("");
-          location.setLongitude(2);
-          location.setLatitude(1);
-          route.add(location);
-          location = new Location("");
-          location.setLongitude(0);
-          location.setLatitude(0);
-          route.add(location);
-          route.setRoutetyp(Routetyp.CITY);
-          route.setDifficulty(Difficulty.EASY);
-          connector.addRoute(route, input.get(0), new Consumer<Void>() {
-            @Override
-            public void consume(Void input) {
-              Log.d(TAG, "Route added");
-              ((Button)findViewById(R.id.track_button)).setText("Test");
-            }
+     connector.getUserByName("Nils", new Consumer<List<User>>() {
+    @Override public void consume(List<User> input) {
+    if(input.size()>0){
+    Log.d(TAG, "got user " + input.get(0).getName() + " - OID: " + input.get(0).getOid());
+    Route route = new Route("Test");
+    Location location;
+    location = new Location("");
+    location.setLongitude(0);
+    location.setLatitude(0);
+    route.add(location);
+    location = new Location("");
+    location.setLongitude(1);
+    location.setLatitude(0);
+    route.add(location);
+    location = new Location("");
+    location.setLongitude(2);
+    location.setLatitude(1);
+    route.add(location);
+    location = new Location("");
+    location.setLongitude(0);
+    location.setLatitude(0);
+    route.add(location);
+    route.setRoutetyp(Routetyp.CITY);
+    route.setDifficulty(Difficulty.EASY);
+    connector.addRoute(route, input.get(0), new Consumer<Void>() {
+    @Override public void consume(Void input) {
+    Log.d(TAG, "Route added");
+    ((Button)findViewById(R.id.track_button)).setText("Test");
+    }
 
-            @Override
-            public void error(int error, Throwable exception) {
-              Log.e(TAG,"Error2: " + error+"");
-            }
-          });
-        }
-      }
+    @Override public void error(int error, Throwable exception) {
+    Log.e(TAG,"Error2: " + error+"");
+    }
+    });
+    }
+    }
 
-      @Override
-      public void error(int error, Throwable exception) {
-        Log.e(TAG,"Error1: " + error+"");
-      }
+    @Override public void error(int error, Throwable exception) {
+    Log.e(TAG,"Error1: " + error+"");
+    }
     });**/
 
     requestPermission();
@@ -139,17 +141,20 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     final String email = user.getEmail();
     final Uri foto = getUserPhoto();
 
-    runOnUiThread(new Runnable(){
+    runOnUiThread(new Runnable() {
       public void run() {
 
-        TextView nameField = (TextView)headerView.findViewById(R.id.yournamefield);
+        TextView nameField = (TextView) headerView.findViewById(R.id.yournamefield);
         nameField.setText(name);
-        TextView mailField = (TextView)headerView.findViewById(R.id.youradressfield);
+        TextView mailField = (TextView) headerView.findViewById(R.id.youradressfield);
         mailField.setText(email);
-        ImageView profilImage = (ImageView) headerView.findViewById(R.id.imageView);
-        if(foto != null){
-          profilImage.setImageURI(foto);
+        profilImage = (ImageView) headerView.findViewById(R.id.imageView);
+        if (foto != null) {
+          // System.out.println(foto.toString());
+          URIParser parser = new URIParser(profilImage);
+          parser.execute(foto.toString());
         }
+
       }
     });
   }
@@ -168,7 +173,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
         != PackageManager.PERMISSION_GRANTED) {
       ActivityCompat.requestPermissions(this,
-          new String[] {Manifest.permission.ACCESS_FINE_LOCATION},
+          new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
           MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
     }
   }
