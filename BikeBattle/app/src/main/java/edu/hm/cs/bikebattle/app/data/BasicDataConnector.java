@@ -1,5 +1,6 @@
 package edu.hm.cs.bikebattle.app.data;
 
+import android.content.Context;
 import android.location.Location;
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -21,6 +22,7 @@ import edu.hm.cs.bikebattle.app.modell.User;
 import edu.hm.cs.bikebattle.app.modell.assembler.RouteAssembler;
 import edu.hm.cs.bikebattle.app.modell.assembler.TrackAssembler;
 import edu.hm.cs.bikebattle.app.modell.assembler.UserAssembler;
+import okhttp3.Cache;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
 import retrofit2.Call;
@@ -64,8 +66,12 @@ public class BasicDataConnector implements DataConnector {
   /**
    * Creates the clients for the backend.
    */
-  public BasicDataConnector(GoogleApiClient client) {
+  public BasicDataConnector(Context context, GoogleApiClient client) {
     googleApiClient = client;
+
+    //Create a 10MB Cache
+    ClientFactory.setCache(new Cache(context.getCacheDir(), 1024 * 1024 * 10));
+
     userClient = ClientFactory.getUserClient();
     routeClient = ClientFactory.getRouteClient();
     driveClient = ClientFactory.getDriveClient();

@@ -54,7 +54,7 @@ public abstract class BaseActivity extends AppCompatActivity implements GoogleAp
         .addApi(Auth.GOOGLE_SIGN_IN_API, googleSignInOptions)
         .build();
 
-    dataConnector = new BasicDataConnector(googleApiClient);
+    dataConnector = new BasicDataConnector(getApplicationContext(), googleApiClient);
 
   }
 

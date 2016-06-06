@@ -2,6 +2,7 @@ package edu.hm.cs.bikebattle.app.api.rest;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import okhttp3.Cache;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -65,6 +66,10 @@ public class ClientFactory {
     OkHttpClient client = httpClient.build();
     return retrofitBuilder.client(client).build()
         .create(serviceClass);
+  }
+
+  public static void setCache(Cache cache){
+    httpClient.cache(cache);
   }
 
   /**
