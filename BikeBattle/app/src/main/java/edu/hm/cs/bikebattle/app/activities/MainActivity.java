@@ -9,18 +9,24 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.squareup.picasso.Picasso;
+
 import edu.hm.cs.bikebattle.app.R;
+import edu.hm.cs.bikebattle.app.fragments.single.SingleRouteFragment;
 import edu.hm.cs.bikebattle.app.modell.User;
 
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -123,6 +129,11 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     Log.e(TAG,"Error1: " + error+"");
     }
     });**/
+    //TODO for debug purpose (NILS)
+    FragmentManager fm = getSupportFragmentManager();
+    FragmentTransaction ft = fm.beginTransaction();
+    ft.show(new SingleRouteFragment());
+    ft.commit();
 
     requestPermission();
   }
@@ -188,6 +199,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
   public boolean onNavigationItemSelected(MenuItem item) {
     // Handle navigation view item clicks here.
     int id = item.getItemId();
+    Log.d("Selected", "Item "+id);
 
     if (id == R.id.nav_profil) {
       // Handle the camera action
