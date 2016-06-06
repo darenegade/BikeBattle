@@ -1,7 +1,6 @@
 package edu.hm.cs.bikebattle.app.activities;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
@@ -16,10 +15,10 @@ import java.util.List;
 
 import edu.hm.cs.bikebattle.app.R;
 import edu.hm.cs.bikebattle.app.data.Consumer;
-import edu.hm.cs.bikebattle.app.fragments.routes.RouteInformationFragment;
-import edu.hm.cs.bikebattle.app.fragments.routes.RoutesListFragment;
-import edu.hm.cs.bikebattle.app.fragments.routes.RoutesMapFragment;
-import edu.hm.cs.bikebattle.app.fragments.routes.RoutesOverviewFragment;
+import edu.hm.cs.bikebattle.app.fragments.RouteInformationFragment;
+import edu.hm.cs.bikebattle.app.fragments.RoutesListFragment;
+import edu.hm.cs.bikebattle.app.fragments.RoutesMapFragment;
+import edu.hm.cs.bikebattle.app.fragments.RoutesOverviewFragment;
 import edu.hm.cs.bikebattle.app.modell.Route;
 
 /**
@@ -31,11 +30,11 @@ public class RoutesActivity extends BaseActivity {
   /**
    * Fragment for navigation tabs.
    */
-  private RoutesOverviewFragment overviewFragment;
+  private RoutesOverviewFragment overviewFragment = new RoutesOverviewFragment();
   /**
    * Fragment for detailed route information.
    */
-  private RouteInformationFragment informationFragment;
+  private RouteInformationFragment informationFragment = new RouteInformationFragment();
   /**
    * Fragment for displaying the map.
    */
@@ -62,15 +61,12 @@ public class RoutesActivity extends BaseActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_routes);
 
-    locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+    //loadRoutes();
+    createTestRoute();
 
-    loadRoutes();
-    //createTestRoute();
+    locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
     mapFragment.setLastLocation(getLastLocation());
-
-    overviewFragment = new RoutesOverviewFragment();
-    informationFragment = new RouteInformationFragment();
 
     FragmentManager fm = getSupportFragmentManager();
     FragmentTransaction ft = fm.beginTransaction();
@@ -151,13 +147,13 @@ public class RoutesActivity extends BaseActivity {
   }
 
   private void loadRoutes() {
-    Consumer consumer = new Consumer<List<Route>>(){
+    Consumer consumer = new Consumer<List<Route>>() {
 
       @Override
       public void consume(List<Route> input) {
-        Log.d("Data","Loaded routes!");
-        routes=input;
-        Log.d("Routes size",String.valueOf(routes.size()));
+        Log.d("Data", "Loaded routes!");
+        routes = input;
+        Log.d("Routes size", String.valueOf(routes.size()));
         mapFragment.showRoutes();
         listFragment.updateList();
       }
@@ -168,7 +164,7 @@ public class RoutesActivity extends BaseActivity {
       }
 
     };
-    this.getDataConnector().getRoutesByLocation(getLastLocation(),10,consumer);
+    this.getDataConnector().getRoutesByLocation(getLastLocation(), 10, consumer);
   }
 
   /**

@@ -1,4 +1,4 @@
-package edu.hm.cs.bikebattle.app.fragments.routes;
+package edu.hm.cs.bikebattle.app.fragments;
 
 import android.Manifest;
 import android.content.pm.PackageManager;

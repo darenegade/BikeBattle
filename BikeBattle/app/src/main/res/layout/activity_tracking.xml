@@ -8,7 +8,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:id="@+id/relative_layout">
 
         <fragment
             xmlns:android="http://schemas.android.com/apk/res/android"
@@ -63,6 +64,17 @@
 
                 <TextView
                     android:id="@+id/trackInfo_textView_speed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:layout_gravity="left"
+                    android:drawableLeft="@drawable/ic_trackinfo_speed"
+                    android:drawablePadding="5dp"
+                    android:text="-"
+                    android:textSize="35sp"/>
+
+                <TextView
+                    android:id="@+id/trackInfo_textView_average_speed"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_columnWeight="1"

@@ -1,6 +1,7 @@
 package edu.hm.cs.bikebattle.app.activities;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
@@ -65,7 +66,6 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_tracking);
-    viewController=new TrackingViewController(this);
 
     Bundle args = getIntent().getExtras();
     try {
@@ -82,6 +82,8 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
     tracker = new AndroidLocationTracker(1, this);
     //TODO: Auto update to current location.
     this.lastLocation=tracker.getLastLocation();
+
+    viewController=new TrackingViewController(this);
   }
 
   private void loadTrack() {
@@ -130,6 +132,7 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
    * Starts a thread for receiving location updates.
    */
   private void startTracking() {
+    final Activity context = this;
     new Thread() {
       @Override
       public void run() {
@@ -142,7 +145,12 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
             }
             synchronized (tracker.getTrack()) {
               while (locationUpdates < tracker.getTrack().size()) {
-                updateTrack(tracker.getTrack(), tracker.getLastLocation());
+                context.runOnUiThread(new Runnable() {
+                  @Override
+                  public void run() {
+                    updateTrack(tracker.getTrack(), tracker.getLastLocation());
+                  }
+                });
                 locationUpdates++;
               }
             }
@@ -166,7 +174,7 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
     drawTrack(track);
     this.lastLocation=lastLocation;
     updateCamera();
-    //informationFragment.updateTrack(track, lastLocation);
+    viewController.updateViews(track);
   }
 
   /**
