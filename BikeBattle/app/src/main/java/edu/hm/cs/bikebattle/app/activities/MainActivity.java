@@ -19,11 +19,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-
+import com.squareup.picasso.Picasso;
 import edu.hm.cs.bikebattle.app.R;
 import edu.hm.cs.bikebattle.app.modell.User;
-import edu.hm.cs.bikebattle.app.task.URIParser;
 
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -134,25 +132,21 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     final User user = getPrincipal();
     final String name = user.getName();
-    final String email = user.getEmail();
     final Uri foto = getUserPhoto();
 
-    runOnUiThread(new Runnable() {
-      public void run() {
+    TextView nameField = (TextView) headerView.findViewById(R.id.yournamefield);
+    nameField.setText(name);
+    profilImage = (ImageView) headerView.findViewById(R.id.imageView);
 
-        TextView nameField = (TextView) headerView.findViewById(R.id.yournamefield);
-        nameField.setText(name);
-        TextView mailField = (TextView) headerView.findViewById(R.id.youradressfield);
-        mailField.setText(email);
-        profilImage = (ImageView) headerView.findViewById(R.id.imageView);
-        if (foto != null) {
-          // System.out.println(foto.toString());
-          URIParser parser = new URIParser(profilImage);
-          parser.execute(foto.toString());
-        }
+    Picasso
+        .with(getApplicationContext())
+        .load(foto)
+        .fit()
+        .centerCrop()
+        .placeholder(R.mipmap.ic_launcher)
+        .error(R.mipmap.ic_launcher)
+        .into(profilImage);
 
-      }
-    });
   }
 
   @Override
