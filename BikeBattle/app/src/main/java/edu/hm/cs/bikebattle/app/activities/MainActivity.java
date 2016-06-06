@@ -9,8 +9,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -20,14 +18,18 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
 import edu.hm.cs.bikebattle.app.R;
+import edu.hm.cs.bikebattle.app.fragments.navigationdrawer.MainFragment;
+import edu.hm.cs.bikebattle.app.fragments.navigationdrawer.ProfilFragment;
 import edu.hm.cs.bikebattle.app.fragments.single.SingleRouteFragment;
 import edu.hm.cs.bikebattle.app.modell.User;
+import edu.hm.cs.bikebattle.app.task.URIParser;
 
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -35,6 +37,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
   private NavigationView navigationView;
   private View headerView;
   private ImageView profilImage;
+  private  DrawerLayout drawer;
+  private FragmentManager fm;
   /**
    * Permission request parameter value.
    */
@@ -52,7 +56,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     setSupportActionBar(toolbar);
 
     navigationView = (NavigationView) findViewById(R.id.nav_view);
+    setupDrawerContent(navigationView);
+
     headerView = navigationView.getHeaderView(0);
+    //navigationView.setNavigationItemSelectedListener(this);
 
 
     FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -64,19 +71,22 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
       }
     });
 
-    DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+    drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
     ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
         this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-    drawer.setDrawerListener(toggle);
+    drawer.addDrawerListener(toggle);
     toggle.syncState();
 
-    findViewById(R.id.routes_button).setOnClickListener(new View.OnClickListener() {
+    fm = getSupportFragmentManager();
+    fm.beginTransaction().replace(R.id.conten_frame, new MainFragment()).commit();
+
+    /**findViewById(R.id.routes_button).setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View view) {
         Intent intent = new Intent(getApplicationContext(), RoutesActivity.class);
         startActivity(intent);
-                /*Intent intent = new Intent(getApplicationContext(), TrackingTestActivity.class);
-                startActivity(intent);*/
+                //Intent intent = new Intent(getApplicationContext(), TrackingTestActivity.class);
+                //startActivity(intent);
       }
     });
     findViewById(R.id.track_button).setOnClickListener(new View.OnClickListener() {
@@ -85,7 +95,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         Intent intent = new Intent(getApplicationContext(), TrackingActivity.class);
         startActivity(intent);
       }
-    });
+    });*/
 
     /**final DataConnector connector = new BasicDataConnector();
      connector.getUserByName("Nils", new Consumer<List<User>>() {
@@ -143,6 +153,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     final User user = getPrincipal();
     final String name = user.getName();
+    final String email = user.getEmail();
     final Uri foto = getUserPhoto();
 
     TextView nameField = (TextView) headerView.findViewById(R.id.yournamefield);
@@ -197,25 +208,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
   @SuppressWarnings("StatementWithEmptyBody")
   @Override
   public boolean onNavigationItemSelected(MenuItem item) {
-    // Handle navigation view item clicks here.
-    int id = item.getItemId();
-    Log.d("Selected", "Item "+id);
-
-    if (id == R.id.nav_profil) {
-      // Handle the camera action
-    } else if (id == R.id.nav_tracks) {
-
-    } else if (id == R.id.nav_routes) {
-
-    } else if (id == R.id.nav_favorite) {
-
-    } else if (id == R.id.nav_friends) {
-
-    }
-
-    DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-    drawer.closeDrawer(GravityCompat.START);
-    return true;
+    return super.onOptionsItemSelected(item);
   }
 
   @Override
@@ -227,4 +220,48 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
       super.onBackPressed();
     }
   }
+
+  private void setupDrawerContent(NavigationView navigationView) {
+    navigationView.setNavigationItemSelectedListener(
+        new NavigationView.OnNavigationItemSelectedListener() {
+          @Override
+          public boolean onNavigationItemSelected(MenuItem menuItem) {
+            selectDrawerItem(menuItem);
+            return true;
+          }
+        });
+  }
+
+  public void selectDrawerItem(MenuItem menuItem) {
+
+    switch(menuItem.getItemId()) {
+      case R.id.nav_profil:
+        fm.beginTransaction().replace(R.id.conten_frame, ProfilFragment.newInstance(null,null)).commit();
+        break;
+      case R.id.nav_tracks:
+        break;
+      case R.id.nav_routes:
+        //fragmentClass = ThirdFragment.class;
+        break;
+      case R.id.nav_favorite:
+        //fragmentClass = ThirdFragment.class;
+        break;
+      case R.id.nav_friends:
+        //fragmentClass = ThirdFragment.class;
+        break;
+      default:
+        fm.beginTransaction().replace(R.id.conten_frame, ProfilFragment.newInstance(null,null)).commit();
+    }
+
+
+    // Highlight the selected item has been done by NavigationView
+    menuItem.setChecked(true);
+    // Set action bar title
+    setTitle(menuItem.getTitle());
+    // Close the navigation drawer
+    drawer.closeDrawers();
+  }
+
+
+
 }
