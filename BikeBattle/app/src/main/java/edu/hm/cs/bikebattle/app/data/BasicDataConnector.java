@@ -3,7 +3,6 @@ package edu.hm.cs.bikebattle.app.data;
 import android.content.Context;
 import android.location.Location;
 import android.support.annotation.NonNull;
-import android.util.Log;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -16,20 +15,27 @@ import edu.hm.cs.bikebattle.app.api.rest.ClientFactory;
 import edu.hm.cs.bikebattle.app.api.rest.DriveClient;
 import edu.hm.cs.bikebattle.app.api.rest.RouteClient;
 import edu.hm.cs.bikebattle.app.api.rest.UserClient;
+import edu.hm.cs.bikebattle.app.data.cache.CacheFactory;
+import edu.hm.cs.bikebattle.app.data.cache.DriveCache;
+import edu.hm.cs.bikebattle.app.data.cache.RouteCache;
+import edu.hm.cs.bikebattle.app.data.cache.UserCache;
 import edu.hm.cs.bikebattle.app.modell.Route;
 import edu.hm.cs.bikebattle.app.modell.Track;
 import edu.hm.cs.bikebattle.app.modell.User;
 import edu.hm.cs.bikebattle.app.modell.assembler.RouteAssembler;
 import edu.hm.cs.bikebattle.app.modell.assembler.TrackAssembler;
 import edu.hm.cs.bikebattle.app.modell.assembler.UserAssembler;
+import io.rx_cache.DynamicKey;
+import io.rx_cache.EvictDynamicKey;
+import io.rx_cache.Reply;
 import okhttp3.Cache;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
-import java.io.IOException;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
@@ -59,6 +65,19 @@ public class BasicDataConnector implements DataConnector {
   private final DriveClient driveClient;
 
   /**
+   * Local Cache for Users.
+   */
+  private final UserCache userCache;
+  /**
+   * Local Cache for Routes.
+   */
+  private final RouteCache routeCache;
+  /**
+   * Local Cache for Drives.
+   */
+  private final DriveCache driveCache;
+
+  /**
    * Client to get IDToken for Backend Auth.
    */
   private final GoogleApiClient googleApiClient;
@@ -75,6 +94,10 @@ public class BasicDataConnector implements DataConnector {
     userClient = ClientFactory.getUserClient();
     routeClient = ClientFactory.getRouteClient();
     driveClient = ClientFactory.getDriveClient();
+
+    userCache = CacheFactory.getUserCache(context.getCacheDir());
+    routeCache = CacheFactory.getRouteCache(context.getCacheDir());
+    driveCache = CacheFactory.getDriveCache(context.getCacheDir());
   }
 
   /**
@@ -99,114 +122,100 @@ public class BasicDataConnector implements DataConnector {
   /**
    * Executes a get call for a List of resources.
    *
-   * @param call     to execute
-   * @param consumer consumer for result
-   * @param <T>      dto
-   * @param <V>      bean
+   * @param observable to execute
+   * @param consumer   consumer for result
+   * @param <T>        dto
+   * @param <V>        bean
    */
-  private <T extends BaseDto, V> void executeGetListCall(final Call<Resources<Resource<T>>> call,
+  private <T extends BaseDto, V> void executeGetListCall(final Observable<Reply<Resources<Resource<T>>>> observable,
                                                          final Consumer<List<V>> consumer) {
 
-    call.enqueue(new Callback<Resources<Resource<T>>>() {
-      @Override
-      public void onResponse(Call<Resources<Resource<T>>> call, Response<Resources<Resource<T>>> response) {
+    observable
+        .subscribeOn(Schedulers.newThread())
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(new Subscriber<Reply<Resources<Resource<T>>>>() {
 
-        if (response.isSuccessful()) {
-
-          List<V> list = new LinkedList<V>();
-          Collection<Resource<T>> resources = response.body().getContent();
-
-          for (Resource<T> resource : resources) {
-            list.add(BasicDataConnector.<V>toBean(resource.getContent()));
+          @Override
+          public void onCompleted() {
           }
-          consumer.consume(list);
-        } else {
 
-          try {
-            Log.d(TAG, response.errorBody().string());
-          } catch (IOException e) {
-            Log.e(TAG, "ERROR BODY NOT READABLE");
+          @Override
+          public void onError(Throwable e) {
+            consumer.error(-1, e);
           }
-          consumer.error(response.code(), null);
-        }
-      }
 
-      @Override
-      public void onFailure(Call<Resources<Resource<T>>> call, Throwable t) {
-        consumer.error(-1, t);
-      }
-    });
+          @Override
+          public void onNext(Reply<Resources<Resource<T>>> reply) {
+
+            List<V> list = new LinkedList<V>();
+            Collection<Resource<T>> resources = reply.getData().getContent();
+
+            for (Resource<T> resource : resources) {
+              list.add(BasicDataConnector.<V>toBean(resource.getContent()));
+            }
+            consumer.consume(list);
+          }
+        });
   }
 
   /**
    * Executes a get call for a resource.
    *
-   * @param call     to execute
-   * @param consumer consumer for result
-   * @param <T>      dto
-   * @param <V>      bean
+   * @param observable to execute
+   * @param consumer   consumer for result
+   * @param <T>        dto
+   * @param <V>        bean
    */
-  private <T extends BaseDto, V> void executeGetCall(final Call<Resource<T>> call,
+  private <T extends BaseDto, V> void executeGetCall(final Observable<Reply<Resource<T>>> observable,
                                                      final Consumer<V> consumer) {
 
-    call.enqueue(new Callback<Resource<T>>() {
-      @Override
-      public void onResponse(Call<Resource<T>> call, Response<Resource<T>> response) {
+    observable
+        .subscribeOn(Schedulers.newThread())
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(new Subscriber<Reply<Resource<T>>>() {
 
-        if (response.isSuccessful()) {
-
-          consumer.consume(BasicDataConnector.<V>toBean(response.body().getContent()));
-
-        } else {
-          try {
-            Log.d(TAG, response.errorBody().string());
-          } catch (IOException e) {
-            Log.e(TAG, "ERROR BODY NOT READABLE");
+          @Override
+          public void onCompleted() {
           }
-          consumer.error(response.code(), null);
-        }
-      }
 
-      @Override
-      public void onFailure(Call<Resource<T>> call, Throwable t) {
-        consumer.error(Consumer.EXCEPTION, t);
-      }
-    });
+          @Override
+          public void onError(Throwable e) {
+            consumer.error(Consumer.EXCEPTION, e);
+          }
+
+          @Override
+          public void onNext(Reply<Resource<T>> reply) {
+            consumer.consume(BasicDataConnector.<V>toBean(reply.getData().getContent()));
+          }
+        });
   }
 
   /**
    * Executes a write call.
    *
-   * @param call     to execute
-   * @param consumer for errors
+   * @param observable to execute
+   * @param consumer   for errors
    */
-  private void executeWriteCall(final Call<Void> call, final Consumer<Void> consumer) {
+  private void executeWriteCall(final Observable<Void> observable, final Consumer<Void> consumer) {
 
-    call.enqueue(new Callback<Void>() {
-      @Override
-      public void onResponse(Call<Void> call, Response<Void> response) {
-
-        if (response.isSuccessful()) {
-
-          consumer.consume(null);
-
-        } else {
-
-          try {
-            Log.d(TAG, response.errorBody().string());
-          } catch (IOException e) {
-            Log.e(TAG, "ERROR BODY NOT READABLE");
+    observable
+        .subscribeOn(Schedulers.newThread())
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(new Subscriber<Void>() {
+          @Override
+          public void onCompleted() {
           }
-          consumer.error(response.code(), null);
 
-        }
-      }
+          @Override
+          public void onError(Throwable e) {
+            consumer.error(Consumer.EXCEPTION, e);
+          }
 
-      @Override
-      public void onFailure(Call<Void> call, Throwable t) {
-        consumer.error(Consumer.EXCEPTION, t);
-      }
-    });
+          @Override
+          public void onNext(Void reply) {
+            consumer.consume(null);
+          }
+        });
 
   }
 
@@ -235,7 +244,9 @@ public class BasicDataConnector implements DataConnector {
     generateToken(new Consumer<String>() {
       @Override
       public void consume(String input) {
-        executeGetCall(userClient.findByEmail(input, email), consumer);
+        executeGetCall(
+            userCache.findByEmail(userClient.findByEmail(input, email), new DynamicKey(email), new EvictDynamicKey(false)),
+            consumer);
       }
 
       @Override
@@ -252,8 +263,12 @@ public class BasicDataConnector implements DataConnector {
     generateToken(new Consumer<String>() {
       @Override
       public void consume(String input) {
-        executeGetListCall(routeClient.findNear(input, location.getLongitude(),
-            location.getLatitude(), distance), consumer);
+        executeGetListCall(
+            routeCache.findNear(
+                routeClient.findNear(input, location.getLongitude(), location.getLatitude(), distance),
+                new DynamicKey(new double[]{location.getLongitude(), location.getLatitude(), distance}),
+                new EvictDynamicKey(false)),
+            consumer);
       }
 
       @Override
@@ -265,11 +280,15 @@ public class BasicDataConnector implements DataConnector {
 
   @Override
   public void getUserById(final String id, final Consumer<User> consumer) {
-
     generateToken(new Consumer<String>() {
       @Override
       public void consume(String input) {
-        executeGetCall(userClient.findeOne(input, id), consumer);
+        executeGetCall(
+            userCache.findeOne(
+                userClient.findeOne(input, id),
+                new DynamicKey(id),
+                new EvictDynamicKey(false)),
+            consumer);
       }
 
       @Override
@@ -285,7 +304,12 @@ public class BasicDataConnector implements DataConnector {
     generateToken(new Consumer<String>() {
       @Override
       public void consume(String input) {
-        executeGetListCall(userClient.findByNameContainingIgnoreCase(input, name), consumer);
+        executeGetListCall(
+            userCache.findByNameContainingIgnoreCase(
+                userClient.findByNameContainingIgnoreCase(input, name),
+                new DynamicKey(name),
+                new EvictDynamicKey(false)),
+            consumer);
       }
 
       @Override
@@ -301,7 +325,12 @@ public class BasicDataConnector implements DataConnector {
     generateToken(new Consumer<String>() {
       @Override
       public void consume(String input) {
-        executeGetListCall(driveClient.findByOwnerOid(input, user.getOid()), consumer);
+        executeGetListCall(
+            driveCache.findByOwnerOid(
+                driveClient.findByOwnerOid(input, user.getOid()),
+                new DynamicKey(user.getOid()),
+                new EvictDynamicKey(false)),
+            consumer);
       }
 
       @Override
@@ -317,7 +346,12 @@ public class BasicDataConnector implements DataConnector {
     generateToken(new Consumer<String>() {
       @Override
       public void consume(String input) {
-        executeGetListCall(routeClient.findByOwnerOid(input, user.getOid()), consumer);
+        executeGetListCall(
+            routeCache.findByOwnerOid(
+                routeClient.findByOwnerOid(input, user.getOid()),
+                new DynamicKey(user.getOid()),
+                new EvictDynamicKey(false)),
+            consumer);
       }
 
       @Override
@@ -333,7 +367,9 @@ public class BasicDataConnector implements DataConnector {
     generateToken(new Consumer<String>() {
       @Override
       public void consume(String input) {
-        executeWriteCall(driveClient.create(input, TrackAssembler.toDto(track)), consumer);
+        executeWriteCall(
+            driveClient.create(input, TrackAssembler.toDto(track)),
+            consumer);
       }
 
       @Override
@@ -445,7 +481,12 @@ public class BasicDataConnector implements DataConnector {
     generateToken(new Consumer<String>() {
       @Override
       public void consume(String input) {
-        executeGetListCall(userClient.getFriends(input, user.getOid()), consumer);
+        executeGetListCall(
+            userCache.getFriends(
+                userClient.getFriends(input, user.getOid()),
+                new DynamicKey(user.getOid()),
+                new EvictDynamicKey(false)),
+            consumer);
       }
 
       @Override
@@ -461,7 +502,10 @@ public class BasicDataConnector implements DataConnector {
     generateToken(new Consumer<String>() {
       @Override
       public void consume(String input) {
-        executeGetListCall(routeClient.findAll(input), consumer);
+        executeGetListCall(
+            routeCache.findAll(
+                routeClient.findAll(input)),
+            consumer);
       }
 
       @Override

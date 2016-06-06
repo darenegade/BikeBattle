@@ -9,6 +9,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 import org.springframework.hateoas.hal.Jackson2HalModule;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.jackson.JacksonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
@@ -38,6 +39,7 @@ public class ClientFactory {
 
   private static Retrofit.Builder retrofitBuilder = new Retrofit.Builder()
       .baseUrl(DEFAULT_BASE_URL)
+      .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
       .addConverterFactory(ScalarsConverterFactory.create())
       .addConverterFactory(JacksonConverterFactory.create(mapper));
 
