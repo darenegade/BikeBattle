@@ -2,23 +2,23 @@ package edu.hm.cs.bikebattle.app.fragments.navigationdrawer;
 
 
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.text.InputType;
-import android.view.Display;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import edu.hm.cs.bikebattle.app.R;
 import edu.hm.cs.bikebattle.app.modell.User;
@@ -32,6 +32,7 @@ public class ProfilFragment extends Fragment implements View.OnClickListener{
   private ImageButton editSize;
   private TextView sizeView;
   private TextView weightView;
+  private SlidingUpPanelLayout mSlidingUpPanelLayout;
 
   public static  final ProfilFragment newInstance(User user, Uri uri) {
     ProfilFragment fragment = new ProfilFragment();
@@ -46,8 +47,15 @@ public class ProfilFragment extends Fragment implements View.OnClickListener{
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
+    DisplayMetrics displayMetrics = getContext().getResources().getDisplayMetrics();
+    float witdh = displayMetrics.widthPixels / displayMetrics.density;
+    float height = displayMetrics.heightPixels / displayMetrics.density;
+
     View view = inflater.inflate(R.layout.fragment_profil, container, false);
     setupButtons(view);
+
+
+    mSlidingUpPanelLayout = (SlidingUpPanelLayout) view.findViewById(R.id.sliding_layout);
 
     TextView adressView = (TextView)view.findViewById(R.id.youradressfieldprofil);
     adressView.setText(user.getEmail());
