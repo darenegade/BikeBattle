@@ -2,12 +2,14 @@ package edu.hm.cs.bikebattle.app.activities;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.content.ContextCompat;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -19,6 +21,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 import edu.hm.cs.bikebattle.app.R;
+import edu.hm.cs.bikebattle.app.data.Consumer;
+import edu.hm.cs.bikebattle.app.modell.Route;
 import edu.hm.cs.bikebattle.app.modell.Track;
 import edu.hm.cs.bikebattle.app.tracker.AndroidLocationTracker;
 import edu.hm.cs.bikebattle.app.tracker.LocationTracker;
@@ -98,16 +102,7 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
   public boolean changeTrackingMode() {
     if (isTracking) {
       tracker.stop();
-      //TODO: Backend implementation
-      /*
-      new Thread() {
-        @Override
-        public void run() {
-          dataConnector.addTrack(track,new User("Lukas",80,190));
-          Log.e("Data:","Saved track!");
-        }
-      }.start();
-      */
+      saveTrack();
 
       DialogFragment dialog = new CreateRouteDialog();
       dialog.show(getSupportFragmentManager(), "Create new route?");
@@ -120,6 +115,21 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
       }
     }
     return isTracking;
+  }
+
+  private void saveTrack() {
+    final Context context = this;
+    getDataConnector().addTrack(track, getPrincipal(), new Consumer<Void>() {
+      @Override
+      public void consume(Void input) {
+        Toast.makeText(context,"Added new route!",Toast.LENGTH_LONG).show();
+      }
+
+      @Override
+      public void error(int error, Throwable exception) {
+
+      }
+    });
   }
 
   @Override
@@ -200,16 +210,19 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
   }
 
   public void addRoute(final String name) {
-    //TODO: Backend implementation
-    /*
-    new Thread() {
+    final Context context = this;
+    Route route = new Route(name,track);
+    getDataConnector().addRoute(route, getPrincipal(), new Consumer<Void>() {
       @Override
-      public void run() {
-        dataConnector.addRoute(new Route(name,track),new User("Lukas",80,190));
-        Log.e("Data:","Saved route!");
+      public void consume(Void input) {
+        Toast.makeText(context,"Added new route!",Toast.LENGTH_LONG).show();
       }
-    }.start();
-    */
+
+      @Override
+      public void error(int error, Throwable exception) {
+
+      }
+    });
   }
 
   @Override
@@ -236,4 +249,6 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
         .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_navigation)))
         .setFlat(true);
   }
+
+
 }

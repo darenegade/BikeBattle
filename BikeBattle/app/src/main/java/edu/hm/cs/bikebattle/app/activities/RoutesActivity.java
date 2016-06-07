@@ -147,8 +147,7 @@ public class RoutesActivity extends BaseActivity {
   }
 
   private void loadRoutes() {
-    Consumer consumer = new Consumer<List<Route>>() {
-
+    getDataConnector().getRoutesByLocation(getLastLocation(), 10, new Consumer<List<Route>>() {
       @Override
       public void consume(List<Route> input) {
         Log.d("Data", "Loaded routes!");
@@ -162,9 +161,7 @@ public class RoutesActivity extends BaseActivity {
       public void error(int error, Throwable exception) {
 
       }
-
-    };
-    this.getDataConnector().getRoutesByLocation(getLastLocation(), 10, consumer);
+    });
   }
 
   /**

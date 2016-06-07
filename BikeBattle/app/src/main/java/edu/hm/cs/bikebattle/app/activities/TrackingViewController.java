@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -35,6 +36,8 @@ public class TrackingViewController {
   private TextView textViewAltitude;
   //private TextView textViewTime;
 
+  private boolean init = false;
+
   public TrackingViewController(TrackingActivity activity) {
     this.activity = activity;
     relativeLayout = (RelativeLayout) activity.findViewById(R.id.relative_layout);
@@ -43,12 +46,17 @@ public class TrackingViewController {
     initMap();
     initBottomSheet();
     initButton();
-    /*
-    Log.d("BottomSheet:",String.valueOf(mBottomSheetBehavior.getPeekHeight()));
-    Log.d("RelativeLayout:",String.valueOf(relativeLayout.getLayoutParams().height));
-    relativeLayout.getLayoutParams().height=relativeLayout.getLayoutParams().height-mBottomSheetBehavior.getPeekHeight();
-    relativeLayout.requestLayout();
-    */
+
+    relativeLayout.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+      @Override
+      public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft,
+                                 int oldTop, int oldRight, int oldBottom) {
+        Log.d("Height:",String.valueOf(v.getLayoutParams().height));
+        if (v.getLayoutParams().height > 1000) {
+          initRelativeLayout();
+        }
+      }
+    });
   }
 
   private void initTextViews() {
@@ -103,16 +111,26 @@ public class TrackingViewController {
 
       @Override
       public void onSlide(@NonNull View bottomSheet, float slideOffset) {
-        relativeLayout.getLayoutParams().height=bottomSheet.getTop();
+        relativeLayout.getLayoutParams().height = bottomSheet.getTop();
         relativeLayout.requestLayout();
       }
     });
   }
 
+  private void initRelativeLayout() {
+    if (!init) {
+      Log.d("INIT height1:",String.valueOf(relativeLayout.getLayoutParams().height));
+      relativeLayout.getLayoutParams().height = bottomSheet.getTop();
+      relativeLayout.requestLayout();
+      Log.d("INIT height2:",String.valueOf(relativeLayout.getLayoutParams().height));
+      init=true;
+    }
+  }
+
   public void updateViews(Track track) {
     String param = String.format(Locale.ENGLISH, "%.2f m", track.getDistanceInM());
     textViewDistance.setText(param);
-    param = String.format(Locale.ENGLISH, "%.2f m/s", track.get(track.size()-1).getSpeed());
+    param = String.format(Locale.ENGLISH, "%.2f m/s", track.get(track.size() - 1).getSpeed());
     textViewSpeed.setText(param);
     param = String.format(Locale.ENGLISH, "%.2f km/h", track.getAverageSpeed_in_kmh());
     textViewAverageSpeed.setText(param);
