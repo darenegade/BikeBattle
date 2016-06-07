@@ -22,6 +22,7 @@ import com.google.android.gms.maps.model.PolylineOptions;
 
 import edu.hm.cs.bikebattle.app.R;
 import edu.hm.cs.bikebattle.app.data.Consumer;
+import edu.hm.cs.bikebattle.app.modell.LocationList;
 import edu.hm.cs.bikebattle.app.modell.Route;
 import edu.hm.cs.bikebattle.app.modell.Track;
 import edu.hm.cs.bikebattle.app.tracker.AndroidLocationTracker;
@@ -41,6 +42,10 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
    * Track that is recorded so far.
    */
   private Track track;
+  /**
+   * Route for routing.
+   */
+  private Route route;
   /**
    * Tracker for location updates.
    */
@@ -78,20 +83,31 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
       routesOid = null;
     }
     routing = routesOid != null;
-    if(routing){
+    if (routing) {
       loadTrack();
     }
 
     //tracker = new GoogleApiLocationTracker(this, 0);
     tracker = new AndroidLocationTracker(1, this);
     //TODO: Auto update to current location.
-    this.lastLocation=tracker.getLastLocation();
+    this.lastLocation = tracker.getLastLocation();
 
-    viewController=new TrackingViewController(this);
+    viewController = new TrackingViewController(this);
   }
 
   private void loadTrack() {
-    //TODO: Load route for routing.
+    getDataConnector().getRouteById(routesOid, new Consumer<Route>() {
+      @Override
+      public void consume(Route input) {
+        route = input;
+        drawLocationList(route,Color.RED);
+      }
+
+      @Override
+      public void error(int error, Throwable exception) {
+
+      }
+    });
   }
 
   /**
@@ -117,12 +133,15 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
     return isTracking;
   }
 
+  /**
+   * Saves the recorded track to the backend.
+   */
   private void saveTrack() {
     final Context context = this;
     getDataConnector().addTrack(track, getPrincipal(), new Consumer<Void>() {
       @Override
       public void consume(Void input) {
-        Toast.makeText(context,"Added new route!",Toast.LENGTH_LONG).show();
+        Toast.makeText(context, "Added new route!", Toast.LENGTH_LONG).show();
       }
 
       @Override
@@ -167,7 +186,6 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
           } catch (InterruptedException exception) {
             exception.printStackTrace();
           }
-
         }
       }
     }.start();
@@ -181,8 +199,8 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
    */
   private void updateTrack(Track track, Location lastLocation) {
     this.track = track;
-    drawTrack(track);
-    this.lastLocation=lastLocation;
+    drawLocationList(track,Color.BLUE);
+    this.lastLocation = lastLocation;
     updateCamera();
     viewController.updateViews(track);
   }
@@ -192,12 +210,12 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
    *
    * @param track Track that should be displayed.
    */
-  private void drawTrack(Track track) {
+  private void drawLocationList(LocationList track, int color) {
     googleMap.clear();
 
     PolylineOptions polyRoute = new PolylineOptions();
 
-    polyRoute.color(Color.BLUE);
+    polyRoute.color(color);
     polyRoute.width(6);
     polyRoute.visible(true);
 
@@ -209,13 +227,17 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
     googleMap.addPolyline(polyRoute);
   }
 
+  /**
+   * Adds a new route to the backend
+   * @param name The name of the route.
+   */
   public void addRoute(final String name) {
     final Context context = this;
-    Route route = new Route(name,track);
+    Route route = new Route(name, track);
     getDataConnector().addRoute(route, getPrincipal(), new Consumer<Void>() {
       @Override
       public void consume(Void input) {
-        Toast.makeText(context,"Added new route!",Toast.LENGTH_LONG).show();
+        Toast.makeText(context, "Added new route!", Toast.LENGTH_LONG).show();
       }
 
       @Override

@@ -1,11 +1,12 @@
 package edu.hm.cs.bikebattle.app.data;
 
 import android.location.Location;
+
+import java.util.List;
+
 import edu.hm.cs.bikebattle.app.modell.Route;
 import edu.hm.cs.bikebattle.app.modell.Track;
 import edu.hm.cs.bikebattle.app.modell.User;
-
-import java.util.List;
 
 /**
  * Created by Nils on 26.04.2016.
@@ -40,6 +41,14 @@ public interface DataConnector {
    * @param consumer consumer to call
    */
   void getUserById(String id, Consumer<User> consumer);
+
+  /**
+   * Returns the route with the given id.
+   *
+   * @param id       route id
+   * @param consumer consumer to call
+   */
+  void getRouteById(String id, Consumer<Route> consumer);
 
   /**
    * Login on Backend and returns the current user.
