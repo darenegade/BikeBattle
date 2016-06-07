@@ -245,7 +245,7 @@ public class BasicDataConnector implements DataConnector {
       @Override
       public void consume(String input) {
         executeGetCall(
-            userCache.findByEmail(userClient.findByEmail(input, email), new DynamicKey(email), new EvictDynamicKey(false)),
+            userCache.findByEmail(userClient.findByEmail(input, email), new DynamicKey(email), new EvictDynamicKey(true)),
             consumer);
       }
 
@@ -267,7 +267,7 @@ public class BasicDataConnector implements DataConnector {
             routeCache.findNear(
                 routeClient.findNear(input, location.getLongitude(), location.getLatitude(), distance),
                 new DynamicKey(new double[]{location.getLongitude(), location.getLatitude(), distance}),
-                new EvictDynamicKey(false)),
+                new EvictDynamicKey(true)),
             consumer);
       }
 
@@ -287,7 +287,7 @@ public class BasicDataConnector implements DataConnector {
             userCache.findeOne(
                 userClient.findeOne(input, id),
                 new DynamicKey(id),
-                new EvictDynamicKey(false)),
+                new EvictDynamicKey(true)),
             consumer);
       }
 
@@ -308,7 +308,7 @@ public class BasicDataConnector implements DataConnector {
             userCache.findByNameContainingIgnoreCase(
                 userClient.findByNameContainingIgnoreCase(input, name),
                 new DynamicKey(name),
-                new EvictDynamicKey(false)),
+                new EvictDynamicKey(true)),
             consumer);
       }
 
@@ -329,7 +329,7 @@ public class BasicDataConnector implements DataConnector {
             driveCache.findByOwnerOid(
                 driveClient.findByOwnerOid(input, user.getOid()),
                 new DynamicKey(user.getOid()),
-                new EvictDynamicKey(false)),
+                new EvictDynamicKey(true)),
             consumer);
       }
 
@@ -350,7 +350,7 @@ public class BasicDataConnector implements DataConnector {
             routeCache.findByOwnerOid(
                 routeClient.findByOwnerOid(input, user.getOid()),
                 new DynamicKey(user.getOid()),
-                new EvictDynamicKey(false)),
+                new EvictDynamicKey(true)),
             consumer);
       }
 
@@ -485,7 +485,7 @@ public class BasicDataConnector implements DataConnector {
             userCache.getFriends(
                 userClient.getFriends(input, user.getOid()),
                 new DynamicKey(user.getOid()),
-                new EvictDynamicKey(false)),
+                new EvictDynamicKey(true)),
             consumer);
       }
 
