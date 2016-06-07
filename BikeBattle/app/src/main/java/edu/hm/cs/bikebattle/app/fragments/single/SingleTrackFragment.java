@@ -1,6 +1,7 @@
 package edu.hm.cs.bikebattle.app.fragments.single;
 
 import android.content.Context;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,25 +9,26 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+
+import java.util.ArrayList;
+
 import edu.hm.cs.bikebattle.app.R;
+import edu.hm.cs.bikebattle.app.modell.Track;
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link SingleRouteFragment.OnFragmentInteractionListener} interface
+ * {@link SingleTrackFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link SingleRouteFragment#newInstance} factory method to
+ * Use the {@link SingleTrackFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SingleRouteFragment extends Fragment {
-  // TODO: Rename parameter arguments, choose names that match
-  // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-  private static final String ARG_PARAM1 = "param1";
-  private static final String ARG_PARAM2 = "param2";
-
-  // TODO: Rename and change types of parameters
-  private String mParam1;
-  private String mParam2;
+public class SingleTrackFragment extends Fragment {
+  private Track track;
 
   private OnFragmentInteractionListener mListener;
 
@@ -34,38 +36,55 @@ public class SingleRouteFragment extends Fragment {
    * Use this factory method to create a new instance of
    * this fragment using the provided parameters.
    *
-   * @param param1 Parameter 1.
-   * @param param2 Parameter 2.
-   * @return A new instance of fragment SingleRouteFragment.
+   * @param track Track
+   * @return A new instance of fragment SingleTrackFragment.
    */
-  // TODO: Rename and change types and number of parameters
-  public static SingleRouteFragment newInstance(String param1, String param2) {
-    SingleRouteFragment fragment = new SingleRouteFragment();
-    Bundle args = new Bundle();
-    args.putString(ARG_PARAM1, param1);
-    args.putString(ARG_PARAM2, param2);
-    fragment.setArguments(args);
+  public static SingleTrackFragment newInstance(Track track) {
+    SingleTrackFragment fragment = new SingleTrackFragment();
+    fragment.setTrack(track);
     return fragment;
   }
 
-  public SingleRouteFragment() {
+  private void setTrack(Track track) {
+    this.track = track;
+  }
+
+  public SingleTrackFragment() {
     // Required empty public constructor
   }
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    if (getArguments() != null) {
-      mParam1 = getArguments().getString(ARG_PARAM1);
-      mParam2 = getArguments().getString(ARG_PARAM2);
-    }
   }
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
                            Bundle savedInstanceState) {
-    // Inflate the layout for this fragment
-    return inflater.inflate(R.layout.fragment_single_route, container, false);
+    View view = inflater.inflate(R.layout.fragment_single_track, container, false);
+    if (track != null) {
+      LineChart chart = (LineChart) view.findViewById(R.id.chart);
+      ArrayList<Entry> entries = new ArrayList<Entry>();
+      float distance = 0;
+      Location location = track.get(0);
+      entries.add(new Entry((float)location.getAltitude(),(int)distance/10));
+      for (int i = 1; i < track.size(); i++) {
+        Location tmp = track.get(i);
+        distance += location.distanceTo(tmp);
+        entries.add(new Entry((float)tmp.getAltitude(),(int)distance/10));
+        location = tmp;
+      }
+      LineDataSet dataset = new LineDataSet(entries, "");
+
+      // creating labels
+      ArrayList<String> labels = new ArrayList<String>();
+      for (int i = 0; i < track.getDistanceInM() / 10 + 1; i++) {
+        labels.add(String.format("%d m", i * 10));
+      }
+      LineData data = new LineData(labels, dataset);
+      chart.setData(data); // set the data and list of lables into chart
+    }
+    return view;
   }
 
   // TODO: Rename method, update argument and hook method into UI event

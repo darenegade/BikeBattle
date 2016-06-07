@@ -1,14 +1,15 @@
 package edu.hm.cs.bikebattle.app.activities;
 
 import android.Manifest;
-import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -18,26 +19,29 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import edu.hm.cs.bikebattle.app.R;
+import edu.hm.cs.bikebattle.app.data.Consumer;
 import edu.hm.cs.bikebattle.app.fragments.navigationdrawer.MainFragment;
 import edu.hm.cs.bikebattle.app.fragments.navigationdrawer.ProfilFragment;
-import edu.hm.cs.bikebattle.app.fragments.single.SingleRouteFragment;
+import edu.hm.cs.bikebattle.app.fragments.single.SingleTrackFragment;
+import edu.hm.cs.bikebattle.app.modell.Track;
 import edu.hm.cs.bikebattle.app.modell.User;
-import edu.hm.cs.bikebattle.app.task.URIParser;
 
-public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener, SingleTrackFragment.OnFragmentInteractionListener {
 
   private static final String TAG = "MainActivity";
   private NavigationView navigationView;
   private View headerView;
   private ImageView profilImage;
-  private  DrawerLayout drawer;
+  private DrawerLayout drawer;
   private FragmentManager fm;
   /**
    * Permission request parameter value.
@@ -79,71 +83,91 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     fm = getSupportFragmentManager();
     fm.beginTransaction().replace(R.id.conten_frame, new MainFragment()).commit();
-
-    /**findViewById(R.id.routes_button).setOnClickListener(new View.OnClickListener() {
+    if (getPrincipal() != null) {
+      Log.d("User", getPrincipal().getName());
+    }
+    //For debug
+    getDataConnector().getUserByName("Lukas", new Consumer<List<User>>() {
       @Override
-      public void onClick(View view) {
-        Intent intent = new Intent(getApplicationContext(), RoutesActivity.class);
-        startActivity(intent);
-                //Intent intent = new Intent(getApplicationContext(), TrackingTestActivity.class);
-                //startActivity(intent);
+      public void consume(List<User> input) {
+        Log.d("User", input.size() + "");
+        if (input.size() > 0) {
+          final User user = input.get(0);
+
+
+          getDataConnector().getTracksByUser(input.get(0), new Consumer<List<Track>>() {
+            @Override
+            public void consume(List<Track> input) {
+              Log.d("Tracks", input.size()+"");
+              if (input.size() > 0) {
+                fm.beginTransaction().replace(R.id.conten_frame, SingleTrackFragment.newInstance(input.get(0))).commit();
+              } else {
+                ArrayList<Location> wayPoints = new ArrayList<Location>();
+                Location loc1 = new Location("");
+                loc1.setLatitude(48.154);
+                loc1.setLongitude(11.554);
+                loc1.setAltitude(500);
+                wayPoints.add(loc1);
+                Location loc2 = new Location("");
+                loc2.setLatitude(48.155);
+                loc2.setLongitude(11.556);
+                loc2.setAltitude(550);
+                wayPoints.add(loc2);
+                Location loc3 = new Location("");
+                loc3.setLatitude(48.154);
+                loc3.setLongitude(11.557);
+                loc3.setAltitude(570);
+                wayPoints.add(loc3);
+                Location loc4 = new Location("");
+                loc4.setLatitude(48.153);
+                loc4.setLongitude(11.561);
+                loc4.setAltitude(530);
+                wayPoints.add(loc4);
+                Location loc5 = new Location("");
+                loc5.setLatitude(48.152);
+                loc5.setLongitude(11.56);
+                loc5.setAltitude(480);
+                wayPoints.add(loc5);
+                Location loc6 = new Location("");
+                loc6.setLatitude(48.151);
+                loc6.setLongitude(11.558);
+                loc6.setAltitude(500);
+                wayPoints.add(loc6);
+
+                Track track = new Track(wayPoints);
+
+                getDataConnector().addTrack(track, user, new Consumer<Void>() {
+                  @Override
+                  public void consume(Void input) {
+                    Log.d("Success", "New Track");
+                  }
+
+                  @Override
+                  public void error(int error, Throwable exception) {
+                    Log.d("Error", error + "");
+                  }
+                });
+              }
+            }
+
+            @Override
+            public void error(int error, Throwable exception) {
+              Log.e("Error Routes", error + " ");
+            }
+          });
+        }
+
+      }
+
+      @Override
+      public void error(int error, Throwable exception) {
+        if (error == Consumer.EXCEPTION) {
+          //exception.printStackTrace();
+        }
+        Log.e("Error User", error + " ");
       }
     });
-    findViewById(R.id.track_button).setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View view) {
-        Intent intent = new Intent(getApplicationContext(), TrackingActivity.class);
-        startActivity(intent);
-      }
-    });*/
 
-    /**final DataConnector connector = new BasicDataConnector();
-     connector.getUserByName("Nils", new Consumer<List<User>>() {
-    @Override public void consume(List<User> input) {
-    if(input.size()>0){
-    Log.d(TAG, "got user " + input.get(0).getName() + " - OID: " + input.get(0).getOid());
-    Route route = new Route("Test");
-    Location location;
-    location = new Location("");
-    location.setLongitude(0);
-    location.setLatitude(0);
-    route.add(location);
-    location = new Location("");
-    location.setLongitude(1);
-    location.setLatitude(0);
-    route.add(location);
-    location = new Location("");
-    location.setLongitude(2);
-    location.setLatitude(1);
-    route.add(location);
-    location = new Location("");
-    location.setLongitude(0);
-    location.setLatitude(0);
-    route.add(location);
-    route.setRoutetyp(Routetyp.CITY);
-    route.setDifficulty(Difficulty.EASY);
-    connector.addRoute(route, input.get(0), new Consumer<Void>() {
-    @Override public void consume(Void input) {
-    Log.d(TAG, "Route added");
-    ((Button)findViewById(R.id.track_button)).setText("Test");
-    }
-
-    @Override public void error(int error, Throwable exception) {
-    Log.e(TAG,"Error2: " + error+"");
-    }
-    });
-    }
-    }
-
-    @Override public void error(int error, Throwable exception) {
-    Log.e(TAG,"Error1: " + error+"");
-    }
-    });**/
-    //TODO for debug purpose (NILS)
-    FragmentManager fm = getSupportFragmentManager();
-    FragmentTransaction ft = fm.beginTransaction();
-    ft.show(new SingleRouteFragment());
-    ft.commit();
 
     requestPermission();
   }
@@ -169,6 +193,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         .error(R.mipmap.ic_launcher)
         .into(profilImage);
 
+
   }
 
   @Override
@@ -185,7 +210,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
         != PackageManager.PERMISSION_GRANTED) {
       ActivityCompat.requestPermissions(this,
-          new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+          new String[] {Manifest.permission.ACCESS_FINE_LOCATION},
           MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
     }
   }
@@ -234,9 +259,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
   public void selectDrawerItem(MenuItem menuItem) {
 
-    switch(menuItem.getItemId()) {
+    switch (menuItem.getItemId()) {
       case R.id.nav_profil:
-        fm.beginTransaction().replace(R.id.conten_frame, ProfilFragment.newInstance(null,null)).commit();
+        fm.beginTransaction().replace(R.id.conten_frame, ProfilFragment.newInstance(null, null)).commit();
         break;
       case R.id.nav_tracks:
         break;
@@ -250,7 +275,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         //fragmentClass = ThirdFragment.class;
         break;
       default:
-        fm.beginTransaction().replace(R.id.conten_frame, ProfilFragment.newInstance(null,null)).commit();
+        fm.beginTransaction().replace(R.id.conten_frame, ProfilFragment.newInstance(null, null)).commit();
     }
 
 
@@ -263,5 +288,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
   }
 
 
-
+  @Override
+  public void onFragmentInteraction(Uri uri) {
+    //TODO
+  }
 }
