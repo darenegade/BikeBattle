@@ -25,6 +25,8 @@ import edu.hm.cs.bikebattle.app.data.Consumer;
 import edu.hm.cs.bikebattle.app.modell.LocationList;
 import edu.hm.cs.bikebattle.app.modell.Route;
 import edu.hm.cs.bikebattle.app.modell.Track;
+import edu.hm.cs.bikebattle.app.router.AndroidLocationRouter;
+import edu.hm.cs.bikebattle.app.router.Router;
 import edu.hm.cs.bikebattle.app.tracker.AndroidLocationTracker;
 import edu.hm.cs.bikebattle.app.tracker.LocationTracker;
 
@@ -50,6 +52,10 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
    * Tracker for location updates.
    */
   private LocationTracker tracker;
+  /**
+   * Tracker for location updates.
+   */
+  private Router router;
   /**
    * Flag whether tracking is turned on.
    */
@@ -87,10 +93,15 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
       loadTrack();
     }
 
-    //tracker = new GoogleApiLocationTracker(this, 0);
-    tracker = new AndroidLocationTracker(1, this);
-    //TODO: Auto update to current location.
-    this.lastLocation = tracker.getLastLocation();
+    if(!routing) {
+      tracker = new AndroidLocationTracker(1, this);
+      //TODO: Auto update to current location.
+      lastLocation = tracker.getLastLocation();
+    }else{
+      router=new AndroidLocationRouter(route,1,this);
+      //TODO: Auto update to current location.
+      lastLocation=router.getLastLocation();
+    }
 
     viewController = new TrackingViewController(this);
   }
