@@ -93,14 +93,14 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
       loadTrack();
     }
 
-    if(!routing) {
+    if (!routing) {
       tracker = new AndroidLocationTracker(1, this);
       //TODO: Auto update to current location.
       lastLocation = tracker.getLastLocation();
-    }else{
-      router=new AndroidLocationRouter(route,1,this);
+    } else {
+      router = new AndroidLocationRouter(route, 1, this);
       //TODO: Auto update to current location.
-      lastLocation=router.getLastLocation();
+      lastLocation = router.getLastLocation();
     }
 
     viewController = new TrackingViewController(this);
@@ -111,12 +111,12 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
       @Override
       public void consume(Route input) {
         route = input;
-        drawLocationList(route,Color.RED);
+        drawLocationList(route, Color.RED);
       }
 
       @Override
       public void error(int error, Throwable exception) {
-
+        //TODO
       }
     });
   }
@@ -136,17 +136,23 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
 
       isTracking = false;
     } else {
-      if (tracker.start()) {
-        startTracking();
-        isTracking = true;
+      if (routing && router.isInStartArea()) {
+        if (router.start()) {
+          startRouting();
+          isTracking = true;
+        }
+      } else if (tracker.start()) {
+          startTracking();
+          isTracking = true;
+        }
       }
+      return isTracking;
     }
-    return isTracking;
-  }
 
-  /**
-   * Saves the recorded track to the backend.
-   */
+    /**
+     * Saves the recorded track to the backend.
+     */
+
   private void saveTrack() {
     final Context context = this;
     getDataConnector().addTrack(track, getPrincipal(), new Consumer<Void>() {
@@ -157,7 +163,8 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
 
       @Override
       public void error(int error, Throwable exception) {
-
+        Toast.makeText(context, "Unable to save track!", Toast.LENGTH_LONG).show();
+        //TODO
       }
     });
   }
@@ -203,6 +210,40 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
   }
 
   /**
+   * Starts a thread for receiving location updates.
+   */
+  private void startRouting() {
+    final Activity context = this;
+    new Thread() {
+      @Override
+      public void run() {
+        while (true) {
+          try {
+            while (locationUpdates == router.getTrack().size()) {
+              synchronized (router) {
+                router.wait();
+              }
+            }
+            synchronized (router.getTrack()) {
+              while (locationUpdates < router.getTrack().size()) {
+                context.runOnUiThread(new Runnable() {
+                  @Override
+                  public void run() {
+                    updateTrack(router.getTrack(), router.getLastLocation());
+                  }
+                });
+                locationUpdates++;
+              }
+            }
+          } catch (InterruptedException exception) {
+            exception.printStackTrace();
+          }
+        }
+      }
+    }.start();
+  }
+
+  /**
    * Updates the track and updates the fragments.
    *
    * @param track        Updated track.
@@ -210,7 +251,7 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
    */
   private void updateTrack(Track track, Location lastLocation) {
     this.track = track;
-    drawLocationList(track,Color.BLUE);
+    drawLocationList(track, Color.BLUE);
     this.lastLocation = lastLocation;
     updateCamera();
     viewController.updateViews(track);
@@ -240,6 +281,7 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
 
   /**
    * Adds a new route to the backend
+   *
    * @param name The name of the route.
    */
   public void addRoute(final String name) {
@@ -253,7 +295,8 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
 
       @Override
       public void error(int error, Throwable exception) {
-
+        Toast.makeText(context, "Unable to add new route!", Toast.LENGTH_LONG).show();
+        //TODO
       }
     });
   }
@@ -273,15 +316,24 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
    * Moves the camera to the users position.
    */
   private void updateCamera() {
-    LatLng latLng = new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude());
-    googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(
-        new CameraPosition.Builder().target(latLng).zoom(17).tilt(30)
-            .bearing(lastLocation.getBearing()).build()));
+
+    LatLng lastPosition = new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude());
+    if (routing) {
+      googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(
+          new CameraPosition.Builder().target(lastPosition).zoom(17).tilt(30)
+              .bearing(lastLocation.bearingTo(router.getNextTarget())).build()));
+      googleMap.addMarker(new MarkerOptions()
+          .position(new LatLng(router.getNextTarget().getLatitude(), router.getNextTarget()
+              .getLongitude())))
+          .setFlat(true);
+    } else {
+      googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(
+          new CameraPosition.Builder().target(lastPosition).zoom(17).tilt(30)
+              .bearing(lastLocation.getBearing()).build()));
+    }
     googleMap.addMarker(new MarkerOptions()
         .position(new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude()))
         .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_navigation)))
         .setFlat(true);
   }
-
-
 }

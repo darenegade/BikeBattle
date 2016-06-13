@@ -22,7 +22,6 @@ import edu.hm.cs.bikebattle.app.modell.Track;
 public class TrackingViewController {
   private TrackingActivity activity;
 
-  private BottomSheetBehavior<View> mBottomSheetBehavior;
   private View bottomSheet;
 
   private RelativeLayout relativeLayout;
@@ -34,7 +33,6 @@ public class TrackingViewController {
   private TextView textViewAverageSpeed;
   private TextView textViewDistance;
   private TextView textViewAltitude;
-  //private TextView textViewTime;
 
   private boolean init = false;
 
@@ -65,6 +63,7 @@ public class TrackingViewController {
     textViewAverageSpeed = (TextView) activity.findViewById(R.id.trackInfo_textView_average_speed);
     textViewDistance = (TextView) activity.findViewById(R.id.trackInfo_textView_distance);
     textViewAltitude = (TextView) activity.findViewById(R.id.trackInfo_textView_altitude);
+    textViewTime = (TextView) activity.findViewById(R.id.trackInfo_textView_time);
   }
 
   private void initButton() {
@@ -101,7 +100,7 @@ public class TrackingViewController {
 
   private void initBottomSheet() {
     bottomSheet = activity.findViewById(R.id.bottom_sheet);
-    mBottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
+    BottomSheetBehavior<View> mBottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
     mBottomSheetBehavior.setPeekHeight(textViewTime.getLineHeight() + 10);
     mBottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
       @Override
@@ -128,6 +127,10 @@ public class TrackingViewController {
   }
 
   public void updateViews(Track track) {
+    long seconds = (track.getTime_in_s()/1000+60)%60;
+    long minutes = track.getTime_in_s()/1000/60;
+    textViewTime.setText(String.format(Locale.getDefault(),"%02d:%02d",minutes,seconds));
+
     String param = String.format(Locale.ENGLISH, "%.2f m", track.getDistanceInM());
     textViewDistance.setText(param);
     param = String.format(Locale.ENGLISH, "%.2f m/s", track.get(track.size() - 1).getSpeed());
