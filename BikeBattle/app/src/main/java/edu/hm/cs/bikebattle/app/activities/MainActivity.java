@@ -2,6 +2,7 @@ package edu.hm.cs.bikebattle.app.activities;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -22,9 +23,13 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+
 import edu.hm.cs.bikebattle.app.R;
 import edu.hm.cs.bikebattle.app.fragments.navigationdrawer.MainFragment;
 import edu.hm.cs.bikebattle.app.fragments.navigationdrawer.ProfilFragment;
+import edu.hm.cs.bikebattle.app.fragments.single.SingleRouteFragment;
+import edu.hm.cs.bikebattle.app.modell.Route;
 import edu.hm.cs.bikebattle.app.modell.User;
 
 public class MainActivity extends BaseActivity
@@ -101,6 +106,34 @@ public class MainActivity extends BaseActivity
         .error(R.mipmap.ic_launcher)
         .into(profilImage);
 
+
+    ArrayList<Location> wayPoints = new ArrayList<Location>();
+    Location loc1 = new Location("");
+    loc1.setLatitude(48.154);
+    loc1.setLongitude(11.554);
+    wayPoints.add(loc1);
+    Location loc2 = new Location("");
+    loc2.setLatitude(48.155);
+    loc2.setLongitude(11.556);
+    wayPoints.add(loc2);
+    Location loc3 = new Location("");
+    loc3.setLatitude(48.154);
+    loc3.setLongitude(11.557);
+    wayPoints.add(loc3);
+    Location loc4 = new Location("");
+    loc4.setLatitude(48.153);
+    loc4.setLongitude(11.561);
+    wayPoints.add(loc4);
+    Location loc5 = new Location("");
+    loc5.setLatitude(48.152);
+    loc5.setLongitude(11.56);
+    wayPoints.add(loc5);
+    Location loc6 = new Location("");
+    loc6.setLatitude(48.151);
+    loc6.setLongitude(11.558);
+    wayPoints.add(loc6);
+
+    fm.beginTransaction().replace(R.id.conten_frame, SingleRouteFragment.newInstance(new Route("Test", wayPoints))).commit();
   }
 
   @Override
