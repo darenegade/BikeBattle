@@ -1,7 +1,11 @@
 <resources>
 
-<color name="background">#D8F6FF</color>
-<color name="font">#3D81FF</color>
-<color name="accent">#9EBEFF</color>
+    <color name="background">#D8F6FF</color>
+    <color name="font">#3D81FF</color>
+    <color name="font_head">#3D81AF</color>
+    <color name="accent">#9EBEFF</color>
+    <color name="background_navigationdrawer">#9EB44F</color>
+    <color name="font_navigationdrawer">#3D81AF</color>
+    <color name="circleimageview_border">#FFFFFF</color>
 
 </resources>

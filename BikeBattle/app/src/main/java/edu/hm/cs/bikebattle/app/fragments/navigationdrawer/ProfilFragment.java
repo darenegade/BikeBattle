@@ -136,14 +136,9 @@ public class ProfilFragment extends Fragment implements View.OnClickListener{
           BaseActivity activity = (BaseActivity)getActivity();
           activity.getDataConnector().changeUserData(user, new Consumer<Void>() {
             @Override
-            public void consume(Void input) {
-
-            }
-
+            public void consume(Void input) {}
             @Override
-            public void error(int error, Throwable exception) {
-
-            }
+            public void error(int error, Throwable exception) {}
           });
 
         }

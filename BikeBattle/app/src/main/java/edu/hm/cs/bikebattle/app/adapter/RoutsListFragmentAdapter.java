@@ -82,11 +82,11 @@ import edu.hm.cs.bikebattle.app.modell.User;
 
     else difficult = routes.get(position).getDifficulty().toString();
     TextView difficultName = (TextView) rowView.findViewById(R.id.difficult_item);
-    difficultName.setText("Schwierigkeitsgrad: "+difficult);
+    difficultName.setText(difficult);
 
     TextView textViewInformation = (TextView) rowView.findViewById(R.id.textView_information_item);
     String information =
-        String.format("Length: %.2f km", routes.get(position).getDistanceInM() / 1000);
+        String.format(" %.2f km", routes.get(position).getDistanceInM() / 1000);
     textViewInformation.setText(information);
 
     return rowView;
