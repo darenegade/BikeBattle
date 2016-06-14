@@ -14,15 +14,6 @@ import java.util.List;
  */
 public class Track extends LocationList {
 
-  /**
-   * Initializes the track without calculating the distance and time.
-   *
-   * @param locations   locations of the track
-   * @param distanceInM distance of the track
-   */
-  public Track(List<? extends Location> locations, float distanceInM) {
-    super(locations, distanceInM);
-  }
 
   /**
    * Initializes the track.

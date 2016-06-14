@@ -82,9 +82,13 @@ public class SingleTrackFragment extends Fragment implements OnMapReadyCallback 
       float distance = track.getDistanceInM();
       long time = track.getTime_in_s();
       float speed = track.getAverageSpeed_in_kmh();
+      float downward = track.getDownwardInM();
+      float upward = track.getUpwardInM();
       ((TextView) view.findViewById(R.id.single_textView_distance)).setText(GoogleMapHelper.distanceToFormat(distance));
       ((TextView) view.findViewById(R.id.single_textView_time)).setText(GoogleMapHelper.secondsToFormat(time));
       ((TextView) view.findViewById(R.id.single_textView_average_speed)).setText(String.format("%.1f km/h", speed));
+      ((TextView) view.findViewById(R.id.single_textView_altitude)).setText(String.format("%.1f km/h", downward));
+      ((TextView) view.findViewById(R.id.single_textView_differenceAlt)).setText(String.format("%.1f km/h", upward));
     }
     return view;
   }
