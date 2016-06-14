@@ -65,7 +65,9 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
    * Flag whether routing is active.
    */
   private boolean routing;
-
+  /**
+   * Id for the route for routing.
+   */
   private String routesOid;
   /**
    * The google map which shows the recorded track and the users position.
@@ -75,7 +77,9 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
    * Last location which represents the users position.
    */
   private Location lastLocation;
-
+  /**
+   * Controller for the views.
+   */
   private TrackingViewController viewController;
 
   @Override
