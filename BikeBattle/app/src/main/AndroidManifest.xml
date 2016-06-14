@@ -48,7 +48,6 @@
                 android:name=".activities.Login"
                 android:label="@string/name_sign_in_activity"
                 android:theme="@style/Theme.AppCompat.NoActionBar"/>
-        <activity android:name=".activities.RoutesActivity"/>
         <activity android:name=".activities.TrackingActivity"/>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.

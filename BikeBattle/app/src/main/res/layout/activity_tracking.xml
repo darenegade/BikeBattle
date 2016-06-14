@@ -32,7 +32,7 @@
             android:layout_marginRight="16dp"
             android:clickable="true"
             android:theme="@style/AppTheme"
-            app:backgroundTint="@android:color/holo_blue_dark"
+            app:backgroundTint="@color/accent"
             app:layout_anchorGravity="bottom|right|end"/>
     </RelativeLayout>
 
@@ -40,7 +40,7 @@
         android:id="@+id/bottom_sheet"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/holo_blue_dark"
+        android:background="@color/background"
         android:clipToPadding="true"
         app:layout_behavior="android.support.design.widget.BottomSheetBehavior"
         >

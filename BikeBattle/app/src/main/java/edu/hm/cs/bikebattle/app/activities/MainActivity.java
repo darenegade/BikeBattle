@@ -1,13 +1,13 @@
 package edu.hm.cs.bikebattle.app.activities;
 
 import android.Manifest;
+import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
@@ -24,18 +24,15 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import edu.hm.cs.bikebattle.app.R;
-import edu.hm.cs.bikebattle.app.data.Consumer;
+import edu.hm.cs.bikebattle.app.fragments.RoutesOverviewFragment;
 import edu.hm.cs.bikebattle.app.fragments.navigationdrawer.MainFragment;
 import edu.hm.cs.bikebattle.app.fragments.navigationdrawer.ProfilFragment;
 import edu.hm.cs.bikebattle.app.fragments.single.SingleTrackFragment;
-import edu.hm.cs.bikebattle.app.modell.Track;
 import edu.hm.cs.bikebattle.app.modell.User;
 
-public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener, SingleTrackFragment.OnFragmentInteractionListener {
+public class MainActivity extends BaseActivity implements NavigationView
+    .OnNavigationItemSelectedListener, SingleTrackFragment.OnFragmentInteractionListener {
 
   private static final String TAG = "MainActivity";
   private NavigationView navigationView;
@@ -65,15 +62,17 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     headerView = navigationView.getHeaderView(0);
     //navigationView.setNavigationItemSelectedListener(this);
 
-
+    final Context context = this;
     FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-    fab.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View view) {
-        Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-            .setAction("Action", null).show();
-      }
-    });
+    if (fab != null) {
+      fab.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+          Intent intent = new Intent(context, TrackingActivity.class);
+          startActivity(intent);
+        }
+      });
+    }
 
     drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
     ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -86,6 +85,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     if (getPrincipal() != null) {
       Log.d("User", getPrincipal().getName());
     }
+    /*
     //For debug
     getDataConnector().getUserByName("Nils", new Consumer<List<User>>() {
       @Override
@@ -100,7 +100,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             public void consume(List<Track> input) {
               Log.d("Tracks", input.size()+"");
               if (input.size() > 0) {
-                fm.beginTransaction().replace(R.id.conten_frame, SingleTrackFragment.newInstance(input.get(0))).commit();
+                fm.beginTransaction().replace(R.id.conten_frame, SingleTrackFragment.newInstance
+                (input.get(0))).commit();
               } else {
                 ArrayList<Location> wayPoints = new ArrayList<Location>();
                 Location loc1 = new Location("");
@@ -166,7 +167,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         }
         Log.e("Error User", error + " ");
       }
-    });
+    });*/
 
 
     requestPermission();
@@ -261,12 +262,17 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     switch (menuItem.getItemId()) {
       case R.id.nav_profil:
-        fm.beginTransaction().replace(R.id.conten_frame, ProfilFragment.newInstance(null, null)).commit();
+        fm.beginTransaction().replace(R.id.conten_frame, ProfilFragment.newInstance(null, null))
+            .commit();
         break;
       case R.id.nav_tracks:
         break;
       case R.id.nav_routes:
         //fragmentClass = ThirdFragment.class;
+        break;
+      case R.id.nav_find_routes:
+        fm.beginTransaction().replace(R.id.conten_frame, RoutesOverviewFragment.newInstance())
+            .commit();
         break;
       case R.id.nav_favorite:
         //fragmentClass = ThirdFragment.class;
@@ -275,7 +281,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         //fragmentClass = ThirdFragment.class;
         break;
       default:
-        fm.beginTransaction().replace(R.id.conten_frame, ProfilFragment.newInstance(null, null)).commit();
+        fm.beginTransaction().replace(R.id.conten_frame, ProfilFragment.newInstance(null, null))
+            .commit();
     }
 
 

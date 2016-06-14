@@ -9,9 +9,12 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import java.util.List;
+
 import edu.hm.cs.bikebattle.app.R;
-import edu.hm.cs.bikebattle.app.activities.RoutesActivity;
+import edu.hm.cs.bikebattle.app.activities.BaseActivity;
 import edu.hm.cs.bikebattle.app.adapter.RoutesListAdapter;
+import edu.hm.cs.bikebattle.app.modell.Route;
 
 /**
  * Fragment to display a list with routes.
@@ -22,14 +25,14 @@ public class RoutesListFragment extends Fragment {
   /**
    * Activity in which the content is displayed.
    */
-  private RoutesActivity activity;
+  private BaseActivity activity;
 
   private ListView list;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    activity = (RoutesActivity) getActivity();
+    activity = (BaseActivity) getActivity();
   }
 
   @Override
@@ -39,19 +42,20 @@ public class RoutesListFragment extends Fragment {
     inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     View view = inflater.inflate(R.layout.fragment_routes_list, container, false);
     list = (ListView) view.findViewById(R.id.listView);
-    list.setAdapter(new RoutesListAdapter(getContext(), activity.getRoutes()));
+    //TODO: Set routes.
+    //list.setAdapter(new RoutesListAdapter(getContext(), activity.getRoutes()));
     list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
       @Override
       public void onItemClick(AdapterView<?> parent, final View view,
                               int position, long id) {
-        activity.showRouteInfo(position);
+        //TODO
       }
     });
 
     return view;
   }
 
-  public void updateList(){
-    list.setAdapter(new RoutesListAdapter(getContext(), activity.getRoutes()));
+  public void updateList(List<Route> routes){
+    list.setAdapter(new RoutesListAdapter(getContext(), routes));
   }
 }
