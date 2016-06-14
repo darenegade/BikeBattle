@@ -14,15 +14,6 @@ import java.util.List;
  */
 public class Track extends LocationList {
 
-  /**
-   * Initializes the track without calculating the distance and time.
-   *
-   * @param locations   locations of the track
-   * @param distanceInM distance of the track
-   */
-  public Track(List<? extends Location> locations, float distanceInM) {
-    super(locations, distanceInM);
-  }
 
   /**
    * Initializes the track.
@@ -72,6 +63,9 @@ public class Track extends LocationList {
    * @return average speed
    */
   public float getAverageSpeed_in_kmh() {
+    if (getTime_in_s() == 0) {
+      return 0;
+    }
     return getDistanceInM() * 1000 / (getTime_in_s() / 3600.0f);
   }
 

@@ -1,13 +1,14 @@
 package edu.hm.cs.bikebattle.app.modell;
 
 import android.location.Location;
-import lombok.NonNull;
 
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
+
+import lombok.NonNull;
 
 /**
  * Created by Nils on 01.04.2016.
@@ -22,26 +23,25 @@ public class LocationList extends BaseEntity implements List<Location> {
    */
   private float distanceInM;
   /**
+   * distance upward traveled in meter.
+   */
+  private float upwardInM;
+  /**
+   * distance downward traveled in meter.
+   */
+  private float downwardInM;
+  /**
    * Locations of the track.
    */
   private final LinkedList<Location> data;
-
-  /**
-   * Initializes the list with the given locations and the distance.
-   *
-   * @param collection  locations
-   * @param distanceInM distance
-   */
-  public LocationList(@NonNull List<? extends Location> collection, float distanceInM) {
-    data = new LinkedList<Location>(collection);
-    this.distanceInM = distanceInM;
-  }
 
   /**
    * Initializes an empty list.
    */
   public LocationList() {
     distanceInM = 0;
+    upwardInM = 0;
+    downwardInM = 0;
     data = new LinkedList<Location>();
   }
 
@@ -52,7 +52,7 @@ public class LocationList extends BaseEntity implements List<Location> {
    */
   public LocationList(@NonNull List<? extends Location> collection) {
     data = new LinkedList<Location>(collection);
-    distanceInM = calculateDistance(this);
+    calculateDistances();
   }
 
   /**
@@ -65,39 +65,80 @@ public class LocationList extends BaseEntity implements List<Location> {
   }
 
   /**
-   * Calculates the distance between all locations in the list.
-   *
-   * @param locations list of locations
-   * @return distance
+   * Calculates the distance, distance upward and distance downward between all locations in the
+   * list.
    */
-  public static float calculateDistance(@NonNull List<? extends Location> locations) {
-    if (locations.size() < 2) {
-      return 0;
+  private void calculateDistances() {
+    if (size() < 2) {
+      distanceInM = 0;
+      downwardInM = 0;
+      upwardInM = 0;
     }
-    float distance = 0;
-    for (int index = 0; index < locations.size() - 1; index++) {
-      distance += locations.get(index).distanceTo(locations.get(index + 1));
+    for (int index = 0; index < size() - 1; index++) {
+      distanceInM += get(index).distanceTo(get(index + 1));
+      double heightDif = get(index).getAltitude() - get(index + 1).getAltitude();
+      if (heightDif > 0) {
+        downwardInM += heightDif;
+      } else {
+        upwardInM -= heightDif;
+      }
     }
-    return distance;
   }
+
 
   @Override
   public void add(int index, @NonNull Location location) {
     //update distance
     if (size() < 1) {
       distanceInM = 0;
+      downwardInM = 0;
+      upwardInM = 0;
     } else if (index == 0) {
       //first element
       distanceInM += location.distanceTo(data.getFirst());
+      double heightDif = location.getAltitude() - data.getFirst().getAltitude();
+      if (heightDif > 0) {
+        downwardInM += heightDif;
+      } else {
+        upwardInM -= heightDif;
+      }
     } else if (index == size()) {
       //last element
       distanceInM += location.distanceTo(data.getLast());
+      double heightDif = data.getLast().getAltitude() - location.getAltitude();
+      if (heightDif > 0) {
+        downwardInM += heightDif;
+      } else {
+        upwardInM -= heightDif;
+      }
     } else {
       //in the middle
       //subtract previous distance
       distanceInM -= get(index - 1).distanceTo(get(index));
+
+      double heightDif = get(index - 1).getAltitude() - get(index).getAltitude();
+      if (heightDif > 0) {
+        downwardInM -= heightDif;
+      } else {
+        upwardInM += heightDif;
+      }
+
       //add new distances
       distanceInM += location.distanceTo(get(index - 1)) + location.distanceTo(get(index));
+
+      heightDif = get(index - 1).getAltitude() - location.getAltitude();
+      if (heightDif > 0) {
+        downwardInM += heightDif;
+      } else {
+        upwardInM -= heightDif;
+      }
+
+      heightDif = location.getAltitude() - get(index).getAltitude();
+      if (heightDif > 0) {
+        downwardInM += heightDif;
+      } else {
+        upwardInM -= heightDif;
+      }
     }
     data.add(index, location);
   }
@@ -183,19 +224,57 @@ public class LocationList extends BaseEntity implements List<Location> {
 
     if (size() <= 2) {
       distanceInM = 0;
+      downwardInM = 0;
+      upwardInM = 0;
     } else if (index == 0) {
       //first element
       distanceInM -= data.getFirst().distanceTo(get(1));
+
+      double heightDif = data.getFirst().getAltitude() - get(1).getAltitude();
+      if (heightDif > 0) {
+        downwardInM -= heightDif;
+      } else {
+        upwardInM += heightDif;
+      }
     } else if (index == size() - 1) {
       //last element
       distanceInM -= data.getLast().distanceTo(get(size() - 2));
+
+      double heightDif = get(size() - 2).getAltitude() - data.getLast().getAltitude();
+      if (heightDif > 0) {
+        downwardInM -= heightDif;
+      } else {
+        upwardInM += heightDif;
+      }
     } else {
       //in the middle
       //subtract previous length
       distanceInM -= (get(index).distanceTo(get(index + 1))
           + get(index).distanceTo(get(index - 1)));
+
+      double heightDif = get(index - 1).getAltitude() - get(index).getAltitude();
+      if (heightDif > 0) {
+        downwardInM -= heightDif;
+      } else {
+        upwardInM += heightDif;
+      }
+
+      heightDif = get(index).getAltitude() - get(index + 1).getAltitude();
+      if (heightDif > 0) {
+        downwardInM -= heightDif;
+      } else {
+        upwardInM += heightDif;
+      }
+
       //add new distance
       distanceInM += get(index - 1).distanceTo(get(index + 1));
+
+      heightDif = get(index - 1).getAltitude() - get(index + 1).getAltitude();
+      if (heightDif > 0) {
+        downwardInM += heightDif;
+      } else {
+        upwardInM -= heightDif;
+      }
     }
     return data.remove(index);
   }
@@ -254,6 +333,24 @@ public class LocationList extends BaseEntity implements List<Location> {
   @Override
   public <T> T[] toArray(T[] array) {
     return null;
+  }
+
+  /**
+   * Returns the distance upward in meter.
+   *
+   * @return distance upward
+   */
+  public float getUpwardInM() {
+    return upwardInM;
+  }
+
+  /**
+   * Returns the distance downward in meter.
+   *
+   * @return distance downward
+   */
+  public float getDownwardInM() {
+    return downwardInM;
   }
 
 }

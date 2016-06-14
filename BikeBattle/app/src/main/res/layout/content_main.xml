@@ -12,17 +12,13 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/app_bar_main"
     android:orientation="vertical">
+    
+    <FrameLayout
+        android:id="@+id/conten_frame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+    </FrameLayout>
 
-    <Button
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="Track new route"
-        android:id="@+id/track_button"/>
-
-    <Button
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="Show routes"
-        android:id="@+id/routes_button"/>
 </LinearLayout>
 
