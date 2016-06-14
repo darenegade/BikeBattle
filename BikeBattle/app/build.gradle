@@ -88,6 +88,10 @@ ext {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
 
+    //Allgemein
+    compile "com.squareup.picasso:picasso:2.5.2"
+    compile 'de.hdodenhof:circleimageview:2.0.0'
+
     //Google
     compile "com.android.support:appcompat-v7:${supportLibVersion}"
     compile "com.android.support:design:${supportLibVersion}"
