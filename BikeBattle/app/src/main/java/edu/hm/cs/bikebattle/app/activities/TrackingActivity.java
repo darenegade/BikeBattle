@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
@@ -82,6 +83,16 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_tracking);
 
+    // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+    SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+        .findFragmentById(R.id.map);
+    if (mapFragment == null) {
+      mapFragment = SupportMapFragment.newInstance();
+      getSupportFragmentManager().beginTransaction().replace(R.id.map, mapFragment).commit();
+    }
+    mapFragment.getMapAsync(this);
+
+    // Check if routing is enabled.
     Bundle args = getIntent().getExtras();
     try {
       routesOid = args.getString("oid");
@@ -90,9 +101,10 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
     }
     routing = routesOid != null;
     if (routing) {
-      loadTrack();
+      loadRoute();
     }
 
+    // Initialize LocationTracker.
     if (!routing) {
       tracker = new AndroidLocationTracker(1, this);
       //TODO: Auto update to current location.
@@ -106,7 +118,11 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
     viewController = new TrackingViewController(this);
   }
 
-  private void loadTrack() {
+  /**
+   * Loads the route for routing.
+   */
+  private void loadRoute() {
+    final Context context = this;
     getDataConnector().getRouteById(routesOid, new Consumer<Route>() {
       @Override
       public void consume(Route input) {
@@ -117,6 +133,7 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
       @Override
       public void error(int error, Throwable exception) {
         //TODO
+        Toast.makeText(context, "Error while loading route!", Toast.LENGTH_LONG).show();
       }
     });
   }
@@ -142,16 +159,18 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
           isTracking = true;
         }
       } else if (tracker.start()) {
-          startTracking();
-          isTracking = true;
-        }
+        startTracking();
+        isTracking = true;
+      } else {
+        Toast.makeText(this, "Please go to start point!", Toast.LENGTH_LONG).show();
       }
-      return isTracking;
     }
+    return isTracking;
+  }
 
-    /**
-     * Saves the recorded track to the backend.
-     */
+  /**
+   * Saves the recorded track to the backend.
+   */
 
   private void saveTrack() {
     final Context context = this;
@@ -274,7 +293,6 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
     for (Location wayPoint : track) {
       polyRoute.add(new LatLng(wayPoint.getLatitude(), wayPoint.getLongitude()));
     }
-    polyRoute.add(new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude()));
     googleMap.clear();
     googleMap.addPolyline(polyRoute);
   }
