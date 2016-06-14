@@ -1,7 +1,6 @@
 package edu.hm.cs.bikebattle.app.activities;
 
 import android.Manifest;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -25,6 +24,7 @@ import android.widget.TextView;
 import edu.hm.cs.bikebattle.app.R;
 import edu.hm.cs.bikebattle.app.fragments.navigationdrawer.MainFragment;
 import edu.hm.cs.bikebattle.app.fragments.navigationdrawer.ProfilFragment;
+import edu.hm.cs.bikebattle.app.fragments.navigationdrawer.RoutsFragment;
 import edu.hm.cs.bikebattle.app.modell.User;
 import edu.hm.cs.bikebattle.app.task.URIParser;
 
@@ -75,7 +75,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     toggle.syncState();
 
     fm = getSupportFragmentManager();
-    fm.beginTransaction().replace(R.id.conten_frame, new MainFragment()).commit();
+    fm.beginTransaction().replace(R.id.content_frame, new MainFragment()).commit();
 
     /**findViewById(R.id.routes_button).setOnClickListener(new View.OnClickListener() {
       @Override
@@ -231,9 +231,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     switch(menuItem.getItemId()) {
       case R.id.nav_profil:
-        fm.beginTransaction().replace(R.id.conten_frame, ProfilFragment.newInstance(getPrincipal(),getUserPhoto())).commit();
+        fm.beginTransaction().replace(R.id.content_frame, ProfilFragment.newInstance(getPrincipal(),getUserPhoto())).commit();
         break;
       case R.id.nav_tracks:
+        fm.beginTransaction().replace(R.id.content_frame, RoutsFragment.newInstance(getPrincipal())).commit();
         break;
       case R.id.nav_routes:
         //fragmentClass = ThirdFragment.class;
@@ -245,7 +246,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         //fragmentClass = ThirdFragment.class;
         break;
       default:
-        fm.beginTransaction().replace(R.id.conten_frame, new MainFragment()).commit();
+        fm.beginTransaction().replace(R.id.content_frame, new MainFragment()).commit();
     }
 
 
