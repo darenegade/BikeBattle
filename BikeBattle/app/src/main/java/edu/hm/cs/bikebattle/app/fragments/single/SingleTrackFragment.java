@@ -1,12 +1,9 @@
 package edu.hm.cs.bikebattle.app.fragments.single;
 
-import android.content.Context;
 import android.graphics.Color;
 import android.location.Location;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,21 +24,19 @@ import edu.hm.cs.bikebattle.app.fragments.GoogleMapHelper;
 import edu.hm.cs.bikebattle.app.modell.Track;
 
 /**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link SingleTrackFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link SingleTrackFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * Fragment displaying information on a single track.
+ *
+ * @author Nils Bernhardt
+ * @version 1.0
  */
 public class SingleTrackFragment extends Fragment implements OnMapReadyCallback {
+  /**
+   * Track to display.
+   */
   private Track track;
 
-  private OnFragmentInteractionListener mListener;
-
   /**
-   * Use this factory method to create a new instance of
-   * this fragment using the provided parameters.
+   * Creates a new Fragment for showing a single track.
    *
    * @param track Track
    * @return A new instance of fragment SingleTrackFragment.
@@ -52,17 +47,17 @@ public class SingleTrackFragment extends Fragment implements OnMapReadyCallback 
     return fragment;
   }
 
+  /**
+   * Sets the track to display.
+   *
+   * @param track track
+   */
   private void setTrack(Track track) {
     this.track = track;
   }
 
   public SingleTrackFragment() {
     // Required empty public constructor
-  }
-
-  @Override
-  public void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
   }
 
   @Override
@@ -79,22 +74,44 @@ public class SingleTrackFragment extends Fragment implements OnMapReadyCallback 
     View view = inflater.inflate(R.layout.fragment_single_track, container, false);
     if (track != null) {
       drawChart(view);
-      float distance = track.getDistanceInM();
-      long time = track.getTime_in_s();
-      float speed = track.getAverageSpeed_in_kmh();
-      float downward = track.getDownwardInM();
-      float upward = track.getUpwardInM();
-      ((TextView) view.findViewById(R.id.single_textView_distance)).setText(GoogleMapHelper.distanceToFormat(distance));
-      ((TextView) view.findViewById(R.id.single_textView_time)).setText(GoogleMapHelper.secondsToFormat(time));
-      ((TextView) view.findViewById(R.id.single_textView_average_speed)).setText(String.format("%.1f km/h", speed));
-      ((TextView) view.findViewById(R.id.single_textView_altitude)).setText(String.format("%.1f km/h", downward));
-      ((TextView) view.findViewById(R.id.single_textView_differenceAlt)).setText(String.format("%.1f km/h", upward));
+      fillViews(view);
     }
     return view;
   }
 
+  /**
+   * Fills all views with the statistics.
+   *
+   * @param view inflated view
+   */
+  private void fillViews(View view) {
+    float distance = track.getDistanceInM();
+    long time = track.getTime_in_s();
+    long paceInSkm = 0;
+    if (distance != 0) {
+      paceInSkm = (long) (time / (distance / 1000));
+    }
+    ((TextView) view.findViewById(R.id.single_textView_distance)).setText(
+        GoogleMapHelper.distanceToFormat(distance));
+    ((TextView) view.findViewById(R.id.single_textView_time)).setText(
+        GoogleMapHelper.secondsToFormat(time));
+    ((TextView) view.findViewById(R.id.single_textView_average_speed)).setText(
+        String.format("%.1f km/h", track.getAverageSpeed_in_kmh()));
+    ((TextView) view.findViewById(R.id.single_textView_downward)).setText(
+        String.format("%.0f m", track.getDownwardInM()));
+    ((TextView) view.findViewById(R.id.single_textView_upward)).setText(
+        String.format("%.0f m", track.getUpwardInM()));
+    ((TextView) view.findViewById(R.id.single_textView_average_pace)).setText(
+        String.format("%d:%02d min/km", paceInSkm / 60, paceInSkm % 60));
+  }
+
+  /**
+   * Draws the height chart for the track.
+   *
+   * @param view inflated view
+   */
   private void drawChart(View view) {
-    LineChart chart = (LineChart) view.findViewById(R.id.chart);
+
     ArrayList<Entry> entries = new ArrayList<Entry>();
     float distance = 0;
     Location location = track.get(0);
@@ -113,54 +130,14 @@ public class SingleTrackFragment extends Fragment implements OnMapReadyCallback 
       labels.add(String.format("%d m", i * 10));
     }
     LineData data = new LineData(labels, dataset);
-    chart.setData(data); // set the data and list of lables into chart
-  }
-
-  // TODO: Rename method, update argument and hook method into UI event
-  public void onButtonPressed(Uri uri) {
-    if (mListener != null) {
-      mListener.onFragmentInteraction(uri);
-    }
-  }
-
-  @Override
-  public void onAttach(Context context) {
-    super.onAttach(context);
-    if (context instanceof OnFragmentInteractionListener) {
-      mListener = (OnFragmentInteractionListener) context;
-    } else {
-      throw new RuntimeException(context.toString()
-          + " must implement OnFragmentInteractionListener");
-    }
-  }
-
-  @Override
-  public void onDetach() {
-    super.onDetach();
-    mListener = null;
+    ((LineChart) view.findViewById(R.id.chart)).setData(data);
   }
 
   @Override
   public void onMapReady(GoogleMap googleMap) {
-    Log.d("GooglMap read track ist", track + "");
     if (track != null) {
       GoogleMapHelper.drawLocationList(track, Color.RED, googleMap);
       GoogleMapHelper.zoomToTrack(googleMap, track);
     }
-  }
-
-  /**
-   * This interface must be implemented by activities that contain this
-   * fragment to allow an interaction in this fragment to be communicated
-   * to the activity and potentially other fragments contained in that
-   * activity.
-   * <p/>
-   * See the Android Training lesson <a href=
-   * "http://developer.android.com/training/basics/fragments/communicating.html"
-   * >Communicating with Other Fragments</a> for more information.
-   */
-  public interface OnFragmentInteractionListener {
-    // TODO: Update argument type and name
-    void onFragmentInteraction(Uri uri);
   }
 }

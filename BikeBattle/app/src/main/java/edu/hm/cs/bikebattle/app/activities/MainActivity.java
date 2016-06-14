@@ -2,7 +2,6 @@ package edu.hm.cs.bikebattle.app.activities;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
-import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -15,7 +14,6 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,18 +22,13 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import edu.hm.cs.bikebattle.app.R;
-import edu.hm.cs.bikebattle.app.data.Consumer;
 import edu.hm.cs.bikebattle.app.fragments.navigationdrawer.MainFragment;
 import edu.hm.cs.bikebattle.app.fragments.navigationdrawer.ProfilFragment;
-import edu.hm.cs.bikebattle.app.fragments.single.SingleTrackFragment;
-import edu.hm.cs.bikebattle.app.modell.Track;
 import edu.hm.cs.bikebattle.app.modell.User;
 
-public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener, SingleTrackFragment.OnFragmentInteractionListener {
+public class MainActivity extends BaseActivity
+    implements NavigationView.OnNavigationItemSelectedListener {
 
   private static final String TAG = "MainActivity";
   private NavigationView navigationView;
@@ -83,91 +76,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     fm = getSupportFragmentManager();
     fm.beginTransaction().replace(R.id.conten_frame, new MainFragment()).commit();
-    if (getPrincipal() != null) {
-      Log.d("User", getPrincipal().getName());
-    }
-    //For debug
-    getDataConnector().getUserByName("Nils", new Consumer<List<User>>() {
-      @Override
-      public void consume(List<User> input) {
-        Log.d("User", input.size() + "");
-        if (input.size() > 0) {
-          final User user = input.get(0);
-
-
-          getDataConnector().getTracksByUser(input.get(0), new Consumer<List<Track>>() {
-            @Override
-            public void consume(List<Track> input) {
-              Log.d("Tracks", input.size()+"");
-              if (input.size() > 0) {
-                fm.beginTransaction().replace(R.id.conten_frame, SingleTrackFragment.newInstance(input.get(0))).commit();
-              } else {
-                ArrayList<Location> wayPoints = new ArrayList<Location>();
-                Location loc1 = new Location("");
-                loc1.setLatitude(48.154);
-                loc1.setLongitude(11.554);
-                loc1.setAltitude(500);
-                wayPoints.add(loc1);
-                Location loc2 = new Location("");
-                loc2.setLatitude(48.155);
-                loc2.setLongitude(11.556);
-                loc2.setAltitude(550);
-                wayPoints.add(loc2);
-                Location loc3 = new Location("");
-                loc3.setLatitude(48.154);
-                loc3.setLongitude(11.557);
-                loc3.setAltitude(570);
-                wayPoints.add(loc3);
-                Location loc4 = new Location("");
-                loc4.setLatitude(48.153);
-                loc4.setLongitude(11.561);
-                loc4.setAltitude(530);
-                wayPoints.add(loc4);
-                Location loc5 = new Location("");
-                loc5.setLatitude(48.152);
-                loc5.setLongitude(11.56);
-                loc5.setAltitude(480);
-                wayPoints.add(loc5);
-                Location loc6 = new Location("");
-                loc6.setLatitude(48.151);
-                loc6.setLongitude(11.558);
-                loc6.setAltitude(500);
-                wayPoints.add(loc6);
-
-                Track track = new Track(wayPoints);
-
-                getDataConnector().addTrack(track, user, new Consumer<Void>() {
-                  @Override
-                  public void consume(Void input) {
-                    Log.d("Success", "New Track");
-                  }
-
-                  @Override
-                  public void error(int error, Throwable exception) {
-                    Log.d("Error", error + "");
-                  }
-                });
-              }
-            }
-
-            @Override
-            public void error(int error, Throwable exception) {
-              Log.e("Error Routes", error + " ");
-            }
-          });
-        }
-
-      }
-
-      @Override
-      public void error(int error, Throwable exception) {
-        if (error == Consumer.EXCEPTION) {
-          //exception.printStackTrace();
-        }
-        Log.e("Error User", error + " ");
-      }
-    });
-
 
     requestPermission();
   }
@@ -192,7 +100,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         .placeholder(R.mipmap.ic_launcher)
         .error(R.mipmap.ic_launcher)
         .into(profilImage);
-
 
   }
 
@@ -261,7 +168,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     switch (menuItem.getItemId()) {
       case R.id.nav_profil:
-        fm.beginTransaction().replace(R.id.conten_frame, ProfilFragment.newInstance(null, null)).commit();
+        fm.beginTransaction().replace(R.id.conten_frame,
+            ProfilFragment.newInstance(null, null)).commit();
         break;
       case R.id.nav_tracks:
         break;
@@ -275,7 +183,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         //fragmentClass = ThirdFragment.class;
         break;
       default:
-        fm.beginTransaction().replace(R.id.conten_frame, ProfilFragment.newInstance(null, null)).commit();
+        fm.beginTransaction().replace(R.id.conten_frame,
+            ProfilFragment.newInstance(null, null)).commit();
     }
 
 
@@ -285,11 +194,5 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     setTitle(menuItem.getTitle());
     // Close the navigation drawer
     drawer.closeDrawers();
-  }
-
-
-  @Override
-  public void onFragmentInteraction(Uri uri) {
-    //TODO
   }
 }

@@ -63,6 +63,9 @@ public class Track extends LocationList {
    * @return average speed
    */
   public float getAverageSpeed_in_kmh() {
+    if (getTime_in_s() == 0) {
+      return 0;
+    }
     return getDistanceInM() * 1000 / (getTime_in_s() / 3600.0f);
   }
 

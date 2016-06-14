@@ -29,7 +29,7 @@
         android:layout_height="wrap_content"
         android:background="@color/background"
         android:clipToPadding="true"
-        app:behavior_peekHeight="100dp"
+        app:behavior_peekHeight="95dp"
         app:layout_behavior="android.support.design.widget.BottomSheetBehavior"
         >
 
@@ -52,40 +52,7 @@
                     android:drawableLeft="@drawable/ic_trackinfo_timer"
                     android:drawablePadding="5dp"
                     android:text="--:--"
-                    android:textSize="35sp"/>
-
-                <TextView
-                    android:id="@+id/single_textView_speed"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_columnWeight="1"
-                    android:layout_gravity="left"
-                    android:drawableLeft="@drawable/ic_trackinfo_speed"
-                    android:drawablePadding="5dp"
-                    android:text="-"
-                    android:textSize="35sp"/>
-
-                <TextView
-                    android:id="@+id/single_textView_average_speed"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_columnWeight="1"
-                    android:layout_gravity="left"
-                    android:drawableLeft="@drawable/ic_trackinfo_speed"
-                    android:drawablePadding="5dp"
-                    android:text="-"
-                    android:textSize="35sp"/>
-
-                <TextView
-                    android:id="@+id/single_textView_altitude"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_columnWeight="1"
-                    android:layout_gravity="left"
-                    android:drawableLeft="@drawable/ic_trackinfo_altitude"
-                    android:drawablePadding="5dp"
-                    android:text="-"
-                    android:textSize="35sp"/>
+                    android:textSize="20sp"/>
 
                 <TextView
                     android:id="@+id/single_textView_distance"
@@ -96,10 +63,32 @@
                     android:drawableLeft="@drawable/ic_trackinfo_distance"
                     android:drawablePadding="5dp"
                     android:text="-"
-                    android:textSize="35sp"/>
+                    android:textSize="20sp"/>
 
                 <TextView
-                    android:id="@+id/single_textView_differenceAlt"
+                    android:id="@+id/single_textView_average_speed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:layout_gravity="left"
+                    android:drawableLeft="@drawable/ic_trackinfo_speed"
+                    android:drawablePadding="5dp"
+                    android:text="-"
+                    android:textSize="20sp"/>
+
+                <TextView
+                    android:id="@+id/single_textView_average_pace"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:layout_gravity="left"
+                    android:drawableLeft="@drawable/ic_trackinfo_speed"
+                    android:drawablePadding="5dp"
+                    android:text="-"
+                    android:textSize="20sp"/>
+
+                <TextView
+                    android:id="@+id/single_textView_upward"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_columnWeight="1"
@@ -107,12 +96,25 @@
                     android:drawableLeft="@drawable/ic_trackinfo_diffalt"
                     android:drawablePadding="5dp"
                     android:text="-"
-                    android:textSize="35sp"/>
+                    android:textSize="20sp"/>
+
+
+
+                <TextView
+                    android:id="@+id/single_textView_downward"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:layout_gravity="left"
+                    android:drawableLeft="@drawable/ic_trackinfo_downward"
+                    android:drawablePadding="5dp"
+                    android:text="-"
+                    android:textSize="20sp"/>
             </GridLayout>
             <com.github.mikephil.charting.charts.LineChart
                 android:id="@+id/chart"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"/>
+                android:layout_height="300dp"/>
 
         </LinearLayout>
 
