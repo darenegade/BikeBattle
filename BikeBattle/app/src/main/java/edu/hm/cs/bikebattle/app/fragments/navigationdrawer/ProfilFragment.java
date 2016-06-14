@@ -19,10 +19,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
+import com.squareup.picasso.Picasso;
 
 import edu.hm.cs.bikebattle.app.R;
+import edu.hm.cs.bikebattle.app.activities.BaseActivity;
+import edu.hm.cs.bikebattle.app.data.Consumer;
 import edu.hm.cs.bikebattle.app.modell.User;
-import edu.hm.cs.bikebattle.app.task.URIParser;
 
 public class ProfilFragment extends Fragment implements View.OnClickListener{
 
@@ -47,13 +49,8 @@ public class ProfilFragment extends Fragment implements View.OnClickListener{
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-    DisplayMetrics displayMetrics = getContext().getResources().getDisplayMetrics();
-    float witdh = displayMetrics.widthPixels / displayMetrics.density;
-    float height = displayMetrics.heightPixels / displayMetrics.density;
-
     View view = inflater.inflate(R.layout.fragment_profil, container, false);
     setupButtons(view);
-
 
     mSlidingUpPanelLayout = (SlidingUpPanelLayout) view.findViewById(R.id.sliding_layout);
 
@@ -66,21 +63,27 @@ public class ProfilFragment extends Fragment implements View.OnClickListener{
     weightView = (TextView)view.findViewById(R.id.weight_text);
     float weight = user.getWeightInKg();
     if(weight == 0.0f){
-      weight = 99.99f;
+      weight = 00.00f;
     }
     weightView.setText(Float.toString(weight));
 
     sizeView = (TextView)view.findViewById(R.id.size_text);
     float size = user.getSizeInMeter();
     if(size == 0.0f){
-      size = 99.99f;
+      size = 00.00f;
     }
     sizeView.setText(Float.toString(size));
 
     ImageView profilView = (ImageView)view.findViewById(R.id.imageViewprofil);
     if (uri != null) {
-      URIParser parser = new URIParser(profilView);
-      parser.execute(uri.toString());
+      Picasso
+          .with(view.getContext())
+          .load(uri)
+          .fit()
+          .centerCrop()
+          .placeholder(R.mipmap.ic_launcher)
+          .error(R.mipmap.ic_launcher)
+          .into(profilView);
     }
 
     return view;
@@ -130,6 +133,18 @@ public class ProfilFragment extends Fragment implements View.OnClickListener{
             user.setWeightInKg(value);
             textView.setText(value+"");
           }
+          BaseActivity activity = (BaseActivity)getActivity();
+          activity.getDataConnector().changeUserData(user, new Consumer<Void>() {
+            @Override
+            public void consume(Void input) {
+
+            }
+
+            @Override
+            public void error(int error, Throwable exception) {
+
+            }
+          });
 
         }
         else {
@@ -149,9 +164,5 @@ public class ProfilFragment extends Fragment implements View.OnClickListener{
     });
 
     return dialog.create();
-  }
-
-  public User getUserBack(){
-    return user;
   }
 }

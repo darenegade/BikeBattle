@@ -4,6 +4,7 @@ package edu.hm.cs.bikebattle.app.fragments.navigationdrawer;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,8 +40,9 @@ public class RoutsFragment extends ListFragment {
     View view = inflater.inflate(R.layout.fragment_routs, container, false);
     routs = new ArrayList<Route>();
     fillList();
-    setListAdapter(new RoutsListFragmentAdapter(getContext(),routs, user));
+    setListAdapter(new RoutsListFragmentAdapter(getContext(),routs, user, savedInstanceState));
     setRetainInstance(true);
+
 
     return  view;
   }

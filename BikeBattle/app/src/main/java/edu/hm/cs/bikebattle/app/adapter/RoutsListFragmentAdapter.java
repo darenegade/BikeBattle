@@ -1,10 +1,12 @@
 package edu.hm.cs.bikebattle.app.adapter;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
+import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,9 +14,14 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
@@ -24,6 +31,7 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import java.util.List;
 
 import edu.hm.cs.bikebattle.app.R;
+import edu.hm.cs.bikebattle.app.activities.BaseActivity;
 import edu.hm.cs.bikebattle.app.modell.Route;
 import edu.hm.cs.bikebattle.app.modell.User;
 
@@ -35,27 +43,27 @@ import edu.hm.cs.bikebattle.app.modell.User;
   private final Context context;
   private final List<Route> routes;
   private final User user;
-  private Location lastLocation;
   private GoogleMap googleMap;
+  private Bundle savedInstanceState;
 
-  public RoutsListFragmentAdapter(Context context, List<Route> routes, User user) {
-    super(context, 0,routes);
+  public RoutsListFragmentAdapter(Context context, List<Route> routes, User user, Bundle savedInstanceState) {
+    super(context, -1,routes);
     this.routes = routes;
     this.context = context;
+    this.savedInstanceState = savedInstanceState;
     this.user = user;
   }
   @Override
   public View getView(int position, View convertView, ViewGroup parent) {
-   /** LayoutInflater inflater =
-        (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-    View rowView = inflater.inflate(R.layout.item_routeslist, parent, false);*/
-
     View rowView = LayoutInflater.from(getContext()).inflate(R.layout.item_layout,parent,false);
-
+    MapView mapView;
+    // Gets the MapView from the XML layout and creates it
+    mapView = (MapView) rowView.findViewById(R.id.mapview);
+    mapView.onCreate(savedInstanceState);
+    mapView.getMapAsync(this);
 
     TextView textViewName = (TextView) rowView.findViewById(R.id.name_item);
-    textViewName.setText("User: "+user.getName());
+    textViewName.setText(user.getName());
 
     String routTyp;
     if(routes.get(position).getDifficulty()== null)
@@ -63,10 +71,10 @@ import edu.hm.cs.bikebattle.app.modell.User;
 
     else routTyp = routes.get(position).getDifficulty().toString();
     TextView routTypName = (TextView) rowView.findViewById(R.id.rout_type_name_item);
-    routTypName.setText("Routen Typ: "+routTyp);
+    routTypName.setText(routTyp);
 
     TextView routName = (TextView) rowView.findViewById(R.id.rout_name_item);
-    routName.setText("Name Route: "+routes.get(position).getName());
+    routName.setText(routes.get(position).getName());
 
     String difficult;
     if(routes.get(position).getDifficulty()== null)
@@ -84,33 +92,6 @@ import edu.hm.cs.bikebattle.app.modell.User;
     return rowView;
   }
 
-  private void drawRoute(Route route) {
-    PolylineOptions polyRoute = new PolylineOptions();
-
-    polyRoute.color(Color.BLUE);
-    polyRoute.width(6);
-    polyRoute.visible(true);
-
-    for (Location wayPoint : route) {
-
-      polyRoute.add(new LatLng(wayPoint.getLatitude(), wayPoint.getLongitude()));
-    }
-
-    googleMap.addPolyline(polyRoute);
-
-    String information = String.format("%s: %.2f km", "activity.getString(R.string.length)",
-        route.getDistanceInM() / 1000);
-    googleMap.addMarker(new MarkerOptions()
-        .position(new LatLng(route.get(0).getLatitude(), route.get(0).getLongitude()))
-        .title(route.getName())
-        .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_bike))
-        .snippet(information));
-  }
-  private void updateCamera() {
-    LatLng latLng = new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude());
-    googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(
-        new CameraPosition.Builder().target(latLng).zoom(15).build()));
-  }
 
   @Override
   public void onMapReady(GoogleMap googleMap) {
@@ -119,11 +100,11 @@ import edu.hm.cs.bikebattle.app.modell.User;
       this.googleMap = googleMap;
       this.googleMap.setMyLocationEnabled(true);
       this.googleMap.getUiSettings().setMapToolbarEnabled(false);
-      this.googleMap.getUiSettings().setCompassEnabled(true);
-      for (Route r : routes) {
+      //this.googleMap.getUiSettings().setCompassEnabled(true);
+     /** for (Route r : routes) {
         drawRoute(r);
       }
-      updateCamera();
+      updateCamera();*/
     }
   }
 }
