@@ -87,7 +87,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
       Log.d("User", getPrincipal().getName());
     }
     //For debug
-    getDataConnector().getUserByName("Lukas", new Consumer<List<User>>() {
+    getDataConnector().getUserByName("Nils", new Consumer<List<User>>() {
       @Override
       public void consume(List<User> input) {
         Log.d("User", input.size() + "");
