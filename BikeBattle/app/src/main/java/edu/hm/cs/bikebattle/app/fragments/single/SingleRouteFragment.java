@@ -14,6 +14,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 
 import edu.hm.cs.bikebattle.app.R;
+import edu.hm.cs.bikebattle.app.activities.BaseActivity;
 import edu.hm.cs.bikebattle.app.fragments.GoogleMapHelper;
 import edu.hm.cs.bikebattle.app.modell.Route;
 
@@ -73,6 +74,13 @@ public class SingleRouteFragment extends Fragment implements OnMapReadyCallback 
     return view;
   }
 
+  private void fillRanking(View view){
+    if(getActivity() instanceof  BaseActivity){
+      BaseActivity activity = (BaseActivity)getActivity();
+      activity.getDataConnector().
+    }
+  }
+
   /**
    * Fills all views with the statistics.
    *
@@ -85,6 +93,10 @@ public class SingleRouteFragment extends Fragment implements OnMapReadyCallback 
         String.format("%.0f m", route.getDownwardInM()));
     ((TextView) view.findViewById(R.id.single_route_textView_upward)).setText(
         String.format("%.0f m", route.getUpwardInM()));
+    ((TextView) view.findViewById(R.id.single_route_textView_difficulty)).setText(
+        route.getDifficulty().toString());
+    ((TextView) view.findViewById(R.id.single_route_textView_type)).setText(
+        route.getRoutetyp().toString());
   }
 
   /**

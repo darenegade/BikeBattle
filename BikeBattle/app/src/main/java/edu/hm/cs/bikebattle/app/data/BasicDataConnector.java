@@ -3,10 +3,20 @@ package edu.hm.cs.bikebattle.app.data;
 import android.location.Location;
 import android.support.annotation.NonNull;
 import android.util.Log;
+
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
+
+import org.springframework.hateoas.Resource;
+import org.springframework.hateoas.Resources;
+
+import java.io.IOException;
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
+
 import edu.hm.cs.bikebattle.app.api.domain.BaseDto;
 import edu.hm.cs.bikebattle.app.api.domain.DriveDto;
 import edu.hm.cs.bikebattle.app.api.domain.RouteDto;
@@ -21,16 +31,9 @@ import edu.hm.cs.bikebattle.app.modell.User;
 import edu.hm.cs.bikebattle.app.modell.assembler.RouteAssembler;
 import edu.hm.cs.bikebattle.app.modell.assembler.TrackAssembler;
 import edu.hm.cs.bikebattle.app.modell.assembler.UserAssembler;
-import org.springframework.hateoas.Resource;
-import org.springframework.hateoas.Resources;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import java.io.IOException;
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * Created by Nils on 03.05.2016.
@@ -103,7 +106,8 @@ public class BasicDataConnector implements DataConnector {
 
     call.enqueue(new Callback<Resources<Resource<T>>>() {
       @Override
-      public void onResponse(Call<Resources<Resource<T>>> call, Response<Resources<Resource<T>>> response) {
+      public void onResponse(Call<Resources<Resource<T>>> call,
+                             Response<Resources<Resource<T>>> response) {
 
         if (response.isSuccessful()) {
 
@@ -118,7 +122,7 @@ public class BasicDataConnector implements DataConnector {
 
           try {
             Log.d(TAG, response.errorBody().string());
-          } catch (IOException e) {
+          } catch (IOException exception) {
             Log.e(TAG, "ERROR BODY NOT READABLE");
           }
           consumer.error(response.code(), null);
@@ -126,8 +130,8 @@ public class BasicDataConnector implements DataConnector {
       }
 
       @Override
-      public void onFailure(Call<Resources<Resource<T>>> call, Throwable t) {
-        consumer.error(-1, t);
+      public void onFailure(Call<Resources<Resource<T>>> call, Throwable throwable) {
+        consumer.error(-1, throwable);
       }
     });
   }
@@ -154,7 +158,7 @@ public class BasicDataConnector implements DataConnector {
         } else {
           try {
             Log.d(TAG, response.errorBody().string());
-          } catch (IOException e) {
+          } catch (IOException exception) {
             Log.e(TAG, "ERROR BODY NOT READABLE");
           }
           consumer.error(response.code(), null);
@@ -162,8 +166,8 @@ public class BasicDataConnector implements DataConnector {
       }
 
       @Override
-      public void onFailure(Call<Resource<T>> call, Throwable t) {
-        consumer.error(Consumer.EXCEPTION, t);
+      public void onFailure(Call<Resource<T>> call, Throwable throwable) {
+        consumer.error(Consumer.EXCEPTION, throwable);
       }
     });
   }
@@ -188,7 +192,7 @@ public class BasicDataConnector implements DataConnector {
 
           try {
             Log.d(TAG, response.errorBody().string());
-          } catch (IOException e) {
+          } catch (IOException exception) {
             Log.e(TAG, "ERROR BODY NOT READABLE");
           }
           consumer.error(response.code(), null);
@@ -197,8 +201,8 @@ public class BasicDataConnector implements DataConnector {
       }
 
       @Override
-      public void onFailure(Call<Void> call, Throwable t) {
-        consumer.error(Consumer.EXCEPTION, t);
+      public void onFailure(Call<Void> call, Throwable throwable) {
+        consumer.error(Consumer.EXCEPTION, throwable);
       }
     });
 
@@ -210,17 +214,18 @@ public class BasicDataConnector implements DataConnector {
    * @return current valid token;
    */
   private void generateToken(final Consumer<String> tokenConsumer) {
-    Auth.GoogleSignInApi.silentSignIn(googleApiClient).setResultCallback(new ResultCallback<GoogleSignInResult>() {
-      @Override
-      public void onResult(@NonNull GoogleSignInResult googleSignInResult) {
+    Auth.GoogleSignInApi.silentSignIn(googleApiClient).setResultCallback(
+        new ResultCallback<GoogleSignInResult>() {
+          @Override
+          public void onResult(@NonNull GoogleSignInResult googleSignInResult) {
 
-        if (googleSignInResult.isSuccess() && googleSignInResult.getSignInAccount() != null) {
-          tokenConsumer.consume("Bearer " + googleSignInResult.getSignInAccount().getIdToken());
-        } else {
-          tokenConsumer.error(googleSignInResult.getStatus().getStatusCode(), null);
-        }
-      }
-    });
+            if (googleSignInResult.isSuccess() && googleSignInResult.getSignInAccount() != null) {
+              tokenConsumer.consume("Bearer " + googleSignInResult.getSignInAccount().getIdToken());
+            } else {
+              tokenConsumer.error(googleSignInResult.getStatus().getStatusCode(), null);
+            }
+          }
+        });
   }
 
   @Override
@@ -296,6 +301,21 @@ public class BasicDataConnector implements DataConnector {
       @Override
       public void consume(String input) {
         executeGetListCall(driveClient.findByOwnerOid(input, user.getOid()), consumer);
+      }
+
+      @Override
+      public void error(int error, Throwable exception) {
+        consumer.error(error, exception);
+      }
+    });
+  }
+
+  @Override
+  public void getTracksByRoute(final Route route, final Consumer<List<Track>> consumer) {
+    generateToken(new Consumer<String>() {
+      @Override
+      public void consume(String input) {
+        executeGetListCall(driveClient.findByRouteOid(input, route.getOid()), consumer);
       }
 
       @Override
@@ -407,7 +427,8 @@ public class BasicDataConnector implements DataConnector {
     generateToken(new Consumer<String>() {
       @Override
       public void consume(String input) {
-        executeWriteCall(userClient.update(input, user.getOid(), UserAssembler.toDto(user)), consumer);
+        executeWriteCall(userClient.update(input, user.getOid(), UserAssembler.toDto(user)),
+            consumer);
       }
 
       @Override
