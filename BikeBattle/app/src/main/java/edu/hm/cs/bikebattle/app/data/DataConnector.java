@@ -84,6 +84,15 @@ public interface DataConnector {
   void addTrack(Track track, User owner, Consumer<Void> consumer);
 
   /**
+   * Adds a track to the users database. The track is mapped to the route.
+   *
+   * @param track    new Track
+   * @param consumer consumer to call
+   * @param owner    owner of the track
+   */
+  void addTrack(Track track, Route route, User owner, Consumer<Void> consumer);
+
+  /**
    * Deletes a track of the user.
    *
    * @param track    to delete
