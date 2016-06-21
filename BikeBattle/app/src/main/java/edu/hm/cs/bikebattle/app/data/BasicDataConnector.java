@@ -3,7 +3,7 @@ package edu.hm.cs.bikebattle.app.data;
 import android.content.Context;
 import android.location.Location;
 import android.support.annotation.NonNull;
-import android.util.Log;
+
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -12,7 +12,6 @@ import com.google.android.gms.common.api.ResultCallback;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
 
-import java.io.IOException;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
@@ -35,16 +34,14 @@ import edu.hm.cs.bikebattle.app.modell.User;
 import edu.hm.cs.bikebattle.app.modell.assembler.RouteAssembler;
 import edu.hm.cs.bikebattle.app.modell.assembler.TrackAssembler;
 import edu.hm.cs.bikebattle.app.modell.assembler.UserAssembler;
-import org.springframework.hateoas.Resource;
-import org.springframework.hateoas.Resources;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
-import java.io.IOException;
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
+import io.rx_cache.DynamicKey;
+import io.rx_cache.EvictDynamicKey;
+import io.rx_cache.Reply;
+import okhttp3.Cache;
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by Nils on 03.05.2016.
@@ -133,8 +130,9 @@ public class BasicDataConnector implements DataConnector {
    * @param <T>        dto
    * @param <V>        bean
    */
-  private <T extends BaseDto, V> void executeGetListCall(final Observable<Reply<Resources<Resource<T>>>> observable,
-                                                         final Consumer<List<V>> consumer) {
+  private <T extends BaseDto, V> void executeGetListCall(
+      final Observable<Reply<Resources<Resource<T>>>> observable,
+      final Consumer<List<V>> consumer) {
 
     observable
         .subscribeOn(Schedulers.newThread())
@@ -146,8 +144,8 @@ public class BasicDataConnector implements DataConnector {
           }
 
           @Override
-          public void onError(Throwable e) {
-            consumer.error(-1, e);
+          public void onError(Throwable throwable) {
+            consumer.error(-1, throwable);
           }
 
           @Override
@@ -172,8 +170,9 @@ public class BasicDataConnector implements DataConnector {
    * @param <T>        dto
    * @param <V>        bean
    */
-  private <T extends BaseDto, V> void executeGetCall(final Observable<Reply<Resource<T>>> observable,
-                                                     final Consumer<V> consumer) {
+  private <T extends BaseDto, V> void executeGetCall(
+      final Observable<Reply<Resource<T>>> observable,
+      final Consumer<V> consumer) {
 
     observable
         .subscribeOn(Schedulers.newThread())
@@ -185,8 +184,8 @@ public class BasicDataConnector implements DataConnector {
           }
 
           @Override
-          public void onError(Throwable e) {
-            consumer.error(Consumer.EXCEPTION, e);
+          public void onError(Throwable throwable) {
+            consumer.error(Consumer.EXCEPTION, throwable);
           }
 
           @Override
@@ -213,8 +212,8 @@ public class BasicDataConnector implements DataConnector {
           }
 
           @Override
-          public void onError(Throwable e) {
-            consumer.error(Consumer.EXCEPTION, e);
+          public void onError(Throwable throwable) {
+            consumer.error(Consumer.EXCEPTION, throwable);
           }
 
           @Override
@@ -231,17 +230,18 @@ public class BasicDataConnector implements DataConnector {
    * @return current valid token;
    */
   private void generateToken(final Consumer<String> tokenConsumer) {
-    Auth.GoogleSignInApi.silentSignIn(googleApiClient).setResultCallback(new ResultCallback<GoogleSignInResult>() {
-      @Override
-      public void onResult(@NonNull GoogleSignInResult googleSignInResult) {
+    Auth.GoogleSignInApi.silentSignIn(googleApiClient).setResultCallback(
+        new ResultCallback<GoogleSignInResult>() {
+          @Override
+          public void onResult(@NonNull GoogleSignInResult googleSignInResult) {
 
-        if (googleSignInResult.isSuccess() && googleSignInResult.getSignInAccount() != null) {
-          tokenConsumer.consume("Bearer " + googleSignInResult.getSignInAccount().getIdToken());
-        } else {
-          tokenConsumer.error(googleSignInResult.getStatus().getStatusCode(), null);
-        }
-      }
-    });
+            if (googleSignInResult.isSuccess() && googleSignInResult.getSignInAccount() != null) {
+              tokenConsumer.consume("Bearer " + googleSignInResult.getSignInAccount().getIdToken());
+            } else {
+              tokenConsumer.error(googleSignInResult.getStatus().getStatusCode(), null);
+            }
+          }
+        });
   }
 
   @Override
@@ -251,7 +251,8 @@ public class BasicDataConnector implements DataConnector {
       @Override
       public void consume(String input) {
         executeGetCall(
-            userCache.findByEmail(userClient.findByEmail(input, email), new DynamicKey(email), new EvictDynamicKey(true)),
+            userCache.findByEmail(userClient.findByEmail(input, email), new DynamicKey(email),
+                new EvictDynamicKey(true)),
             consumer);
       }
 
@@ -271,8 +272,10 @@ public class BasicDataConnector implements DataConnector {
       public void consume(String input) {
         executeGetListCall(
             routeCache.findNear(
-                routeClient.findNear(input, location.getLongitude(), location.getLatitude(), distance),
-                new DynamicKey(new double[]{location.getLongitude(), location.getLatitude(), distance}),
+                routeClient.findNear(input, location.getLongitude(), location.getLatitude(),
+                    distance),
+                new DynamicKey(new double[] {location.getLongitude(), location.getLatitude(),
+                    distance}),
                 new EvictDynamicKey(true)),
             consumer);
       }
@@ -351,7 +354,12 @@ public class BasicDataConnector implements DataConnector {
     generateToken(new Consumer<String>() {
       @Override
       public void consume(String input) {
-        executeGetListCall(driveClient.findByRouteOid(input, route.getOid()), consumer);
+        executeGetListCall(
+            driveCache.findByOwnerOid(
+                driveClient.findByRouteOid(input, route.getOid()),
+                new DynamicKey(route.getOid()),
+                new EvictDynamicKey(true)),
+            consumer);
       }
 
       @Override
@@ -391,6 +399,38 @@ public class BasicDataConnector implements DataConnector {
         executeWriteCall(
             driveClient.create(input, TrackAssembler.toDto(track)),
             consumer);
+      }
+
+      @Override
+      public void error(int error, Throwable exception) {
+        consumer.error(error, exception);
+      }
+    });
+  }
+
+  @Override
+  public void addTrack(final Track track, final Route route, User owner,
+                       final Consumer<Void> consumer) {
+    addTrack(track, owner, new Consumer<Void>() {
+      @Override
+      public void consume(Void input) {
+        setRouteForTrack(track, route, consumer);
+      }
+
+      @Override
+      public void error(int error, Throwable exception) {
+        consumer.error(error, exception);
+      }
+    });
+  }
+
+  @Override
+  public void setRouteForTrack(final Track track, final Route route,
+                               final Consumer<Void> consumer) {
+    generateToken(new Consumer<String>() {
+      @Override
+      public void consume(String input) {
+        executeWriteCall(driveClient.setRoute(input, track.getOid(), route.getOid()), consumer);
       }
 
       @Override

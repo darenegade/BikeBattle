@@ -93,6 +93,15 @@ public interface DataConnector {
   void addTrack(Track track, Route route, User owner, Consumer<Void> consumer);
 
   /**
+   * Sets a route for a specific track.
+   *
+   * @param track    track
+   * @param route    route
+   * @param consumer consumer
+   */
+  void setRouteForTrack(Track track, Route route, Consumer<Void> consumer);
+
+  /**
    * Deletes a track of the user.
    *
    * @param track    to delete

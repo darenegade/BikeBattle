@@ -77,7 +77,7 @@ public class SingleRouteFragment extends Fragment implements OnMapReadyCallback 
   private void fillRanking(View view){
     if(getActivity() instanceof  BaseActivity){
       BaseActivity activity = (BaseActivity)getActivity();
-      activity.getDataConnector().
+      //activity.getDataConnector().
     }
   }
 
