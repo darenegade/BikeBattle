@@ -30,7 +30,6 @@ import edu.hm.cs.bikebattle.app.api.domain.Difficulty;
 import edu.hm.cs.bikebattle.app.api.domain.Routetyp;
 import edu.hm.cs.bikebattle.app.fragments.navigationdrawer.MainFragment;
 import edu.hm.cs.bikebattle.app.fragments.navigationdrawer.ProfilFragment;
-import edu.hm.cs.bikebattle.app.fragments.single.SingleRouteFragment;
 import edu.hm.cs.bikebattle.app.modell.Route;
 import edu.hm.cs.bikebattle.app.modell.User;
 
@@ -144,7 +143,18 @@ public class MainActivity extends BaseActivity
     Route route = new Route("Test", wayPoints);
     route.setRoutetyp(Routetyp.CITY);
     route.setDifficulty(Difficulty.EASY);
-    fm.beginTransaction().replace(R.id.conten_frame, SingleRouteFragment.newInstance(route)).commit();
+    /*getDataConnector().addRoute(route, getPrincipal(), new Consumer<Void>() {
+      @Override
+      public void consume(Void input) {
+        Log.d("Route", "added");
+      }
+
+      @Override
+      public void error(int error, Throwable exception) {
+        Log.e("Route", error+"codd");
+      }
+    });*/
+    //fm.beginTransaction().replace(R.id.conten_frame, SingleRouteFragment.newInstance(route)).commit();
   }
 
   @Override

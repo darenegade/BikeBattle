@@ -115,12 +115,13 @@
                 android:id="@+id/route_chart"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"/>
-            <LinearLayout
+            <GridLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:id="@+id/ranking_list"
-                android:orientation="vertical">
-            </LinearLayout>
+                android:columnCount="3">
+            </GridLayout>
 
         </LinearLayout>
 
