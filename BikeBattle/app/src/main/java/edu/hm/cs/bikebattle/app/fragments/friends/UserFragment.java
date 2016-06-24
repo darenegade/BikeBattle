@@ -2,6 +2,8 @@ package edu.hm.cs.bikebattle.app.fragments.friends;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -23,9 +25,6 @@ import java.util.List;
  * interface.
  */
 public class UserFragment extends Fragment {
-
-  // TODO: Customize parameter argument names
-  private static final String ARG_COLUMN_COUNT = "column-count";
 
   private OnListFragmentInteractionListener mListener;
 
@@ -55,9 +54,12 @@ public class UserFragment extends Fragment {
     View view = inflater.inflate(R.layout.fragment_user_list, container, false);
 
     // Set the adapter
-    if (view instanceof RecyclerView) {
+    if (view instanceof CoordinatorLayout) {
+      CoordinatorLayout layout = (CoordinatorLayout) view;
       Context context = view.getContext();
-      final RecyclerView recyclerView = (RecyclerView) view;
+
+      //Setup user list
+      final RecyclerView recyclerView = (RecyclerView) layout.findViewById(R.id.list);
       recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
       activity.getDataConnector().getFriends(activity.getPrincipal(), new Consumer<List<User>>() {
@@ -70,6 +72,16 @@ public class UserFragment extends Fragment {
         public void error(int error, Throwable exception) {
           Toast.makeText(activity.getApplicationContext(), "Error on loading friends!!", Toast.LENGTH_LONG)
               .show();
+        }
+      });
+
+      //Setup Floating Button
+      FloatingActionButton fab = (FloatingActionButton) layout.findViewById(R.id.fab);
+      fab.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+          activity.getSupportFragmentManager().beginTransaction()
+              .replace(R.id.conten_frame, UserFragment.newInstance()).commit();
         }
       });
 
