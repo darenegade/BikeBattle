@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 /**
@@ -35,6 +37,7 @@ public class DriveController {
 
     List<Drive> drives = driveRepository.findByRouteOid(routeOid);
 
+    //Sort all Drives by total time
     Collections.sort(drives, new Comparator<Drive>() {
       @Override
       public int compare(Drive o1, Drive o2) {
@@ -42,18 +45,24 @@ public class DriveController {
       }
     });
 
-    List<Drive> topDrives = new ArrayList<>();
+    //Get top 20 entries
+    LinkedHashMap<String, Drive> topDrives = new LinkedHashMap<>();
+    Iterator<Drive> driveIterator = drives.iterator();
 
-    for (Drive drive : drives) {
-      if (!topDrives.contains(drive))
-        topDrives.add(drive);
+    for (Drive drive = driveIterator.next();
+         driveIterator.hasNext() && topDrives.size() < 20;
+         drive = driveIterator.next()) {
+
+      if (!topDrives.containsKey(drive.getOwner().getEmail()))
+        topDrives.put(drive.getOwner().getEmail(), drive);
+
     }
 
-    topDrives = topDrives.subList(0, topDrives.size() > 20 ? 20 : topDrives.size());
 
+    //Map entries to TopDriveEntries
     List<TopDriveEntry> topEntrys = new ArrayList<>();
 
-    for (Drive topDrive : topDrives) {
+    for (Drive topDrive : topDrives.values()) {
       topEntrys.add(new TopDriveEntry(
           topDrive.getOwner().getName(),
           topDrive.getOwner().getFotoUri(),
