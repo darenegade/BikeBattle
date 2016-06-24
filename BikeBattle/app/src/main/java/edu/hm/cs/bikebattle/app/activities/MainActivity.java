@@ -4,9 +4,7 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
@@ -19,16 +17,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.squareup.picasso.Picasso;
-
 import edu.hm.cs.bikebattle.app.R;
+import edu.hm.cs.bikebattle.app.fragments.friends.UserFragment;
 import edu.hm.cs.bikebattle.app.fragments.navigationdrawer.MainFragment;
 import edu.hm.cs.bikebattle.app.fragments.navigationdrawer.ProfilFragment;
 import edu.hm.cs.bikebattle.app.modell.User;
 
 public class MainActivity extends BaseActivity
-    implements NavigationView.OnNavigationItemSelectedListener {
+    implements NavigationView.OnNavigationItemSelectedListener, UserFragment.OnListFragmentInteractionListener {
 
   private static final String TAG = "MainActivity";
   private NavigationView navigationView;
@@ -57,16 +54,6 @@ public class MainActivity extends BaseActivity
 
     headerView = navigationView.getHeaderView(0);
     //navigationView.setNavigationItemSelectedListener(this);
-
-
-    FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-    fab.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View view) {
-        Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-            .setAction("Action", null).show();
-      }
-    });
 
     drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
     ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -180,7 +167,8 @@ public class MainActivity extends BaseActivity
         //fragmentClass = ThirdFragment.class;
         break;
       case R.id.nav_friends:
-        //fragmentClass = ThirdFragment.class;
+        fm.beginTransaction().replace(R.id.conten_frame,
+            UserFragment.newInstance()).commit();
         break;
       default:
         fm.beginTransaction().replace(R.id.conten_frame,
@@ -194,5 +182,10 @@ public class MainActivity extends BaseActivity
     setTitle(menuItem.getTitle());
     // Close the navigation drawer
     drawer.closeDrawers();
+  }
+
+  @Override
+  public void onListFragmentInteraction(User user) {
+
   }
 }
