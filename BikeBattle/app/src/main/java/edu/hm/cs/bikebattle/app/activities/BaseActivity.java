@@ -81,11 +81,11 @@ public abstract class BaseActivity extends AppCompatActivity implements GoogleAp
           Log.d(TAG, "Mail:" + acct.getEmail());
           Log.d(TAG, "Token:" + acct.getIdToken());
 
-          userPhoto = acct.getPhotoUrl();
           dataConnector.login(acct.getEmail(), new Consumer<User>() {
             @Override
             public void consume(User input) {
               principal = input;
+              userPhoto = Uri.parse(input.getFotoUri());
               Log.d(TAG, principal.toString());
               refreshUserInfo();
             }
