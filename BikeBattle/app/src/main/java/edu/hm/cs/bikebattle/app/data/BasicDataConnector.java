@@ -10,6 +10,7 @@ import com.google.android.gms.common.api.ResultCallback;
 import edu.hm.cs.bikebattle.app.api.domain.BaseDto;
 import edu.hm.cs.bikebattle.app.api.domain.DriveDto;
 import edu.hm.cs.bikebattle.app.api.domain.RouteDto;
+import edu.hm.cs.bikebattle.app.api.domain.TopDriveEntryDto;
 import edu.hm.cs.bikebattle.app.api.domain.UserDto;
 import edu.hm.cs.bikebattle.app.api.rest.ClientFactory;
 import edu.hm.cs.bikebattle.app.api.rest.DriveClient;
@@ -102,12 +103,13 @@ public class BasicDataConnector implements DataConnector {
 
   /**
    * Converts the dto to bean.
+   * If the bean is not known, the dto is returned.
    *
    * @param dto to convert.
    * @return converted object
    */
   @SuppressWarnings("unchecked")
-  private static <V> V toBean(BaseDto dto) {
+  private static <V> V toBean(Object dto) {
     if (dto.getClass().equals(RouteDto.class)) {
       return (V) RouteAssembler.toBean((RouteDto) dto);
     } else if (dto.getClass().equals(DriveDto.class)) {
@@ -115,7 +117,7 @@ public class BasicDataConnector implements DataConnector {
     } else if (dto.getClass().equals(UserDto.class)) {
       return (V) UserAssembler.toBean((UserDto) dto);
     } else {
-      throw new IllegalArgumentException("Unknown dto type.");
+      return (V) dto;
     }
   }
 
@@ -127,7 +129,7 @@ public class BasicDataConnector implements DataConnector {
    * @param <T>        dto
    * @param <V>        bean
    */
-  private <T extends BaseDto, V> void executeGetListCall(final Observable<Reply<Resources<Resource<T>>>> observable,
+  private <T, V> void executeGetListCall(final Observable<Reply<Resources<Resource<T>>>> observable,
                                                          final Consumer<List<V>> consumer) {
 
     observable
@@ -329,6 +331,27 @@ public class BasicDataConnector implements DataConnector {
             driveCache.findByOwnerOid(
                 driveClient.findByOwnerOid(input, user.getOid()),
                 new DynamicKey(user.getOid()),
+                new EvictDynamicKey(true)),
+            consumer);
+      }
+
+      @Override
+      public void error(int error, Throwable exception) {
+        consumer.error(error, exception);
+      }
+    });
+  }
+
+  @Override
+  public void getTopTwentyOfRoute(final Route route, final Consumer<List<TopDriveEntryDto>> consumer) {
+
+    generateToken(new Consumer<String>() {
+      @Override
+      public void consume(String input) {
+        executeGetListCall(
+            driveCache.topTwentyOfRoute(
+                driveClient.topTwentyOfRoute(input, route.getOid()),
+                new DynamicKey(route.getOid()),
                 new EvictDynamicKey(true)),
             consumer);
       }
