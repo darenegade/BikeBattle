@@ -2,6 +2,7 @@ package edu.hm.cs.bikebattle.app.api.rest;
 
 import edu.hm.cs.bikebattle.app.api.domain.DriveDto;
 import edu.hm.cs.bikebattle.app.api.domain.RouteDto;
+import edu.hm.cs.bikebattle.app.api.domain.TopDriveEntryDto;
 import edu.hm.cs.bikebattle.app.api.domain.UserDto;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
@@ -54,6 +55,9 @@ public interface DriveClient {
 
   @GET(BASE_PATH + "/search/findByOwnerOid")
   Observable<Resources<Resource<DriveDto>>>  findByOwnerOid(@Header("Authorization")String token, @Query("oid") String oid);
+
+  @GET(BASE_PATH + "/top20")
+  Observable<Resources<Resource<TopDriveEntryDto>>>  topTwentyOfRoute(@Header("Authorization")String token, @Query("routeOid") String oid);
 
   //Relation Endpoints
 
