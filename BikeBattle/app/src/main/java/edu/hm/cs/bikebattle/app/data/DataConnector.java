@@ -109,8 +109,6 @@ public interface DataConnector {
    */
   void deleteTrack(Track track, Consumer<Void> consumer);
 
-  //void getTopTewntyTracksByRoute(Route route, Consumer<List<T>>)
-
   /**
    * Adds a route to the users database.
    *
