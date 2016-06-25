@@ -2,12 +2,9 @@ package edu.hm.cs.bikebattle.app.activities;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
-import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
@@ -23,14 +20,10 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
-
 import edu.hm.cs.bikebattle.app.R;
-import edu.hm.cs.bikebattle.app.api.domain.Difficulty;
-import edu.hm.cs.bikebattle.app.api.domain.Routetyp;
+import edu.hm.cs.bikebattle.app.fragments.friends.UserFragment;
 import edu.hm.cs.bikebattle.app.fragments.navigationdrawer.MainFragment;
 import edu.hm.cs.bikebattle.app.fragments.navigationdrawer.ProfilFragment;
-import edu.hm.cs.bikebattle.app.modell.Route;
 import edu.hm.cs.bikebattle.app.modell.User;
 
 public class MainActivity extends BaseActivity
@@ -98,7 +91,7 @@ public class MainActivity extends BaseActivity
         .into(profilImage);
 
     //Debug
-    ArrayList<Location> wayPoints = new ArrayList<Location>();
+    /*ArrayList<Location> wayPoints = new ArrayList<Location>();
     Location loc1 = new Location("");
     loc1.setLatitude(48.154);
     loc1.setLongitude(11.554);
@@ -133,7 +126,8 @@ public class MainActivity extends BaseActivity
     Route route = new Route("Test", wayPoints);
     route.setRoutetyp(Routetyp.CITY);
     route.setDifficulty(Difficulty.EASY);
-    /*getDataConnector().addRoute(route, getPrincipal(), new Consumer<Void>() {
+    Log.d("Login", getPrincipal().getName());
+    getDataConnector().addRoute(route, getPrincipal(), new Consumer<Void>() {
       @Override
       public void consume(Void input) {
         Log.d("Route", "added");

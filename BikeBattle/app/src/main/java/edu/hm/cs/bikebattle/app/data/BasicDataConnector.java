@@ -39,16 +39,10 @@ import io.rx_cache.DynamicKey;
 import io.rx_cache.EvictDynamicKey;
 import io.rx_cache.Reply;
 import okhttp3.Cache;
-import org.springframework.hateoas.Resource;
-import org.springframework.hateoas.Resources;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
-
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * Created by Nils on 03.05.2016.
@@ -427,6 +421,38 @@ public class BasicDataConnector implements DataConnector {
         executeWriteCall(
             driveClient.create(input, TrackAssembler.toDto(track)),
             consumer);
+      }
+
+      @Override
+      public void error(int error, Throwable exception) {
+        consumer.error(error, exception);
+      }
+    });
+  }
+
+  @Override
+  public void addTrack(final Track track, final Route route, User owner,
+                       final Consumer<Void> consumer) {
+    addTrack(track, owner, new Consumer<Void>() {
+      @Override
+      public void consume(Void input) {
+        setRouteForTrack(track, route, consumer);
+      }
+
+      @Override
+      public void error(int error, Throwable exception) {
+        consumer.error(error, exception);
+      }
+    });
+  }
+
+  @Override
+  public void setRouteForTrack(final Track track, final Route route,
+                               final Consumer<Void> consumer) {
+    generateToken(new Consumer<String>() {
+      @Override
+      public void consume(String input) {
+        executeWriteCall(driveClient.setRoute(input, track.getOid(), route.getOid()), consumer);
       }
 
       @Override
