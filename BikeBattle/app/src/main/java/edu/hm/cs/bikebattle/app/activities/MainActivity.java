@@ -12,6 +12,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -90,6 +91,8 @@ public class MainActivity extends BaseActivity
         .error(R.mipmap.ic_launcher)
         .into(profilImage);
 
+    Log.d("Login", "login");
+
     //Debug
     /*ArrayList<Location> wayPoints = new ArrayList<Location>();
     Location loc1 = new Location("");
@@ -126,7 +129,7 @@ public class MainActivity extends BaseActivity
     Route route = new Route("Test", wayPoints);
     route.setRoutetyp(Routetyp.CITY);
     route.setDifficulty(Difficulty.EASY);
-    Log.d("Login", getPrincipal().getName());
+
     getDataConnector().addRoute(route, getPrincipal(), new Consumer<Void>() {
       @Override
       public void consume(Void input) {
