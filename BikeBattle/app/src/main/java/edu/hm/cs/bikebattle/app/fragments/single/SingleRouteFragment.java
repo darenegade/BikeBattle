@@ -3,11 +3,9 @@ package edu.hm.cs.bikebattle.app.fragments.single;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridLayout;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.LineChart;
@@ -15,15 +13,14 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 
-import java.util.LinkedList;
 import java.util.List;
 
 import edu.hm.cs.bikebattle.app.R;
 import edu.hm.cs.bikebattle.app.activities.BaseActivity;
+import edu.hm.cs.bikebattle.app.api.domain.TopDriveEntryDto;
 import edu.hm.cs.bikebattle.app.data.Consumer;
 import edu.hm.cs.bikebattle.app.fragments.GoogleMapHelper;
 import edu.hm.cs.bikebattle.app.modell.Route;
-import edu.hm.cs.bikebattle.app.modell.Track;
 
 /**
  * Fragment displaying information of a route.
@@ -85,43 +82,18 @@ public class SingleRouteFragment extends Fragment implements OnMapReadyCallback 
   private void fillRanking(final View view) {
     if (getActivity() instanceof BaseActivity) {
       BaseActivity activity = (BaseActivity) getActivity();
-      activity.getDataConnector().getTracksByRoute(route, new Consumer<List<Track>>() {
+      activity.getDataConnector().getTopTwentyOfRoute(route, new Consumer<List<TopDriveEntryDto>>() {
         @Override
-        public void consume(List<Track> input) {
-          GridLayout ranking = (GridLayout) view.findViewById(R.id.ranking_list);
-          List<Track> sorted = sort(input);
-          for(int index = 0; index<sorted.size();index++){
-            TextView rank  = new TextView(view.getContext());
-            rank.setText(index);
-            ranking.addView(rank);
-            TextView name  = new TextView(view.getContext());
-            name.setText("Dummy");//TODO add real owner
-            ranking.addView(name);
-            TextView time  = new TextView(view.getContext());
-            time.setText(GoogleMapHelper.secondsToFormat(sorted.get(index).getTime_in_s()));
-            ranking.addView(time);
-          }
+        public void consume(List<TopDriveEntryDto> input) {
+
         }
 
         @Override
         public void error(int error, Throwable exception) {
-          Log.e("Unable to load ranking", error + "");
-          //TODO handle
+
         }
       });
     }
-  }
-
-  private List<Track> sort(List<Track> list) {
-    List<Track> tmp = new LinkedList<Track>();
-    for (Track track : list) {
-      int index = 0;
-      while (index < tmp.size() && tmp.get(index).getTime_in_s() < track.getTime_in_s()) {
-        index++;
-      }
-      tmp.add(index, track);
-    }
-    return tmp;
   }
 
   /**
