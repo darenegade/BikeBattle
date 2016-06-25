@@ -52,7 +52,7 @@ import rx.schedulers.Schedulers;
  * @author Nils Bernhardt
  * @version 1.0
  */
-public class BasicDataConnector implements DataConnector {
+public class CachingDataConnector implements DataConnector {
 
   public static final String TAG = "DataConnector";
   /**
@@ -89,7 +89,7 @@ public class BasicDataConnector implements DataConnector {
   /**
    * Creates the clients for the backend.
    */
-  public BasicDataConnector(Context context, GoogleApiClient client) {
+  public CachingDataConnector(Context context, GoogleApiClient client) {
     googleApiClient = client;
 
     //Create a 10MB Cache
@@ -156,7 +156,7 @@ public class BasicDataConnector implements DataConnector {
             Collection<Resource<T>> resources = reply.getData().getContent();
 
             for (Resource<T> resource : resources) {
-              list.add(BasicDataConnector.<V>toBean(resource.getContent()));
+              list.add(CachingDataConnector.<V>toBean(resource.getContent()));
             }
             consumer.consume(list);
           }
@@ -191,7 +191,7 @@ public class BasicDataConnector implements DataConnector {
 
           @Override
           public void onNext(Reply<Resource<T>> reply) {
-            consumer.consume(BasicDataConnector.<V>toBean(reply.getData().getContent()));
+            consumer.consume(CachingDataConnector.<V>toBean(reply.getData().getContent()));
           }
         });
   }

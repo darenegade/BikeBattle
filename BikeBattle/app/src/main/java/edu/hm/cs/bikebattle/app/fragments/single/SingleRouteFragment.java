@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridLayout;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.LineChart;
@@ -85,7 +86,18 @@ public class SingleRouteFragment extends Fragment implements OnMapReadyCallback 
       activity.getDataConnector().getTopTwentyOfRoute(route, new Consumer<List<TopDriveEntryDto>>() {
         @Override
         public void consume(List<TopDriveEntryDto> input) {
-
+          GridLayout ranking = (GridLayout) view.findViewById(R.id.ranking_list);
+          for(int index = 0; index<input.size();index++){
+            TextView rank = new TextView(ranking.getContext());
+            rank.setText(index);
+            ranking.addView(rank);
+            TextView name = new TextView(ranking.getContext());
+            name.setText(input.get(index).getName());
+            ranking.addView(name);
+            TextView time = new TextView(ranking.getContext());
+            time.setText(GoogleMapHelper.secondsToFormat((long)input.get(index).getTotalTime()));
+            ranking.addView(time);
+          }
         }
 
         @Override
