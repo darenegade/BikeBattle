@@ -2,6 +2,7 @@ package edu.hm.cs.bikebattle.app.data.cache;
 
 import edu.hm.cs.bikebattle.app.api.domain.DriveDto;
 import edu.hm.cs.bikebattle.app.api.domain.RouteDto;
+import edu.hm.cs.bikebattle.app.api.domain.TopDriveEntryDto;
 import edu.hm.cs.bikebattle.app.api.domain.UserDto;
 import io.rx_cache.DynamicKey;
 import io.rx_cache.EvictDynamicKey;
@@ -32,6 +33,9 @@ public interface DriveCache {
 
   Observable<Reply<Resources<Resource<DriveDto>>>>  findByOwnerOid(
       Observable<Resources<Resource<DriveDto>>> oDrives, DynamicKey oid, EvictDynamicKey update);
+
+  Observable<Reply<Resources<Resource<TopDriveEntryDto>>>>  topTwentyOfRoute(
+      Observable<Resources<Resource<TopDriveEntryDto>>> oTopEntrys, DynamicKey oid, EvictDynamicKey update);
 
   Observable<Reply<Resource<RouteDto>>>  getRoute(
       Observable<Resource<RouteDto>> oRoute, DynamicKey id, EvictDynamicKey update);

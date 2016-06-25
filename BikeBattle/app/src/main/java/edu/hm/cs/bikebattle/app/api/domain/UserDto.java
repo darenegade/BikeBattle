@@ -26,6 +26,8 @@ public class UserDto extends BaseDto {
 
   String email;
 
+  String fotoUri;
+
   float size;
 
   float weight;

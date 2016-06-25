@@ -24,6 +24,7 @@ public class UserAssembler {
 
     return UserDto.builder()
         .name(user.getName())
+        .fotoUri(user.getFotoUri())
         .size(user.getSizeInMeter())
         .weight(user.getWeightInKg()).email(user.getEmail())
         .build();
@@ -45,6 +46,7 @@ public class UserAssembler {
     );
 
     user.setOid(userDto.getOid());
+    user.setFotoUri(userDto.getFotoUri());
 
     return user;
   }

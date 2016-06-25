@@ -19,6 +19,7 @@ import java.util.List;
 import edu.hm.cs.bikebattle.app.api.domain.BaseDto;
 import edu.hm.cs.bikebattle.app.api.domain.DriveDto;
 import edu.hm.cs.bikebattle.app.api.domain.RouteDto;
+import edu.hm.cs.bikebattle.app.api.domain.TopDriveEntryDto;
 import edu.hm.cs.bikebattle.app.api.domain.UserDto;
 import edu.hm.cs.bikebattle.app.api.rest.ClientFactory;
 import edu.hm.cs.bikebattle.app.api.rest.DriveClient;
@@ -38,10 +39,16 @@ import io.rx_cache.DynamicKey;
 import io.rx_cache.EvictDynamicKey;
 import io.rx_cache.Reply;
 import okhttp3.Cache;
+import org.springframework.hateoas.Resource;
+import org.springframework.hateoas.Resources;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Created by Nils on 03.05.2016.
@@ -105,12 +112,13 @@ public class BasicDataConnector implements DataConnector {
 
   /**
    * Converts the dto to bean.
+   * If the bean is not known, the dto is returned.
    *
    * @param dto to convert.
    * @return converted object
    */
   @SuppressWarnings("unchecked")
-  private static <V> V toBean(BaseDto dto) {
+  private static <V> V toBean(Object dto) {
     if (dto.getClass().equals(RouteDto.class)) {
       return (V) RouteAssembler.toBean((RouteDto) dto);
     } else if (dto.getClass().equals(DriveDto.class)) {
@@ -118,7 +126,7 @@ public class BasicDataConnector implements DataConnector {
     } else if (dto.getClass().equals(UserDto.class)) {
       return (V) UserAssembler.toBean((UserDto) dto);
     } else {
-      throw new IllegalArgumentException("Unknown dto type.");
+      return (V) dto;
     }
   }
 
@@ -130,9 +138,8 @@ public class BasicDataConnector implements DataConnector {
    * @param <T>        dto
    * @param <V>        bean
    */
-  private <T extends BaseDto, V> void executeGetListCall(
-      final Observable<Reply<Resources<Resource<T>>>> observable,
-      final Consumer<List<V>> consumer) {
+  private <T, V> void executeGetListCall(final Observable<Reply<Resources<Resource<T>>>> observable,
+                                                         final Consumer<List<V>> consumer) {
 
     observable
         .subscribeOn(Schedulers.newThread())
@@ -144,8 +151,8 @@ public class BasicDataConnector implements DataConnector {
           }
 
           @Override
-          public void onError(Throwable throwable) {
-            consumer.error(-1, throwable);
+          public void onError(Throwable e) {
+            consumer.error(-1, e);
           }
 
           @Override
@@ -235,13 +242,13 @@ public class BasicDataConnector implements DataConnector {
           @Override
           public void onResult(@NonNull GoogleSignInResult googleSignInResult) {
 
-            if (googleSignInResult.isSuccess() && googleSignInResult.getSignInAccount() != null) {
-              tokenConsumer.consume("Bearer " + googleSignInResult.getSignInAccount().getIdToken());
-            } else {
-              tokenConsumer.error(googleSignInResult.getStatus().getStatusCode(), null);
-            }
-          }
-        });
+        if (googleSignInResult.isSuccess() && googleSignInResult.getSignInAccount() != null) {
+          tokenConsumer.consume("Bearer " + googleSignInResult.getSignInAccount().getIdToken());
+        } else {
+          tokenConsumer.error(googleSignInResult.getStatus().getStatusCode(), null);
+        }
+      }
+    });
   }
 
   @Override
@@ -350,6 +357,27 @@ public class BasicDataConnector implements DataConnector {
   }
 
   @Override
+  public void getTopTwentyOfRoute(final Route route, final Consumer<List<TopDriveEntryDto>> consumer) {
+
+    generateToken(new Consumer<String>() {
+      @Override
+      public void consume(String input) {
+        executeGetListCall(
+            driveCache.topTwentyOfRoute(
+                driveClient.topTwentyOfRoute(input, route.getOid()),
+                new DynamicKey(route.getOid()),
+                new EvictDynamicKey(true)),
+            consumer);
+      }
+
+      @Override
+      public void error(int error, Throwable exception) {
+        consumer.error(error, exception);
+      }
+    });
+  }
+
+  @Override
   public void getTracksByRoute(final Route route, final Consumer<List<Track>> consumer) {
     generateToken(new Consumer<String>() {
       @Override
@@ -399,38 +427,6 @@ public class BasicDataConnector implements DataConnector {
         executeWriteCall(
             driveClient.create(input, TrackAssembler.toDto(track)),
             consumer);
-      }
-
-      @Override
-      public void error(int error, Throwable exception) {
-        consumer.error(error, exception);
-      }
-    });
-  }
-
-  @Override
-  public void addTrack(final Track track, final Route route, User owner,
-                       final Consumer<Void> consumer) {
-    addTrack(track, owner, new Consumer<Void>() {
-      @Override
-      public void consume(Void input) {
-        setRouteForTrack(track, route, consumer);
-      }
-
-      @Override
-      public void error(int error, Throwable exception) {
-        consumer.error(error, exception);
-      }
-    });
-  }
-
-  @Override
-  public void setRouteForTrack(final Track track, final Route route,
-                               final Consumer<Void> consumer) {
-    generateToken(new Consumer<String>() {
-      @Override
-      public void consume(String input) {
-        executeWriteCall(driveClient.setRoute(input, track.getOid(), route.getOid()), consumer);
       }
 
       @Override

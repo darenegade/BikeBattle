@@ -4,9 +4,12 @@ import android.location.Location;
 
 import java.util.List;
 
+import edu.hm.cs.bikebattle.app.api.domain.TopDriveEntryDto;
 import edu.hm.cs.bikebattle.app.modell.Route;
 import edu.hm.cs.bikebattle.app.modell.Track;
 import edu.hm.cs.bikebattle.app.modell.User;
+
+import java.util.List;
 
 /**
  * Created by Nils on 26.04.2016.
@@ -65,6 +68,14 @@ public interface DataConnector {
    * @param consumer consumer to call
    */
   void getTracksByUser(User user, Consumer<List<Track>> consumer);
+
+  /**
+   * Returns a Top 20 list of a route.
+   *
+   * @param route route
+   * @param consumer consumer to call
+   */
+  void getTopTwentyOfRoute(final Route route, final Consumer<List<TopDriveEntryDto>> consumer);
 
   /**
    * Returns all routes of the given user.

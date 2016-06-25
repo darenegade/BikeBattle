@@ -14,6 +14,10 @@ public class User extends BaseEntity {
    */
   private String name;
   /**
+   * Foto of user;
+   */
+  private String fotoUri;
+  /**
    * Weight of the user.
    */
   private float weightInKg;
@@ -61,6 +65,15 @@ public class User extends BaseEntity {
   }
 
   /**
+   * Returns the foto of the user.
+   *
+   * @return foto
+   */
+  public String getFotoUri() {
+    return fotoUri;
+  }
+
+  /**
    * Returns the weight of the user.
    *
    * @return weight
@@ -82,6 +95,15 @@ public class User extends BaseEntity {
       throw new IllegalArgumentException("Name must contain at least one character.");
     }
     this.name = name;
+  }
+
+  /**
+   * Cahnges the foto of the user.
+   *
+   * @param fotoUri uri of foto
+   */
+  public void setFotoUri(String fotoUri) {
+    this.fotoUri = fotoUri;
   }
 
   /**
