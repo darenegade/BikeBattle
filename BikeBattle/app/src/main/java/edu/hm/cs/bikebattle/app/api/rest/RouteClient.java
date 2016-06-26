@@ -6,6 +6,7 @@ import edu.hm.cs.bikebattle.app.api.domain.Routetyp;
 import edu.hm.cs.bikebattle.app.api.domain.UserDto;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
+import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
@@ -34,7 +35,7 @@ public interface RouteClient {
   //Route Endpoints
 
   @POST(BASE_PATH)
-  Observable<Void> create(@Header("Authorization")String token, @Body RouteDto entity);
+  Observable<Response<Void>> create(@Header("Authorization")String token, @Body RouteDto entity);
 
   @PUT(BASE_PATH)
   @Headers("Content-Type: application/json")

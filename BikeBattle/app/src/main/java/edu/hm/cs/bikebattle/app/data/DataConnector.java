@@ -89,7 +89,7 @@ public interface DataConnector {
    * @param consumer consumer to call
    * @param owner    owner of the track
    */
-  void addTrack(Track track, User owner, Consumer<Void> consumer);
+  void addTrack(Track track, User owner, Consumer<String> consumer);
 
   /**
    * Deletes a track of the user.
@@ -106,7 +106,7 @@ public interface DataConnector {
    * @param owner    owner
    * @param consumer consumer to call
    */
-  void addRoute(Route route, User owner, Consumer<Void> consumer);
+  void addRoute(Route route, User owner, Consumer<String> consumer);
 
   /**
    * Deletes a route of the user.
@@ -122,7 +122,7 @@ public interface DataConnector {
    * @param user     user
    * @param consumer consumer to call
    */
-  void createUser(User user, Consumer<Void> consumer);
+  void createUser(User user, Consumer<String> consumer);
 
   /**
    * Updates the user data.

@@ -32,6 +32,7 @@ import io.rx_cache.Reply;
 import okhttp3.Cache;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
+import retrofit2.Response;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -193,6 +194,35 @@ public class CachingDataConnector implements DataConnector {
             consumer.consume(CachingDataConnector.<V>toBean(reply.getData()));
           }
         });
+  }
+
+  /**
+   * Executes a write call.
+   *
+   * @param observable to execute
+   * @param consumer   for errors
+   */
+  private void executeCreateCall(final Observable<String> observable, final Consumer<String> consumer) {
+
+    observable
+        .subscribeOn(Schedulers.newThread())
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(new Subscriber<String>() {
+          @Override
+          public void onCompleted() {
+          }
+
+          @Override
+          public void onError(Throwable e) {
+            consumer.error(Consumer.EXCEPTION, e);
+          }
+
+          @Override
+          public void onNext(String reply) {
+            consumer.consume(reply);
+          }
+        });
+
   }
 
   /**
@@ -443,13 +473,18 @@ public class CachingDataConnector implements DataConnector {
   }
 
   @Override
-  public void addTrack(final Track track, final User owner, final Consumer<Void> consumer) {
+  public void addTrack(final Track track, final User owner, final Consumer<String> consumer) {
 
     generateToken(new Consumer<String>() {
       @Override
       public void consume(String input) {
-        executeWriteCall(
-            driveClient.create(input, TrackAssembler.toDto(track)),
+        executeCreateCall(
+            driveClient.create(input, TrackAssembler.toDto(track)).map(new Func1<Response<Void>, String>() {
+              @Override
+              public String call(Response<Void> voidResponse) {
+                return voidResponse.headers().get("Location");
+              }
+            }),
             consumer);
       }
 
@@ -477,12 +512,17 @@ public class CachingDataConnector implements DataConnector {
   }
 
   @Override
-  public void addRoute(final Route route, final User user, final Consumer<Void> consumer) {
+  public void addRoute(final Route route, final User user, final Consumer<String> consumer) {
 
     generateToken(new Consumer<String>() {
       @Override
       public void consume(String input) {
-        executeWriteCall(routeClient.create(input, RouteAssembler.toDto(route)), consumer);
+        executeCreateCall(routeClient.create(input, RouteAssembler.toDto(route)).map(new Func1<Response<Void>, String>() {
+          @Override
+          public String call(Response<Void> voidResponse) {
+            return voidResponse.headers().get("Location");
+          }
+        }), consumer);
       }
 
       @Override
@@ -509,12 +549,17 @@ public class CachingDataConnector implements DataConnector {
   }
 
   @Override
-  public void createUser(final User user, final Consumer<Void> consumer) {
+  public void createUser(final User user, final Consumer<String> consumer) {
 
     generateToken(new Consumer<String>() {
       @Override
       public void consume(String input) {
-        executeWriteCall(userClient.create(input, UserAssembler.toDto(user)), consumer);
+        executeCreateCall(userClient.create(input, UserAssembler.toDto(user)).map(new Func1<Response<Void>, String>() {
+          @Override
+          public String call(Response<Void> voidResponse) {
+            return voidResponse.headers().get("Location");
+          }
+        }), consumer);
       }
 
       @Override
