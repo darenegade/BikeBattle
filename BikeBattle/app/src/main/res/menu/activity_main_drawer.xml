@@ -9,11 +9,11 @@
         <item
             android:id="@+id/nav_tracks"
             android:icon="@drawable/ic_menu_tracksy"
-            android:title="Tracks"/>
+            android:title="Eigene Routen"/>
         <item
             android:id="@+id/nav_routes"
             android:icon="@drawable/ic_menu_route"
-            android:title="Route"/>
+            android:title="Alle Tracks"/>
         <item
             android:id="@+id/nav_favorite"
             android:icon="@drawable/ic_menu_favorite"

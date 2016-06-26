@@ -1,7 +1,6 @@
 package edu.hm.cs.bikebattle.app.activities;
 
 import android.Manifest;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -9,7 +8,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
@@ -19,7 +17,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -80,66 +77,6 @@ public class MainActivity extends BaseActivity
 
     fm = getSupportFragmentManager();
     fm.beginTransaction().replace(R.id.content_frame, new MainFragment()).commit();
-
-    /**findViewById(R.id.routes_button).setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View view) {
-        Intent intent = new Intent(getApplicationContext(), RoutesActivity.class);
-        startActivity(intent);
-                //Intent intent = new Intent(getApplicationContext(), TrackingTestActivity.class);
-                //startActivity(intent);
-      }
-    });
-    findViewById(R.id.track_button).setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View view) {
-        Intent intent = new Intent(getApplicationContext(), TrackingActivity.class);
-        startActivity(intent);
-      }
-    });*/
-
-    /**final DataConnector connector = new BasicDataConnector();
-     connector.getUserByName("Nils", new Consumer<List<User>>() {
-    @Override public void consume(List<User> input) {
-    if(input.size()>0){
-    Log.d(TAG, "got user " + input.get(0).getName() + " - OID: " + input.get(0).getOid());
-    Route route = new Route("Test");
-    Location location;
-    location = new Location("");
-    location.setLongitude(0);
-    location.setLatitude(0);
-    route.add(location);
-    location = new Location("");
-    location.setLongitude(1);
-    location.setLatitude(0);
-    route.add(location);
-    location = new Location("");
-    location.setLongitude(2);
-    location.setLatitude(1);
-    route.add(location);
-    location = new Location("");
-    location.setLongitude(0);
-    location.setLatitude(0);
-    route.add(location);
-    route.setRoutetyp(Routetyp.CITY);
-    route.setDifficulty(Difficulty.EASY);
-    connector.addRoute(route, input.get(0), new Consumer<Void>() {
-    @Override public void consume(Void input) {
-    Log.d(TAG, "Route added");
-    ((Button)findViewById(R.id.track_button)).setText("Test");
-    }
-
-    @Override public void error(int error, Throwable exception) {
-    Log.e(TAG,"Error2: " + error+"");
-    }
-    });
-    }
-    }
-
-    @Override public void error(int error, Throwable exception) {
-    Log.e(TAG,"Error1: " + error+"");
-    }
-    });**/
 
     requestPermission();
   }
@@ -232,15 +169,14 @@ public class MainActivity extends BaseActivity
 
     switch (menuItem.getItemId()) {
       case R.id.nav_profil:
-        fm.beginTransaction().replace(R.id.content_frame, ProfilFragment.newInstance(getPrincipal(),getUserPhoto())).commit();
-        fm.beginTransaction().replace(R.id.conten_frame,
-            ProfilFragment.newInstance(null, null)).commit();
+        fm.beginTransaction().replace(R.id.content_frame,
+            ProfilFragment.newInstance(getPrincipal(), getUserPhoto())).commit();
         break;
       case R.id.nav_tracks:
-        fm.beginTransaction().replace(R.id.content_frame, RoutsFragment.newInstance(getPrincipal())).commit();
+        fm.beginTransaction().replace(R.id.content_frame, RoutsFragment.newInstance(getPrincipal(),true)).commit();
         break;
       case R.id.nav_routes:
-        //fragmentClass = ThirdFragment.class;
+        fm.beginTransaction().replace(R.id.content_frame, RoutsFragment.newInstance(getPrincipal(),false)).commit();
         break;
       case R.id.nav_favorite:
         //fragmentClass = ThirdFragment.class;
@@ -249,8 +185,8 @@ public class MainActivity extends BaseActivity
         //fragmentClass = ThirdFragment.class;
         break;
       default:
-        fm.beginTransaction().replace(R.id.conten_frame,
-            ProfilFragment.newInstance(null, null)).commit();
+        fm.beginTransaction().replace(R.id.content_frame,
+            ProfilFragment.newInstance(getPrincipal(), getUserPhoto())).commit();
     }
 
 
@@ -261,7 +197,4 @@ public class MainActivity extends BaseActivity
     // Close the navigation drawer
     drawer.closeDrawers();
   }
-
-
-
 }

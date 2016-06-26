@@ -8,7 +8,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.text.InputType;
-import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,8 +26,13 @@ import edu.hm.cs.bikebattle.app.activities.BaseActivity;
 import edu.hm.cs.bikebattle.app.data.Consumer;
 import edu.hm.cs.bikebattle.app.modell.User;
 
+/**
+ * Shows a new Fragment with the user informations. In this fragment the user
+ * has a possibility to change his informations.
+ */
 public class ProfilFragment extends Fragment implements View.OnClickListener{
 
+  private static final String TAG = "ProfilFragment";
   private User user;
   private Uri uri;
   private ImageButton editWeight;
@@ -35,7 +40,12 @@ public class ProfilFragment extends Fragment implements View.OnClickListener{
   private TextView sizeView;
   private TextView weightView;
   private SlidingUpPanelLayout mSlidingUpPanelLayout;
-
+  /**
+   * This method creates a new Fragment,with the required Informations
+    * @param user - is the current User from the App
+   * @param uri - is the data link to the user profil picture
+   * @return new Fragment
+   */
   public static  final ProfilFragment newInstance(User user, Uri uri) {
     ProfilFragment fragment = new ProfilFragment();
     Bundle args = new Bundle();
@@ -111,6 +121,15 @@ public class ProfilFragment extends Fragment implements View.OnClickListener{
     }
   }
 
+  /**
+   * This method set a Dialog with different informations for the user, where he can typ some
+   * informations into.
+   * @param text - different information
+   * @param size - true if the user want to change his size, false then the user want to change his
+   *             weight.
+   * @param textView
+   * @return - Dialog Window on the screem
+   */
   public Dialog setupDialog(final View v, String text, final boolean size, final TextView textView){
     AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
     dialog.setMessage(text);
@@ -133,12 +152,15 @@ public class ProfilFragment extends Fragment implements View.OnClickListener{
             user.setWeightInKg(value);
             textView.setText(value+"");
           }
+          //Updates the User in the backend
           BaseActivity activity = (BaseActivity)getActivity();
           activity.getDataConnector().changeUserData(user, new Consumer<Void>() {
             @Override
             public void consume(Void input) {}
             @Override
-            public void error(int error, Throwable exception) {}
+            public void error(int error, Throwable exception) {
+              Log.e(TAG, "UPDATE USER FAILURE");
+            }
           });
 
         }

@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,6 +33,7 @@ import java.util.List;
 
 import edu.hm.cs.bikebattle.app.R;
 import edu.hm.cs.bikebattle.app.activities.BaseActivity;
+import edu.hm.cs.bikebattle.app.fragments.GoogleMapHelper;
 import edu.hm.cs.bikebattle.app.modell.Route;
 import edu.hm.cs.bikebattle.app.modell.User;
 
@@ -40,27 +42,37 @@ import edu.hm.cs.bikebattle.app.modell.User;
  */
   public class RoutsListFragmentAdapter extends ArrayAdapter<Route> implements OnMapReadyCallback {
 
-  private final Context context;
   private final List<Route> routes;
   private final User user;
   private GoogleMap googleMap;
   private Bundle savedInstanceState;
+  private  int currentPosition;
+  private FragmentManager manager;
 
-  public RoutsListFragmentAdapter(Context context, List<Route> routes, User user, Bundle savedInstanceState) {
+  public RoutsListFragmentAdapter(Context context, List<Route> routes, User user,
+                                  Bundle savedInstanceState, FragmentManager manager) {
     super(context, -1,routes);
     this.routes = routes;
-    this.context = context;
+    this.manager = manager;
     this.savedInstanceState = savedInstanceState;
     this.user = user;
   }
   @Override
   public View getView(int position, View convertView, ViewGroup parent) {
+    currentPosition = position;
+
+    SupportMapFragment mapFragment = (SupportMapFragment) manager
+        .findFragmentById(R.id.mapview);
+    if (mapFragment == null) {
+      mapFragment = SupportMapFragment.newInstance();
+      manager.beginTransaction().replace(R.id.mapview, mapFragment).commit();
+    }
+    mapFragment.getMapAsync(this);
     View rowView = LayoutInflater.from(getContext()).inflate(R.layout.item_layout,parent,false);
-    MapView mapView;
-    // Gets the MapView from the XML layout and creates it
-    mapView = (MapView) rowView.findViewById(R.id.mapview);
-    mapView.onCreate(savedInstanceState);
-    mapView.getMapAsync(this);
+    //MapView mapView;
+    //mapView = (MapView) rowView.findViewById(R.id.mapview);
+    //mapView.onCreate(savedInstanceState);
+    // mapView.getMapAsync(this);
 
     TextView textViewName = (TextView) rowView.findViewById(R.id.name_item);
     textViewName.setText(user.getName());
@@ -98,13 +110,11 @@ import edu.hm.cs.bikebattle.app.modell.User;
     if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION)
         == PackageManager.PERMISSION_GRANTED) {
       this.googleMap = googleMap;
-      this.googleMap.setMyLocationEnabled(true);
+      this.googleMap.setMyLocationEnabled(false);
       this.googleMap.getUiSettings().setMapToolbarEnabled(false);
-      //this.googleMap.getUiSettings().setCompassEnabled(true);
-     /** for (Route r : routes) {
-        drawRoute(r);
-      }
-      updateCamera();*/
+
+      GoogleMapHelper.drawLocationList(routes.get(currentPosition), Color.RED, googleMap);
+      GoogleMapHelper.zoomToTrack(googleMap, routes.get(currentPosition));
     }
   }
 }
