@@ -27,11 +27,10 @@ import edu.hm.cs.bikebattle.app.R;
 import edu.hm.cs.bikebattle.app.fragments.RoutesOverviewFragment;
 import edu.hm.cs.bikebattle.app.fragments.navigationdrawer.MainFragment;
 import edu.hm.cs.bikebattle.app.fragments.navigationdrawer.ProfilFragment;
-import edu.hm.cs.bikebattle.app.fragments.single.SingleTrackFragment;
 import edu.hm.cs.bikebattle.app.modell.User;
 
 public class MainActivity extends BaseActivity implements NavigationView
-    .OnNavigationItemSelectedListener, SingleTrackFragment.OnFragmentInteractionListener {
+    .OnNavigationItemSelectedListener {
 
   private static final String TAG = "MainActivity";
   private NavigationView navigationView;
