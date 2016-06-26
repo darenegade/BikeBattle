@@ -84,9 +84,9 @@ public class SingleRouteFragment extends Fragment implements OnMapReadyCallback 
   }
 
   /**
-   * Fills the ranking with tracks from the backend
+   * Fills the ranking with tracks from the backend.
    *
-   * @param view parentview
+   * @param view parent view
    */
   private void fillRanking(final View view) {
     if (getActivity() instanceof BaseActivity) {
