@@ -28,7 +28,7 @@ import edu.hm.cs.bikebattle.app.modell.Track;
 import edu.hm.cs.bikebattle.app.modell.User;
 
 /**
- * Creats a new Fragment, where the user can find his tracks
+ * Creats a new Fragment, where the user can find his tracks or routs
  */
 public class RoutsFragment extends ListFragment {
 

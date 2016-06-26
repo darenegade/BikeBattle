@@ -25,7 +25,7 @@ import edu.hm.cs.bikebattle.app.modell.Route;
 import edu.hm.cs.bikebattle.app.modell.User;
 
 /**
- * Shows for each Element some informations and a google map with the drawed track
+ * Shows for each Element some informations and draws the route into a google map
  */
   public class RoutsListFragmentAdapter extends ArrayAdapter<Route> implements OnMapReadyCallback {
 
@@ -36,6 +36,14 @@ import edu.hm.cs.bikebattle.app.modell.User;
   private  int currentPosition;
   private FragmentManager manager;
 
+  /**
+   * Creates a new Adapter for a arraylist of tracks
+   * @param context - context
+   * @param routes - list of routes
+   * @param user - current User
+   * @param savedInstanceState - saveInstanceState
+   * @param manager - manager
+   */
   public RoutsListFragmentAdapter(Context context, List<Route> routes, User user,
                                   Bundle savedInstanceState, FragmentManager manager) {
     super(context, -1,routes);
