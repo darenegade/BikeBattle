@@ -5,9 +5,9 @@ import io.rx_cache.DynamicKey;
 import io.rx_cache.EvictDynamicKey;
 import io.rx_cache.EvictProvider;
 import io.rx_cache.Reply;
-import org.springframework.hateoas.Resource;
-import org.springframework.hateoas.Resources;
 import rx.Observable;
+
+import java.util.List;
 
 /**
  * Organization: HM FK07.
@@ -20,21 +20,21 @@ import rx.Observable;
  */
 public interface UserCache {
 
-  Observable<Reply<Resource<UserDto>>> findeOne(
-      Observable<Resource<UserDto>> oUser, DynamicKey userId, EvictDynamicKey update);
+  Observable<Reply<UserDto>> findeOne(
+      Observable<UserDto> oUser, DynamicKey userId, EvictDynamicKey update);
 
-  Observable<Reply<Resources<Resource<UserDto>>>> findAll(
-      Observable<Resources<Resource<UserDto>>> oUsers, EvictProvider update);
+  Observable<Reply<List<UserDto>>> findAll(
+      Observable<List<UserDto>> oUsers, EvictProvider update);
 
-  Observable<Reply<Resources<Resource<UserDto>>>> findByName(
-      Observable<Resources<Resource<UserDto>>> oUsers, DynamicKey name, EvictDynamicKey update);
+  Observable<Reply<List<UserDto>>> findByName(
+      Observable<List<UserDto>> oUsers, DynamicKey name, EvictDynamicKey update);
 
-  Observable<Reply<Resources<Resource<UserDto>>>> findByNameContainingIgnoreCase(
-      Observable<Resources<Resource<UserDto>>> oUsers, DynamicKey name, EvictDynamicKey update);
+  Observable<Reply<List<UserDto>>> findByNameContainingIgnoreCase(
+      Observable<List<UserDto>> oUsers, DynamicKey name, EvictDynamicKey update);
 
-  Observable<Reply<Resource<UserDto>>> findByEmail(
-      Observable<Resource<UserDto>> oUser, DynamicKey userMail, EvictDynamicKey update);
+  Observable<Reply<UserDto>> findByEmail(
+      Observable<UserDto> oUser, DynamicKey userMail, EvictDynamicKey update);
 
-  Observable<Reply<Resources<Resource<UserDto>>>> getFriends(
-      Observable<Resources<Resource<UserDto>>> oUsers, DynamicKey userId, EvictDynamicKey update);
+  Observable<Reply<List<UserDto>>> getFriends(
+      Observable<List<UserDto>> oUsers, DynamicKey userId, EvictDynamicKey update);
 }

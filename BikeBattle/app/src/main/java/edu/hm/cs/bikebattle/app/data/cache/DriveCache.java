@@ -7,9 +7,9 @@ import edu.hm.cs.bikebattle.app.api.domain.UserDto;
 import io.rx_cache.DynamicKey;
 import io.rx_cache.EvictDynamicKey;
 import io.rx_cache.Reply;
-import org.springframework.hateoas.Resource;
-import org.springframework.hateoas.Resources;
 import rx.Observable;
+
+import java.util.List;
 
 /**
  * Organization: HM FK07.
@@ -22,24 +22,24 @@ import rx.Observable;
  */
 public interface DriveCache {
 
-  Observable<Reply<Resource<DriveDto>>> findeOne(
-      Observable<Resource<DriveDto>> oDrive, DynamicKey id, EvictDynamicKey update);
+  Observable<Reply<DriveDto>> findeOne(
+      Observable<DriveDto> oDrive, DynamicKey id, EvictDynamicKey update);
 
-  Observable<Reply<Resources<Resource<DriveDto>>>> findAll(
-      Observable<Resources<Resource<DriveDto>>> oDrives);
+  Observable<Reply<List<DriveDto>>> findAll(
+      Observable<List<DriveDto>> oDrives);
 
-  Observable<Reply<Resources<Resource<DriveDto>>>>  findByRouteOid(
-      Observable<Resources<Resource<DriveDto>>> oDrives, DynamicKey oid, EvictDynamicKey update);
+  Observable<Reply<List<DriveDto>>>  findByRouteOid(
+      Observable<List<DriveDto>> oDrives, DynamicKey oid, EvictDynamicKey update);
 
-  Observable<Reply<Resources<Resource<DriveDto>>>>  findByOwnerOid(
-      Observable<Resources<Resource<DriveDto>>> oDrives, DynamicKey oid, EvictDynamicKey update);
+  Observable<Reply<List<DriveDto>>>  findByOwnerOid(
+      Observable<List<DriveDto>> oDrives, DynamicKey oid, EvictDynamicKey update);
 
-  Observable<Reply<Resources<Resource<TopDriveEntryDto>>>>  topTwentyOfRoute(
-      Observable<Resources<Resource<TopDriveEntryDto>>> oTopEntrys, DynamicKey oid, EvictDynamicKey update);
+  Observable<Reply<List<TopDriveEntryDto>>>  topTwentyOfRoute(
+      Observable<List<TopDriveEntryDto>> oTopEntrys, DynamicKey oid, EvictDynamicKey update);
 
-  Observable<Reply<Resource<RouteDto>>>  getRoute(
-      Observable<Resource<RouteDto>> oRoute, DynamicKey id, EvictDynamicKey update);
+  Observable<Reply<RouteDto>>  getRoute(
+      Observable<RouteDto> oRoute, DynamicKey id, EvictDynamicKey update);
 
-  Observable<Reply<Resource<UserDto>>>  getOwner(
-      Observable<Resource<UserDto>> oUser, DynamicKey id, EvictDynamicKey update);
+  Observable<Reply<UserDto>>  getOwner(
+      Observable<UserDto> oUser, DynamicKey id, EvictDynamicKey update);
 }
