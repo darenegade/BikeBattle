@@ -26,40 +26,14 @@
             android:layout_height="match_parent"
             android:paddingTop="16dp"
             android:textColor="@color/font"/>
-
-        <TextView
-            android:id="@+id/rout_name_item_label"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:paddingLeft="16dp"
-            android:paddingTop="16dp"
-            android:text="Name Route: "
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textColor="@color/font_head"/>
-
-        <TextView
-            android:id="@+id/rout_name_item"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:paddingTop="16dp"
-            android:textColor="@color/font"/>
-
     </LinearLayout>
 
-    <RelativeLayout
+    <com.google.android.gms.maps.MapView
+        android:id="@+id/mapview"
+        class="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/relative_layout">
-
-        <fragment
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:id="@+id/mapview"
-            android:name="com.google.android.gms.maps.SupportMapFragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:context=".fragments.navigationdrawer.RoutsFragment"/>
-    </RelativeLayout>
+        android:layout_height="150dp"
+        />
 
 
     <LinearLayout
@@ -67,50 +41,26 @@
         android:layout_height="match_parent"
         android:orientation="horizontal">
 
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                      android:layout_width="wrap_content"
-                      android:layout_height="match_parent"
-                      android:background="@color/background"
-                      android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/length_item_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingLeft="16dp"
-                android:paddingTop="16dp"
-                android:text="Länge: "
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textColor="@color/font_head"/>
-
-            <TextView
-                android:id="@+id/textView_information_item"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:paddingBottom="16dp"
-                android:paddingLeft="16dp"
-                android:textColor="@color/font"/>
-        </LinearLayout>
-
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                       android:layout_width="wrap_content"
                       android:layout_height="match_parent"
+                      android:layout_weight="1"
                       android:background="@color/background"
                       android:orientation="vertical">
 
             <TextView
-                android:id="@+id/difficult_item_label"
+                android:id="@+id/time_item_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingLeft="16dp"
                 android:paddingTop="16dp"
-                android:text="Schwierigkeit:"
+                android:text="Dauer:"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textColor="@color/font_head"/>
 
             <TextView
-                android:id="@+id/difficult_item"
+                android:id="@+id/time_item"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:paddingBottom="16dp"
@@ -122,20 +72,21 @@
                       android:layout_width="wrap_content"
                       android:layout_height="match_parent"
                       android:background="@color/background"
+                      android:layout_weight="1"
                       android:orientation="vertical">
 
             <TextView
-                android:id="@+id/rout_type_name_item_label"
+                android:id="@+id/average_speed_item_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingLeft="16dp"
                 android:paddingTop="16dp"
-                android:text="Routentyp: "
+                android:text="Durchschnittsgeschwidigkeit: "
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textColor="@color/font_head"/>
 
             <TextView
-                android:id="@+id/rout_type_name_item"
+                android:id="@+id/average_speed_name_item"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:paddingBottom="16dp"

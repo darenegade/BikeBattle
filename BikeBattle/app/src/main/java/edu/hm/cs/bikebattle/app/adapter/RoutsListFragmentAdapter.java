@@ -1,11 +1,9 @@
 package edu.hm.cs.bikebattle.app.adapter;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
@@ -15,30 +13,19 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
-import com.google.android.gms.maps.CameraUpdate;
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
-import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.CameraPosition;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.util.List;
 
 import edu.hm.cs.bikebattle.app.R;
-import edu.hm.cs.bikebattle.app.activities.BaseActivity;
 import edu.hm.cs.bikebattle.app.fragments.GoogleMapHelper;
 import edu.hm.cs.bikebattle.app.modell.Route;
 import edu.hm.cs.bikebattle.app.modell.User;
 
 /**
- * Created by Zwen on 13.06.2016.
+ * Shows for each Element some informations and a google map with the drawed track
  */
   public class RoutsListFragmentAdapter extends ArrayAdapter<Route> implements OnMapReadyCallback {
 
@@ -61,18 +48,18 @@ import edu.hm.cs.bikebattle.app.modell.User;
   public View getView(int position, View convertView, ViewGroup parent) {
     currentPosition = position;
 
-    SupportMapFragment mapFragment = (SupportMapFragment) manager
+    /**SupportMapFragment mapFragment = (SupportMapFragment) manager
         .findFragmentById(R.id.mapview);
     if (mapFragment == null) {
       mapFragment = SupportMapFragment.newInstance();
       manager.beginTransaction().replace(R.id.mapview, mapFragment).commit();
     }
-    mapFragment.getMapAsync(this);
-    View rowView = LayoutInflater.from(getContext()).inflate(R.layout.item_layout,parent,false);
-    //MapView mapView;
-    //mapView = (MapView) rowView.findViewById(R.id.mapview);
-    //mapView.onCreate(savedInstanceState);
-    // mapView.getMapAsync(this);
+    mapFragment.getMapAsync(this);*/
+    View rowView = LayoutInflater.from(getContext()).inflate(R.layout.item_rout_layout,parent,false);
+    MapView mapView;
+    mapView = (MapView) rowView.findViewById(R.id.mapview);
+    mapView.onCreate(savedInstanceState);
+    mapView.getMapAsync(this);
 
     TextView textViewName = (TextView) rowView.findViewById(R.id.name_item);
     textViewName.setText(user.getName());
@@ -107,6 +94,7 @@ import edu.hm.cs.bikebattle.app.modell.User;
 
   @Override
   public void onMapReady(GoogleMap googleMap) {
+
     if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION)
         == PackageManager.PERMISSION_GRANTED) {
       this.googleMap = googleMap;

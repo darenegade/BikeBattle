@@ -18,11 +18,13 @@ import java.util.List;
 import edu.hm.cs.bikebattle.app.R;
 import edu.hm.cs.bikebattle.app.activities.BaseActivity;
 import edu.hm.cs.bikebattle.app.adapter.RoutsListFragmentAdapter;
+import edu.hm.cs.bikebattle.app.adapter.TrackListFragmentAdapter;
 import edu.hm.cs.bikebattle.app.api.domain.Difficulty;
 import edu.hm.cs.bikebattle.app.api.domain.Routetyp;
 import edu.hm.cs.bikebattle.app.data.Consumer;
 import edu.hm.cs.bikebattle.app.data.DataConnector;
 import edu.hm.cs.bikebattle.app.modell.Route;
+import edu.hm.cs.bikebattle.app.modell.Track;
 import edu.hm.cs.bikebattle.app.modell.User;
 
 /**
@@ -33,9 +35,10 @@ public class RoutsFragment extends ListFragment {
   private static final String TAG = "RoutsFragment";
   private User user;
   private List routs;
+  private List tracks;
   private DataConnector dataConnector;
   private Bundle savedInstanceState;
-
+  private boolean onlyUser;
   /**
    * This method creates a new Fragment,with the required Informations
    *
@@ -48,7 +51,7 @@ public class RoutsFragment extends ListFragment {
     RoutsFragment fragment = new RoutsFragment();
     Bundle args = new Bundle();
     fragment.user = user;
-    args.putBoolean("onlyUser", onlyUser);
+    fragment.setOnlyUser(onlyUser);
     fragment.setArguments(args);
     return fragment;
   }
@@ -59,9 +62,13 @@ public class RoutsFragment extends ListFragment {
     this.savedInstanceState = savedInstanceState;
     View view = inflater.inflate(R.layout.fragment_routs, container, false);
     routs = new ArrayList<Route>();
+    tracks = new ArrayList<Track>();
     BaseActivity activity = (BaseActivity) getActivity();
     dataConnector = activity.getDataConnector();
-    getRoutsFromBackEnd(getArguments().getBoolean("onlyUser"));
+    if(onlyUser == false){
+      //fillList();
+    }
+    getRoutsFromBackEnd();
 
     return view;
   }
@@ -77,15 +84,6 @@ public class RoutsFragment extends ListFragment {
   }
 
   private void fillList() {
-    Consumer consumer = new Consumer<Void>() {
-      @Override
-      public void consume(Void input) {
-      }
-
-      @Override
-      public void error(int error, Throwable exception) {
-      }
-    };
 
     ArrayList<Location> wayPoints = new ArrayList<Location>();
     Location loc1 = new Location("");
@@ -120,9 +118,13 @@ public class RoutsFragment extends ListFragment {
     Route test = new Route(wayPoints, "Hochschule", false);
     test.setDifficulty(Difficulty.EASY);
     test.setRoutetyp(Routetyp.ROAD);
-    dataConnector.addRoute(test, user, new Consumer<Void>() {
+    Track testTrack = new Track(wayPoints);
+    testTrack.getAverageSpeed_in_kmh();
+    testTrack.getTime_in_s();
+      dataConnector.addTrack(testTrack, user, new Consumer<Void>() {
       @Override
       public void consume(Void input) {
+
       }
 
       @Override
@@ -130,48 +132,18 @@ public class RoutsFragment extends ListFragment {
         Log.e(TAG, "ROUT INPUT FAILURE");
       }
     });
-
-
-    wayPoints = new ArrayList<Location>();
-    loc1 = new Location("");
-    loc1.setLatitude(48.143);
-    loc1.setLongitude(11.588);
-    wayPoints.add(loc1);
-    loc2 = new Location("");
-    loc2.setLatitude(48.144);
-    loc2.setLongitude(11.588);
-    wayPoints.add(loc2);
-    loc3 = new Location("");
-    loc3.setLatitude(48.145);
-    loc3.setLongitude(11.588);
-    wayPoints.add(loc3);
-    loc4 = new Location("");
-    loc4.setLatitude(48.15);
-    loc4.setLongitude(11.588);
-    wayPoints.add(loc4);
-    loc5 = new Location("");
-    loc5.setLatitude(48.148);
-    loc5.setLongitude(11.59);
-    wayPoints.add(loc5);
-    loc6 = new Location("");
-    loc6.setLatitude(48.146);
-    loc6.setLongitude(11.592);
-    wayPoints.add(loc6);
-    //routs.add(new Route(wayPoints, "Englischer Garten", false));
   }
 
   /**
    * This method gets all Tracks from the backend.
-   *
-   * @param onlyUser true if the user only look for his tracks, flase when the user want to look
+   * true if the user only look for his tracks, flase when the user want to look
    *                 all tracks.
    */
-  private void getRoutsFromBackEnd(final boolean onlyUser) {
+  private void getRoutsFromBackEnd() {
     if (onlyUser) {
       dataConnector.getRoutesByUser(user, new Consumer<List<Route>>() {
         @Override
         public void consume(final List<Route> input) {
-          //routs = input;
           setRouts(input);
           refreshRouts();
         }
@@ -182,18 +154,18 @@ public class RoutsFragment extends ListFragment {
         }
       });
     } else {
-      dataConnector.getAllRoutes(new Consumer<List<Route>>() {
-        @Override
-        public void consume(List<Route> input) {
-          setRouts(input);
-          refreshRouts();
-        }
+        dataConnector.getTracksByUser(user, new Consumer<List<Track>>() {
+          @Override
+          public void consume(List<Track> input) {
+              setAllTracks(input);
+              refreshTracks();
+          }
 
-        @Override
-        public void error(int error, Throwable exception) {
-          Log.e(TAG, "ALLROUTS UPDATE FAILURE");
-        }
-      });
+          @Override
+          public void error(int error, Throwable exception) {
+            Log.e(TAG, "ALL TRACKS UPDATE FAILURE");
+          }
+        });
     }
   }
 
@@ -201,12 +173,16 @@ public class RoutsFragment extends ListFragment {
     return routs;
   }
 
-  /**
-   *
-   * @param routs
-   */
   public void setRouts(List routs) {
     this.routs = routs;
+  }
+
+  public List getAllTracks() {
+    return tracks;
+  }
+
+  public void setAllTracks(List tracks) {
+    this.tracks = tracks;
   }
 
   /**
@@ -218,5 +194,20 @@ public class RoutsFragment extends ListFragment {
       setListAdapter(new RoutsListFragmentAdapter(getContext(), routs, user, savedInstanceState
           ,getChildFragmentManager()));
       setRetainInstance(true);
+  }
+
+  /**
+   * Refreshes the Tracks Arraylist after loading it out from the backend.
+   */
+  public void refreshTracks(){
+
+    tracks = getAllTracks();
+    setListAdapter(new TrackListFragmentAdapter(getContext(), tracks, user, savedInstanceState
+        ,getChildFragmentManager()));
+    setRetainInstance(true);
+  }
+
+  public void setOnlyUser(boolean onlyUser){
+    this.onlyUser = onlyUser;
   }
 }
