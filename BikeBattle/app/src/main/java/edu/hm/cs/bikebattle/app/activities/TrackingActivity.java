@@ -202,6 +202,48 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
 
   }
 
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_tracking);
+
+    // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+    SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+        .findFragmentById(R.id.map);
+    if (mapFragment == null) {
+      mapFragment = SupportMapFragment.newInstance();
+      getSupportFragmentManager().beginTransaction().replace(R.id.map, mapFragment).commit();
+    }
+    mapFragment.getMapAsync(this);
+
+    if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+        == PackageManager.PERMISSION_GRANTED) {
+      locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+      locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1, 0, this,
+          Looper.getMainLooper());
+      lastLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+    }
+    // Check if routing is enabled.
+    Bundle args = getIntent().getExtras();
+    /*
+    try {
+      routesOid = args.getString("oid");
+    } catch (NullPointerException exception) {
+      routesOid = null;
+    }
+    routing = routesOid != null;
+    */
+    routing = true;
+    if (routing) {
+      loadRoute();
+      router = new AndroidLocationRouter(route, 1, this);
+    } else {
+      tracker = new AndroidLocationTracker(1, this);
+    }
+
+    viewController = new TrackingViewController(this);
+  }
+
   /**
    * Loads the route for routing.
    */
@@ -397,47 +439,5 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
     } else {
       Toast.makeText(this, "No last location!", Toast.LENGTH_LONG).show();
     }
-  }
-
-  @Override
-  protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_tracking);
-
-    // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-    SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-        .findFragmentById(R.id.map);
-    if (mapFragment == null) {
-      mapFragment = SupportMapFragment.newInstance();
-      getSupportFragmentManager().beginTransaction().replace(R.id.map, mapFragment).commit();
-    }
-    mapFragment.getMapAsync(this);
-
-    if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-        == PackageManager.PERMISSION_GRANTED) {
-      locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-      locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1, 0, this,
-          Looper.getMainLooper());
-      lastLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-    }
-    // Check if routing is enabled.
-    Bundle args = getIntent().getExtras();
-    /*
-    try {
-      routesOid = args.getString("oid");
-    } catch (NullPointerException exception) {
-      routesOid = null;
-    }
-    routing = routesOid != null;
-    */
-    routing = true;
-    if (routing) {
-      loadRoute();
-      router = new AndroidLocationRouter(route, 1, this);
-    } else {
-      tracker = new AndroidLocationTracker(1, this);
-    }
-
-    viewController = new TrackingViewController(this);
   }
 }
