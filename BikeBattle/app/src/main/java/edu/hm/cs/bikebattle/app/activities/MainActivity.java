@@ -88,17 +88,18 @@ public class MainActivity extends BaseActivity
             public void consume(List<Route> input) {
               if(input.size() > 0){
                 final Route route = input.get(0);
-                getDataConnector().addTrack(getTrackWithRandomTime(), route, user, new Consumer<Void>() {
+                fm.beginTransaction().replace(R.id.conten_frame, SingleRouteFragment.newInstance(route)).commit();
+                /*getDataConnector().addTrack(getTrackWithRandomTime(), route, user, new Consumer<Void>() {
                   @Override
                   public void consume(Void input) {
-                    fm.beginTransaction().replace(R.id.conten_frame, SingleRouteFragment.newInstance(route)).commit();
+
                   }
 
                   @Override
                   public void error(int error, Throwable exception) {
                     Log.e("Track", exception.getMessage());
                   }
-                });
+                });*/
               }
             }
 

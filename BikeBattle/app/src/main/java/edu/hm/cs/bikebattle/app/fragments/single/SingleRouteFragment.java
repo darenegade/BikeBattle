@@ -3,6 +3,8 @@ package edu.hm.cs.bikebattle.app.fragments.single;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -86,23 +88,35 @@ public class SingleRouteFragment extends Fragment implements OnMapReadyCallback 
       activity.getDataConnector().getTopTwentyOfRoute(route, new Consumer<List<TopDriveEntryDto>>() {
         @Override
         public void consume(List<TopDriveEntryDto> input) {
+          Log.d("Tracks", input.size() + "");
           GridLayout ranking = (GridLayout) view.findViewById(R.id.ranking_list);
-          for(int index = 0; index<input.size();index++){
+          /*List<TopDriveEntryDto> input = new LinkedList<TopDriveEntryDto>();
+          input.add(new TopDriveEntryDto("Nils", null, 10000, 20));
+          input.add(new TopDriveEntryDto("Thomas", null, 12000, 18));
+          input.add(new TopDriveEntryDto("Peter", null, 8000, 22));
+          input.add(new TopDriveEntryDto("Lutz", null, 10000, 20));*/
+          for (int index = 0; index < input.size(); index++) {
             TextView rank = new TextView(ranking.getContext());
-            rank.setText(index);
+            rank.setText(index + 1 + "");
+            rank.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30);
             ranking.addView(rank);
             TextView name = new TextView(ranking.getContext());
+            name.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30);
             name.setText(input.get(index).getName());
             ranking.addView(name);
             TextView time = new TextView(ranking.getContext());
-            time.setText(GoogleMapHelper.secondsToFormat((long)input.get(index).getTotalTime()));
+            time.setText(GoogleMapHelper.secondsToFormat((long) input.get(index).getTotalTime()));
+            time.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30);
             ranking.addView(time);
           }
         }
 
         @Override
         public void error(int error, Throwable exception) {
-
+          Log.e("Route", error + "");
+          if (error == Consumer.EXCEPTION) {
+            Log.e("Route", exception.getMessage());
+          }
         }
       });
     }
