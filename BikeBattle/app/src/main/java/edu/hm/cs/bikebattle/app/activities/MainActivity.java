@@ -2,6 +2,7 @@ package edu.hm.cs.bikebattle.app.activities;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -21,10 +22,17 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import edu.hm.cs.bikebattle.app.R;
+import edu.hm.cs.bikebattle.app.data.Consumer;
 import edu.hm.cs.bikebattle.app.fragments.friends.UserFragment;
 import edu.hm.cs.bikebattle.app.fragments.navigationdrawer.MainFragment;
 import edu.hm.cs.bikebattle.app.fragments.navigationdrawer.ProfilFragment;
+import edu.hm.cs.bikebattle.app.fragments.single.SingleRouteFragment;
+import edu.hm.cs.bikebattle.app.modell.Route;
+import edu.hm.cs.bikebattle.app.modell.Track;
 import edu.hm.cs.bikebattle.app.modell.User;
 
 public class MainActivity extends BaseActivity
@@ -68,10 +76,106 @@ public class MainActivity extends BaseActivity
     fm.beginTransaction().replace(R.id.conten_frame, new MainFragment()).commit();
 
     requestPermission();
+
+    //Debug
+    getDataConnector().getUserByName("Nils", new Consumer<List<User>>() {
+      @Override
+      public void consume(List<User> input) {
+        if (input.size() > 0) {
+          final User user = input.get(0);
+          getDataConnector().getRoutesByUser(user, new Consumer<List<Route>>() {
+            @Override
+            public void consume(List<Route> input) {
+              if(input.size() > 0){
+                final Route route = input.get(0);
+                getDataConnector().addTrack(getTrackWithRandomTime(), route, user, new Consumer<Void>() {
+                  @Override
+                  public void consume(Void input) {
+                    fm.beginTransaction().replace(R.id.conten_frame, SingleRouteFragment.newInstance(route)).commit();
+                  }
+
+                  @Override
+                  public void error(int error, Throwable exception) {
+                    Log.e("Track", exception.getMessage());
+                  }
+                });
+              }
+            }
+
+            @Override
+            public void error(int error, Throwable exception) {
+              Log.e("Route", "none");
+            }
+          });
+        }
+      }
+
+      @Override
+      public void error(int error, Throwable exception) {
+        Log.e("User", "none");
+      }
+    });
+  }
+
+  /**
+   * Debug only
+   * @return
+   */
+  private Track getTrackWithRandomTime(){
+    long starTime = System.currentTimeMillis();
+    long wayPointTime = (long) (Math.random()*50+25);
+    Log.d("Starttime", starTime+"");
+    Log.d("step", wayPointTime+"");
+    ArrayList<Location> wayPoints = new ArrayList<Location>();
+    Location loc1 = new Location("");
+    loc1.setLatitude(48.154);
+    loc1.setLongitude(11.554);
+    loc1.setAltitude(500);
+    loc1.setTime(starTime + wayPointTime);
+    wayPoints.add(loc1);
+
+    Location loc2 = new Location("");
+    loc2.setLatitude(48.155);
+    loc2.setLongitude(11.556);
+    loc2.setAltitude(520);
+    loc2.setTime(starTime + 2* wayPointTime);
+    wayPoints.add(loc2);
+
+    Location loc3 = new Location("");
+    loc3.setLatitude(48.154);
+    loc3.setLongitude(11.557);
+    loc3.setTime(starTime + 3* wayPointTime);
+    loc3.setAltitude(480);
+    wayPoints.add(loc3);
+
+    Location loc4 = new Location("");
+    loc4.setLatitude(48.153);
+    loc4.setLongitude(11.561);
+    loc4.setAltitude(520);
+    loc4.setTime(starTime + 4* wayPointTime);
+    wayPoints.add(loc4);
+
+    Location loc5 = new Location("");
+    loc5.setLatitude(48.152);
+    loc5.setLongitude(11.56);
+    loc5.setAltitude(500);
+    loc5.setTime(starTime + 5* wayPointTime);
+    wayPoints.add(loc5);
+
+    Location loc6 = new Location("");
+    loc6.setLatitude(48.151);
+    loc6.setLongitude(11.558);
+    loc6.setAltitude(460);
+    loc6.setTime(starTime + 6* wayPointTime);
+    wayPoints.add(loc6);
+
+    return new Track(wayPoints);
   }
 
   @Override
   public void refreshUserInfo() {
+
+    Log.d("Login", "login");
 
     final User user = getPrincipal();
     final String name = user.getName();
@@ -91,57 +195,8 @@ public class MainActivity extends BaseActivity
         .error(R.mipmap.ic_launcher)
         .into(profilImage);
 
-    Log.d("Login", "login");
 
-    //Debug
-    /*ArrayList<Location> wayPoints = new ArrayList<Location>();
-    Location loc1 = new Location("");
-    loc1.setLatitude(48.154);
-    loc1.setLongitude(11.554);
-    loc1.setAltitude(500);
-    wayPoints.add(loc1);
-    Location loc2 = new Location("");
-    loc2.setLatitude(48.155);
-    loc2.setLongitude(11.556);
-    loc2.setAltitude(520);
-    wayPoints.add(loc2);
-    Location loc3 = new Location("");
-    loc3.setLatitude(48.154);
-    loc3.setLongitude(11.557);
-    loc3.setAltitude(480);
-    wayPoints.add(loc3);
-    Location loc4 = new Location("");
-    loc4.setLatitude(48.153);
-    loc4.setLongitude(11.561);
-    loc4.setAltitude(520);
-    wayPoints.add(loc4);
-    Location loc5 = new Location("");
-    loc5.setLatitude(48.152);
-    loc5.setLongitude(11.56);
-    loc5.setAltitude(500);
-    wayPoints.add(loc5);
-    Location loc6 = new Location("");
-    loc6.setLatitude(48.151);
-    loc6.setLongitude(11.558);
-    loc6.setAltitude(460);
-    wayPoints.add(loc6);
 
-    Route route = new Route("Test", wayPoints);
-    route.setRoutetyp(Routetyp.CITY);
-    route.setDifficulty(Difficulty.EASY);
-
-    getDataConnector().addRoute(route, getPrincipal(), new Consumer<Void>() {
-      @Override
-      public void consume(Void input) {
-        Log.d("Route", "added");
-      }
-
-      @Override
-      public void error(int error, Throwable exception) {
-        Log.e("Route", error+"codd");
-      }
-    });*/
-    //fm.beginTransaction().replace(R.id.conten_frame, SingleRouteFragment.newInstance(route)).commit();
   }
 
   @Override
