@@ -12,7 +12,6 @@ import com.google.android.gms.maps.model.PolylineOptions;
 
 import edu.hm.cs.bikebattle.app.R;
 import edu.hm.cs.bikebattle.app.modell.LocationList;
-import edu.hm.cs.bikebattle.app.modell.Track;
 
 /**
  * Created by Nils on 14.06.2016.
@@ -70,7 +69,7 @@ public class GoogleMapHelper {
     return new double[] {north, east, south, west};
   }
 
-  public static void zoomToTrack(GoogleMap googleMap, Track track) {
+  public static void zoomToTrack(GoogleMap googleMap, LocationList track) {
     double width = Math.abs(googleMap.getProjection().getVisibleRegion().farRight.longitude -
         googleMap.getProjection().getVisibleRegion().farLeft.longitude);
     double height = Math.abs(googleMap.getProjection().getVisibleRegion().farRight.latitude -
