@@ -69,7 +69,8 @@ public class SingleRouteFragment extends Fragment implements OnMapReadyCallback 
         .findFragmentById(R.id.single_route_map);
     if (mapFragment == null) {
       mapFragment = SupportMapFragment.newInstance();
-      getChildFragmentManager().beginTransaction().replace(R.id.single_route_map, mapFragment).commit();
+      getChildFragmentManager().beginTransaction().replace(R.id.single_route_map,
+          mapFragment).commit();
     }
     mapFragment.getMapAsync(this);
 
@@ -82,43 +83,44 @@ public class SingleRouteFragment extends Fragment implements OnMapReadyCallback 
     return view;
   }
 
+  /**
+   * Fills the ranking with tracks from the backend
+   *
+   * @param view parentview
+   */
   private void fillRanking(final View view) {
     if (getActivity() instanceof BaseActivity) {
       BaseActivity activity = (BaseActivity) getActivity();
-      activity.getDataConnector().getTopTwentyOfRoute(route, new Consumer<List<TopDriveEntryDto>>() {
-        @Override
-        public void consume(List<TopDriveEntryDto> input) {
-          Log.d("Tracks", input.size() + "");
-          GridLayout ranking = (GridLayout) view.findViewById(R.id.ranking_list);
-          /*List<TopDriveEntryDto> input = new LinkedList<TopDriveEntryDto>();
-          input.add(new TopDriveEntryDto("Nils", null, 10000, 20));
-          input.add(new TopDriveEntryDto("Thomas", null, 12000, 18));
-          input.add(new TopDriveEntryDto("Peter", null, 8000, 22));
-          input.add(new TopDriveEntryDto("Lutz", null, 10000, 20));*/
-          for (int index = 0; index < input.size(); index++) {
-            TextView rank = new TextView(ranking.getContext());
-            rank.setText(index + 1 + "");
-            rank.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30);
-            ranking.addView(rank);
-            TextView name = new TextView(ranking.getContext());
-            name.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30);
-            name.setText(input.get(index).getName());
-            ranking.addView(name);
-            TextView time = new TextView(ranking.getContext());
-            time.setText(GoogleMapHelper.secondsToFormat((long) input.get(index).getTotalTime()));
-            time.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30);
-            ranking.addView(time);
-          }
-        }
+      activity.getDataConnector().getTopTwentyOfRoute(route,
+          new Consumer<List<TopDriveEntryDto>>() {
+            @Override
+            public void consume(List<TopDriveEntryDto> input) {
+              GridLayout ranking = (GridLayout) view.findViewById(R.id.ranking_list);
+              for (int index = 0; index < input.size(); index++) {
+                TextView rank = new TextView(ranking.getContext());
+                rank.setText(index + 1 + "");
+                rank.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30);
+                ranking.addView(rank);
+                TextView name = new TextView(ranking.getContext());
+                name.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30);
+                name.setText(input.get(index).getName());
+                ranking.addView(name);
+                TextView time = new TextView(ranking.getContext());
+                time.setText(GoogleMapHelper.secondsToFormat(
+                    (long) input.get(index).getTotalTime()));
+                time.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30);
+                ranking.addView(time);
+              }
+            }
 
-        @Override
-        public void error(int error, Throwable exception) {
-          Log.e("Route", error + "");
-          if (error == Consumer.EXCEPTION) {
-            Log.e("Route", exception.getMessage());
-          }
-        }
-      });
+            @Override
+            public void error(int error, Throwable exception) {
+              Log.e("Route", error + "");
+              if (error == Consumer.EXCEPTION) {
+                Log.e("Route", exception.getMessage());
+              }
+            }
+          });
     }
   }
 

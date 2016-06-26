@@ -9,8 +9,6 @@ import edu.hm.cs.bikebattle.app.modell.Route;
 import edu.hm.cs.bikebattle.app.modell.Track;
 import edu.hm.cs.bikebattle.app.modell.User;
 
-import java.util.List;
-
 /**
  * Created by Nils on 26.04.2016.
  * Interface for the connection to the data local and on the server.
@@ -169,12 +167,4 @@ public interface DataConnector {
    * @param consumer consumer to call
    */
   void getFriends(User user, Consumer<List<User>> consumer);
-
-  /**
-   * Returns all Tracks according to the route to the consumer.
-   *
-   * @param route    route
-   * @param consumer consumer
-   */
-  public void getTracksByRoute(final Route route, final Consumer<List<Track>> consumer);
 }
