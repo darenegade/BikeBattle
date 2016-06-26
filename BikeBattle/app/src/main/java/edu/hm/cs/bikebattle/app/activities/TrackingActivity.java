@@ -6,24 +6,25 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Looper;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.PolylineOptions;
 
 import edu.hm.cs.bikebattle.app.R;
 import edu.hm.cs.bikebattle.app.data.Consumer;
+import edu.hm.cs.bikebattle.app.fragments.GoogleMapHelper;
 import edu.hm.cs.bikebattle.app.modell.LocationList;
 import edu.hm.cs.bikebattle.app.modell.Route;
 import edu.hm.cs.bikebattle.app.modell.Track;
@@ -37,7 +38,7 @@ import edu.hm.cs.bikebattle.app.tracker.LocationTracker;
  *
  * @author Lukas Brauckmann
  */
-public class TrackingActivity extends BaseActivity implements OnMapReadyCallback {
+public class TrackingActivity extends BaseActivity implements OnMapReadyCallback, LocationListener {
   /**
    * Counter for received location updates.
    */
@@ -82,6 +83,10 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
    * Controller for the views.
    */
   private TrackingViewController viewController;
+  /**
+   * LocationManager for providing locations.
+   */
+  private LocationManager locationManager;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -97,6 +102,13 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
     }
     mapFragment.getMapAsync(this);
 
+    if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+        == PackageManager.PERMISSION_GRANTED) {
+      locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+      locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1, 0, this,
+          Looper.getMainLooper());
+      lastLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+    }
     // Check if routing is enabled.
     Bundle args = getIntent().getExtras();
     /*
@@ -302,7 +314,10 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
                 context.runOnUiThread(new Runnable() {
                   @Override
                   public void run() {
-                    updateTrack(router.getTrack(), router.getLastLocation());
+                    if
+                        (!router.isFinished()) {
+                      updateTrack(router.getTrack(), router.getLastLocation());
+                    }
                   }
                 });
                 locationUpdates++;
@@ -325,33 +340,13 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
   private void updateTrack(Track track, Location lastLocation) {
     this.track = track;
     googleMap.clear();
-    drawLocationList(track, Color.BLUE);
+    GoogleMapHelper.drawLocationList(track, Color.BLUE, googleMap);
     if (routing) {
-      drawLocationList(route, Color.RED);
+      GoogleMapHelper.drawLocationList(route, Color.RED, googleMap);
     }
     this.lastLocation = lastLocation;
     updateCamera();
     viewController.updateViews(track);
-  }
-
-  /**
-   * Displays a track in the map.
-   *
-   * @param track Track that should be displayed.
-   */
-  private void drawLocationList(LocationList track, int color) {
-    PolylineOptions polyRoute = new PolylineOptions();
-
-    polyRoute.color(color);
-    polyRoute.width(6);
-    polyRoute.visible(true);
-
-    Log.e("Draw route: ", String.valueOf(track.size()));
-
-    for (Location wayPoint : track) {
-      polyRoute.add(new LatLng(wayPoint.getLatitude(), wayPoint.getLongitude()));
-    }
-    googleMap.addPolyline(polyRoute);
   }
 
   /**
@@ -385,7 +380,7 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
       this.googleMap.getUiSettings().setCompassEnabled(true);
       if (routing) {
         this.googleMap.clear();
-        drawLocationList(route, Color.RED);
+        GoogleMapHelper.drawLocationList(route, Color.RED, googleMap);
       }
       updateCamera();
     }
@@ -410,10 +405,33 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
           new CameraPosition.Builder().target(lastPosition).zoom(17).tilt(30)
               .bearing(lastLocation.getBearing()).build()));
     }
-    Log.d("Last position: ", lastPosition.toString());
-    googleMap.addMarker(new MarkerOptions()
-        .position(new LatLng(lastPosition.latitude, lastPosition.longitude))
-        .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_navigation)))
-        .setFlat(true);
+    GoogleMapHelper.drawPositionIcon(googleMap, lastPosition);
+  }
+
+  @Override
+  public void onLocationChanged(Location location) {
+    if (!isTracking) {
+      LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+      googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(
+          new CameraPosition.Builder().target(latLng).zoom(17).bearing(location.getBearing())
+              .build()));
+      GoogleMapHelper.drawPositionIcon(googleMap, new LatLng(location.getLatitude(), location
+          .getLongitude()));
+    }
+  }
+
+  @Override
+  public void onStatusChanged(String provider, int status, Bundle extras) {
+
+  }
+
+  @Override
+  public void onProviderEnabled(String provider) {
+
+  }
+
+  @Override
+  public void onProviderDisabled(String provider) {
+
   }
 }
