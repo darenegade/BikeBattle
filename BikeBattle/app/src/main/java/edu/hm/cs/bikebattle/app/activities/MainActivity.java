@@ -268,7 +268,8 @@ public class MainActivity extends BaseActivity implements NavigationView
       case R.id.nav_tracks:
         break;
       case R.id.nav_routes:
-        //fragmentClass = ThirdFragment.class;
+        Intent intent = new Intent(this, TrackingActivity.class);
+        startActivity(intent);
         break;
       case R.id.nav_find_routes:
         fm.beginTransaction().replace(R.id.conten_frame, RoutesOverviewFragment.newInstance())

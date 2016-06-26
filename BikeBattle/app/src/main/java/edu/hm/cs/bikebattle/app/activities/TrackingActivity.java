@@ -9,6 +9,7 @@ import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -98,12 +99,15 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
 
     // Check if routing is enabled.
     Bundle args = getIntent().getExtras();
+    /*
     try {
       routesOid = args.getString("oid");
     } catch (NullPointerException exception) {
       routesOid = null;
     }
     routing = routesOid != null;
+    */
+    routing = true;
     if (routing) {
       loadRoute();
     }
@@ -126,6 +130,32 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
    * Loads the route for routing.
    */
   private void loadRoute() {
+    LocationList list = new LocationList();
+    addRoutePoint(list, 48.1229806, 11.5978708);
+    addRoutePoint(list, 48.1228938, 11.5974820);
+    addRoutePoint(list, 48.1230681, 11.5977203);
+    addRoutePoint(list, 48.1234571, 11.5976424);
+    addRoutePoint(list, 48.1237490, 11.5973967);
+    addRoutePoint(list, 48.1240122, 11.5969924);
+    addRoutePoint(list, 48.1243319, 11.5966800);
+    addRoutePoint(list, 48.1246915, 11.5966080);
+    addRoutePoint(list, 48.1251432, 11.5960900);
+    addRoutePoint(list, 48.1254898, 11.5958659);
+    addRoutePoint(list, 48.1258059, 11.5956128);
+    addRoutePoint(list, 48.1261858, 11.5954958);
+    addRoutePoint(list, 48.1264964, 11.5951870);
+    addRoutePoint(list, 48.1268341, 11.5950448);
+    addRoutePoint(list, 48.1271520, 11.5947710);
+    addRoutePoint(list, 48.1275148, 11.5946829);
+    addRoutePoint(list, 48.1278858, 11.5945358);
+    addRoutePoint(list, 48.1282661, 11.5944073);
+    addRoutePoint(list, 48.1283870, 11.5938616);
+    addRoutePoint(list, 48.1286249, 11.5933845);
+    addRoutePoint(list, 48.1289625, 11.5934323);
+    addRoutePoint(list, 48.1291484, 11.5934056);
+    addRoutePoint(list, 48.1292529, 11.5931773);
+    route = new Route("TestRoute", list);
+    /*
     final Context context = this;
     getDataConnector().getRouteById(routesOid, new Consumer<Route>() {
       @Override
@@ -140,6 +170,14 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
         Toast.makeText(context, "Error while loading route!", Toast.LENGTH_LONG).show();
       }
     });
+    */
+  }
+
+  private void addRoutePoint(LocationList list, double lat, double lng) {
+    Location location = new Location("");
+    location.setLatitude(lat);
+    location.setLongitude(lng);
+    list.add(location);
   }
 
   /**
@@ -149,7 +187,11 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
    */
   public boolean changeTrackingMode() {
     if (isTracking) {
-      tracker.stop();
+      if (routing) {
+        router.stop();
+      } else {
+        tracker.stop();
+      }
       saveTrack();
 
       DialogFragment dialog = new CreateRouteDialog();
@@ -157,16 +199,20 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
 
       isTracking = false;
     } else {
-      if (routing && router.isInStartArea()) {
-        if (router.start()) {
-          startRouting();
+      if (routing) {
+        if (router.isInStartArea()) {
+          if (router.start()) {
+            startRouting();
+            isTracking = true;
+          }
+        } else {
+          Toast.makeText(this, "Please go to start point!", Toast.LENGTH_LONG).show();
+        }
+      } else {
+        if (tracker.start()) {
+          startTracking();
           isTracking = true;
         }
-      } else if (tracker.start()) {
-        startTracking();
-        isTracking = true;
-      } else {
-        Toast.makeText(this, "Please go to start point!", Toast.LENGTH_LONG).show();
       }
     }
     return isTracking;
@@ -194,7 +240,11 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
 
   @Override
   public void onBackPressed() {
-    tracker.stop();
+    if (routing) {
+      router.stop();
+    } else {
+      tracker.stop();
+    }
     super.onBackPressed();
   }
 
@@ -206,7 +256,7 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
     new Thread() {
       @Override
       public void run() {
-        while (true) {
+        while (isTracking) {
           try {
             while (locationUpdates == tracker.getTrack().size()) {
               synchronized (tracker) {
@@ -240,7 +290,7 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
     new Thread() {
       @Override
       public void run() {
-        while (true) {
+        while (isTracking) {
           try {
             while (locationUpdates == router.getTrack().size()) {
               synchronized (router) {
@@ -274,7 +324,11 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
    */
   private void updateTrack(Track track, Location lastLocation) {
     this.track = track;
+    googleMap.clear();
     drawLocationList(track, Color.BLUE);
+    if (routing) {
+      drawLocationList(route, Color.RED);
+    }
     this.lastLocation = lastLocation;
     updateCamera();
     viewController.updateViews(track);
@@ -286,18 +340,17 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
    * @param track Track that should be displayed.
    */
   private void drawLocationList(LocationList track, int color) {
-    googleMap.clear();
-
     PolylineOptions polyRoute = new PolylineOptions();
 
     polyRoute.color(color);
     polyRoute.width(6);
     polyRoute.visible(true);
 
+    Log.e("Draw route: ", String.valueOf(track.size()));
+
     for (Location wayPoint : track) {
       polyRoute.add(new LatLng(wayPoint.getLatitude(), wayPoint.getLongitude()));
     }
-    googleMap.clear();
     googleMap.addPolyline(polyRoute);
   }
 
@@ -330,6 +383,10 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
       this.googleMap = googleMap;
       this.googleMap.getUiSettings().setMapToolbarEnabled(false);
       this.googleMap.getUiSettings().setCompassEnabled(true);
+      if (routing) {
+        this.googleMap.clear();
+        drawLocationList(route, Color.RED);
+      }
       updateCamera();
     }
   }
@@ -347,14 +404,15 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
       googleMap.addMarker(new MarkerOptions()
           .position(new LatLng(router.getNextTarget().getLatitude(), router.getNextTarget()
               .getLongitude())))
-          .setFlat(true);
+          .setFlat(false);
     } else {
       googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(
           new CameraPosition.Builder().target(lastPosition).zoom(17).tilt(30)
               .bearing(lastLocation.getBearing()).build()));
     }
+    Log.d("Last position: ", lastPosition.toString());
     googleMap.addMarker(new MarkerOptions()
-        .position(new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude()))
+        .position(new LatLng(lastPosition.latitude, lastPosition.longitude))
         .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_navigation)))
         .setFlat(true);
   }
