@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 import edu.hm.cs.bikebattle.app.R;
 import edu.hm.cs.bikebattle.app.activities.BaseActivity;
@@ -29,6 +30,7 @@ public class FriendsFragment extends Fragment {
   private BaseActivity activity;
   private FriendRecyclerViewAdapter adapter;
   private SwipeRefreshLayout swipeRefreshLayout;
+  private TextView helpText;
 
   /**
    * Mandatory empty constructor for the fragment manager to instantiate the
@@ -57,6 +59,7 @@ public class FriendsFragment extends Fragment {
     if (view instanceof CoordinatorLayout) {
 
       View layout = view.findViewById(R.id.swipeRefreshLayout);
+      helpText = (TextView) view.findViewById(R.id.helpText);
 
       if (layout instanceof SwipeRefreshLayout) {
         swipeRefreshLayout = (SwipeRefreshLayout) layout;
@@ -90,6 +93,11 @@ public class FriendsFragment extends Fragment {
           @Override
           public void consume(List<User> input) {
             adapter.setUsers(input);
+            if(input.size() == 0){
+              helpText.setVisibility(View.VISIBLE);
+            } else {
+              helpText.setVisibility(View.GONE);
+            }
           }
 
           @Override
@@ -122,6 +130,11 @@ public class FriendsFragment extends Fragment {
       @Override
       public void consume(List<User> input) {
         adapter.setUsers(input);
+        if(input.size() == 0){
+          helpText.setVisibility(View.VISIBLE);
+        } else {
+          helpText.setVisibility(View.GONE);
+        }
         swipeRefreshLayout.setRefreshing(false);
       }
 

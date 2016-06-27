@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 import edu.hm.cs.bikebattle.app.R;
 import edu.hm.cs.bikebattle.app.activities.BaseActivity;
@@ -37,6 +38,7 @@ public class FriendsAddFragment extends Fragment implements SearchView.OnQueryTe
   private FriendRecyclerViewAdapter adapter;
 
   private SearchView searchView;
+  private TextView helpText;
 
   /**
    * Mandatory empty constructor for the fragment manager to instantiate the
@@ -97,6 +99,8 @@ public class FriendsAddFragment extends Fragment implements SearchView.OnQueryTe
       CoordinatorLayout layout = (CoordinatorLayout) view;
       final Context context = view.getContext();
 
+      helpText = (TextView) view.findViewById(R.id.helpText);
+
       //Setup user list
       final RecyclerView recyclerView = (RecyclerView) layout.findViewById(R.id.list);
       recyclerView.setLayoutManager(new LinearLayoutManager(context));
@@ -151,6 +155,9 @@ public class FriendsAddFragment extends Fragment implements SearchView.OnQueryTe
         //Dont show own user
         input.remove(activity.getPrincipal());
         adapter.setUsers(input);
+
+        if(input.size() > 0)
+          helpText.setVisibility(View.GONE);
       }
 
       @Override
@@ -166,8 +173,13 @@ public class FriendsAddFragment extends Fragment implements SearchView.OnQueryTe
   @Override
   public boolean onQueryTextChange(String newText) {
 
-    if(newText.isEmpty())
+    if(newText.isEmpty()) {
       adapter.setUsers(Collections.<User>emptyList());
+      helpText.setEnabled(true);
+      helpText.setVisibility(View.VISIBLE);
+    } else {
+      helpText.setEnabled(false);
+    }
 
     return true;
   }
