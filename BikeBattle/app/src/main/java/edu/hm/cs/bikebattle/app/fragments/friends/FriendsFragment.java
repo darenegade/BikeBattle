@@ -98,6 +98,7 @@ public class FriendsFragment extends Fragment {
                 .show();
           }
         });
+        refreshItems();
 
         //Setup Floating Button to start addFriends Fragment
         FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
