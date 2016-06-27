@@ -20,13 +20,8 @@ import java.util.List;
 
 /**
  * A fragment representing a list of Items.
- * <p/>
- * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
- * interface.
  */
-public class UserFragment extends Fragment {
-
-  private OnListFragmentInteractionListener mListener;
+public class FriendsFragment extends Fragment {
 
   private BaseActivity activity;
 
@@ -34,12 +29,12 @@ public class UserFragment extends Fragment {
    * Mandatory empty constructor for the fragment manager to instantiate the
    * fragment (e.g. upon screen orientation changes).
    */
-  public UserFragment() {
+  public FriendsFragment() {
   }
 
   @SuppressWarnings("unused")
-  public static UserFragment newInstance() {
-    return new UserFragment();
+  public static FriendsFragment newInstance() {
+    return new FriendsFragment();
   }
 
   @Override
@@ -51,7 +46,7 @@ public class UserFragment extends Fragment {
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
                            Bundle savedInstanceState) {
-    View view = inflater.inflate(R.layout.fragment_user_list, container, false);
+    View view = inflater.inflate(R.layout.fragment_friend_list, container, false);
 
     // Set the adapter
     if (view instanceof CoordinatorLayout) {
@@ -61,11 +56,21 @@ public class UserFragment extends Fragment {
       //Setup user list
       final RecyclerView recyclerView = (RecyclerView) layout.findViewById(R.id.list);
       recyclerView.setLayoutManager(new LinearLayoutManager(context));
+      final FriendRecyclerViewAdapter adapter = new FriendRecyclerViewAdapter(activity, new Consumer<User>() {
+        @Override
+        public void consume(User input) {
+          //TODO Open Profile
+        }
+
+        @Override
+        public void error(int error, Throwable exception) {}
+      });
+      recyclerView.setAdapter(adapter);
 
       activity.getDataConnector().getFriends(activity.getPrincipal(), new Consumer<List<User>>() {
         @Override
         public void consume(List<User> input) {
-          recyclerView.setAdapter(new MyUserRecyclerViewAdapter(input, activity, mListener));
+          adapter.setUsers(input);
         }
 
         @Override
@@ -81,7 +86,9 @@ public class UserFragment extends Fragment {
         @Override
         public void onClick(View v) {
           activity.getSupportFragmentManager().beginTransaction()
-              .replace(R.id.conten_frame, UserFragment.newInstance()).commit();
+              .replace(R.id.conten_frame, FriendsAddFragment.newInstance())
+              .addToBackStack("friends")
+              .commit();
         }
       });
 
@@ -93,31 +100,11 @@ public class UserFragment extends Fragment {
   @Override
   public void onAttach(Context context) {
     super.onAttach(context);
-    if (context instanceof OnListFragmentInteractionListener) {
-      mListener = (OnListFragmentInteractionListener) context;
-    } else {
-      throw new RuntimeException(context.toString()
-          + " must implement OnListFragmentInteractionListener");
-    }
   }
 
   @Override
   public void onDetach() {
     super.onDetach();
-    mListener = null;
   }
 
-  /**
-   * This interface must be implemented by activities that contain this
-   * fragment to allow an interaction in this fragment to be communicated
-   * to the activity and potentially other fragments contained in that
-   * activity.
-   * <p/>
-   * See the Android Training lesson <a href=
-   * "http://developer.android.com/training/basics/fragments/communicating.html"
-   * >Communicating with Other Fragments</a> for more information.
-   */
-  public interface OnListFragmentInteractionListener {
-    void onListFragmentInteraction(User user);
-  }
 }

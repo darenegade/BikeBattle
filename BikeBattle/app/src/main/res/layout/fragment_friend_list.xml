@@ -10,14 +10,14 @@
             xmlns:app="http://schemas.android.com/apk/res-auto"
             xmlns:tools="http://schemas.android.com/tools"
             android:id="@+id/list"
-            android:name="edu.hm.cs.bikebattle.app.fragments.friends.UserFragment"
+            android:name="edu.hm.cs.bikebattle.app.fragments.friends.FriendsFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             app:layoutManager="LinearLayoutManager"
-            tools:context="edu.hm.cs.bikebattle.app.fragments.friends.UserFragment"
-            tools:listitem="@layout/fragment_user"/>
+            tools:context=".fragments.friends.FriendsFragment"
+            tools:listitem="@layout/fragment_friend"/>
     <android.support.design.widget.FloatingActionButton
     android:id="@+id/fab"
     android:layout_width="wrap_content"

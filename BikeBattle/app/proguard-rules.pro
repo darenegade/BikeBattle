@@ -30,4 +30,6 @@
 # Application classes that will be serialized/deserialized over Gson
 -keep class com.google.gson.examples.android.model.** { *; }
 
+-dontwarn io.rx_cache.internal.**
+
 ##---------------End: proguard configuration for Gson  ----------
