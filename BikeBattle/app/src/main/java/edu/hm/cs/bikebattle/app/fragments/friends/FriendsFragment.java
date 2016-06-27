@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -26,6 +27,8 @@ import java.util.List;
 public class FriendsFragment extends Fragment {
 
   private BaseActivity activity;
+  private FriendRecyclerViewAdapter adapter;
+  private SwipeRefreshLayout swipeRefreshLayout;
 
   /**
    * Mandatory empty constructor for the fragment manager to instantiate the
@@ -52,51 +55,82 @@ public class FriendsFragment extends Fragment {
 
     // Set the adapter
     if (view instanceof CoordinatorLayout) {
-      CoordinatorLayout layout = (CoordinatorLayout) view;
-      Context context = view.getContext();
 
-      //Setup user list
-      final RecyclerView recyclerView = (RecyclerView) layout.findViewById(R.id.list);
-      recyclerView.setLayoutManager(new LinearLayoutManager(context));
-      final FriendRecyclerViewAdapter adapter = new FriendRecyclerViewAdapter(activity, new Consumer<User>() {
-        @Override
-        public void consume(User input) {
-          //TODO Open Profile
-        }
+      View layout = view.findViewById(R.id.swipeRefreshLayout);
 
-        @Override
-        public void error(int error, Throwable exception) {}
-      });
-      recyclerView.setAdapter(adapter);
+      if (layout instanceof SwipeRefreshLayout) {
+        swipeRefreshLayout = (SwipeRefreshLayout) layout;
+        Context context = layout.getContext();
 
-      //Get data from Backend and put into adapter
-      activity.getDataConnector().getFriends(activity.getPrincipal(), new Consumer<List<User>>() {
-        @Override
-        public void consume(List<User> input) {
-          adapter.setUsers(input);
-        }
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+          @Override
+          public void onRefresh() {
+            // Refresh items
+            refreshItems();
+          }
+        });
 
-        @Override
-        public void error(int error, Throwable exception) {
-          Toast.makeText(activity.getApplicationContext(), "Error on loading friends!!", Toast.LENGTH_LONG)
-              .show();
-        }
-      });
+        //Setup user list
+        final RecyclerView recyclerView = (RecyclerView) swipeRefreshLayout.findViewById(R.id.list);
+        recyclerView.setLayoutManager(new LinearLayoutManager(context));
+        adapter = new FriendRecyclerViewAdapter(activity, new Consumer<User>() {
+          @Override
+          public void consume(User input) {
+            //TODO Open Profile
+          }
 
-      //Setup Floating Button to start addFriends Fragment
-      FloatingActionButton fab = (FloatingActionButton) layout.findViewById(R.id.fab);
-      fab.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-          activity.getSupportFragmentManager().beginTransaction()
-              .replace(R.id.conten_frame, FriendsAddFragment.newInstance())
-              .addToBackStack("friends")
-              .commit();
-        }
-      });
+          @Override
+          public void error(int error, Throwable exception) {
+          }
+        });
+        recyclerView.setAdapter(adapter);
 
+        //Get data from Backend and put into adapter
+        activity.getDataConnector().getFriends(activity.getPrincipal(), new Consumer<List<User>>() {
+          @Override
+          public void consume(List<User> input) {
+            adapter.setUsers(input);
+          }
+
+          @Override
+          public void error(int error, Throwable exception) {
+            Toast.makeText(activity.getApplicationContext(), "Error on loading friends!!", Toast.LENGTH_LONG)
+                .show();
+          }
+        });
+
+        //Setup Floating Button to start addFriends Fragment
+        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View v) {
+            activity.getSupportFragmentManager().beginTransaction()
+                .replace(R.id.conten_frame, FriendsAddFragment.newInstance())
+                .addToBackStack("friends")
+                .commit();
+          }
+        });
+      }
     }
     return view;
+  }
+
+  private void refreshItems() {
+    //Get data from Backend and put into adapter
+    activity.getDataConnector().getFriends(activity.getPrincipal(), new Consumer<List<User>>() {
+      @Override
+      public void consume(List<User> input) {
+        adapter.setUsers(input);
+        swipeRefreshLayout.setRefreshing(false);
+      }
+
+      @Override
+      public void error(int error, Throwable exception) {
+        Toast.makeText(activity.getApplicationContext(), "Error on loading friends!!", Toast.LENGTH_LONG)
+            .show();
+        swipeRefreshLayout.setRefreshing(false);
+      }
+    }, true);
   }
 
 

@@ -100,8 +100,6 @@ public class FriendRecyclerViewAdapter extends RecyclerView.Adapter<FriendRecycl
   public void setUsers(List<User> users){
     this.users.clear();
     this.users.addAll(users);
-    //Dont show own user
-    this.users.remove(activity.getPrincipal());
     notifyDataSetChanged();
   }
 

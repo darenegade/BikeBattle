@@ -148,6 +148,8 @@ public class FriendsAddFragment extends Fragment implements SearchView.OnQueryTe
     activity.getDataConnector().getUserByName(query, new Consumer<List<User>>() {
       @Override
       public void consume(List<User> input) {
+        //Dont show own user
+        input.remove(activity.getPrincipal());
         adapter.setUsers(input);
       }
 

@@ -274,9 +274,7 @@ public class CachingDataConnector implements DataConnector {
     });
   }
 
-  /**
-   * Login Method with Cache implementation see {@link #login(String, Consumer)}
-   */
+  @Override
   public void login(final String email, final Consumer<User> consumer, final boolean refresh) {
 
     generateToken(new Consumer<String>() {
@@ -304,9 +302,7 @@ public class CachingDataConnector implements DataConnector {
     login(email,consumer,false);
   }
 
-  /**
-   * Get Routes by Location Method with Cache implementation see {@link #getRoutesByLocation(Location, float, Consumer)}
-   */
+  @Override
   public void getRoutesByLocation(final Location location, final float distance,
                                   final Consumer<List<Route>> consumer, boolean refresh) {
 
@@ -343,9 +339,7 @@ public class CachingDataConnector implements DataConnector {
     getRoutesByLocation(location, distance, consumer, false);
   }
 
-  /**
-   * Get User by Id Method with Cache implementation see {@link #getUserById(String, Consumer)}
-   */
+  @Override
   public void getUserById(final String id, final Consumer<User> consumer, final boolean refresh) {
     generateToken(new Consumer<String>() {
       @Override
@@ -375,9 +369,7 @@ public class CachingDataConnector implements DataConnector {
     getUserById(id, consumer, false);
   }
 
-  /**
-   * Get User by Name Method with Cache implementation see {@link #getUserByName(String, Consumer)}
-   */
+  @Override
   public void getUserByName(final String name, final Consumer<List<User>> consumer, final boolean refresh) {
 
     generateToken(new Consumer<String>() {
@@ -412,9 +404,7 @@ public class CachingDataConnector implements DataConnector {
     getUserByName(name, consumer, false);
   }
 
-  /**
-   * Get Tracks by User Method with Cache implementation see {@link #getTracksByUser(User, Consumer)}
-   */
+  @Override
   public void getTracksByUser(final User user, final Consumer<List<Track>> consumer, final boolean refresh) {
 
     generateToken(new Consumer<String>() {
@@ -449,9 +439,7 @@ public class CachingDataConnector implements DataConnector {
     getTracksByUser(user, consumer, false);
   }
 
-  /**
-   * Get Top20 of route Method with Cache implementation see {@link #getTopTwentyOfRoute(Route, Consumer)}
-   */
+  @Override
   public void getTopTwentyOfRoute(final Route route, final Consumer<List<TopDriveEntryDto>> consumer, final boolean refresh) {
 
     generateToken(new Consumer<String>() {
@@ -486,9 +474,7 @@ public class CachingDataConnector implements DataConnector {
     getTopTwentyOfRoute(route, consumer, false);
   }
 
-  /**
-   * Get routes by user Method with Cache implementation see {@link #getRoutesByUser(User, Consumer)}
-   */
+  @Override
   public void getRoutesByUser(final User user, final Consumer<List<Route>> consumer, final boolean refresh) {
 
     generateToken(new Consumer<String>() {
@@ -652,9 +638,7 @@ public class CachingDataConnector implements DataConnector {
     });
   }
 
-  /**
-   * Get friends of user Method with Cache implementation see {@link #getFriends(User, Consumer)}
-   */
+  @Override
   public void getFriends(final User user, final Consumer<List<User>> consumer, final boolean refresh) {
 
     generateToken(new Consumer<String>() {
@@ -689,9 +673,7 @@ public class CachingDataConnector implements DataConnector {
     getFriends(user, consumer, false);
   }
 
-  /**
-   * Get All saved routes Method with Cache implementation see {@link #getAllRoutes(Consumer)}
-   */
+  @Override
   public void getAllRoutes(final Consumer<List<Route>> consumer, final boolean refresh) {
 
     generateToken(new Consumer<String>() {
