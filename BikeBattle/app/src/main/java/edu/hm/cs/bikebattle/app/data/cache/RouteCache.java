@@ -5,6 +5,7 @@ import edu.hm.cs.bikebattle.app.api.domain.UserDto;
 import io.rx_cache.DynamicKey;
 import io.rx_cache.EncryptKey;
 import io.rx_cache.EvictDynamicKey;
+import io.rx_cache.EvictProvider;
 import io.rx_cache.Reply;
 import org.springframework.hateoas.Resource;
 import rx.Observable;
@@ -27,7 +28,7 @@ public interface RouteCache {
       Observable<Resource<RouteDto>> oRoute, DynamicKey id, EvictDynamicKey update);
 
   Observable<Reply<List<RouteDto>>> findAll(
-      Observable<List<RouteDto>> oRoutes);
+      Observable<List<RouteDto>> oRoutes, EvictProvider evictProvider);
 
   Observable<Reply<List<RouteDto>>> findByName(
       Observable<List<RouteDto>> oRoutes, DynamicKey name, EvictDynamicKey update);
