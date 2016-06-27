@@ -47,7 +47,7 @@ import java.util.List;
  * Basic implementation for a connection to the backend.
  * No error handling!
  *
- * @author Nils Bernhardt
+ * @author Nils Bernhardt, René Zarwel
  * @version 1.0
  */
 public class CachingDataConnector implements DataConnector {

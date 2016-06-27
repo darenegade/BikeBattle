@@ -12,7 +12,7 @@ import java.util.List;
  * Created by Nils on 26.04.2016.
  * Interface for the connection to the data local and on the server.
  *
- * @author Nils Bernhardt
+ * @author Nils Bernhardt, René Zarwel
  * @version 1.0
  */
 public interface DataConnector {

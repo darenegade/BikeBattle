@@ -18,12 +18,21 @@ import java.util.List;
 
 /**
  * {@link RecyclerView.Adapter} that can display a {@link User}
+ *
+ * @author: Rene Zarwel
  */
 public class FriendRecyclerViewAdapter extends RecyclerView.Adapter<FriendRecyclerViewAdapter.ViewHolder> {
 
+  /** User List of this adapter to show in view**/
   private final List<User> users = new ArrayList<User>();
+
+  /** Context to use**/
   private final Context context;
+
+  /**BaseActivity from Parent Activity **/
   private final BaseActivity activity;
+
+  /** Consumer to use onClick **/
   private final Consumer<User> clickConsumer;
 
   public FriendRecyclerViewAdapter(BaseActivity activity, Consumer<User> clickConsumer) {
@@ -84,6 +93,10 @@ public class FriendRecyclerViewAdapter extends RecyclerView.Adapter<FriendRecycl
     }
   }
 
+  /**
+   * Sets a new user list for this adapter.
+   * @param users to show
+   */
   public void setUsers(List<User> users){
     this.users.clear();
     this.users.addAll(users);

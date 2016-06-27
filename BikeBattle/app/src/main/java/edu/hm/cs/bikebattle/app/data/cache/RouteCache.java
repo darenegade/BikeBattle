@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * Organization: HM FK07.
  * Project: BikeBattle, edu.hm.cs.bikebattle.app.data.cache
- * Author(s): Rene Zarwel
+ * @author Rene Zarwel
  * Date: 06.06.16
  * OS: MacOS 10.11
  * Java-Version: 1.8

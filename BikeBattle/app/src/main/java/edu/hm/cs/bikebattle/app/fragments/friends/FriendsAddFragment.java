@@ -25,9 +25,10 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * A fragment representing a list of Items.
- * <p/>
- * interface.
+ * This Fragment allows to search across all users of the Backend and
+ * adds new friends to the current principal.
+ *
+ * @author Rene Zarwel
  */
 public class FriendsAddFragment extends Fragment implements SearchView.OnQueryTextListener {
 
@@ -65,6 +66,7 @@ public class FriendsAddFragment extends Fragment implements SearchView.OnQueryTe
     item.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
     searchView = new SearchView(getActivity());
 
+    //Configure the ActionBar Item to white icons and text
     SearchView.SearchAutoComplete searchAutoComplete = (SearchView.SearchAutoComplete)searchView.findViewById(android.support.v7.appcompat.R.id.search_src_text);
     searchAutoComplete.setHintTextColor(Color.WHITE);
     searchAutoComplete.setTextColor(Color.WHITE);
@@ -75,6 +77,7 @@ public class FriendsAddFragment extends Fragment implements SearchView.OnQueryTe
     ImageView searchIcon = (ImageView)searchView.findViewById(android.support.v7.appcompat.R.id.search_mag_icon);
     searchIcon.setImageResource(R.drawable.ic_search_white_24dp);
 
+    //Configure behaviour
     searchView.setOnQueryTextListener(this);
     item.setActionView(searchView);
     searchView.setIconifiedByDefault(false);
@@ -98,12 +101,14 @@ public class FriendsAddFragment extends Fragment implements SearchView.OnQueryTe
       final RecyclerView recyclerView = (RecyclerView) layout.findViewById(R.id.list);
       recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
+      //Create Adapter to add new friends
       adapter = new FriendRecyclerViewAdapter(activity, new Consumer<User>() {
         @Override
         public void consume(User input) {
           activity.getDataConnector().addFriend(activity.getPrincipal(), input, new Consumer<Void>() {
             @Override
             public void consume(Void input) {
+              //Friend added - return to friends list
               activity.getSupportFragmentManager().beginTransaction()
                   .replace(R.id.conten_frame, FriendsFragment.newInstance()).commit();
             }

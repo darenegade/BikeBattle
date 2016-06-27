@@ -19,7 +19,9 @@ import edu.hm.cs.bikebattle.app.modell.User;
 import java.util.List;
 
 /**
- * A fragment representing a list of Items.
+ * This Fragment show the friends of the current principal.
+ *
+ * @author Rene Zarwel
  */
 public class FriendsFragment extends Fragment {
 
@@ -67,6 +69,7 @@ public class FriendsFragment extends Fragment {
       });
       recyclerView.setAdapter(adapter);
 
+      //Get data from Backend and put into adapter
       activity.getDataConnector().getFriends(activity.getPrincipal(), new Consumer<List<User>>() {
         @Override
         public void consume(List<User> input) {
@@ -80,7 +83,7 @@ public class FriendsFragment extends Fragment {
         }
       });
 
-      //Setup Floating Button
+      //Setup Floating Button to start addFriends Fragment
       FloatingActionButton fab = (FloatingActionButton) layout.findViewById(R.id.fab);
       fab.setOnClickListener(new View.OnClickListener() {
         @Override
