@@ -2,6 +2,8 @@ package edu.hm.cs.bikebattle.app.api.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 /**
  * Organization: HM FK07.
@@ -14,6 +16,8 @@ import lombok.Data;
  */
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode
 public class TopDriveEntryDto {
   String name;
   String fotoUri;

@@ -3,18 +3,10 @@ package edu.hm.cs.bikebattle.app.data;
 import android.content.Context;
 import android.location.Location;
 import android.support.annotation.NonNull;
-
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
-
-import org.springframework.hateoas.Resource;
-import org.springframework.hateoas.Resources;
-
-import java.util.LinkedList;
-import java.util.List;
-
 import edu.hm.cs.bikebattle.app.api.domain.BaseDto;
 import edu.hm.cs.bikebattle.app.api.domain.DriveDto;
 import edu.hm.cs.bikebattle.app.api.domain.RouteDto;
@@ -457,16 +449,7 @@ public class CachingDataConnector implements DataConnector {
       public void consume(String input) {
         executeGetListCall(
             driveCache.topTwentyOfRoute(
-                driveClient.topTwentyOfRoute(input, route.getOid()).map(new Func1<Resources<Resource<TopDriveEntryDto>>, List<TopDriveEntryDto>>() {
-                  @Override
-                  public List<TopDriveEntryDto> call(Resources<Resource<TopDriveEntryDto>> resources) {
-                    LinkedList<TopDriveEntryDto> buffer = new LinkedList<TopDriveEntryDto>();
-                    for (Resource<TopDriveEntryDto> resource : resources.getContent()) {
-                      buffer.add(resource.getContent());
-                    }
-                    return buffer;
-                  }
-                }),
+                driveClient.topTwentyOfRoute(input, route.getOid()),
                 new DynamicKey(route.getOid()),
                 new EvictDynamicKey(refresh)),
             consumer);

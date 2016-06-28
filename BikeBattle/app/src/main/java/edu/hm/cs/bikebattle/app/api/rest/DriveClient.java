@@ -18,6 +18,8 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 import rx.Observable;
 
+import java.util.List;
+
 /**
  * Organization: HM FK07.
  * Project: BikeBattle, edu.hm.cs.bikebattle.app.api.rest
@@ -58,7 +60,7 @@ public interface DriveClient {
   Observable<Resources<Resource<DriveDto>>>  findByOwnerOid(@Header("Authorization")String token, @Query("oid") String oid);
 
   @GET(BASE_PATH + "/top20")
-  Observable<Resources<Resource<TopDriveEntryDto>>>  topTwentyOfRoute(@Header("Authorization")String token, @Query("routeOid") String oid);
+  Observable<List<TopDriveEntryDto>>  topTwentyOfRoute(@Header("Authorization")String token, @Query("routeOid") String oid);
 
   //Relation Endpoints
 
