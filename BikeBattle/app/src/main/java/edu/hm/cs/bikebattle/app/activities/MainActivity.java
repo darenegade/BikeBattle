@@ -31,6 +31,7 @@ import edu.hm.cs.bikebattle.app.fragments.friends.FriendsFragment;
 import edu.hm.cs.bikebattle.app.fragments.navigationdrawer.MainFragment;
 import edu.hm.cs.bikebattle.app.fragments.navigationdrawer.ProfilFragment;
 import edu.hm.cs.bikebattle.app.fragments.navigationdrawer.RoutsFragment;
+import edu.hm.cs.bikebattle.app.fragments.navigationdrawer.TracksFragment;
 import edu.hm.cs.bikebattle.app.modell.Track;
 import edu.hm.cs.bikebattle.app.modell.User;
 
@@ -245,10 +246,10 @@ public class MainActivity extends BaseActivity
             ProfilFragment.newInstance(getPrincipal(), getUserPhoto())).commit();
         break;
       case R.id.nav_tracks:
-        fm.beginTransaction().replace(R.id.content_frame, RoutsFragment.newInstance(getPrincipal(),true,fm)).commit();
+        fm.beginTransaction().replace(R.id.content_frame, RoutsFragment.newInstance(getPrincipal(),fm)).commit();
         break;
       case R.id.nav_routes:
-        fm.beginTransaction().replace(R.id.content_frame, RoutsFragment.newInstance(getPrincipal(),false,fm)).commit();
+        fm.beginTransaction().replace(R.id.content_frame, TracksFragment.newInstance(getPrincipal(),fm)).commit();
         break;
       case R.id.nav_favorite:
         //fragmentClass = ThirdFragment.class;

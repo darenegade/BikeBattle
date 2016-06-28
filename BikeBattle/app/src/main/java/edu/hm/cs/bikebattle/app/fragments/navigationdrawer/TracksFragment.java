@@ -16,10 +16,14 @@ import java.util.List;
 import edu.hm.cs.bikebattle.app.R;
 import edu.hm.cs.bikebattle.app.activities.BaseActivity;
 import edu.hm.cs.bikebattle.app.adapter.RoutsListFragmentAdapter;
+import edu.hm.cs.bikebattle.app.adapter.TrackListFragmentAdapter;
+import edu.hm.cs.bikebattle.app.api.domain.Difficulty;
+import edu.hm.cs.bikebattle.app.api.domain.Routetyp;
 import edu.hm.cs.bikebattle.app.data.Consumer;
 import edu.hm.cs.bikebattle.app.data.DataConnector;
-import edu.hm.cs.bikebattle.app.fragments.single.SingleRouteFragment;
+import edu.hm.cs.bikebattle.app.fragments.single.SingleTrackFragment;
 import edu.hm.cs.bikebattle.app.modell.Route;
+import edu.hm.cs.bikebattle.app.modell.Track;
 import edu.hm.cs.bikebattle.app.modell.User;
 
 ;
@@ -27,15 +31,14 @@ import edu.hm.cs.bikebattle.app.modell.User;
 /**
  * Creats a new Fragment, where the user can find his tracks or routs
  */
-public class RoutsFragment extends ListFragment {
+public class TracksFragment extends ListFragment {
 
-  private static final String TAG = "RoutsFragment";
+  private static final String TAG = "TracksFragment";
   private User user;
-  private List<Route> routs;
+  private List<Track> tracks;
   private DataConnector dataConnector;
   private Bundle savedInstanceState;
   private FragmentManager mangager;
-  //private
 
   /**
    * This method creates a new Fragment,with the required Informations
@@ -43,8 +46,8 @@ public class RoutsFragment extends ListFragment {
    * @param user - is the current User from the App
    * @return new Fragment
    */
-  public static final RoutsFragment newInstance(User user, FragmentManager manager) {
-    RoutsFragment fragment = new RoutsFragment();
+  public static final TracksFragment newInstance(User user, FragmentManager manager) {
+    TracksFragment fragment = new TracksFragment();
     Bundle args = new Bundle();
     fragment.user = user;
     fragment.mangager = manager;
@@ -56,11 +59,11 @@ public class RoutsFragment extends ListFragment {
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     super.onCreateView(inflater, container, savedInstanceState);
     this.savedInstanceState = savedInstanceState;
-    View view = inflater.inflate(R.layout.fragment_routs, container, false);
-    routs = new ArrayList<Route>();
+    View view = inflater.inflate(R.layout.fragment_tracks, container, false);
+    tracks = new ArrayList<Track>();
     BaseActivity activity = (BaseActivity) getActivity();
     dataConnector = activity.getDataConnector();
-    getRoutsFromBackEnd();
+    getTracksFromBackEnd();
 
     return view;
   }
@@ -72,8 +75,7 @@ public class RoutsFragment extends ListFragment {
 
   @Override
   public void onListItemClick(ListView l, View v, int position, long id) {
-    mangager.beginTransaction().replace(R.id.content_frame, SingleRouteFragment.newInstance(routs.get(position))).commit();
-
+    mangager.beginTransaction().replace(R.id.content_frame, SingleTrackFragment.newInstance(tracks.get(position))).commit();
   }
 
   /**
@@ -81,36 +83,36 @@ public class RoutsFragment extends ListFragment {
    * true if the user only look for his tracks, flase when the user want to look
    * all tracks.
    */
-  private void getRoutsFromBackEnd() {
-    dataConnector.getRoutesByUser(user, new Consumer<List<Route>>() {
+  private void getTracksFromBackEnd() {
+    dataConnector.getTracksByUser(user, new Consumer<List<Track>>() {
       @Override
-      public void consume(final List<Route> input) {
-        setRouts(input);
-        refreshRouts();
+      public void consume(List<Track> input) {
+        setAllTracks(input);
+        refreshTracks();
       }
 
       @Override
       public void error(int error, Throwable exception) {
-        Log.e(TAG, "USER ROUTS UPDATE FAILURE");
+        Log.e(TAG, "ALL TRACKS UPDATE FAILURE");
       }
     });
   }
 
-  public List<Route> getRouts() {
-    return routs;
+  public List<Track> getAllTracks() {
+    return tracks;
   }
 
-  public void setRouts(List<Route> routs) {
-    this.routs = routs;
+  public void setAllTracks(List<Track> tracks) {
+    this.tracks = tracks;
   }
 
   /**
-   * Refreshes the Routs Arraylist after loading it out from the backend.
+   * Refreshes the Tracks Arraylist after loading it out from the backend.
    */
-  public void refreshRouts() {
+  public void refreshTracks() {
 
-    routs = getRouts();
-    setListAdapter(new RoutsListFragmentAdapter(getContext(), routs, user, savedInstanceState
+    tracks = getAllTracks();
+    setListAdapter(new TrackListFragmentAdapter(getContext(), tracks, user, savedInstanceState
         , getChildFragmentManager()));
     setRetainInstance(true);
   }
