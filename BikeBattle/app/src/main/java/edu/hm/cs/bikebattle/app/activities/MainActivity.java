@@ -25,11 +25,15 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import edu.hm.cs.bikebattle.app.R;
+import edu.hm.cs.bikebattle.app.data.Consumer;
 import edu.hm.cs.bikebattle.app.fragments.friends.FriendsFragment;
 import edu.hm.cs.bikebattle.app.fragments.navigationdrawer.MainFragment;
 import edu.hm.cs.bikebattle.app.fragments.navigationdrawer.ProfilFragment;
+import edu.hm.cs.bikebattle.app.fragments.single.SingleRouteFragment;
+import edu.hm.cs.bikebattle.app.modell.Route;
 import edu.hm.cs.bikebattle.app.modell.Track;
 import edu.hm.cs.bikebattle.app.modell.User;
 
@@ -173,6 +177,34 @@ public class MainActivity extends BaseActivity
         .placeholder(R.mipmap.ic_launcher)
         .error(R.mipmap.ic_launcher)
         .into(profilImage);
+
+
+    //TODO delete
+    getDataConnector().getUserByName("Nils", new Consumer<List<User>>() {
+      @Override
+      public void consume(List<User> input) {
+        if(input.size()>0){
+          getDataConnector().getRoutesByUser(input.get(0), new Consumer<List<Route>>() {
+            @Override
+            public void consume(List<Route> input) {
+              if(input.size()>0){
+                fm.beginTransaction().replace(R.id.conten_frame, SingleRouteFragment.newInstance(input.get(0))).commit();
+              }
+            }
+
+            @Override
+            public void error(int error, Throwable exception) {
+              Log.e("Route", error+"");
+            }
+          });
+        }
+      }
+
+      @Override
+      public void error(int error, Throwable exception) {
+        Log.e("User", error+"");
+      }
+    });
   }
 
   @Override
