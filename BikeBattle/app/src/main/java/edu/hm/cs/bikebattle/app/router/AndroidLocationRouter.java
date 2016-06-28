@@ -126,6 +126,7 @@ public class AndroidLocationRouter extends AndroidLocationTracker implements Rou
   public boolean start() {
     if (!routing) {
       if (super.start()) {
+        tracking = true;
         routing = true;
         return true;
       }

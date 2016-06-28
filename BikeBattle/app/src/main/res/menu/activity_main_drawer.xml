@@ -11,6 +11,10 @@
             android:icon="@drawable/ic_menu_tracksy"
             android:title="Tracks"/>
         <item
+            android:id="@+id/nav_find_routes"
+            android:icon="@drawable/ic_menu_search"
+            android:title="Find routes"/>
+        <item
             android:id="@+id/nav_routes"
             android:icon="@drawable/ic_menu_route"
             android:title="Route"/>
