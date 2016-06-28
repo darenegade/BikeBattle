@@ -277,7 +277,6 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
       @Override
       public void error(int error, Throwable exception) {
         Toast.makeText(context, "Unable to add new route!", Toast.LENGTH_LONG).show();
-        //TODO
       }
     });
   }
