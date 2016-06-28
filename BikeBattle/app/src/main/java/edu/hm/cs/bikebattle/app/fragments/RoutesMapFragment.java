@@ -45,7 +45,7 @@ public class RoutesMapFragment extends Fragment implements OnMapReadyCallback, G
    */
   private BaseActivity activity;
   /**
-   * Fragment to display the routes in a list
+   * Fragment to display the routes in a list.
    */
   private RoutesListFragment listFragment;
   /**
@@ -120,25 +120,25 @@ public class RoutesMapFragment extends Fragment implements OnMapReadyCallback, G
 
   private void loadRoutes(Location location, float distance) {
     Log.d("Data", location.toString() + "\n" + distance);
-    activity.getDataConnector().getRoutesByLocation(location, distance, new Consumer<List<Route>>
-        () {
-      @Override
-      public void consume(List<Route> input) {
-        routes = input;
-        showRoutes();
-        listFragment.updateList(input);
-        updateCamera();
-        Log.d("Loaded routes:", String.valueOf(input.size()));
-      }
+    activity.getDataConnector().getRoutesByLocation(location, distance,
+        new Consumer<List<Route>>() {
+          @Override
+          public void consume(List<Route> input) {
+            routes = input;
+            showRoutes();
+            listFragment.updateList(input);
+            updateCamera();
+            Log.d("Loaded routes:", String.valueOf(input.size()));
+          }
 
-      @Override
-      public void error(int error, Throwable exception) {
-        Log.e("Error", "Unable to load routes! " + error);
-        if (exception != null) {
-          Log.e("Exception", exception.toString());
-        }
-      }
-    });
+          @Override
+          public void error(int error, Throwable exception) {
+            Log.e("Error", "Unable to load routes! " + error);
+            if (exception != null) {
+              Log.e("Exception", exception.toString());
+            }
+          }
+        });
   }
 
   private void showRoutes() {

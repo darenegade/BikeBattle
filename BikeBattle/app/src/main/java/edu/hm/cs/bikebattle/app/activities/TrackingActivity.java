@@ -11,16 +11,12 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Looper;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
-import android.widget.TextView;
 import android.widget.Toast;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -245,6 +241,7 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
     final Context context = this;
     Route route = new Route(name, track);
 
+    // Set route type.
     if (selectedType.equals("City")) {
       route.setRoutetyp(Routetyp.CITY);
     } else if (selectedType.equals("Offroad")) {
@@ -256,6 +253,7 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
       return;
     }
 
+    // Set route difficulty.
     if (selectedDiff.equals("Easy")) {
       route.setDifficulty(Difficulty.EASY);
     } else if (selectedDiff.equals("Normal")) {
@@ -267,6 +265,7 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
       return;
     }
 
+    // Add the new route.
     getDataConnector().addRoute(route, getPrincipal(), new Consumer<String>() {
       @Override
       public void consume(String input) {
@@ -471,6 +470,7 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
     }
     mapFragment.getMapAsync(this);
 
+    // Create location manager.
     if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
         == PackageManager.PERMISSION_GRANTED) {
       locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);

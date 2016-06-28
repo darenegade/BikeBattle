@@ -23,9 +23,8 @@ import edu.hm.cs.bikebattle.app.adapter.RoutesFragmentPagerAdapter;
  */
 public class RoutesOverviewFragment extends Fragment {
 
-  public static  final RoutesOverviewFragment newInstance() {
-    RoutesOverviewFragment fragment = new RoutesOverviewFragment();
-    return  fragment;
+  public static final RoutesOverviewFragment newInstance() {
+    return new RoutesOverviewFragment();
   }
 
   @Override
@@ -48,7 +47,6 @@ public class RoutesOverviewFragment extends Fragment {
     } catch (Exception exception) {
       Log.e("Error!!", exception.getMessage());
     }
-
     return view;
   }
 
