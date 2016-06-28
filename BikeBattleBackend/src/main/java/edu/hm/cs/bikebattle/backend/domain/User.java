@@ -46,6 +46,8 @@ public class User extends BaseEntity {
   @Indexed(unique = true)
   String email;
 
+  String fotoUri;
+
   @Min(0)
   Float size;
 

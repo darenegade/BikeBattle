@@ -23,4 +23,11 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="NameSearch">Name</string>
+    <string name="SearchButton">Search</string>
+    <string name="friendSearchHint">Type the name of your friend…</string>
+    <string name="searchTextHint">Name</string>
+    <string name="DefaultUserName">Hans Wurst</string>
+    <string name="helpAddFriend">Use the search to find your friends.</string>
+    <string name="helpFriends">Forever alone :( \n\n Try to find your friends.</string>
 </resources>

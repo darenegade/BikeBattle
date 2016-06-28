@@ -3,7 +3,6 @@ package edu.hm.cs.bikebattle.app.activities;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -17,7 +16,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import edu.hm.cs.bikebattle.app.R;
-import edu.hm.cs.bikebattle.app.data.BasicDataConnector;
+import edu.hm.cs.bikebattle.app.data.CachingDataConnector;
 import edu.hm.cs.bikebattle.app.data.Consumer;
 import edu.hm.cs.bikebattle.app.data.DataConnector;
 import edu.hm.cs.bikebattle.app.modell.User;
@@ -25,7 +24,7 @@ import edu.hm.cs.bikebattle.app.modell.User;
 /**
  * Organization: HM FK07.
  * Project: BikeBattle, edu.hm.cs.bikebattle.app.activities
- * Author(s): Rene Zarwel
+ * @author Rene Zarwel
  * Date: 09.05.16
  * OS: MacOS 10.11
  * Java-Version: 1.8
@@ -57,7 +56,7 @@ public abstract class BaseActivity extends AppCompatActivity implements GoogleAp
         .addApi(Auth.GOOGLE_SIGN_IN_API, googleSignInOptions)
         .build();
 
-    dataConnector = new BasicDataConnector(googleApiClient);
+    dataConnector = new CachingDataConnector(getApplicationContext(), googleApiClient);
 
   }
 
@@ -82,18 +81,18 @@ public abstract class BaseActivity extends AppCompatActivity implements GoogleAp
           Log.d(TAG, "Mail:" + acct.getEmail());
           Log.d(TAG, "Token:" + acct.getIdToken());
 
-          userPhoto = acct.getPhotoUrl();
           dataConnector.login(acct.getEmail(), new Consumer<User>() {
             @Override
             public void consume(User input) {
               principal = input;
+              userPhoto = Uri.parse(input.getFotoUri());
               Log.d(TAG, principal.toString());
               refreshUserInfo();
             }
 
             @Override
             public void error(int error, Throwable exception) {
-              Log.e(TAG, "LOGIN FAILURE");
+              Log.e(TAG, "LOGIN FAILURE with: " + exception.getMessage());
             }
           });
         }

@@ -2,12 +2,14 @@ package edu.hm.cs.bikebattle.app.api.rest;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import okhttp3.Cache;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import org.springframework.hateoas.hal.Jackson2HalModule;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.jackson.JacksonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
@@ -16,7 +18,7 @@ import java.io.IOException;
 /**
  * Organization: HM FK07.
  * Project: BikeBattle, edu.hm.cs.bikebattle.app.api.rest
- * Author(s): Rene Zarwel
+ * @author Rene Zarwel
  * Date: 14.04.16
  * OS: MacOS 10.11
  * Java-Version: 1.8
@@ -37,6 +39,7 @@ public class ClientFactory {
 
   private static Retrofit.Builder retrofitBuilder = new Retrofit.Builder()
       .baseUrl(DEFAULT_BASE_URL)
+      .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
       .addConverterFactory(ScalarsConverterFactory.create())
       .addConverterFactory(JacksonConverterFactory.create(mapper));
 
@@ -65,6 +68,10 @@ public class ClientFactory {
     OkHttpClient client = httpClient.build();
     return retrofitBuilder.client(client).build()
         .create(serviceClass);
+  }
+
+  public static void setCache(Cache cache){
+    httpClient.cache(cache);
   }
 
   /**
