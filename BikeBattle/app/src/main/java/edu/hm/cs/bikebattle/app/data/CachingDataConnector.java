@@ -313,16 +313,7 @@ public class CachingDataConnector implements DataConnector {
       public void consume(String input) {
         executeGetListCall(
             routeCache.findNear(
-                routeClient.findNear(input, location.getLongitude(), location.getLatitude(), distance).map(new Func1<Resources<Resource<RouteDto>>, List<RouteDto>>() {
-                  @Override
-                  public List<RouteDto> call(Resources<Resource<RouteDto>> resources) {
-                    LinkedList<RouteDto> buffer = new LinkedList<RouteDto>();
-                    for (Resource<RouteDto> routeDtoResource : resources.getContent()) {
-                      buffer.add(routeDtoResource.getContent());
-                    }
-                    return buffer;
-                  }
-                }),
+                routeClient.findNear(input, location.getLongitude(), location.getLatitude(), distance),
                 new DynamicKey(new double[]{location.getLongitude(), location.getLatitude(), distance}),
                 new EvictDynamicKey(true)),
             consumer);

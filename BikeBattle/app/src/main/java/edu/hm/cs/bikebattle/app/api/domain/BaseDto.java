@@ -19,4 +19,5 @@ import lombok.NoArgsConstructor;
 public class BaseDto {
 
   String oid;
+  String version;
 }

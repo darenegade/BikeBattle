@@ -40,5 +40,5 @@ public class RouteDto extends BaseDto {
   List<RoutePointDto> routePoints = new ArrayList<RoutePointDto>();
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
-  String owner;
+  UserDto owner;
 }
