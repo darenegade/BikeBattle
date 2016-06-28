@@ -12,6 +12,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Looper;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -285,11 +286,12 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
    * Loads the route for routing.
    */
   private void loadRoute() {
-    final Context context = this;
+    final TrackingActivity context = this;
     getDataConnector().getRouteById(routesOid, new Consumer<Route>() {
       @Override
       public void consume(Route input) {
         route = input;
+        router = new AndroidLocationRouter(route, 1, context);
         clearMap();
         updateCamera();
       }
@@ -492,7 +494,6 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
     routing = routesOid != null;
     if (routing) {
       loadRoute();
-      router = new AndroidLocationRouter(route, 1, this);
     } else {
       tracker = new AndroidLocationTracker(1, this);
     }

@@ -3,6 +3,7 @@ package edu.hm.cs.bikebattle.app.fragments;
 import android.location.Location;
 import android.support.annotation.NonNull;
 
+import android.util.Log;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
