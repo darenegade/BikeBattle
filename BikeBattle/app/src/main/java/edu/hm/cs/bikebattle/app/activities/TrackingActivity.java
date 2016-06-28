@@ -148,9 +148,9 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
   public void addRoute(final String name) {
     final Context context = this;
     Route route = new Route(name, track);
-    getDataConnector().addRoute(route, getPrincipal(), new Consumer<Void>() {
+    getDataConnector().addRoute(route, getPrincipal(), new Consumer<String>() {
       @Override
-      public void consume(Void input) {
+      public void consume(String input) {
         Toast.makeText(context, "Added new route!", Toast.LENGTH_LONG).show();
       }
 
@@ -227,15 +227,12 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
     }
     // Check if routing is enabled.
     Bundle args = getIntent().getExtras();
-    /*
     try {
       routesOid = args.getString("oid");
     } catch (NullPointerException exception) {
       routesOid = null;
     }
     routing = routesOid != null;
-    */
-    routing = true;
     if (routing) {
       loadRoute();
       router = new AndroidLocationRouter(route, 1, this);
@@ -250,6 +247,7 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
    * Loads the route for routing.
    */
   private void loadRoute() {
+    /*
     LocationList list = new LocationList();
     addRoutePoint(list, 48.1229806, 11.5978708);
     addRoutePoint(list, 48.1228938, 11.5974820);
@@ -275,7 +273,7 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
     addRoutePoint(list, 48.1291484, 11.5934056);
     addRoutePoint(list, 48.1292529, 11.5931773);
     route = new Route("TestRoute", list);
-    /*
+    */
     final Context context = this;
     getDataConnector().getRouteById(routesOid, new Consumer<Route>() {
       @Override
@@ -289,7 +287,6 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
         Toast.makeText(context, "Error while loading route!", Toast.LENGTH_LONG).show();
       }
     });
-    */
   }
 
   @Deprecated
@@ -306,9 +303,9 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
 
   private void saveTrack() {
     final Context context = this;
-    getDataConnector().addTrack(track, getPrincipal(), new Consumer<Void>() {
+    getDataConnector().addTrack(track, getPrincipal(), new Consumer<String>() {
       @Override
-      public void consume(Void input) {
+      public void consume(String input) {
         Toast.makeText(context, "Added new route!", Toast.LENGTH_LONG).show();
       }
 

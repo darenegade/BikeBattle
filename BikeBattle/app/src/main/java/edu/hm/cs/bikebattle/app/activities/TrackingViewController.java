@@ -86,6 +86,16 @@ public class TrackingViewController {
     });
   }
 
+  public void changeButtonIcon(boolean tracking){
+    if(tracking){
+      trackingButton.setImageDrawable(
+          ContextCompat.getDrawable(activity, R.drawable.ic_action_stop));
+    }else{
+      trackingButton.setImageDrawable(
+          ContextCompat.getDrawable(activity, R.drawable.ic_action_stop));
+    }
+  }
+
   private void initMap() {
     // Obtain the SupportMapFragment and get notified when the map is ready to be used.
     SupportMapFragment mapFragment = (SupportMapFragment) activity.getSupportFragmentManager()
@@ -118,10 +128,8 @@ public class TrackingViewController {
 
   private void initRelativeLayout() {
     if (!init) {
-      Log.d("INIT height1:",String.valueOf(relativeLayout.getLayoutParams().height));
       relativeLayout.getLayoutParams().height = bottomSheet.getTop();
       relativeLayout.requestLayout();
-      Log.d("INIT height2:",String.valueOf(relativeLayout.getLayoutParams().height));
       init=true;
     }
   }

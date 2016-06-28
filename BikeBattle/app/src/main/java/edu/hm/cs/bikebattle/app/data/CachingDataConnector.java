@@ -365,6 +365,36 @@ public class CachingDataConnector implements DataConnector {
   }
 
   @Override
+  public void getRouteById(final String id, final Consumer<Route> consumer) {
+    getRouteById(id, consumer, false);
+  }
+
+  @Override
+  public void getRouteById(final String id, final Consumer<Route> consumer, final boolean refresh) {
+    generateToken(new Consumer<String>() {
+      @Override
+      public void consume(String input) {
+        executeGetCall(
+            routeCache.findeOne(
+                routeClient.findeOne(input, id).map(new Func1<Resource<RouteDto>, RouteDto>() {
+                  @Override
+                  public RouteDto call(Resource<RouteDto> routeDtoResource) {
+                    return routeDtoResource.getContent();
+                  }
+                }),
+                new DynamicKey(id),
+                new EvictDynamicKey(refresh)),
+            consumer);
+      }
+
+      @Override
+      public void error(int error, Throwable exception) {
+        consumer.error(error, exception);
+      }
+    });
+  }
+
+  @Override
   public void getUserById(final String id, final Consumer<User> consumer) {
     getUserById(id, consumer, false);
   }

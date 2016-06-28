@@ -1,26 +1,27 @@
 <android.support.design.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".activities.TrackingActivity">
-
-    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/relative_layout">
+        tools:context=".activities.TrackingActivity">
 
-        <fragment
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:id="@+id/map"
-            android:name="com.google.android.gms.maps.SupportMapFragment"
+    <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:context=".activities.RoutesActivity"/>
+            android:id="@+id/relative_layout">
 
-        <android.support.design.widget.FloatingActionButton
+        <fragment
+                android:id="@+id/map"
+                android:name="com.google.android.gms.maps.SupportMapFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context=".activities.RoutesActivity"/>
+
+
+    </RelativeLayout>
+
+    <android.support.design.widget.FloatingActionButton
             android:id="@+id/tracking_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -33,25 +34,26 @@
             android:clickable="true"
             android:theme="@style/AppTheme"
             app:backgroundTint="@color/accent"
+            app:layout_anchor="@id/relative_layout"
             app:layout_anchorGravity="bottom|right|end"/>
-    </RelativeLayout>
 
     <android.support.v4.widget.NestedScrollView
-        android:id="@+id/bottom_sheet"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/background"
-        android:clipToPadding="true"
-        app:layout_behavior="android.support.design.widget.BottomSheetBehavior"
-        >
+            android:id="@+id/bottom_sheet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/background"
+            android:clipToPadding="true"
+            app:layout_behavior="android.support.design.widget.BottomSheetBehavior"
+    >
 
-            <GridLayout
+        <GridLayout
+                android:id="@+id/grid_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:columnCount="2">
 
-                <TextView
+            <TextView
                     android:id="@+id/trackInfo_textView_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -62,7 +64,7 @@
                     android:text="--:--"
                     android:textSize="35sp"/>
 
-                <TextView
+            <TextView
                     android:id="@+id/trackInfo_textView_speed"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -73,7 +75,7 @@
                     android:text="-"
                     android:textSize="35sp"/>
 
-                <TextView
+            <TextView
                     android:id="@+id/trackInfo_textView_average_speed"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -84,7 +86,7 @@
                     android:text="-"
                     android:textSize="35sp"/>
 
-                <TextView
+            <TextView
                     android:id="@+id/trackInfo_textView_altitude"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -95,7 +97,7 @@
                     android:text="-"
                     android:textSize="35sp"/>
 
-                <TextView
+            <TextView
                     android:id="@+id/trackInfo_textView_distance"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -106,7 +108,7 @@
                     android:text="-"
                     android:textSize="35sp"/>
 
-                <TextView
+            <TextView
                     android:id="@+id/trackInfo_textView_differenceAlt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -116,7 +118,7 @@
                     android:drawablePadding="5dp"
                     android:text="-"
                     android:textSize="35sp"/>
-            </GridLayout>
+        </GridLayout>
 
     </android.support.v4.widget.NestedScrollView>
 </android.support.design.widget.CoordinatorLayout>

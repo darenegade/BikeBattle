@@ -1,7 +1,8 @@
 <resources>
 
-<color name="background">#D8F6FF</color>
-<color name="font">#3D81FF</color>
-<color name="accent">#9EBEFF</color>
+    <color name="background">#543950</color>
+    <color name="font">#FFFFFF</color>
+    <color name="accent">#096C74</color>
+    <color name="highlight">#882844</color>
 
 </resources>

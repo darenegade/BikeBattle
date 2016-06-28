@@ -44,6 +44,10 @@ public interface DataConnector {
    */
   void getAllRoutes(final Consumer<List<Route>> consumer, final boolean refresh);
 
+  void getRouteById(String id, Consumer<Route> consumer);
+
+  void getRouteById(String id, Consumer<Route> consumer, boolean refresh);
+
   /**
    * Returns the user with the given id.
    *
