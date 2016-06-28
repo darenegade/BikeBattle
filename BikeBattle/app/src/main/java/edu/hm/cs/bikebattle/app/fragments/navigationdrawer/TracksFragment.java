@@ -1,6 +1,5 @@
 package edu.hm.cs.bikebattle.app.fragments.navigationdrawer;
 
-import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.ListFragment;
@@ -15,14 +14,10 @@ import java.util.List;
 
 import edu.hm.cs.bikebattle.app.R;
 import edu.hm.cs.bikebattle.app.activities.BaseActivity;
-import edu.hm.cs.bikebattle.app.adapter.RoutsListFragmentAdapter;
 import edu.hm.cs.bikebattle.app.adapter.TrackListFragmentAdapter;
-import edu.hm.cs.bikebattle.app.api.domain.Difficulty;
-import edu.hm.cs.bikebattle.app.api.domain.Routetyp;
 import edu.hm.cs.bikebattle.app.data.Consumer;
 import edu.hm.cs.bikebattle.app.data.DataConnector;
 import edu.hm.cs.bikebattle.app.fragments.single.SingleTrackFragment;
-import edu.hm.cs.bikebattle.app.modell.Route;
 import edu.hm.cs.bikebattle.app.modell.Track;
 import edu.hm.cs.bikebattle.app.modell.User;
 
