@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 /**
  * Organization: HM FK07.
  * Project: BikeBattle, edu.hm.cs.bikebattle.app.api.domain
- * Author(s): Rene Zarwel
+ * @author Rene Zarwel
  * Date: 18.04.16
  * OS: MacOS 10.11
  * Java-Version: 1.8

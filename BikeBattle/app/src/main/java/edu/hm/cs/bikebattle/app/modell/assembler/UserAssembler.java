@@ -6,7 +6,7 @@ import edu.hm.cs.bikebattle.app.modell.User;
 /**
  * Organization: HM FK07.
  * Project: BikeBattle, edu.hm.cs.bikebattle.app.modell.assembler
- * Author(s): Rene Zarwel
+ * @author Rene Zarwel
  * Date: 12.04.16
  * OS: MacOS 10.11
  * Java-Version: 1.8
@@ -24,6 +24,7 @@ public class UserAssembler {
 
     return UserDto.builder()
         .name(user.getName())
+        .fotoUri(user.getFotoUri())
         .size(user.getSizeInMeter())
         .weight(user.getWeightInKg()).email(user.getEmail())
         .build();
@@ -45,6 +46,7 @@ public class UserAssembler {
     );
 
     user.setOid(userDto.getOid());
+    user.setFotoUri(userDto.getFotoUri());
 
     return user;
   }

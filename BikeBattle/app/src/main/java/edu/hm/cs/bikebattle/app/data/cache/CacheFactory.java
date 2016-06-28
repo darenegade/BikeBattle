@@ -1,13 +1,17 @@
 package edu.hm.cs.bikebattle.app.data.cache;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.rx_cache.internal.RxCache;
+import io.victoralbertos.jolyglot.JacksonSpeaker;
+import org.springframework.hateoas.hal.Jackson2HalModule;
 
 import java.io.File;
 
 /**
  * Organization: HM FK07.
  * Project: BikeBattle, edu.hm.cs.bikebattle.app.data.cache
- * Author(s): Rene Zarwel
+ * @author Rene Zarwel
  * Date: 06.06.16
  * OS: MacOS 10.11
  * Java-Version: 1.8
@@ -15,11 +19,19 @@ import java.io.File;
  */
 public class CacheFactory {
 
+  private static final ObjectMapper mapper = new ObjectMapper();
+
+  static {
+    //Configure ObjectMapper to operate with Spring Data
+    mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+    mapper.registerModule(new Jackson2HalModule());
+  }
+
 
   private static <S> S createCache(Class<S> serviceClass, File cacheDir){
     return new RxCache.Builder()
         .useExpiredDataIfLoaderNotAvailable(true)
-        .persistence(cacheDir)
+        .persistence(cacheDir, new JacksonSpeaker())
         .using(serviceClass);
   }
 
