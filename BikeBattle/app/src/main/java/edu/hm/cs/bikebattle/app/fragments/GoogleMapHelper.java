@@ -44,6 +44,9 @@ public class GoogleMapHelper {
   }
 
   public static double[] getOutCoordinates(LocationList list) {
+    if(list.size()<=0){
+      return new double[] {0,0,0,0};
+    }
     double east = list.get(0).getLongitude();
     double west = east;
     double north = list.get(0).getLatitude();
@@ -104,13 +107,15 @@ public class GoogleMapHelper {
   public static LineData getLineData(LocationList list) {
     ArrayList<Entry> entries = new ArrayList<Entry>();
     float distance = 0;
-    Location location = list.get(0);
-    entries.add(new Entry((float) location.getAltitude(), (int) distance / 10));
-    for (int i = 1; i < list.size(); i++) {
-      Location tmp = list.get(i);
-      distance += location.distanceTo(tmp);
-      entries.add(new Entry((float) tmp.getAltitude(), (int) distance / 10));
-      location = tmp;
+    if(list.size()>0) {
+      Location location = list.get(0);
+      entries.add(new Entry((float) location.getAltitude(), (int) distance / 10));
+      for (int i = 1; i < list.size(); i++) {
+        Location tmp = list.get(i);
+        distance += location.distanceTo(tmp);
+        entries.add(new Entry((float) tmp.getAltitude(), (int) distance / 10));
+        location = tmp;
+      }
     }
     LineDataSet dataset = new LineDataSet(entries, "");
 

@@ -37,6 +37,12 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
+             <Button
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:id="@+id/single_route_button"
+                 android:text="Start"/>
+
             <GridLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
