@@ -11,6 +11,7 @@
     <!-- Server Client ID.  This should be a valid Web OAuth 2.0 Client ID obtained
          from https://console.developers.google.com/ -->
     <string name="server_client_id">1005553311508-r90po1hf888rkr2u464ccoo8vvojk75u.apps.googleusercontent.com</string>
+    <string name="google_api_key">AIzaSyD9-iXLN4t282Q2EW22NCVTUTev4okhZYE</string>
     <string name="action_googlemap" translatable="false">Google Map</string>
     <string name="list">List</string>
     <string name="map">Map</string>
