@@ -4,7 +4,6 @@ import android.content.Context;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,7 +53,7 @@ import edu.hm.cs.bikebattle.app.modell.User;
     currentPosition = position;
     View rowView = LayoutInflater.from(getContext()).inflate(R.layout.item_track_layout,parent,false);
     ImageView mapImage = (ImageView)rowView.findViewById(R.id.mapview);
-    Log.e("URI",makeMapString());
+
     Picasso
         .with(getContext())
         .load(makeMapString())
@@ -86,8 +85,6 @@ import edu.hm.cs.bikebattle.app.modell.User;
         "&path=color:0x0000ff%7Cweight:5";
     String splitter = "%7C";
 
-    //for (Location location : tracks.get(currentPosition))
-    Log.e("Track", tracks.get(currentPosition).toString());
     for(int i = 0 ; i < tracks.get(currentPosition).size();i++){
       Location location = tracks.get(currentPosition).get(i);
       mapString = mapString+splitter;

@@ -1,6 +1,5 @@
 package edu.hm.cs.bikebattle.app.fragments.navigationdrawer;
 
-;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -10,8 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-
-import com.google.android.gms.maps.SupportMapFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +25,8 @@ import edu.hm.cs.bikebattle.app.fragments.single.SingleTrackFragment;
 import edu.hm.cs.bikebattle.app.modell.Route;
 import edu.hm.cs.bikebattle.app.modell.Track;
 import edu.hm.cs.bikebattle.app.modell.User;
+
+;
 
 /**
  * Creats a new Fragment, where the user can find his tracks or routs
@@ -171,7 +170,7 @@ public class RoutsFragment extends ListFragment {
     }
   }
 
-  public List getRouts() {
+  public List<Route> getRouts() {
     return routs;
   }
 
@@ -179,7 +178,7 @@ public class RoutsFragment extends ListFragment {
     this.routs = routs;
   }
 
-  public List getAllTracks() {
+  public List<Track> getAllTracks() {
     return tracks;
   }
 

@@ -46,12 +46,10 @@
 
     </LinearLayout>
 
-    <com.google.android.gms.maps.MapView
-        android:id="@+id/mapview"
-        class="com.google.android.gms.maps.SupportMapFragment"
+    <ImageView
         android:layout_width="match_parent"
         android:layout_height="150dp"
-        />
+        android:id="@+id/mapview_routes"/>
 
 
     <LinearLayout
