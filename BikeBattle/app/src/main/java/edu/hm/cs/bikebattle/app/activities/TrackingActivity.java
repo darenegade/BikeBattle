@@ -179,9 +179,11 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
     if (!isTracking) {
       clearMap();
       LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-      googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(
-          new CameraPosition.Builder().target(latLng).zoom(17).bearing(location.getBearing())
-              .build()));
+      if (location.getAccuracy() > 10) {
+        googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(
+            new CameraPosition.Builder().target(latLng).zoom(17).bearing(location.getBearing())
+                .build()));
+      }
       GoogleMapHelper.drawPositionIcon(googleMap, new LatLng(location.getLatitude(), location
           .getLongitude()));
     }

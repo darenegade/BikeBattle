@@ -2,7 +2,6 @@ package edu.hm.cs.bikebattle.app.router;
 
 import android.app.Activity;
 import android.location.Location;
-import android.util.Log;
 
 import edu.hm.cs.bikebattle.app.modell.Route;
 import edu.hm.cs.bikebattle.app.modell.Track;
@@ -60,7 +59,6 @@ public class AndroidLocationRouter extends AndroidLocationTracker implements Rou
 
   @Override
   public void onLocationChanged(Location location) {
-    Log.e("Flags:",String.valueOf(tracking)+", "+String.valueOf(routing));
     if (tracking) {
       if (routing) {
         checkTargets(location);
