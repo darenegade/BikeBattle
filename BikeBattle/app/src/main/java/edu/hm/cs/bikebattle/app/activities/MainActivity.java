@@ -35,6 +35,9 @@ import edu.hm.cs.bikebattle.app.fragments.friends.FriendsFragment;
 import edu.hm.cs.bikebattle.app.fragments.RoutesOverviewFragment;
 import edu.hm.cs.bikebattle.app.fragments.navigationdrawer.MainFragment;
 import edu.hm.cs.bikebattle.app.fragments.navigationdrawer.ProfilFragment;
+import edu.hm.cs.bikebattle.app.fragments.navigationdrawer.RoutsFragment;
+import edu.hm.cs.bikebattle.app.fragments.navigationdrawer.ShowTracksFragment;
+import edu.hm.cs.bikebattle.app.fragments.navigationdrawer.TracksFragment;
 import edu.hm.cs.bikebattle.app.fragments.single.SingleRouteFragment;
 import edu.hm.cs.bikebattle.app.modell.Route;
 import edu.hm.cs.bikebattle.app.modell.Track;
@@ -96,7 +99,7 @@ public class MainActivity extends BaseActivity implements NavigationView
     toggle.syncState();
 
     fm = getSupportFragmentManager();
-    fm.beginTransaction().replace(R.id.conten_frame, new MainFragment()).commit();
+    fm.beginTransaction().replace(R.id.content_frame, new MainFragment()).commit();
 
     requestPermission();
 
@@ -184,7 +187,7 @@ public class MainActivity extends BaseActivity implements NavigationView
     Route route = new Route("Test");
     route.setDifficulty(Difficulty.NORMAL);
     route.setRoutetyp(Routetyp.CITY);
-    fm.beginTransaction().replace(R.id.conten_frame, SingleRouteFragment.newInstance(route)).commit();
+    fm.beginTransaction().replace(R.id.content_frame, SingleRouteFragment.newInstance(route)).commit();
   }
 
   @Override
@@ -252,13 +255,16 @@ public class MainActivity extends BaseActivity implements NavigationView
             .addToBackStack("main")
             .commit();
         break;
-      case R.id.nav_tracks:
+      case R.id.nav_routes:
         fm.beginTransaction().replace(R.id.content_frame, RoutsFragment.newInstance(getPrincipal(),fm))
             .addToBackStack("main")
             .commit();
         break;
-      case R.id.nav_routes:
-        fm.beginTransaction().replace(R.id.content_frame,TracksFragment.newInstance(getPrincipal(),fm))
+      case R.id.nav_tracks:
+      /**  fm.beginTransaction().replace(R.id.content_frame, TracksFragment.newInstance(getPrincipal(),fm))
+            .addToBackStack("main")
+            .commit();*/
+        fm.beginTransaction().replace(R.id.content_frame, ShowTracksFragment.newInstance(getPrincipal()))
             .addToBackStack("main")
             .commit();
       case R.id.nav_new_track:
@@ -266,7 +272,7 @@ public class MainActivity extends BaseActivity implements NavigationView
         startActivity(intent);
         break;
       case R.id.nav_find_routes:
-        fm.beginTransaction().replace(R.id.conten_frame, RoutesOverviewFragment.newInstance())
+        fm.beginTransaction().replace(R.id.content_frame, RoutesOverviewFragment.newInstance())
             .commit();
         break;
       case R.id.nav_favorite:

@@ -46,7 +46,7 @@ import edu.hm.cs.bikebattle.app.modell.User;
   public View getView(int position, View convertView, ViewGroup parent) {
     currentPosition = position;
     View rowView = LayoutInflater.from(getContext()).inflate(R.layout.item_track_layout,parent,false);
-    ImageView mapImage = (ImageView)rowView.findViewById(R.id.mapview);
+    /**ImageView mapImage = (ImageView)rowView.findViewById(R.id.mapview);
 
     Picasso
         .with(getContext())
@@ -66,7 +66,7 @@ import edu.hm.cs.bikebattle.app.modell.User;
 
     TextView textViewInformation = (TextView) rowView.findViewById(R.id.average_speed_name_item);
     textViewInformation.setText(tracks.get(position).getAverageSpeed_in_kmh()+" in kmh");
-
+*/
     return rowView;
   }
 

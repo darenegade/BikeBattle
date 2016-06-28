@@ -11,25 +11,25 @@
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/name_item_label"
+            android:id="@+id/name_item_label_track_track"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:paddingLeft="16dp"
             android:paddingTop="16dp"
             android:text="Name: "
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textColor="@color/font_head"/>
+            android:textColor="@color/primary_text"/>
 
         <TextView
-            android:id="@+id/name_item"
+            android:id="@+id/name_item_track"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:paddingTop="16dp"
-            android:textColor="@color/font"/>
+            android:textColor="@color/secondary_text"/>
     </LinearLayout>
 
     <ImageView
-        android:id="@+id/mapview"
+        android:id="@+id/mapview_track"
         android:layout_width="match_parent"
         android:layout_height="150dp"/>
 
@@ -47,22 +47,22 @@
                       android:orientation="vertical">
 
             <TextView
-                android:id="@+id/time_item_label"
+                android:id="@+id/time_item_label_track"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingLeft="16dp"
                 android:paddingTop="16dp"
                 android:text="Dauer:"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textColor="@color/font_head"/>
+                android:textColor="@color/primary_text"/>
 
             <TextView
-                android:id="@+id/time_item"
+                android:id="@+id/time_item_track"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:paddingBottom="16dp"
                 android:paddingLeft="16dp"
-                android:textColor="@color/font"/>
+                android:textColor="@color/secondary_text"/>
         </LinearLayout>
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -73,22 +73,22 @@
                       android:orientation="vertical">
 
             <TextView
-                android:id="@+id/average_speed_item_label"
+                android:id="@+id/average_speed_item_label_track"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingLeft="16dp"
                 android:paddingTop="16dp"
                 android:text="Durchschnittsgeschwidigkeit: "
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textColor="@color/font_head"/>
+                android:textColor="@color/primary_text"/>
 
             <TextView
-                android:id="@+id/average_speed_name_item"
+                android:id="@+id/average_speed_name_item_track"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:paddingBottom="16dp"
                 android:paddingLeft="16dp"
-                android:textColor="@color/font"/>
+                android:textColor="@color/secondary_text"/>
         </LinearLayout>
 
     </LinearLayout>

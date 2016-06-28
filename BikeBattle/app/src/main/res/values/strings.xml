@@ -31,4 +31,5 @@
     <string name="DefaultUserName">Hans Wurst</string>
     <string name="helpAddFriend">Use the search to find your friends.</string>
     <string name="helpFriends">Forever alone :( \n\n Try to find your friends.</string>
+    <string name="showTracks">You a are a lazy guy, make some tracks</string>
 </resources>
