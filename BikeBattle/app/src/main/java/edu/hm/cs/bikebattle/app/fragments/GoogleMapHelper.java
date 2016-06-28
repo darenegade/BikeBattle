@@ -1,12 +1,18 @@
 package edu.hm.cs.bikebattle.app.fragments;
 
 import android.location.Location;
+import android.support.annotation.NonNull;
 
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.PolylineOptions;
+
+import java.util.ArrayList;
 
 import edu.hm.cs.bikebattle.app.modell.LocationList;
 
@@ -90,6 +96,30 @@ public class GoogleMapHelper {
     } else {
       return String.format("%.0f m", distance);
     }
+  }
+
+
+
+  @NonNull
+  public static LineData getLineData(LocationList list) {
+    ArrayList<Entry> entries = new ArrayList<Entry>();
+    float distance = 0;
+    Location location = list.get(0);
+    entries.add(new Entry((float) location.getAltitude(), (int) distance / 10));
+    for (int i = 1; i < list.size(); i++) {
+      Location tmp = list.get(i);
+      distance += location.distanceTo(tmp);
+      entries.add(new Entry((float) tmp.getAltitude(), (int) distance / 10));
+      location = tmp;
+    }
+    LineDataSet dataset = new LineDataSet(entries, "");
+
+    // creating labels
+    ArrayList<String> labels = new ArrayList<String>();
+    for (int i = 0; i < list.getDistanceInM() / 10 + 1; i++) {
+      labels.add(String.format("%d m", i * 10));
+    }
+    return new LineData(labels, dataset);
   }
 
 }

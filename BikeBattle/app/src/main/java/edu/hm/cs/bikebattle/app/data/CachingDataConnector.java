@@ -3,10 +3,18 @@ package edu.hm.cs.bikebattle.app.data;
 import android.content.Context;
 import android.location.Location;
 import android.support.annotation.NonNull;
+
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
+
+import org.springframework.hateoas.Resource;
+import org.springframework.hateoas.Resources;
+
+import java.util.LinkedList;
+import java.util.List;
+
 import edu.hm.cs.bikebattle.app.api.domain.BaseDto;
 import edu.hm.cs.bikebattle.app.api.domain.DriveDto;
 import edu.hm.cs.bikebattle.app.api.domain.RouteDto;
@@ -112,7 +120,7 @@ public class CachingDataConnector implements DataConnector {
    */
   @SuppressWarnings("unchecked")
   private static <V> V toBean(Object dto) {
-    if(dto == null){
+    if (dto == null) {
       return null;
     }
     if (dto.getClass().equals(RouteDto.class)) {
@@ -135,7 +143,7 @@ public class CachingDataConnector implements DataConnector {
    * @param <V>        bean
    */
   private <T, V> void executeGetListCall(final Observable<Reply<List<T>>> observable,
-                                                         final Consumer<List<V>> consumer) {
+                                         final Consumer<List<V>> consumer) {
 
     observable
         .subscribeOn(Schedulers.newThread())
@@ -147,8 +155,8 @@ public class CachingDataConnector implements DataConnector {
           }
 
           @Override
-          public void onError(Throwable e) {
-            consumer.error(-1, e);
+          public void onError(Throwable throwable) {
+            consumer.error(-1, throwable);
           }
 
           @Override
@@ -186,8 +194,8 @@ public class CachingDataConnector implements DataConnector {
           }
 
           @Override
-          public void onError(Throwable e) {
-            consumer.error(Consumer.EXCEPTION, e);
+          public void onError(Throwable throwable) {
+            consumer.error(Consumer.EXCEPTION, throwable);
           }
 
           @Override
@@ -203,7 +211,8 @@ public class CachingDataConnector implements DataConnector {
    * @param observable to execute
    * @param consumer   for errors
    */
-  private void executeCreateCall(final Observable<String> observable, final Consumer<String> consumer) {
+  private void executeCreateCall(final Observable<String> observable,
+                                 final Consumer<String> consumer) {
 
     observable
         .subscribeOn(Schedulers.newThread())
@@ -214,8 +223,8 @@ public class CachingDataConnector implements DataConnector {
           }
 
           @Override
-          public void onError(Throwable e) {
-            consumer.error(Consumer.EXCEPTION, e);
+          public void onError(Throwable throwable) {
+            consumer.error(Consumer.EXCEPTION, throwable);
           }
 
           @Override
@@ -243,8 +252,8 @@ public class CachingDataConnector implements DataConnector {
           }
 
           @Override
-          public void onError(Throwable e) {
-            consumer.error(Consumer.EXCEPTION, e);
+          public void onError(Throwable throwable) {
+            consumer.error(Consumer.EXCEPTION, throwable);
           }
 
           @Override
@@ -261,17 +270,18 @@ public class CachingDataConnector implements DataConnector {
    * @return current valid token;
    */
   private void generateToken(final Consumer<String> tokenConsumer) {
-    Auth.GoogleSignInApi.silentSignIn(googleApiClient).setResultCallback(new ResultCallback<GoogleSignInResult>() {
-      @Override
-      public void onResult(@NonNull GoogleSignInResult googleSignInResult) {
+    Auth.GoogleSignInApi.silentSignIn(googleApiClient).setResultCallback(
+        new ResultCallback<GoogleSignInResult>() {
+          @Override
+          public void onResult(@NonNull GoogleSignInResult googleSignInResult) {
 
-        if (googleSignInResult.isSuccess() && googleSignInResult.getSignInAccount() != null) {
-          tokenConsumer.consume("Bearer " + googleSignInResult.getSignInAccount().getIdToken());
-        } else {
-          tokenConsumer.error(googleSignInResult.getStatus().getStatusCode(), null);
-        }
-      }
-    });
+            if (googleSignInResult.isSuccess() && googleSignInResult.getSignInAccount() != null) {
+              tokenConsumer.consume("Bearer " + googleSignInResult.getSignInAccount().getIdToken());
+            } else {
+              tokenConsumer.error(googleSignInResult.getStatus().getStatusCode(), null);
+            }
+          }
+        });
   }
 
   @Override
@@ -533,6 +543,39 @@ public class CachingDataConnector implements DataConnector {
   }
 
   @Override
+  public void addTrack(final Track track, final Route route, User owner,
+                       final Consumer<Void> consumer) {
+    addTrack(track, owner, new Consumer<String>() {
+      @Override
+      public void consume(String input) {
+        track.setOid(input);
+        setRouteForTrack(track, route, consumer);
+      }
+
+      @Override
+      public void error(int error, Throwable exception) {
+        consumer.error(error, exception);
+      }
+    });
+  }
+
+  @Override
+  public void setRouteForTrack(final Track track, final Route route,
+                               final Consumer<Void> consumer) {
+    generateToken(new Consumer<String>() {
+      @Override
+      public void consume(String input) {
+        executeWriteCall(driveClient.setRoute(input, track.getOid(), route.getOid()), consumer);
+      }
+
+      @Override
+      public void error(int error, Throwable exception) {
+        consumer.error(error, exception);
+      }
+    });
+  }
+
+  @Override
   public void deleteTrack(final Track track, final Consumer<Void> consumer) {
 
     generateToken(new Consumer<String>() {
@@ -554,12 +597,20 @@ public class CachingDataConnector implements DataConnector {
     generateToken(new Consumer<String>() {
       @Override
       public void consume(String input) {
-        executeCreateCall(routeClient.create(input, RouteAssembler.toDto(route)).map(new Func1<Response<Void>, String>() {
-          @Override
-          public String call(Response<Void> voidResponse) {
-            return voidResponse.headers().get("Location");
-          }
-        }), consumer);
+        executeCreateCall(routeClient.create(input, RouteAssembler.toDto(route)).map(
+            new Func1<Response<Void>, String>() {
+              @Override
+              public String call(Response<Void> voidResponse) {
+                String location = voidResponse.headers().get("Location");
+                if (location != null) {
+                  String[] split = location.split("/");
+                  if (split.length > 0) {
+                    return split[split.length - 1];
+                  }
+                }
+                return null;
+              }
+            }), consumer);
       }
 
       @Override
@@ -591,12 +642,20 @@ public class CachingDataConnector implements DataConnector {
     generateToken(new Consumer<String>() {
       @Override
       public void consume(String input) {
-        executeCreateCall(userClient.create(input, UserAssembler.toDto(user)).map(new Func1<Response<Void>, String>() {
-          @Override
-          public String call(Response<Void> voidResponse) {
-            return voidResponse.headers().get("Location");
-          }
-        }), consumer);
+        executeCreateCall(userClient.create(input, UserAssembler.toDto(user)).map(
+            new Func1<Response<Void>, String>() {
+              @Override
+              public String call(Response<Void> voidResponse) {
+                String location = voidResponse.headers().get("Location");
+                if (location != null) {
+                  String[] split = location.split("/");
+                  if (split.length > 0) {
+                    return split[split.length - 1];
+                  }
+                }
+                return null;
+              }
+            }), consumer);
       }
 
       @Override
@@ -612,7 +671,8 @@ public class CachingDataConnector implements DataConnector {
     generateToken(new Consumer<String>() {
       @Override
       public void consume(String input) {
-        executeWriteCall(userClient.update(input, user.getOid(), UserAssembler.toDto(user)), consumer);
+        executeWriteCall(userClient.update(input, user.getOid(), UserAssembler.toDto(user)),
+            consumer);
       }
 
       @Override

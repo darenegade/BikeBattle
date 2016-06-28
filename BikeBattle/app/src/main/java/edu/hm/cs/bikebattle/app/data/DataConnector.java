@@ -1,12 +1,13 @@
 package edu.hm.cs.bikebattle.app.data;
 
 import android.location.Location;
+
+import java.util.List;
+
 import edu.hm.cs.bikebattle.app.api.domain.TopDriveEntryDto;
 import edu.hm.cs.bikebattle.app.modell.Route;
 import edu.hm.cs.bikebattle.app.modell.Track;
 import edu.hm.cs.bikebattle.app.modell.User;
-
-import java.util.List;
 
 /**
  * Created by Nils on 26.04.2016.
@@ -60,7 +61,7 @@ public interface DataConnector {
   /**
    * Login on Backend and returns the current user.
    *
-   * @param email       user email
+   * @param email    user email
    * @param consumer consumer to call
    */
   void login(String email, Consumer<User> consumer);
@@ -130,6 +131,24 @@ public interface DataConnector {
    * @param owner    owner of the track
    */
   void addTrack(Track track, User owner, Consumer<String> consumer);
+
+  /**
+   * Adds a track to the users database. The track is mapped to the route.
+   *
+   * @param track    new Track
+   * @param consumer consumer to call
+   * @param owner    owner of the track
+   */
+  void addTrack(Track track, Route route, User owner, Consumer<Void> consumer);
+
+  /**
+   * Sets a route for a specific track.
+   *
+   * @param track    track
+   * @param route    route
+   * @param consumer consumer
+   */
+  void setRouteForTrack(Track track, Route route, Consumer<Void> consumer);
 
   /**
    * Deletes a track of the user.

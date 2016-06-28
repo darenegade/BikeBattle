@@ -3,6 +3,7 @@ package edu.hm.cs.bikebattle.app.activities;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -13,17 +14,23 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+
 import edu.hm.cs.bikebattle.app.R;
 import edu.hm.cs.bikebattle.app.fragments.friends.FriendsFragment;
 import edu.hm.cs.bikebattle.app.fragments.navigationdrawer.MainFragment;
 import edu.hm.cs.bikebattle.app.fragments.navigationdrawer.ProfilFragment;
+import edu.hm.cs.bikebattle.app.modell.Track;
 import edu.hm.cs.bikebattle.app.modell.User;
 
 public class MainActivity extends BaseActivity
@@ -85,10 +92,69 @@ public class MainActivity extends BaseActivity
     fm.beginTransaction().replace(R.id.conten_frame, new MainFragment()).commit();
 
     requestPermission();
+
+  }
+
+  /**
+   * Debug only
+   *
+   * @return random track
+   */
+  private Track getTrackWithRandomTime() {
+    long starTime = System.currentTimeMillis();
+    long wayPointTime = (long) (Math.random() * 50 + 25);
+    Log.d("Starttime", starTime + "");
+    Log.d("step", wayPointTime + "");
+    ArrayList<Location> wayPoints = new ArrayList<Location>();
+    Location loc1 = new Location("");
+    loc1.setLatitude(48.154);
+    loc1.setLongitude(11.554);
+    loc1.setAltitude(500);
+    loc1.setTime(starTime + wayPointTime);
+    wayPoints.add(loc1);
+
+    Location loc2 = new Location("");
+    loc2.setLatitude(48.155);
+    loc2.setLongitude(11.556);
+    loc2.setAltitude(520);
+    loc2.setTime(starTime + 2 * wayPointTime);
+    wayPoints.add(loc2);
+
+    Location loc3 = new Location("");
+    loc3.setLatitude(48.154);
+    loc3.setLongitude(11.557);
+    loc3.setTime(starTime + 3 * wayPointTime);
+    loc3.setAltitude(480);
+    wayPoints.add(loc3);
+
+    Location loc4 = new Location("");
+    loc4.setLatitude(48.153);
+    loc4.setLongitude(11.561);
+    loc4.setAltitude(520);
+    loc4.setTime(starTime + 4 * wayPointTime);
+    wayPoints.add(loc4);
+
+    Location loc5 = new Location("");
+    loc5.setLatitude(48.152);
+    loc5.setLongitude(11.56);
+    loc5.setAltitude(500);
+    loc5.setTime(starTime + 5 * wayPointTime);
+    wayPoints.add(loc5);
+
+    Location loc6 = new Location("");
+    loc6.setLatitude(48.151);
+    loc6.setLongitude(11.558);
+    loc6.setAltitude(460);
+    loc6.setTime(starTime + 6 * wayPointTime);
+    wayPoints.add(loc6);
+
+    return new Track(wayPoints);
   }
 
   @Override
   public void refreshUserInfo() {
+
+    Log.d("Login", "login");
 
     final User user = getPrincipal();
     final String name = user.getName();
@@ -107,6 +173,7 @@ public class MainActivity extends BaseActivity
         .placeholder(R.mipmap.ic_launcher)
         .error(R.mipmap.ic_launcher)
         .into(profilImage);
+
 
   }
 
