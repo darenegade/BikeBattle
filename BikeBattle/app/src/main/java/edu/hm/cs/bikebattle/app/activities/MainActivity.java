@@ -27,9 +27,13 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 import edu.hm.cs.bikebattle.app.R;
+import edu.hm.cs.bikebattle.app.api.domain.Difficulty;
+import edu.hm.cs.bikebattle.app.api.domain.Routetyp;
 import edu.hm.cs.bikebattle.app.fragments.friends.FriendsFragment;
 import edu.hm.cs.bikebattle.app.fragments.navigationdrawer.MainFragment;
 import edu.hm.cs.bikebattle.app.fragments.navigationdrawer.ProfilFragment;
+import edu.hm.cs.bikebattle.app.fragments.single.SingleRouteFragment;
+import edu.hm.cs.bikebattle.app.modell.Route;
 import edu.hm.cs.bikebattle.app.modell.Track;
 import edu.hm.cs.bikebattle.app.modell.User;
 
@@ -174,7 +178,10 @@ public class MainActivity extends BaseActivity
         .error(R.mipmap.ic_launcher)
         .into(profilImage);
 
-
+    Route route = new Route("Test");
+    route.setDifficulty(Difficulty.NORMAL);
+    route.setRoutetyp(Routetyp.CITY);
+    fm.beginTransaction().replace(R.id.conten_frame, SingleRouteFragment.newInstance(route)).commit();
   }
 
   @Override

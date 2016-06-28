@@ -8,6 +8,7 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.TextView;
 
@@ -74,11 +75,17 @@ public class SingleRouteFragment extends Fragment implements OnMapReadyCallback 
     }
     mapFragment.getMapAsync(this);
 
-    View view = inflater.inflate(R.layout.fragment_single_route, container, false);
+    final View view = inflater.inflate(R.layout.fragment_single_route, container, false);
     if (route != null) {
       drawChart(view);
       fillViews(view);
       fillRanking(view);
+      ((Button)view.findViewById(R.id.single_route_button)).setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+          //TODO start routing activity
+        }
+      });
     }
     return view;
   }
