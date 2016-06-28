@@ -3,6 +3,7 @@ package edu.hm.cs.bikebattle.app.fragments.navigationdrawer;
 ;
 import android.location.Location;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.ListFragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,6 +24,7 @@ import edu.hm.cs.bikebattle.app.api.domain.Difficulty;
 import edu.hm.cs.bikebattle.app.api.domain.Routetyp;
 import edu.hm.cs.bikebattle.app.data.Consumer;
 import edu.hm.cs.bikebattle.app.data.DataConnector;
+import edu.hm.cs.bikebattle.app.fragments.single.SingleTrackFragment;
 import edu.hm.cs.bikebattle.app.modell.Route;
 import edu.hm.cs.bikebattle.app.modell.Track;
 import edu.hm.cs.bikebattle.app.modell.User;
@@ -34,11 +36,13 @@ public class RoutsFragment extends ListFragment {
 
   private static final String TAG = "RoutsFragment";
   private User user;
-  private List routs;
-  private List tracks;
+  private List<Route> routs;
+  private List<Track> tracks;
   private DataConnector dataConnector;
   private Bundle savedInstanceState;
   private boolean onlyUser;
+  private FragmentManager mangager;
+  //private
   /**
    * This method creates a new Fragment,with the required Informations
    *
@@ -47,10 +51,11 @@ public class RoutsFragment extends ListFragment {
    *                 all tracks.
    * @return new Fragment
    */
-  public static final RoutsFragment newInstance(User user, boolean onlyUser) {
+  public static final RoutsFragment newInstance(User user, boolean onlyUser, FragmentManager manager) {
     RoutsFragment fragment = new RoutsFragment();
     Bundle args = new Bundle();
     fragment.user = user;
+    fragment.mangager = manager;
     fragment.setOnlyUser(onlyUser);
     fragment.setArguments(args);
     return fragment;
@@ -80,8 +85,15 @@ public class RoutsFragment extends ListFragment {
 
   @Override
   public void onListItemClick(ListView l, View v, int position, long id) {
-    // activity.showRouteInfo(position);
-  }
+    if(onlyUser){
+      //mangager.beginTransaction().replace(R.id.content_frame, SingleRoutFragment.newInstance(routs.get(position))).commit();
+
+    }
+    else{
+      mangager.beginTransaction().replace(R.id.content_frame, SingleTrackFragment.newInstance(tracks.get(position))).commit();
+
+    }
+    }
 
   private void fillList() {
 
