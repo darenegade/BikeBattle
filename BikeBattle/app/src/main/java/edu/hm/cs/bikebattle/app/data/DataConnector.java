@@ -1,6 +1,7 @@
 package edu.hm.cs.bikebattle.app.data;
 
 import android.location.Location;
+import edu.hm.cs.bikebattle.app.api.domain.TopDriveEntryDto;
 import edu.hm.cs.bikebattle.app.modell.Route;
 import edu.hm.cs.bikebattle.app.modell.Track;
 import edu.hm.cs.bikebattle.app.modell.User;
@@ -11,7 +12,7 @@ import java.util.List;
  * Created by Nils on 26.04.2016.
  * Interface for the connection to the data local and on the server.
  *
- * @author Nils Bernhardt
+ * @author Nils Bernhardt, René Zarwel
  * @version 1.0
  */
 public interface DataConnector {
@@ -27,11 +28,21 @@ public interface DataConnector {
   void getRoutesByLocation(Location location, float distance, Consumer<List<Route>> consumer);
 
   /**
+   * Get Routes by Location Method with Cache implementation see {@link #getRoutesByLocation(Location, float, Consumer)}
+   */
+  void getRoutesByLocation(Location location, float distance, Consumer<List<Route>> consumer, boolean refresh);
+
+  /**
    * Returns all Route.
    *
    * @param consumer consumer to call
    */
   void getAllRoutes(Consumer<List<Route>> consumer);
+
+  /**
+   * Get All saved routes Method with Cache implementation see {@link #getAllRoutes(Consumer)}
+   */
+  void getAllRoutes(final Consumer<List<Route>> consumer, final boolean refresh);
 
   /**
    * Returns the user with the given id.
@@ -42,12 +53,22 @@ public interface DataConnector {
   void getUserById(String id, Consumer<User> consumer);
 
   /**
+   * Get User by Id Method with Cache implementation see {@link #getUserById(String, Consumer)}
+   */
+  void getUserById(final String id, final Consumer<User> consumer, final boolean refresh);
+
+  /**
    * Login on Backend and returns the current user.
    *
    * @param email       user email
    * @param consumer consumer to call
    */
   void login(String email, Consumer<User> consumer);
+
+  /**
+   * Login Method with Cache implementation see {@link #login(String, Consumer)}
+   */
+  void login(final String email, final Consumer<User> consumer, final boolean refresh);
 
   /**
    * Returns the user with the given name.
@@ -58,12 +79,35 @@ public interface DataConnector {
   void getUserByName(String name, Consumer<List<User>> consumer);
 
   /**
+   * Get User by Name Method with Cache implementation see {@link #getUserByName(String, Consumer)}
+   */
+  void getUserByName(final String name, final Consumer<List<User>> consumer, final boolean refresh);
+
+  /**
    * Returns all tracks of the given user.
    *
    * @param user     User
    * @param consumer consumer to call
    */
   void getTracksByUser(User user, Consumer<List<Track>> consumer);
+
+  /**
+   * Get Tracks by User Method with Cache implementation see {@link #getTracksByUser(User, Consumer)}
+   */
+  void getTracksByUser(final User user, final Consumer<List<Track>> consumer, final boolean refresh);
+
+  /**
+   * Returns a Top 20 list of a route.
+   *
+   * @param route route
+   * @param consumer consumer to call
+   */
+  void getTopTwentyOfRoute(final Route route, final Consumer<List<TopDriveEntryDto>> consumer);
+
+  /**
+   * Get Top20 of route Method with Cache implementation see {@link #getTopTwentyOfRoute(Route, Consumer)}
+   */
+  void getTopTwentyOfRoute(final Route route, final Consumer<List<TopDriveEntryDto>> consumer, final boolean refresh);
 
   /**
    * Returns all routes of the given user.
@@ -74,13 +118,18 @@ public interface DataConnector {
   void getRoutesByUser(User user, Consumer<List<Route>> consumer);
 
   /**
+   * Get routes by user Method with Cache implementation see {@link #getRoutesByUser(User, Consumer)}
+   */
+  void getRoutesByUser(final User user, final Consumer<List<Route>> consumer, final boolean refresh);
+
+  /**
    * Adds a track to the users database.
    *
    * @param track    new Track
    * @param consumer consumer to call
    * @param owner    owner of the track
    */
-  void addTrack(Track track, User owner, Consumer<Void> consumer);
+  void addTrack(Track track, User owner, Consumer<String> consumer);
 
   /**
    * Deletes a track of the user.
@@ -97,7 +146,7 @@ public interface DataConnector {
    * @param owner    owner
    * @param consumer consumer to call
    */
-  void addRoute(Route route, User owner, Consumer<Void> consumer);
+  void addRoute(Route route, User owner, Consumer<String> consumer);
 
   /**
    * Deletes a route of the user.
@@ -113,7 +162,7 @@ public interface DataConnector {
    * @param user     user
    * @param consumer consumer to call
    */
-  void createUser(User user, Consumer<Void> consumer);
+  void createUser(User user, Consumer<String> consumer);
 
   /**
    * Updates the user data.
@@ -139,4 +188,9 @@ public interface DataConnector {
    * @param consumer consumer to call
    */
   void getFriends(User user, Consumer<List<User>> consumer);
+
+  /**
+   * Get friends of user Method with Cache implementation see {@link #getFriends(User, Consumer)}
+   */
+  void getFriends(final User user, final Consumer<List<User>> consumer, final boolean refresh);
 }

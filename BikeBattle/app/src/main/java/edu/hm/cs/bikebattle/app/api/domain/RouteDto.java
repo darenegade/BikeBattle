@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * Organization: HM FK07.
  * Project: BikeBattleBackend, edu.hm.cs.bikebattle.domain
- * Author(s): Rene Zarwel
+ * @author Rene Zarwel
  * Date: 27.03.16
  * OS: MacOS 10.11
  * Java-Version: 1.8

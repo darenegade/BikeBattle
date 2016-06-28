@@ -1,8 +1,13 @@
 package edu.hm.cs.bikebattle.backend.event;
 
 import edu.hm.cs.bikebattle.backend.domain.User;
+import edu.hm.cs.bikebattle.backend.repositories.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.core.event.AbstractRepositoryEventListener;
 import org.springframework.stereotype.Component;
+
+import java.util.HashSet;
+import java.util.List;
 
 /**
  * Organization: HM FK07.
@@ -20,6 +25,31 @@ public class User_EventListener extends AbstractRepositoryEventListener<User> {
   // @Autowired
   // <EntityName>Repository repo;
 
+  @Autowired
+  UserRepository repository;
+
 
   //Override Methods here to add your custom logic
+
+
+  @Override
+  protected void onBeforeLinkSave(User parent, Object linked) {
+
+    if(linked instanceof List) {
+      List linkedList = List.class.cast(linked);
+      if(linkedList.get(0) != null && linkedList.get(0) instanceof User){
+        @SuppressWarnings("unchecked") List<User> userList = linkedList;
+
+        //Remove duplicates on friendList
+        HashSet<User> users = new HashSet<>();
+        users.addAll(userList);
+        userList.clear();
+        userList.addAll(users);
+
+
+      }
+    }
+
+    super.onBeforeLinkSave(parent, linked);
+  }
 }

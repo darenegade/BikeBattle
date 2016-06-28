@@ -82,6 +82,7 @@ public class GoogleAuthenticationFilter extends OncePerRequestFilter {
     // Get profile information from payload
     String email = payload.getEmail();
     String name = (String) payload.get("name");
+    String fotoUri = (String) payload.get("picture");
 
     //Find requesting user, create user if not in db
     User userInfo = userRepository.findByEmail(email);
@@ -91,6 +92,7 @@ public class GoogleAuthenticationFilter extends OncePerRequestFilter {
       userInfo = new User();
       userInfo.setEmail(email);
       userInfo.setName(name);
+      userInfo.setFotoUri(fotoUri);
 
       userInfo = userRepository.save(userInfo);
     }

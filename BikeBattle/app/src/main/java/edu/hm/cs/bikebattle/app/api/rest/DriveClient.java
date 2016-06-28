@@ -6,6 +6,7 @@ import edu.hm.cs.bikebattle.app.api.domain.TopDriveEntryDto;
 import edu.hm.cs.bikebattle.app.api.domain.UserDto;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
+import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
@@ -20,7 +21,7 @@ import rx.Observable;
 /**
  * Organization: HM FK07.
  * Project: BikeBattle, edu.hm.cs.bikebattle.app.api.rest
- * Author(s): Rene Zarwel
+ * @author Rene Zarwel
  * Date: 14.04.16
  * OS: MacOS 10.11
  * Java-Version: 1.8
@@ -35,7 +36,7 @@ public interface DriveClient {
 
   @POST(BASE_PATH)
   @Headers("Content-Type: application/json")
-  Observable<Void> create(@Header("Authorization")String token, @Body DriveDto entity);
+  Observable<Response<Void>> create(@Header("Authorization")String token, @Body DriveDto entity);
 
   @PUT(BASE_PATH)
   @Headers("Content-Type: application/json")
