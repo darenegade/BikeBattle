@@ -1,7 +1,6 @@
 package edu.hm.cs.bikebattle.app.fragments.friends;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
@@ -70,8 +69,8 @@ public class FriendsAddFragment extends Fragment implements SearchView.OnQueryTe
 
     //Configure the ActionBar Item to white icons and text
     SearchView.SearchAutoComplete searchAutoComplete = (SearchView.SearchAutoComplete)searchView.findViewById(android.support.v7.appcompat.R.id.search_src_text);
-    searchAutoComplete.setHintTextColor(Color.WHITE);
-    searchAutoComplete.setTextColor(Color.WHITE);
+    searchAutoComplete.setHintTextColor(getResources().getColor(R.color.icons));
+    searchAutoComplete.setTextColor(getResources().getColor(R.color.icons));
 
     ImageView searchCloseIcon = (ImageView)searchView.findViewById(android.support.v7.appcompat.R.id.search_close_btn);
     searchCloseIcon.setImageResource(R.drawable.ic_clear_white_24dp);

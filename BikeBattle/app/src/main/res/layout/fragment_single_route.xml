@@ -27,7 +27,7 @@
         android:id="@+id/single_route_bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/background"
+        android:background="@color/primary"
         android:clipToPadding="true"
         app:behavior_peekHeight="90dp"
         app:layout_behavior="android.support.design.widget.BottomSheetBehavior"
