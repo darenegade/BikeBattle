@@ -24,8 +24,8 @@ import java.util.List;
 @EncryptKey("Secret") //Prevent NullPointer - Encryption is deactivated
 public interface RouteCache {
 
-  Observable<Reply<Resource<RouteDto>>> findeOne(
-      Observable<Resource<RouteDto>> oRoute, DynamicKey id, EvictDynamicKey update);
+  Observable<Reply<RouteDto>> findeOne(
+      Observable<RouteDto> oRoute, DynamicKey id, EvictDynamicKey update);
 
   Observable<Reply<List<RouteDto>>> findAll(
       Observable<List<RouteDto>> oRoutes, EvictProvider evictProvider);

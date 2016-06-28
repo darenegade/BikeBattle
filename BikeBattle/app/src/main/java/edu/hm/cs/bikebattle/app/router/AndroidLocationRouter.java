@@ -3,6 +3,7 @@ package edu.hm.cs.bikebattle.app.router;
 import android.app.Activity;
 import android.location.Location;
 
+import android.util.Log;
 import edu.hm.cs.bikebattle.app.modell.Route;
 import edu.hm.cs.bikebattle.app.modell.Track;
 import edu.hm.cs.bikebattle.app.tracker.AndroidLocationTracker;
@@ -126,6 +127,7 @@ public class AndroidLocationRouter extends AndroidLocationTracker implements Rou
   public boolean start() {
     if (!routing) {
       if (super.start()) {
+        tracking = true;
         routing = true;
         return true;
       }

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent" android:background="@color/accent">
+
+    <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/editText" android:layout_gravity="center_horizontal"/>
+    <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" android:columnCount="2" android:orientation="horizontal">
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Type"
+                android:id="@+id/textView_type"/>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Difficulty"
+                android:id="@+id/textView_difficulty"/>
+        <RadioGroup
+                android:id="@+id/radioType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1"
+                android:layout_gravity="left">
+            <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Offroad"
+                    android:id="@+id/radioButton_type_off" android:layout_columnWeight="1"
+                    android:layout_gravity="left"/>
+            <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="City"
+                    android:id="@+id/radioButton_type_city" android:layout_columnWeight="1"
+                    android:layout_gravity="left"/>
+            <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Road"
+                    android:id="@+id/radioButton_type_road" android:layout_columnWeight="1"
+                    android:layout_gravity="left"/>
+
+        </RadioGroup>
+        <RadioGroup
+                android:id="@+id/radioDiff"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1"
+                android:layout_gravity="left">
+            <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Easy"
+                    android:id="@+id/radioButton_diff_easy" android:layout_columnWeight="1"
+                    android:layout_gravity="left"/>
+
+            <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Normal"
+                    android:id="@+id/radioButton_diff_normal" android:layout_columnWeight="1"
+                    android:layout_gravity="left"/>
+
+            <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Hard"
+                    android:id="@+id/radioButton_diff_hard" android:layout_columnWeight="1"
+                    android:layout_gravity="left"/>
+        </RadioGroup>
+        <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Save"
+                android:id="@+id/button_ok" android:layout_gravity="left" android:layout_columnWeight="1"
+                android:background="@color/primary_light"/>
+        <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cancel"
+                android:id="@+id/button_cancel" android:layout_gravity="left" android:layout_columnWeight="1"
+                android:background="@color/primary_light"/>
+    </GridLayout>
+</LinearLayout>

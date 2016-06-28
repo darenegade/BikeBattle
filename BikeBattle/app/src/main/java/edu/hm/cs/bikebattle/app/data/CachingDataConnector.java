@@ -3,18 +3,10 @@ package edu.hm.cs.bikebattle.app.data;
 import android.content.Context;
 import android.location.Location;
 import android.support.annotation.NonNull;
-
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
-
-import org.springframework.hateoas.Resource;
-import org.springframework.hateoas.Resources;
-
-import java.util.LinkedList;
-import java.util.List;
-
 import edu.hm.cs.bikebattle.app.api.domain.BaseDto;
 import edu.hm.cs.bikebattle.app.api.domain.DriveDto;
 import edu.hm.cs.bikebattle.app.api.domain.RouteDto;
@@ -321,16 +313,7 @@ public class CachingDataConnector implements DataConnector {
       public void consume(String input) {
         executeGetListCall(
             routeCache.findNear(
-                routeClient.findNear(input, location.getLongitude(), location.getLatitude(), distance).map(new Func1<Resources<Resource<RouteDto>>, List<RouteDto>>() {
-                  @Override
-                  public List<RouteDto> call(Resources<Resource<RouteDto>> resources) {
-                    LinkedList<RouteDto> buffer = new LinkedList<RouteDto>();
-                    for (Resource<RouteDto> routeDtoResource : resources.getContent()) {
-                      buffer.add(routeDtoResource.getContent());
-                    }
-                    return buffer;
-                  }
-                }),
+                routeClient.findNear(input, location.getLongitude(), location.getLatitude(), distance),
                 new DynamicKey(new double[]{location.getLongitude(), location.getLatitude(), distance}),
                 new EvictDynamicKey(true)),
             consumer);
@@ -360,6 +343,36 @@ public class CachingDataConnector implements DataConnector {
                   @Override
                   public UserDto call(Resource<UserDto> userDtoResource) {
                     return userDtoResource.getContent();
+                  }
+                }),
+                new DynamicKey(id),
+                new EvictDynamicKey(refresh)),
+            consumer);
+      }
+
+      @Override
+      public void error(int error, Throwable exception) {
+        consumer.error(error, exception);
+      }
+    });
+  }
+
+  @Override
+  public void getRouteById(final String id, final Consumer<Route> consumer) {
+    getRouteById(id, consumer, false);
+  }
+
+  @Override
+  public void getRouteById(final String id, final Consumer<Route> consumer, final boolean refresh) {
+    generateToken(new Consumer<String>() {
+      @Override
+      public void consume(String input) {
+        executeGetCall(
+            routeCache.findeOne(
+                routeClient.findeOne(input, id).map(new Func1<Resource<RouteDto>, RouteDto>() {
+                  @Override
+                  public RouteDto call(Resource<RouteDto> routeDtoResource) {
+                    return routeDtoResource.getContent();
                   }
                 }),
                 new DynamicKey(id),
@@ -457,16 +470,7 @@ public class CachingDataConnector implements DataConnector {
       public void consume(String input) {
         executeGetListCall(
             driveCache.topTwentyOfRoute(
-                driveClient.topTwentyOfRoute(input, route.getOid()).map(new Func1<Resources<Resource<TopDriveEntryDto>>, List<TopDriveEntryDto>>() {
-                  @Override
-                  public List<TopDriveEntryDto> call(Resources<Resource<TopDriveEntryDto>> resources) {
-                    LinkedList<TopDriveEntryDto> buffer = new LinkedList<TopDriveEntryDto>();
-                    for (Resource<TopDriveEntryDto> resource : resources.getContent()) {
-                      buffer.add(resource.getContent());
-                    }
-                    return buffer;
-                  }
-                }),
+                driveClient.topTwentyOfRoute(input, route.getOid()),
                 new DynamicKey(route.getOid()),
                 new EvictDynamicKey(refresh)),
             consumer);

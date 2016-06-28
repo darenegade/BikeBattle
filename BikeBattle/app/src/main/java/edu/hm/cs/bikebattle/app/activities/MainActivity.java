@@ -2,6 +2,7 @@ package edu.hm.cs.bikebattle.app.activities;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.net.Uri;
@@ -25,18 +26,22 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import edu.hm.cs.bikebattle.app.R;
+import edu.hm.cs.bikebattle.app.api.domain.Difficulty;
+import edu.hm.cs.bikebattle.app.api.domain.Routetyp;
 import edu.hm.cs.bikebattle.app.fragments.friends.FriendsFragment;
+import edu.hm.cs.bikebattle.app.fragments.RoutesOverviewFragment;
 import edu.hm.cs.bikebattle.app.fragments.navigationdrawer.MainFragment;
 import edu.hm.cs.bikebattle.app.fragments.navigationdrawer.ProfilFragment;
-import edu.hm.cs.bikebattle.app.fragments.navigationdrawer.RoutsFragment;
-import edu.hm.cs.bikebattle.app.fragments.navigationdrawer.TracksFragment;
+import edu.hm.cs.bikebattle.app.fragments.single.SingleRouteFragment;
+import edu.hm.cs.bikebattle.app.modell.Route;
 import edu.hm.cs.bikebattle.app.modell.Track;
 import edu.hm.cs.bikebattle.app.modell.User;
 
-public class MainActivity extends BaseActivity
-    implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends BaseActivity implements NavigationView
+    .OnNavigationItemSelectedListener {
 
   private static final String TAG = "MainActivity";
   private NavigationView navigationView;
@@ -91,7 +96,7 @@ public class MainActivity extends BaseActivity
     toggle.syncState();
 
     fm = getSupportFragmentManager();
-    fm.beginTransaction().replace(R.id.content_frame, new MainFragment()).commit();
+    fm.beginTransaction().replace(R.id.conten_frame, new MainFragment()).commit();
 
     requestPermission();
 
@@ -176,10 +181,10 @@ public class MainActivity extends BaseActivity
         .error(R.mipmap.ic_launcher)
         .into(profilImage);
 
-    /*Route route = new Route("Test");
+    Route route = new Route("Test");
     route.setDifficulty(Difficulty.NORMAL);
     route.setRoutetyp(Routetyp.CITY);
-    fm.beginTransaction().replace(R.id.content_frame, SingleRouteFragment.newInstance(route)).commit();*/
+    fm.beginTransaction().replace(R.id.conten_frame, SingleRouteFragment.newInstance(route)).commit();
   }
 
   @Override
@@ -255,6 +260,13 @@ public class MainActivity extends BaseActivity
       case R.id.nav_routes:
         fm.beginTransaction().replace(R.id.content_frame,TracksFragment.newInstance(getPrincipal(),fm))
             .addToBackStack("main")
+            .commit();
+      case R.id.nav_new_track:
+        Intent intent = new Intent(this, TrackingActivity.class);
+        startActivity(intent);
+        break;
+      case R.id.nav_find_routes:
+        fm.beginTransaction().replace(R.id.conten_frame, RoutesOverviewFragment.newInstance())
             .commit();
         break;
       case R.id.nav_favorite:

@@ -18,6 +18,8 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 import rx.Observable;
 
+import java.util.List;
+
 /**
  * Organization: HM FK07.
  * Project: BikeBattle, edu.hm.cs.bikebattle.app.api.rest
@@ -66,7 +68,7 @@ public interface RouteClient {
   Observable<Resources<Resource<RouteDto>>>  findByRoutetype(@Header("Authorization")String token, @Query("routetype") Routetyp routetyp);
 
   @GET(BASE_PATH + "/search/findNear")
-  Observable<Resources<Resource<RouteDto>>>  findNear(
+  Observable<List<RouteDto>>  findNear(
       @Header("Authorization")String token,
       @Query("longitude") double longitude,
       @Query("latitude") double latitude,

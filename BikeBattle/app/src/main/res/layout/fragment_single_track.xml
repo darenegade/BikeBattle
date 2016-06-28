@@ -27,7 +27,7 @@
         android:id="@+id/singl_botoom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/background"
+        android:background="@color/primary"
         android:clipToPadding="true"
         app:behavior_peekHeight="95dp"
         app:layout_behavior="android.support.design.widget.BottomSheetBehavior"

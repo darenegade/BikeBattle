@@ -24,6 +24,7 @@
             android:layout_gravity="center"
             android:clickable="false"
             android:textSize="20sp"
+            android:textColor="@color/primary_text"
             android:text="@string/DefaultUserName"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"/>
