@@ -243,13 +243,19 @@ public class MainActivity extends BaseActivity
     switch (menuItem.getItemId()) {
       case R.id.nav_profil:
         fm.beginTransaction().replace(R.id.content_frame,
-            ProfilFragment.newInstance(getPrincipal(), getUserPhoto())).commit();
+            ProfilFragment.newInstance(getPrincipal(), getUserPhoto()))
+            .addToBackStack("main")
+            .commit();
         break;
       case R.id.nav_tracks:
-        fm.beginTransaction().replace(R.id.content_frame, RoutsFragment.newInstance(getPrincipal(),fm)).commit();
+        fm.beginTransaction().replace(R.id.content_frame, RoutsFragment.newInstance(getPrincipal(),fm))
+            .addToBackStack("main")
+            .commit();
         break;
       case R.id.nav_routes:
-        fm.beginTransaction().replace(R.id.content_frame, TracksFragment.newInstance(getPrincipal(),fm)).commit();
+        fm.beginTransaction().replace(R.id.content_frame,TracksFragment.newInstance(getPrincipal(),fm))
+            .addToBackStack("main")
+            .commit();
         break;
       case R.id.nav_favorite:
         //fragmentClass = ThirdFragment.class;
@@ -263,6 +269,7 @@ public class MainActivity extends BaseActivity
       default:
         fm.beginTransaction().replace(R.id.content_frame,
             ProfilFragment.newInstance(null, null))
+            .addToBackStack("main")
             .commit();
     }
 

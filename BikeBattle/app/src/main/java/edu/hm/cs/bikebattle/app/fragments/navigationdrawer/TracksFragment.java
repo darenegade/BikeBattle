@@ -109,6 +109,5 @@ public class TracksFragment extends ListFragment {
     tracks = getAllTracks();
     setListAdapter(new TrackListFragmentAdapter(getContext(), tracks, user, savedInstanceState
         , getChildFragmentManager()));
-    setRetainInstance(true);
   }
 }

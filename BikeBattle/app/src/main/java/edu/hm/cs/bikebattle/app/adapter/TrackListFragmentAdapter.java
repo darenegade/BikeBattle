@@ -11,7 +11,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.android.gms.maps.GoogleMap;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -27,10 +26,7 @@ import edu.hm.cs.bikebattle.app.modell.User;
 
   private final List<Track> tracks;
   private final User user;
-  private GoogleMap googleMap;
-  private Bundle savedInstanceState;
-  private  int currentPosition;
-  private FragmentManager manager;
+  private int currentPosition;
 
     /**
      * Creates a new Adapter for a arraylist of tracks
@@ -44,8 +40,6 @@ import edu.hm.cs.bikebattle.app.modell.User;
                                   Bundle savedInstanceState, FragmentManager manager) {
     super(context, -1,tracks);
     this.tracks = tracks;
-    this.manager = manager;
-    this.savedInstanceState = savedInstanceState;
     this.user = user;
   }
   @Override

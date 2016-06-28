@@ -1,6 +1,5 @@
 package edu.hm.cs.bikebattle.app.fragments.navigationdrawer;
 
-import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.ListFragment;
@@ -35,7 +34,7 @@ public class RoutsFragment extends ListFragment {
   private DataConnector dataConnector;
   private Bundle savedInstanceState;
   private FragmentManager mangager;
-  //private
+
 
   /**
    * This method creates a new Fragment,with the required Informations
@@ -112,6 +111,5 @@ public class RoutsFragment extends ListFragment {
     routs = getRouts();
     setListAdapter(new RoutsListFragmentAdapter(getContext(), routs, user, savedInstanceState
         , getChildFragmentManager()));
-    setRetainInstance(true);
   }
 }
