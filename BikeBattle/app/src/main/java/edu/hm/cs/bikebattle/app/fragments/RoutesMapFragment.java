@@ -45,19 +45,25 @@ public class RoutesMapFragment extends Fragment implements OnMapReadyCallback, G
    */
   private BaseActivity activity;
   /**
-   * Last location.
+   * Fragment to display the routes in a list
    */
-  private Location lastLocation;
-  private boolean mapReady = false;
   private RoutesListFragment listFragment;
+  /**
+   * List with all routes.
+   */
   private List<Route> routes;
 
+  /**
+   * Factory for a new fragment.
+   *
+   * @param listFragment List fragment.
+   * @return New RoutesMapFragment.
+   */
   public static final RoutesMapFragment newInstance(RoutesListFragment listFragment) {
     RoutesMapFragment fragment = new RoutesMapFragment();
     fragment.listFragment = listFragment;
     return fragment;
   }
-
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -94,7 +100,6 @@ public class RoutesMapFragment extends Fragment implements OnMapReadyCallback, G
       this.googleMap.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
         @Override
         public void onCameraChange(CameraPosition cameraPosition) {
-          //TODO: Load routes.
           LatLng topLeft = googleMap.getProjection().getVisibleRegion().farLeft;
           LatLng bottomRight = googleMap.getProjection().getVisibleRegion().nearRight;
           Location center = new Location("Center");
@@ -102,14 +107,19 @@ public class RoutesMapFragment extends Fragment implements OnMapReadyCallback, G
           center.setLongitude((topLeft.longitude + bottomRight.longitude) / 2);
           float distanceLat = (float) Math.abs(topLeft.latitude - bottomRight.latitude);
           float distanceLong = (float) Math.abs(topLeft.longitude - bottomRight.longitude);
-          loadRoutes(center,Math.max(distanceLat,distanceLong));
+          loadRoutes(center, Math.max(distanceLat, distanceLong));
         }
       });
     }
   }
 
+  @Override
+  public boolean onMyLocationButtonClick() {
+    return false;
+  }
+
   private void loadRoutes(Location location, float distance) {
-    Log.d("Data",location.toString()+"\n"+distance);
+    Log.d("Data", location.toString() + "\n" + distance);
     activity.getDataConnector().getRoutesByLocation(location, distance, new Consumer<List<Route>>
         () {
       @Override
@@ -123,10 +133,9 @@ public class RoutesMapFragment extends Fragment implements OnMapReadyCallback, G
 
       @Override
       public void error(int error, Throwable exception) {
-        //TODO
-        Log.e("Error", "Unable to load routes! "+error);
-        if(exception!=null){
-          Log.e("Exception",exception.toString());
+        Log.e("Error", "Unable to load routes! " + error);
+        if (exception != null) {
+          Log.e("Exception", exception.toString());
         }
       }
     });
@@ -177,11 +186,5 @@ public class RoutesMapFragment extends Fragment implements OnMapReadyCallback, G
     googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(
         new CameraPosition.Builder().target(latLng).zoom(15).build()));
   */
-  }
-
-  @Override
-  public boolean onMyLocationButtonClick() {
-
-    return false;
   }
 }

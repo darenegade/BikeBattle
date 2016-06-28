@@ -427,6 +427,11 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
     googleMap.clear();
     if (routing) {
       GoogleMapHelper.drawLocationList(route, Color.RED, googleMap);
+
+      googleMap.addMarker(new MarkerOptions()
+          .position(new LatLng(router.getNextTarget().getLatitude(), router.getNextTarget()
+              .getLongitude())))
+          .setFlat(false);
     }
   }
 
@@ -441,10 +446,6 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
         googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(
             new CameraPosition.Builder().target(lastPosition).zoom(17).tilt(30)
                 .bearing(lastLocation.bearingTo(router.getNextTarget())).build()));
-        googleMap.addMarker(new MarkerOptions()
-            .position(new LatLng(router.getNextTarget().getLatitude(), router.getNextTarget()
-                .getLongitude())))
-            .setFlat(false);
       } else {
         googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(
             new CameraPosition.Builder().target(lastPosition).zoom(17).tilt(30)

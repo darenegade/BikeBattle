@@ -41,7 +41,7 @@
             android:id="@+id/bottom_sheet"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/background"
+            android:background="@color/primary_dark"
             android:clipToPadding="true"
             app:layout_behavior="android.support.design.widget.BottomSheetBehavior"
     >
@@ -62,7 +62,8 @@
                     android:drawableLeft="@drawable/ic_trackinfo_timer"
                     android:drawablePadding="5dp"
                     android:text="--:--"
-                    android:textSize="35sp"/>
+                    android:textSize="35sp"
+                    android:textColor="@color/primary_text"/>
 
             <TextView
                     android:id="@+id/trackInfo_textView_speed"
@@ -73,7 +74,8 @@
                     android:drawableLeft="@drawable/ic_trackinfo_speed"
                     android:drawablePadding="5dp"
                     android:text="-"
-                    android:textSize="35sp"/>
+                    android:textSize="35sp"
+                    android:textColor="@color/primary_text"/>
 
             <TextView
                     android:id="@+id/trackInfo_textView_average_speed"
@@ -84,7 +86,8 @@
                     android:drawableLeft="@drawable/ic_trackinfo_speed"
                     android:drawablePadding="5dp"
                     android:text="-"
-                    android:textSize="35sp"/>
+                    android:textSize="35sp"
+                    android:textColor="@color/primary_text"/>
 
             <TextView
                     android:id="@+id/trackInfo_textView_altitude"
@@ -95,7 +98,8 @@
                     android:drawableLeft="@drawable/ic_trackinfo_altitude"
                     android:drawablePadding="5dp"
                     android:text="-"
-                    android:textSize="35sp"/>
+                    android:textSize="35sp"
+                    android:textColor="@color/primary_text"/>
 
             <TextView
                     android:id="@+id/trackInfo_textView_distance"
@@ -106,7 +110,8 @@
                     android:drawableLeft="@drawable/ic_trackinfo_distance"
                     android:drawablePadding="5dp"
                     android:text="-"
-                    android:textSize="35sp"/>
+                    android:textSize="35sp"
+                    android:textColor="@color/primary_text"/>
 
             <TextView
                     android:id="@+id/trackInfo_textView_differenceAlt"
@@ -117,8 +122,8 @@
                     android:drawableLeft="@drawable/ic_trackinfo_diffalt"
                     android:drawablePadding="5dp"
                     android:text="-"
-                    android:textSize="35sp"/>
+                    android:textSize="35sp"
+                    android:textColor="@color/primary_text"/>
         </GridLayout>
-
     </android.support.v4.widget.NestedScrollView>
 </android.support.design.widget.CoordinatorLayout>
