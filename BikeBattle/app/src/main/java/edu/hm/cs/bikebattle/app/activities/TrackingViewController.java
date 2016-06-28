@@ -17,25 +17,54 @@ import edu.hm.cs.bikebattle.app.R;
 import edu.hm.cs.bikebattle.app.modell.Track;
 
 /**
- * Created by lukas on 31.05.2016.
+ * Helper class for tracking activity. Controls the views and updates track information.
+ *
+ * @author Lukas Brauckmann
  */
 public class TrackingViewController {
+  /**
+   * TrackingActivity.
+   */
   private TrackingActivity activity;
-
+  /**
+   * BottomSheet
+   */
   private View bottomSheet;
-
+  /**
+   * Layout for the map,.
+   */
   private RelativeLayout relativeLayout;
-
+  /**
+   * Button to start and stop tracking.
+   */
   private FloatingActionButton trackingButton;
-
+  /**
+   * TextView for the time.
+   */
   private TextView textViewTime;
+  /**
+   * TextView for the speed.
+   */
   private TextView textViewSpeed;
+  /**
+   * TextView for the average speed.
+   */
   private TextView textViewAverageSpeed;
+  /**
+   * TextView for the distance.
+   */
   private TextView textViewDistance;
+  /**
+   * TextView for the altitude.
+   */
   private TextView textViewAltitude;
 
   private boolean init = false;
 
+  /**
+   * Initialize the class.
+   * @param activity TrackingActivity.
+   */
   public TrackingViewController(TrackingActivity activity) {
     this.activity = activity;
     relativeLayout = (RelativeLayout) activity.findViewById(R.id.relative_layout);
@@ -49,7 +78,7 @@ public class TrackingViewController {
       @Override
       public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft,
                                  int oldTop, int oldRight, int oldBottom) {
-        Log.d("Height:",String.valueOf(v.getLayoutParams().height));
+        Log.d("Height:", String.valueOf(v.getLayoutParams().height));
         if (v.getLayoutParams().height > 1000) {
           initRelativeLayout();
         }
@@ -57,6 +86,42 @@ public class TrackingViewController {
     });
   }
 
+  /**
+   * Toggles the icon of the button.
+   * @param tracking Flag for tracking.
+   */
+  public void changeButtonIcon(boolean tracking) {
+    if (tracking) {
+      trackingButton.setImageDrawable(
+          ContextCompat.getDrawable(activity, R.drawable.ic_action_stop));
+    } else {
+      trackingButton.setImageDrawable(
+          ContextCompat.getDrawable(activity, R.drawable.ic_action_stop));
+    }
+  }
+
+  /**
+   * Updates the text views information.
+   * @param track Current track.
+   */
+  public void updateViews(Track track) {
+    long seconds = (track.getTime_in_s() / 1000 + 60) % 60;
+    long minutes = track.getTime_in_s() / 1000 / 60;
+    textViewTime.setText(String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds));
+
+    String param = String.format(Locale.ENGLISH, "%.2f m", track.getDistanceInM());
+    textViewDistance.setText(param);
+    param = String.format(Locale.ENGLISH, "%.2f km/h", track.get(track.size() - 1).getSpeed() * 3.6);
+    textViewSpeed.setText(param);
+    param = String.format(Locale.ENGLISH, "%.2f km/h", track.getAverageSpeed_in_kmh());
+    textViewAverageSpeed.setText(param);
+    param = String.format(Locale.ENGLISH, "%.2f m", track.get(track.size() - 1).getAltitude());
+    textViewAltitude.setText(param);
+  }
+
+  /**
+   * Initialize the text views.
+   */
   private void initTextViews() {
     textViewTime = (TextView) activity.findViewById(R.id.trackInfo_textView_time);
     textViewSpeed = (TextView) activity.findViewById(R.id.trackInfo_textView_speed);
@@ -66,6 +131,9 @@ public class TrackingViewController {
     textViewTime = (TextView) activity.findViewById(R.id.trackInfo_textView_time);
   }
 
+  /**
+   * Initialize the button.
+   */
   private void initButton() {
     trackingButton = (FloatingActionButton) activity.findViewById(R.id.tracking_button);
     trackingButton.setImageDrawable(
@@ -86,16 +154,9 @@ public class TrackingViewController {
     });
   }
 
-  public void changeButtonIcon(boolean tracking){
-    if(tracking){
-      trackingButton.setImageDrawable(
-          ContextCompat.getDrawable(activity, R.drawable.ic_action_stop));
-    }else{
-      trackingButton.setImageDrawable(
-          ContextCompat.getDrawable(activity, R.drawable.ic_action_stop));
-    }
-  }
-
+  /**
+   * Initialize the map.
+   */
   private void initMap() {
     // Obtain the SupportMapFragment and get notified when the map is ready to be used.
     SupportMapFragment mapFragment = (SupportMapFragment) activity.getSupportFragmentManager()
@@ -108,6 +169,9 @@ public class TrackingViewController {
     mapFragment.getMapAsync(activity);
   }
 
+  /**
+   * Initialize the bottom sheet.
+   */
   private void initBottomSheet() {
     bottomSheet = activity.findViewById(R.id.bottom_sheet);
     BottomSheetBehavior<View> mBottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
@@ -126,24 +190,14 @@ public class TrackingViewController {
     });
   }
 
+  /**
+   * Initialize the relative layout.
+   */
   private void initRelativeLayout() {
     if (!init) {
       relativeLayout.getLayoutParams().height = bottomSheet.getTop();
       relativeLayout.requestLayout();
-      init=true;
+      init = true;
     }
-  }
-
-  public void updateViews(Track track) {
-    long seconds = (track.getTime_in_s()/1000+60)%60;
-    long minutes = track.getTime_in_s()/1000/60;
-    textViewTime.setText(String.format(Locale.getDefault(),"%02d:%02d",minutes,seconds));
-
-    String param = String.format(Locale.ENGLISH, "%.2f m", track.getDistanceInM());
-    textViewDistance.setText(param);
-    param = String.format(Locale.ENGLISH, "%.2f m/s", track.get(track.size() - 1).getSpeed());
-    textViewSpeed.setText(param);
-    param = String.format(Locale.ENGLISH, "%.2f km/h", track.getAverageSpeed_in_kmh());
-    textViewAverageSpeed.setText(param);
   }
 }

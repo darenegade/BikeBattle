@@ -2,6 +2,7 @@ package edu.hm.cs.bikebattle.app.activities;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -12,8 +13,15 @@ import android.os.Bundle;
 import android.os.Looper;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.content.ContextCompat;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
-
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -21,11 +29,11 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-
 import edu.hm.cs.bikebattle.app.R;
+import edu.hm.cs.bikebattle.app.api.domain.Difficulty;
+import edu.hm.cs.bikebattle.app.api.domain.Routetyp;
 import edu.hm.cs.bikebattle.app.data.Consumer;
 import edu.hm.cs.bikebattle.app.fragments.GoogleMapHelper;
-import edu.hm.cs.bikebattle.app.modell.LocationList;
 import edu.hm.cs.bikebattle.app.modell.Route;
 import edu.hm.cs.bikebattle.app.modell.Track;
 import edu.hm.cs.bikebattle.app.router.AndroidLocationRouter;
@@ -95,17 +103,16 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
    */
   public boolean changeTrackingMode() {
     if (isTracking) {
+      isTracking = false;
       if (routing) {
         router.stop();
+        saveTrack();
       } else {
         tracker.stop();
+        saveTrack();
+
+        showRouteDialog();
       }
-      saveTrack();
-
-      DialogFragment dialog = new CreateRouteDialog();
-      dialog.show(getSupportFragmentManager(), "Create new route?");
-
-      isTracking = false;
     } else {
       if (routing) {
         if (router.isInStartArea()) {
@@ -138,28 +145,6 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
       tracker.stop();
     }
     super.onBackPressed();
-  }
-
-  /**
-   * Adds a new route to the backend
-   *
-   * @param name The name of the route.
-   */
-  public void addRoute(final String name) {
-    final Context context = this;
-    Route route = new Route(name, track);
-    getDataConnector().addRoute(route, getPrincipal(), new Consumer<String>() {
-      @Override
-      public void consume(String input) {
-        Toast.makeText(context, "Added new route!", Toast.LENGTH_LONG).show();
-      }
-
-      @Override
-      public void error(int error, Throwable exception) {
-        Toast.makeText(context, "Unable to add new route!", Toast.LENGTH_LONG).show();
-        //TODO
-      }
-    });
   }
 
   @Override
@@ -204,76 +189,102 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
 
   }
 
-  @Override
-  protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_tracking);
+  /**
+   * Creates a dialog for adding a new route.
+   */
+  private void showRouteDialog() {
+    final Dialog dialog = new Dialog(this);
+    dialog.setContentView(R.layout.dialog_create_route);
+    dialog.setTitle("Add new route?");
 
-    // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-    SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-        .findFragmentById(R.id.map);
-    if (mapFragment == null) {
-      mapFragment = SupportMapFragment.newInstance();
-      getSupportFragmentManager().beginTransaction().replace(R.id.map, mapFragment).commit();
-    }
-    mapFragment.getMapAsync(this);
+    final EditText nameTextField = (EditText) dialog.findViewById(R.id.editText);
+    nameTextField.setText("Name");
 
-    if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-        == PackageManager.PERMISSION_GRANTED) {
-      locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-      locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1, 0, this,
-          Looper.getMainLooper());
-      lastLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-    }
-    // Check if routing is enabled.
-    Bundle args = getIntent().getExtras();
-    try {
-      routesOid = args.getString("oid");
-    } catch (NullPointerException exception) {
-      routesOid = null;
-    }
-    routing = routesOid != null;
-    if (routing) {
-      loadRoute();
-      router = new AndroidLocationRouter(route, 1, this);
+    final RadioGroup radioType = (RadioGroup) dialog.findViewById(R.id.radioType);
+    final RadioGroup radioDiff = (RadioGroup) dialog.findViewById(R.id.radioDiff);
+
+    Button saveButton = (Button) dialog.findViewById(R.id.button_ok);
+    Button cancelButton = (Button) dialog.findViewById(R.id.button_cancel);
+
+    // Set button listener.
+    final Context context = this;
+    saveButton.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View view) {
+        String name = String.valueOf(nameTextField.getText());
+        if (name.equals("")) {
+          Toast.makeText(context, "Empty name!", Toast.LENGTH_LONG).show();
+        } else {
+          RadioButton selectedType = (RadioButton) dialog.findViewById(radioType
+              .getCheckedRadioButtonId());
+          RadioButton selectedDiff = (RadioButton) dialog.findViewById(radioDiff
+              .getCheckedRadioButtonId());
+          addRoute(name, selectedType.getText(), selectedDiff.getText());
+          dialog.dismiss();
+        }
+      }
+    });
+    cancelButton.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View view) {
+        dialog.dismiss();
+      }
+    });
+
+    dialog.show();
+  }
+
+  /**
+   * Adds a new route to the backend
+   *
+   * @param name         The name of the route.
+   * @param selectedType Route type.
+   * @param selectedDiff Route difficulty.
+   */
+  private void addRoute(final String name, CharSequence selectedType, CharSequence selectedDiff) {
+    final Context context = this;
+    Route route = new Route(name, track);
+
+    if (selectedType.equals("City")) {
+      route.setRoutetyp(Routetyp.CITY);
+    } else if (selectedType.equals("Offroad")) {
+      route.setRoutetyp(Routetyp.OFFROAD);
+    } else if (selectedType.equals("Road")) {
+      route.setRoutetyp(Routetyp.ROAD);
     } else {
-      tracker = new AndroidLocationTracker(1, this);
+      Toast.makeText(context, "Wrong route type!", Toast.LENGTH_LONG).show();
+      return;
     }
 
-    viewController = new TrackingViewController(this);
+    if (selectedDiff.equals("Easy")) {
+      route.setDifficulty(Difficulty.EASY);
+    } else if (selectedDiff.equals("Normal")) {
+      route.setDifficulty(Difficulty.NORMAL);
+    } else if (selectedDiff.equals("Hard")) {
+      route.setDifficulty(Difficulty.HARD);
+    } else {
+      Toast.makeText(context, "Wrong route difficulty!", Toast.LENGTH_LONG).show();
+      return;
+    }
+
+    getDataConnector().addRoute(route, getPrincipal(), new Consumer<String>() {
+      @Override
+      public void consume(String input) {
+        Toast.makeText(context, "Added new route!", Toast.LENGTH_LONG).show();
+      }
+
+      @Override
+      public void error(int error, Throwable exception) {
+        Toast.makeText(context, "Unable to add new route!", Toast.LENGTH_LONG).show();
+        //TODO
+      }
+    });
   }
 
   /**
    * Loads the route for routing.
    */
   private void loadRoute() {
-    /*
-    LocationList list = new LocationList();
-    addRoutePoint(list, 48.1229806, 11.5978708);
-    addRoutePoint(list, 48.1228938, 11.5974820);
-    addRoutePoint(list, 48.1230681, 11.5977203);
-    addRoutePoint(list, 48.1234571, 11.5976424);
-    addRoutePoint(list, 48.1237490, 11.5973967);
-    addRoutePoint(list, 48.1240122, 11.5969924);
-    addRoutePoint(list, 48.1243319, 11.5966800);
-    addRoutePoint(list, 48.1246915, 11.5966080);
-    addRoutePoint(list, 48.1251432, 11.5960900);
-    addRoutePoint(list, 48.1254898, 11.5958659);
-    addRoutePoint(list, 48.1258059, 11.5956128);
-    addRoutePoint(list, 48.1261858, 11.5954958);
-    addRoutePoint(list, 48.1264964, 11.5951870);
-    addRoutePoint(list, 48.1268341, 11.5950448);
-    addRoutePoint(list, 48.1271520, 11.5947710);
-    addRoutePoint(list, 48.1275148, 11.5946829);
-    addRoutePoint(list, 48.1278858, 11.5945358);
-    addRoutePoint(list, 48.1282661, 11.5944073);
-    addRoutePoint(list, 48.1283870, 11.5938616);
-    addRoutePoint(list, 48.1286249, 11.5933845);
-    addRoutePoint(list, 48.1289625, 11.5934323);
-    addRoutePoint(list, 48.1291484, 11.5934056);
-    addRoutePoint(list, 48.1292529, 11.5931773);
-    route = new Route("TestRoute", list);
-    */
     final Context context = this;
     getDataConnector().getRouteById(routesOid, new Consumer<Route>() {
       @Override
@@ -283,18 +294,9 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
 
       @Override
       public void error(int error, Throwable exception) {
-        //TODO
         Toast.makeText(context, "Error while loading route!", Toast.LENGTH_LONG).show();
       }
     });
-  }
-
-  @Deprecated
-  private void addRoutePoint(LocationList list, double lat, double lng) {
-    Location location = new Location("");
-    location.setLatitude(lat);
-    location.setLongitude(lng);
-    list.add(location);
   }
 
   /**
@@ -303,18 +305,31 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
 
   private void saveTrack() {
     final Context context = this;
-    getDataConnector().addTrack(track, getPrincipal(), new Consumer<String>() {
-      @Override
-      public void consume(String input) {
-        Toast.makeText(context, "Added new route!", Toast.LENGTH_LONG).show();
-      }
+    if (routing) {
+      getDataConnector().addTrack(track, route, getPrincipal(), new Consumer<Void>() {
+        @Override
+        public void consume(Void input) {
+          Toast.makeText(context, "Added track to route!", Toast.LENGTH_LONG).show();
+        }
 
-      @Override
-      public void error(int error, Throwable exception) {
-        Toast.makeText(context, "Unable to save track!", Toast.LENGTH_LONG).show();
-        //TODO
-      }
-    });
+        @Override
+        public void error(int error, Throwable exception) {
+          Toast.makeText(context, "Unable to save track!", Toast.LENGTH_LONG).show();
+        }
+      });
+    } else {
+      getDataConnector().addTrack(track, getPrincipal(), new Consumer<String>() {
+        @Override
+        public void consume(String input) {
+          Toast.makeText(context, "Added new track!", Toast.LENGTH_LONG).show();
+        }
+
+        @Override
+        public void error(int error, Throwable exception) {
+          Toast.makeText(context, "Unable to save track!", Toast.LENGTH_LONG).show();
+        }
+      });
+    }
   }
 
   /**
@@ -375,6 +390,7 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
                       updateTrack(router.getTrack(), router.getLastLocation());
                     } else {
                       changeTrackingMode();
+                      viewController.changeButtonIcon(false);
                     }
                   }
                 });
@@ -438,5 +454,44 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
     } else {
       Toast.makeText(this, "No last location!", Toast.LENGTH_LONG).show();
     }
+  }
+
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_tracking);
+
+    // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+    SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+        .findFragmentById(R.id.map);
+    if (mapFragment == null) {
+      mapFragment = SupportMapFragment.newInstance();
+      getSupportFragmentManager().beginTransaction().replace(R.id.map, mapFragment).commit();
+    }
+    mapFragment.getMapAsync(this);
+
+    if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+        == PackageManager.PERMISSION_GRANTED) {
+      locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+      locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1, 0, this,
+          Looper.getMainLooper());
+      lastLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+    }
+    // Check if routing is enabled.
+    Bundle args = getIntent().getExtras();
+    try {
+      routesOid = args.getString("oid");
+    } catch (NullPointerException exception) {
+      routesOid = null;
+    }
+    routing = routesOid != null;
+    if (routing) {
+      loadRoute();
+      router = new AndroidLocationRouter(route, 1, this);
+    } else {
+      tracker = new AndroidLocationTracker(1, this);
+    }
+
+    viewController = new TrackingViewController(this);
   }
 }
