@@ -53,7 +53,18 @@ public class GoogleMapHelper {
         .setFlat(true);
   }
 
+  /**
+   * Calculates the outer coordinates of the locationlist.
+   * The coordinates are returned in an array in the order:
+   * north, east, south, west
+   *
+   * @param list locationlist
+   * @return double array containing outer coordinates {north, east, south, west}
+   */
   public static double[] getOutCoordinates(LocationList list) {
+    if (list.size() <= 0) {
+      return new double[] {0, 0, 0, 0};
+    }
     double east = list.get(0).getLongitude();
     double west = east;
     double north = list.get(0).getLatitude();
@@ -75,13 +86,18 @@ public class GoogleMapHelper {
     return new double[] {north, east, south, west};
   }
 
-  public static void zoomToTrack(GoogleMap googleMap, LocationList track) {
+  /**
+   * Zooms to the position of the locationlist in the googlemap object.
+   * @param googleMap googlemap object
+   * @param list locationlist
+   */
+  public static void zoomToTrack(GoogleMap googleMap, LocationList list) {
     double width = Math.abs(googleMap.getProjection().getVisibleRegion().farRight.longitude -
         googleMap.getProjection().getVisibleRegion().farLeft.longitude);
     double height = Math.abs(googleMap.getProjection().getVisibleRegion().farRight.latitude -
         googleMap.getProjection().getVisibleRegion().nearRight.latitude);
 
-    double[] coords = GoogleMapHelper.getOutCoordinates(track);
+    double[] coords = GoogleMapHelper.getOutCoordinates(list);
 
     double distHeight = Math.abs(coords[0] - coords[2]);
     double distWidth = Math.abs(coords[1] - coords[3]);
@@ -96,10 +112,22 @@ public class GoogleMapHelper {
         new CameraPosition.Builder().target(latLng).zoom(zoom).build()));
   }
 
+  /**
+   * Converts seconds to a formatted string.
+   * hours:minuets:seconds
+   * @param time time
+   * @return formatted time
+   */
   public static String secondsToFormat(long time) {
     return String.format("%d:%02d:%02d", time / 3600, time / 60 % 60, time % 60);
   }
 
+  /**
+   * Converts the distance to a format.
+   * If the length is smaller than 1 km the distance is displayed in meter. Otherwise in km.
+   * @param distance in m
+   * @return formatted distance
+   */
   public static String distanceToFormat(float distance) {
     if (distance > 1000) {
       return String.format("%.1f km", distance / 1000);
@@ -108,19 +136,24 @@ public class GoogleMapHelper {
     }
   }
 
-
-
+  /**
+   * Returns the line data for the height of a locationlist.
+   * @param list locationlost
+   * @return linedata
+   */
   @NonNull
   public static LineData getLineData(LocationList list) {
     ArrayList<Entry> entries = new ArrayList<Entry>();
     float distance = 0;
-    Location location = list.get(0);
-    entries.add(new Entry((float) location.getAltitude(), (int) distance / 10));
-    for (int i = 1; i < list.size(); i++) {
-      Location tmp = list.get(i);
-      distance += location.distanceTo(tmp);
-      entries.add(new Entry((float) tmp.getAltitude(), (int) distance / 10));
-      location = tmp;
+    if (list.size() > 0) {
+      Location location = list.get(0);
+      entries.add(new Entry((float) location.getAltitude(), (int) distance / 10));
+      for (int i = 1; i < list.size(); i++) {
+        Location tmp = list.get(i);
+        distance += location.distanceTo(tmp);
+        entries.add(new Entry((float) tmp.getAltitude(), (int) distance / 10));
+        location = tmp;
+      }
     }
     LineDataSet dataset = new LineDataSet(entries, "");
 

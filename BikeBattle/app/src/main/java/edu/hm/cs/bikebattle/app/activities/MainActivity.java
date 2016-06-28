@@ -175,8 +175,6 @@ public class MainActivity extends BaseActivity implements NavigationView
         .placeholder(R.mipmap.ic_launcher)
         .error(R.mipmap.ic_launcher)
         .into(profilImage);
-
-
   }
 
   @Override
