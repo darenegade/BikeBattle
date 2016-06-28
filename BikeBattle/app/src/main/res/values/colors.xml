@@ -1,7 +1,11 @@
 <resources>
-
-<color name="background">#D8F6FF</color>
-<color name="font">#3D81FF</color>
-<color name="accent">#9EBEFF</color>
-
+    <color name="background">#FFFFFF</color>
+    <color name="primary">#673AB7</color>
+    <color name="primary_dark">#512DA8</color>
+    <color name="primary_light">#D1C4E9</color>
+    <color name="accent">#009688</color>
+    <color name="primary_text">#212121</color>
+    <color name="secondary_text">#727272</color>
+    <color name="icons">#FFFFFF</color>
+    <color name="divider">#B6B6B6</color>
 </resources>
