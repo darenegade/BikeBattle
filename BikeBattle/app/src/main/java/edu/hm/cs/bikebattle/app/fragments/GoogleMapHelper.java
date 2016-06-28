@@ -46,6 +46,11 @@ public class GoogleMapHelper {
     googleMap.addPolyline(polyRoute);
   }
 
+  /**
+   * Displays a position icon on the given position.
+   * @param googleMap GoogleMap object.
+   * @param position Given position.
+   */
   public static void drawPositionIcon(GoogleMap googleMap, LatLng position){
     googleMap.addMarker(new MarkerOptions()
         .position(position)
