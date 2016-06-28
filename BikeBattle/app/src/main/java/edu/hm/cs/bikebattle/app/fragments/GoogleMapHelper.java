@@ -8,10 +8,13 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
+import edu.hm.cs.bikebattle.app.R;
 import java.util.ArrayList;
 
 import edu.hm.cs.bikebattle.app.modell.LocationList;
@@ -41,6 +44,18 @@ public class GoogleMapHelper {
     }
     googleMap.clear();
     googleMap.addPolyline(polyRoute);
+  }
+
+  /**
+   * Displays a position icon on the given position.
+   * @param googleMap GoogleMap object.
+   * @param position Given position.
+   */
+  public static void drawPositionIcon(GoogleMap googleMap, LatLng position){
+    googleMap.addMarker(new MarkerOptions()
+        .position(position)
+        .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_navigation)))
+        .setFlat(true);
   }
 
   /**

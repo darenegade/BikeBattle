@@ -2,6 +2,7 @@ package edu.hm.cs.bikebattle.app.activities;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.net.Uri;
@@ -30,6 +31,7 @@ import java.util.List;
 import edu.hm.cs.bikebattle.app.R;
 import edu.hm.cs.bikebattle.app.data.Consumer;
 import edu.hm.cs.bikebattle.app.fragments.friends.FriendsFragment;
+import edu.hm.cs.bikebattle.app.fragments.RoutesOverviewFragment;
 import edu.hm.cs.bikebattle.app.fragments.navigationdrawer.MainFragment;
 import edu.hm.cs.bikebattle.app.fragments.navigationdrawer.ProfilFragment;
 import edu.hm.cs.bikebattle.app.fragments.single.SingleRouteFragment;
@@ -37,8 +39,8 @@ import edu.hm.cs.bikebattle.app.modell.Route;
 import edu.hm.cs.bikebattle.app.modell.Track;
 import edu.hm.cs.bikebattle.app.modell.User;
 
-public class MainActivity extends BaseActivity
-    implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends BaseActivity implements NavigationView
+    .OnNavigationItemSelectedListener {
 
   private static final String TAG = "MainActivity";
   private NavigationView navigationView;
@@ -273,7 +275,12 @@ public class MainActivity extends BaseActivity
       case R.id.nav_tracks:
         break;
       case R.id.nav_routes:
-        //fragmentClass = ThirdFragment.class;
+        Intent intent = new Intent(this, TrackingActivity.class);
+        startActivity(intent);
+        break;
+      case R.id.nav_find_routes:
+        fm.beginTransaction().replace(R.id.conten_frame, RoutesOverviewFragment.newInstance())
+            .commit();
         break;
       case R.id.nav_favorite:
         //fragmentClass = ThirdFragment.class;

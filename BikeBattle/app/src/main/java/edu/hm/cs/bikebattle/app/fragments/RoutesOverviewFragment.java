@@ -1,4 +1,4 @@
-package edu.hm.cs.bikebattle.app.fragments.routes;
+package edu.hm.cs.bikebattle.app.fragments;
 
 
 import android.content.Context;
@@ -12,7 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import edu.hm.cs.bikebattle.app.R;
-import edu.hm.cs.bikebattle.app.activities.RoutesActivity;
+import edu.hm.cs.bikebattle.app.activities.BaseActivity;
 import edu.hm.cs.bikebattle.app.adapter.RoutesFragmentPagerAdapter;
 
 
@@ -23,6 +23,10 @@ import edu.hm.cs.bikebattle.app.adapter.RoutesFragmentPagerAdapter;
  */
 public class RoutesOverviewFragment extends Fragment {
 
+  public static final RoutesOverviewFragment newInstance() {
+    return new RoutesOverviewFragment();
+  }
+
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
                            Bundle savedInstanceState) {
@@ -30,7 +34,7 @@ public class RoutesOverviewFragment extends Fragment {
     View view = inflater.inflate(R.layout.fragment_tab_overview, container, false);
 
     try {
-      RoutesActivity activity = (RoutesActivity) getActivity();
+      BaseActivity activity = (BaseActivity) getActivity();
 
       // Get the ViewPager and set it's PagerAdapter so that it can display items
       ViewPager viewPager = (ViewPager) view.findViewById(R.id.viewpager);
@@ -43,7 +47,6 @@ public class RoutesOverviewFragment extends Fragment {
     } catch (Exception exception) {
       Log.e("Error!!", exception.getMessage());
     }
-
     return view;
   }
 
