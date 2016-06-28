@@ -1,7 +1,6 @@
 package edu.hm.cs.bikebattle.app.fragments.single;
 
 import android.graphics.Color;
-import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -10,14 +9,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-
-import java.util.ArrayList;
 
 import edu.hm.cs.bikebattle.app.R;
 import edu.hm.cs.bikebattle.app.fragments.GoogleMapHelper;
@@ -111,26 +105,7 @@ public class SingleTrackFragment extends Fragment implements OnMapReadyCallback 
    * @param view inflated view
    */
   private void drawChart(View view) {
-
-    ArrayList<Entry> entries = new ArrayList<Entry>();
-    float distance = 0;
-    Location location = track.get(0);
-    entries.add(new Entry((float) location.getAltitude(), (int) distance / 10));
-    for (int i = 1; i < track.size(); i++) {
-      Location tmp = track.get(i);
-      distance += location.distanceTo(tmp);
-      entries.add(new Entry((float) tmp.getAltitude(), (int) distance / 10));
-      location = tmp;
-    }
-    LineDataSet dataset = new LineDataSet(entries, "");
-
-    // creating labels
-    ArrayList<String> labels = new ArrayList<String>();
-    for (int i = 0; i < track.getDistanceInM() / 10 + 1; i++) {
-      labels.add(String.format("%d m", i * 10));
-    }
-    LineData data = new LineData(labels, dataset);
-    ((LineChart) view.findViewById(R.id.chart)).setData(data);
+    ((LineChart) view.findViewById(R.id.chart)).setData(GoogleMapHelper.getLineData(track));
   }
 
   @Override
