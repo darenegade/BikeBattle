@@ -290,6 +290,8 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
       @Override
       public void consume(Route input) {
         route = input;
+        clearMap();
+        updateCamera();
       }
 
       @Override
@@ -426,12 +428,14 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
   private void clearMap() {
     googleMap.clear();
     if (routing) {
-      GoogleMapHelper.drawLocationList(route, Color.RED, googleMap);
+      if (route != null) {
+        GoogleMapHelper.drawLocationList(route, Color.RED, googleMap);
 
-      googleMap.addMarker(new MarkerOptions()
-          .position(new LatLng(router.getNextTarget().getLatitude(), router.getNextTarget()
-              .getLongitude())))
-          .setFlat(false);
+        googleMap.addMarker(new MarkerOptions()
+            .position(new LatLng(router.getNextTarget().getLatitude(), router.getNextTarget()
+                .getLongitude())))
+            .setFlat(false);
+      }
     }
   }
 
@@ -442,7 +446,7 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
     if (lastLocation != null) {
       clearMap();
       LatLng lastPosition = new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude());
-      if (routing) {
+      if (routing && route != null) {
         googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(
             new CameraPosition.Builder().target(lastPosition).zoom(17).tilt(30)
                 .bearing(lastLocation.bearingTo(router.getNextTarget())).build()));
