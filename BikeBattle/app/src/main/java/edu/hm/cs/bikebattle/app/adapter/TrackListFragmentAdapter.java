@@ -4,18 +4,22 @@ import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -27,7 +31,7 @@ import edu.hm.cs.bikebattle.app.modell.User;
 /**
  * Shows for each Element some informations and draws the route into a google map
  */
-  public class TrackListFragmentAdapter extends ArrayAdapter<Track> implements OnMapReadyCallback {
+  public class TrackListFragmentAdapter extends ArrayAdapter<Track> {
 
   private final List<Track> tracks;
   private final User user;
@@ -56,11 +60,16 @@ import edu.hm.cs.bikebattle.app.modell.User;
   public View getView(int position, View convertView, ViewGroup parent) {
     currentPosition = position;
     View rowView = LayoutInflater.from(getContext()).inflate(R.layout.item_track_layout,parent,false);
-
-    MapView mapView;
-    mapView = (MapView) rowView.findViewById(R.id.mapview);
-    mapView.onCreate(savedInstanceState);
-    mapView.getMapAsync(this);
+    ImageView mapImage = (ImageView)rowView.findViewById(R.id.mapview);
+    Log.e("URI",makeMapString());
+    /*Picasso
+        .with(getContext())
+        .load(makeMapString())
+        .fit()
+        .centerCrop()
+        .placeholder(R.mipmap.ic_launcher)
+        .error(R.mipmap.ic_launcher)
+        .into(mapImage);*/
 
     TextView textViewName = (TextView) rowView.findViewById(R.id.name_item);
     textViewName.setText(user.getName());
@@ -76,16 +85,21 @@ import edu.hm.cs.bikebattle.app.modell.User;
   }
 
 
-  @Override
-  public void onMapReady(GoogleMap googleMap) {
-    if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION)
-        == PackageManager.PERMISSION_GRANTED) {
-      this.googleMap = googleMap;
-      this.googleMap.setMyLocationEnabled(false);
-      this.googleMap.getUiSettings().setMapToolbarEnabled(false);
 
-      GoogleMapHelper.drawLocationList(tracks.get(currentPosition), Color.RED, googleMap);
-      GoogleMapHelper.zoomToTrack(googleMap, tracks.get(currentPosition));
+  private String makeMapString(){
+    String mapString = "http://maps.googleapis.com/maps/api/staticmap?" +
+        "size=500x400" +
+        "&key=AIzaSyD8eiHCCmLstP_JgGj6oLqVOzl1VSJrqck" +
+        "&path=color:0x0000ff%7Cweight:5";
+    String splitter = "%7C";
+
+    //for (Location location : tracks.get(currentPosition))
+    Log.e("Track", tracks.get(currentPosition).toString());
+    for(int i = 0 ; i < tracks.get(currentPosition).size();i++){
+      Location location = tracks.get(currentPosition).get(i);
+      mapString = mapString+splitter;
+      mapString= mapString+location.getLatitude()+","+location.getLongitude();
     }
+    return  mapString;
   }
 }

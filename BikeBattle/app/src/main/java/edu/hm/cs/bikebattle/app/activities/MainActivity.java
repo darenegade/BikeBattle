@@ -182,7 +182,7 @@ public class MainActivity extends BaseActivity
     Route route = new Route("Test");
     route.setDifficulty(Difficulty.NORMAL);
     route.setRoutetyp(Routetyp.CITY);
-    fm.beginTransaction().replace(R.id.conten_frame, SingleRouteFragment.newInstance(route)).commit();
+    fm.beginTransaction().replace(R.id.content_frame, SingleRouteFragment.newInstance(route)).commit();
   }
 
   @Override
@@ -249,22 +249,22 @@ public class MainActivity extends BaseActivity
             ProfilFragment.newInstance(getPrincipal(), getUserPhoto())).commit();
         break;
       case R.id.nav_tracks:
-        fm.beginTransaction().replace(R.id.content_frame, RoutsFragment.newInstance(getPrincipal(),true)).commit();
+        fm.beginTransaction().replace(R.id.content_frame, RoutsFragment.newInstance(getPrincipal(),true,fm)).commit();
         break;
       case R.id.nav_routes:
-        fm.beginTransaction().replace(R.id.content_frame, RoutsFragment.newInstance(getPrincipal(),false)).commit();
+        fm.beginTransaction().replace(R.id.content_frame, RoutsFragment.newInstance(getPrincipal(),false,fm)).commit();
         break;
       case R.id.nav_favorite:
         //fragmentClass = ThirdFragment.class;
         break;
       case R.id.nav_friends:
-        fm.beginTransaction().replace(R.id.conten_frame,
+        fm.beginTransaction().replace(R.id.content_frame,
             FriendsFragment.newInstance())
             .addToBackStack("main")
             .commit();
         break;
       default:
-        fm.beginTransaction().replace(R.id.conten_frame,
+        fm.beginTransaction().replace(R.id.content_frame,
             ProfilFragment.newInstance(null, null))
             .commit();
     }

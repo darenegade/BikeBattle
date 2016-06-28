@@ -114,7 +114,7 @@ public class FriendsAddFragment extends Fragment implements SearchView.OnQueryTe
             public void consume(Void input) {
               //Friend added - return to friends list
               activity.getSupportFragmentManager().beginTransaction()
-                  .replace(R.id.conten_frame, FriendsFragment.newInstance()).commit();
+                  .replace(R.id.content_frame, FriendsFragment.newInstance()).commit();
             }
 
             @Override

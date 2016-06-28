@@ -133,17 +133,7 @@ public class RoutsFragment extends ListFragment {
     Track testTrack = new Track(wayPoints);
     testTrack.getAverageSpeed_in_kmh();
     testTrack.getTime_in_s();
-      dataConnector.addTrack(testTrack, user, new Consumer<Void>() {
-      @Override
-      public void consume(Void input) {
-
-      }
-
-      @Override
-      public void error(int error, Throwable exception) {
-        Log.e(TAG, "ROUT INPUT FAILURE");
-      }
-    });
+      //dataConnector.add
   }
 
   /**
@@ -165,7 +155,7 @@ public class RoutsFragment extends ListFragment {
           Log.e(TAG, "USER ROUTS UPDATE FAILURE");
         }
       });
-    } else {
+    } else if (onlyUser == false){
         dataConnector.getTracksByUser(user, new Consumer<List<Track>>() {
           @Override
           public void consume(List<Track> input) {
@@ -185,7 +175,7 @@ public class RoutsFragment extends ListFragment {
     return routs;
   }
 
-  public void setRouts(List routs) {
+  public void setRouts(List<Route> routs) {
     this.routs = routs;
   }
 
@@ -193,7 +183,7 @@ public class RoutsFragment extends ListFragment {
     return tracks;
   }
 
-  public void setAllTracks(List tracks) {
+  public void setAllTracks(List<Track> tracks) {
     this.tracks = tracks;
   }
 

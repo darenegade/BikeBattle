@@ -114,7 +114,7 @@ public class FriendsFragment extends Fragment {
           @Override
           public void onClick(View v) {
             activity.getSupportFragmentManager().beginTransaction()
-                .replace(R.id.conten_frame, FriendsAddFragment.newInstance())
+                .replace(R.id.content_frame, FriendsAddFragment.newInstance())
                 .addToBackStack("friends")
                 .commit();
           }
