@@ -1,13 +1,9 @@
 package edu.hm.cs.bikebattle.app.adapter;
 
-import android.Manifest;
 import android.content.Context;
-import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,14 +13,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapView;
-import com.google.android.gms.maps.OnMapReadyCallback;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 import edu.hm.cs.bikebattle.app.R;
-import edu.hm.cs.bikebattle.app.fragments.GoogleMapHelper;
 import edu.hm.cs.bikebattle.app.modell.Track;
 import edu.hm.cs.bikebattle.app.modell.User;
 
@@ -62,14 +55,14 @@ import edu.hm.cs.bikebattle.app.modell.User;
     View rowView = LayoutInflater.from(getContext()).inflate(R.layout.item_track_layout,parent,false);
     ImageView mapImage = (ImageView)rowView.findViewById(R.id.mapview);
     Log.e("URI",makeMapString());
-    /*Picasso
+    Picasso
         .with(getContext())
         .load(makeMapString())
         .fit()
         .centerCrop()
         .placeholder(R.mipmap.ic_launcher)
         .error(R.mipmap.ic_launcher)
-        .into(mapImage);*/
+        .into(mapImage);
 
     TextView textViewName = (TextView) rowView.findViewById(R.id.name_item);
     textViewName.setText(user.getName());
@@ -89,7 +82,7 @@ import edu.hm.cs.bikebattle.app.modell.User;
   private String makeMapString(){
     String mapString = "http://maps.googleapis.com/maps/api/staticmap?" +
         "size=500x400" +
-        "&key=AIzaSyD8eiHCCmLstP_JgGj6oLqVOzl1VSJrqck" +
+        "&key=AIzaSyD9-iXLN4t282Q2EW22NCVTUTev4okhZYE" +
         "&path=color:0x0000ff%7Cweight:5";
     String splitter = "%7C";
 
