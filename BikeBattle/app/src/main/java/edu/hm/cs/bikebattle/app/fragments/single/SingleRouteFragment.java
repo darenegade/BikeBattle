@@ -1,5 +1,6 @@
 package edu.hm.cs.bikebattle.app.fragments.single;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -21,6 +22,7 @@ import java.util.List;
 
 import edu.hm.cs.bikebattle.app.R;
 import edu.hm.cs.bikebattle.app.activities.BaseActivity;
+import edu.hm.cs.bikebattle.app.activities.TrackingActivity;
 import edu.hm.cs.bikebattle.app.api.domain.TopDriveEntryDto;
 import edu.hm.cs.bikebattle.app.data.Consumer;
 import edu.hm.cs.bikebattle.app.fragments.GoogleMapHelper;
@@ -83,7 +85,9 @@ public class SingleRouteFragment extends Fragment implements OnMapReadyCallback 
       ((Button)view.findViewById(R.id.single_route_button)).setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-          //TODO start routing activity
+          Intent intent = new Intent(view.getContext(), TrackingActivity.class);
+          intent.putExtra(TrackingActivity.OID, route.getOid());
+          startActivity(intent);
         }
       });
     }

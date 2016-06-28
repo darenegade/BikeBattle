@@ -43,6 +43,7 @@ import edu.hm.cs.bikebattle.app.tracker.LocationTracker;
  * @author Lukas Brauckmann
  */
 public class TrackingActivity extends BaseActivity implements OnMapReadyCallback, LocationListener {
+  public static final String OID = "oid";
   /**
    * Counter for received location updates.
    */
@@ -479,9 +480,8 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
       lastLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
     }
     // Check if routing is enabled.
-    Bundle args = getIntent().getExtras();
     try {
-      routesOid = args.getString("oid");
+      routesOid = getIntent().getStringExtra(OID);
     } catch (NullPointerException exception) {
       routesOid = null;
     }
