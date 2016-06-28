@@ -24,7 +24,7 @@ import edu.hm.cs.bikebattle.app.modell.User;
 /**
  * Organization: HM FK07.
  * Project: BikeBattle, edu.hm.cs.bikebattle.app.activities
- * Author(s): Rene Zarwel
+ * @author Rene Zarwel
  * Date: 09.05.16
  * OS: MacOS 10.11
  * Java-Version: 1.8

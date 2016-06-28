@@ -36,8 +36,11 @@ import edu.hm.cs.bikebattle.app.modell.assembler.TrackAssembler;
 import edu.hm.cs.bikebattle.app.modell.assembler.UserAssembler;
 import io.rx_cache.DynamicKey;
 import io.rx_cache.EvictDynamicKey;
+import io.rx_cache.EvictProvider;
 import io.rx_cache.Reply;
 import okhttp3.Cache;
+import org.springframework.hateoas.Resource;
+import org.springframework.hateoas.Resources;
 import retrofit2.Response;
 import rx.Observable;
 import rx.Subscriber;
@@ -45,12 +48,15 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
+import java.util.LinkedList;
+import java.util.List;
+
 /**
  * Created by Nils on 03.05.2016.
  * Basic implementation for a connection to the backend.
  * No error handling!
  *
- * @author Nils Bernhardt
+ * @author Nils Bernhardt, René Zarwel
  * @version 1.0
  */
 public class CachingDataConnector implements DataConnector {
@@ -279,19 +285,54 @@ public class CachingDataConnector implements DataConnector {
   }
 
   @Override
-  public void login(final String email, final Consumer<User> consumer) {
+  public void login(final String email, final Consumer<User> consumer, final boolean refresh) {
 
     generateToken(new Consumer<String>() {
       @Override
       public void consume(String input) {
         executeGetCall(
-            userCache.findByEmail(userClient.findByEmail(input, email).map(
-                new Func1<Resource<UserDto>, UserDto>() {
+            userCache.findByEmail(userClient.findByEmail(input, email).map(new Func1<Resource<UserDto>, UserDto>() {
+              @Override
+              public UserDto call(Resource<UserDto> userDtoResource) {
+                return userDtoResource.getContent();
+              }
+            }), new DynamicKey(email), new EvictDynamicKey(refresh)),
+            consumer);
+      }
+
+      @Override
+      public void error(int error, Throwable exception) {
+        consumer.error(error, exception);
+      }
+    });
+  }
+
+  @Override
+  public void login(final String email, final Consumer<User> consumer) {
+    login(email,consumer,false);
+  }
+
+  @Override
+  public void getRoutesByLocation(final Location location, final float distance,
+                                  final Consumer<List<Route>> consumer, boolean refresh) {
+
+    generateToken(new Consumer<String>() {
+      @Override
+      public void consume(String input) {
+        executeGetListCall(
+            routeCache.findNear(
+                routeClient.findNear(input, location.getLongitude(), location.getLatitude(), distance).map(new Func1<Resources<Resource<RouteDto>>, List<RouteDto>>() {
                   @Override
-                  public UserDto call(Resource<UserDto> userDtoResource) {
-                    return userDtoResource.getContent();
+                  public List<RouteDto> call(Resources<Resource<RouteDto>> resources) {
+                    LinkedList<RouteDto> buffer = new LinkedList<RouteDto>();
+                    for (Resource<RouteDto> routeDtoResource : resources.getContent()) {
+                      buffer.add(routeDtoResource.getContent());
+                    }
+                    return buffer;
                   }
-                }), new DynamicKey(email), new EvictDynamicKey(true)),
+                }),
+                new DynamicKey(new double[]{location.getLongitude(), location.getLatitude(), distance}),
+                new EvictDynamicKey(true)),
             consumer);
       }
 
@@ -305,36 +346,11 @@ public class CachingDataConnector implements DataConnector {
   @Override
   public void getRoutesByLocation(final Location location, final float distance,
                                   final Consumer<List<Route>> consumer) {
-
-    generateToken(new Consumer<String>() {
-      @Override
-      public void consume(String input) {
-        executeGetListCall(
-            routeCache.findNear(routeClient.findNear(input, location.getLongitude(),
-                location.getLatitude(),
-                distance).map(new Func1<Resources<Resource<RouteDto>>, List<RouteDto>>() {
-                  @Override
-                  public List<RouteDto> call(Resources<Resource<RouteDto>> resources) {
-                    LinkedList<RouteDto> buffer = new LinkedList<RouteDto>();
-                    for (Resource<RouteDto> routeDtoResource : resources.getContent()) {
-                      buffer.add(routeDtoResource.getContent());
-                    }
-                    return buffer;
-                  }
-                }),
-                new DynamicKey(new double[] {location.getLongitude(), location.getLatitude(),
-                    distance}), new EvictDynamicKey(true)), consumer);
-      }
-
-      @Override
-      public void error(int error, Throwable exception) {
-        consumer.error(error, exception);
-      }
-    });
+    getRoutesByLocation(location, distance, consumer, false);
   }
 
   @Override
-  public void getUserById(final String id, final Consumer<User> consumer) {
+  public void getUserById(final String id, final Consumer<User> consumer, final boolean refresh) {
     generateToken(new Consumer<String>() {
       @Override
       public void consume(String input) {
@@ -347,7 +363,42 @@ public class CachingDataConnector implements DataConnector {
                   }
                 }),
                 new DynamicKey(id),
-                new EvictDynamicKey(true)),
+                new EvictDynamicKey(refresh)),
+            consumer);
+      }
+
+      @Override
+      public void error(int error, Throwable exception) {
+        consumer.error(error, exception);
+      }
+    });
+  }
+
+  @Override
+  public void getUserById(final String id, final Consumer<User> consumer) {
+    getUserById(id, consumer, false);
+  }
+
+  @Override
+  public void getUserByName(final String name, final Consumer<List<User>> consumer, final boolean refresh) {
+
+    generateToken(new Consumer<String>() {
+      @Override
+      public void consume(String input) {
+        executeGetListCall(
+            userCache.findByNameContainingIgnoreCase(
+                userClient.findByNameContainingIgnoreCase(input, name).map(new Func1<Resources<Resource<UserDto>>, List<UserDto>>() {
+                  @Override
+                  public List<UserDto> call(Resources<Resource<UserDto>> resources) {
+                    LinkedList<UserDto> buffer = new LinkedList<UserDto>();
+                    for (Resource<UserDto> userDtoResource : resources.getContent()) {
+                      buffer.add(userDtoResource.getContent());
+                    }
+                    return buffer;
+                  }
+                }),
+                new DynamicKey(name),
+                new EvictDynamicKey(refresh)),
             consumer);
       }
 
@@ -360,25 +411,29 @@ public class CachingDataConnector implements DataConnector {
 
   @Override
   public void getUserByName(final String name, final Consumer<List<User>> consumer) {
+    getUserByName(name, consumer, false);
+  }
+
+  @Override
+  public void getTracksByUser(final User user, final Consumer<List<Track>> consumer, final boolean refresh) {
 
     generateToken(new Consumer<String>() {
       @Override
       public void consume(String input) {
         executeGetListCall(
-            userCache.findByNameContainingIgnoreCase(
-                userClient.findByNameContainingIgnoreCase(input, name).map(
-                    new Func1<Resources<Resource<UserDto>>, List<UserDto>>() {
-                      @Override
-                      public List<UserDto> call(Resources<Resource<UserDto>> resources) {
-                        LinkedList<UserDto> buffer = new LinkedList<UserDto>();
-                        for (Resource<UserDto> userDtoResource : resources.getContent()) {
-                          buffer.add(userDtoResource.getContent());
-                        }
-                        return buffer;
-                      }
-                    }),
-                new DynamicKey(name),
-                new EvictDynamicKey(true)),
+            driveCache.findByOwnerOid(
+                driveClient.findByOwnerOid(input, user.getOid()).map(new Func1<Resources<Resource<DriveDto>>, List<DriveDto>>() {
+                  @Override
+                  public List<DriveDto> call(Resources<Resource<DriveDto>> resources) {
+                    LinkedList<DriveDto> buffer = new LinkedList<DriveDto>();
+                    for (Resource<DriveDto> resource : resources.getContent()) {
+                      buffer.add(resource.getContent());
+                    }
+                    return buffer;
+                  }
+                }),
+                new DynamicKey(user.getOid()),
+                new EvictDynamicKey(refresh)),
             consumer);
       }
 
@@ -391,25 +446,29 @@ public class CachingDataConnector implements DataConnector {
 
   @Override
   public void getTracksByUser(final User user, final Consumer<List<Track>> consumer) {
+    getTracksByUser(user, consumer, false);
+  }
+
+  @Override
+  public void getTopTwentyOfRoute(final Route route, final Consumer<List<TopDriveEntryDto>> consumer, final boolean refresh) {
 
     generateToken(new Consumer<String>() {
       @Override
       public void consume(String input) {
         executeGetListCall(
-            driveCache.findByOwnerOid(
-                driveClient.findByOwnerOid(input, user.getOid()).map(
-                    new Func1<Resources<Resource<DriveDto>>, List<DriveDto>>() {
-                      @Override
-                      public List<DriveDto> call(Resources<Resource<DriveDto>> resources) {
-                        LinkedList<DriveDto> buffer = new LinkedList<DriveDto>();
-                        for (Resource<DriveDto> resource : resources.getContent()) {
-                          buffer.add(resource.getContent());
-                        }
-                        return buffer;
-                      }
-                    }),
-                new DynamicKey(user.getOid()),
-                new EvictDynamicKey(true)),
+            driveCache.topTwentyOfRoute(
+                driveClient.topTwentyOfRoute(input, route.getOid()).map(new Func1<Resources<Resource<TopDriveEntryDto>>, List<TopDriveEntryDto>>() {
+                  @Override
+                  public List<TopDriveEntryDto> call(Resources<Resource<TopDriveEntryDto>> resources) {
+                    LinkedList<TopDriveEntryDto> buffer = new LinkedList<TopDriveEntryDto>();
+                    for (Resource<TopDriveEntryDto> resource : resources.getContent()) {
+                      buffer.add(resource.getContent());
+                    }
+                    return buffer;
+                  }
+                }),
+                new DynamicKey(route.getOid()),
+                new EvictDynamicKey(refresh)),
             consumer);
       }
 
@@ -421,28 +480,30 @@ public class CachingDataConnector implements DataConnector {
   }
 
   @Override
-  public void getTopTwentyOfRoute(final Route route,
-                                  final Consumer<List<TopDriveEntryDto>> consumer) {
+  public void getTopTwentyOfRoute(final Route route, final Consumer<List<TopDriveEntryDto>> consumer) {
+    getTopTwentyOfRoute(route, consumer, false);
+  }
+
+  @Override
+  public void getRoutesByUser(final User user, final Consumer<List<Route>> consumer, final boolean refresh) {
 
     generateToken(new Consumer<String>() {
       @Override
       public void consume(String input) {
         executeGetListCall(
-            driveCache.topTwentyOfRoute(
-                driveClient.topTwentyOfRoute(input, route.getOid()).map(
-                    new Func1<Resources<Resource<TopDriveEntryDto>>, List<TopDriveEntryDto>>() {
-                      @Override
-                      public List<TopDriveEntryDto> call(
-                          Resources<Resource<TopDriveEntryDto>> resources) {
-                        LinkedList<TopDriveEntryDto> buffer = new LinkedList<TopDriveEntryDto>();
-                        for (Resource<TopDriveEntryDto> resource : resources.getContent()) {
-                          buffer.add(resource.getContent());
-                        }
-                        return buffer;
-                      }
-                    }),
-                new DynamicKey(route.getOid()),
-                new EvictDynamicKey(true)),
+            routeCache.findByOwnerOid(
+                routeClient.findByOwnerOid(input, user.getOid()).map(new Func1<Resources<Resource<RouteDto>>, List<RouteDto>>() {
+                  @Override
+                  public List<RouteDto> call(Resources<Resource<RouteDto>> resources) {
+                    LinkedList<RouteDto> buffer = new LinkedList<RouteDto>();
+                    for (Resource<RouteDto> resource : resources.getContent()) {
+                      buffer.add(resource.getContent());
+                    }
+                    return buffer;
+                  }
+                }),
+                new DynamicKey(user.getOid()),
+                new EvictDynamicKey(refresh)),
             consumer);
       }
 
@@ -455,33 +516,7 @@ public class CachingDataConnector implements DataConnector {
 
   @Override
   public void getRoutesByUser(final User user, final Consumer<List<Route>> consumer) {
-
-    generateToken(new Consumer<String>() {
-      @Override
-      public void consume(String input) {
-        executeGetListCall(
-            routeCache.findByOwnerOid(
-                routeClient.findByOwnerOid(input, user.getOid()).map(
-                    new Func1<Resources<Resource<RouteDto>>, List<RouteDto>>() {
-                      @Override
-                      public List<RouteDto> call(Resources<Resource<RouteDto>> resources) {
-                        LinkedList<RouteDto> buffer = new LinkedList<RouteDto>();
-                        for (Resource<RouteDto> resource : resources.getContent()) {
-                          buffer.add(resource.getContent());
-                        }
-                        return buffer;
-                      }
-                    }),
-                new DynamicKey(user.getOid()),
-                new EvictDynamicKey(true)),
-            consumer);
-      }
-
-      @Override
-      public void error(int error, Throwable exception) {
-        consumer.error(error, exception);
-      }
-    });
+    getRoutesByUser(user, consumer, false);
   }
 
   @Override
@@ -491,20 +526,12 @@ public class CachingDataConnector implements DataConnector {
       @Override
       public void consume(String input) {
         executeCreateCall(
-            driveClient.create(input, TrackAssembler.toDto(track)).map(
-                new Func1<Response<Void>, String>() {
-                  @Override
-                  public String call(Response<Void> voidResponse) {
-                    String location = voidResponse.headers().get("Location");
-                    if (location != null) {
-                      String[] split = location.split("/");
-                      if (split.length > 0) {
-                        return split[split.length - 1];
-                      }
-                    }
-                    return null;
-                  }
-                }),
+            driveClient.create(input, TrackAssembler.toDto(track)).map(new Func1<Response<Void>, String>() {
+              @Override
+              public String call(Response<Void> voidResponse) {
+                return voidResponse.headers().get("Location");
+              }
+            }),
             consumer);
       }
 
@@ -672,26 +699,58 @@ public class CachingDataConnector implements DataConnector {
   }
 
   @Override
-  public void getFriends(final User user, final Consumer<List<User>> consumer) {
+  public void getFriends(final User user, final Consumer<List<User>> consumer, final boolean refresh) {
 
     generateToken(new Consumer<String>() {
       @Override
       public void consume(String input) {
         executeGetListCall(
             userCache.getFriends(
-                userClient.getFriends(input, user.getOid()).map(
-                    new Func1<Resources<Resource<UserDto>>, List<UserDto>>() {
-                      @Override
-                      public List<UserDto> call(Resources<Resource<UserDto>> resources) {
-                        LinkedList<UserDto> buffer = new LinkedList<UserDto>();
-                        for (Resource<UserDto> resource : resources.getContent()) {
-                          buffer.add(resource.getContent());
-                        }
-                        return buffer;
-                      }
-                    }),
+                userClient.getFriends(input, user.getOid()).map(new Func1<Resources<Resource<UserDto>>, List<UserDto>>() {
+                  @Override
+                  public List<UserDto> call(Resources<Resource<UserDto>> resources) {
+                    LinkedList<UserDto> buffer = new LinkedList<UserDto>();
+                    for (Resource<UserDto> resource : resources.getContent()) {
+                      buffer.add(resource.getContent());
+                    }
+                    return buffer;
+                  }
+                }),
                 new DynamicKey(user.getOid()),
-                new EvictDynamicKey(true)),
+                new EvictDynamicKey(refresh)),
+            consumer);
+      }
+
+      @Override
+      public void error(int error, Throwable exception) {
+        consumer.error(error, exception);
+      }
+    });
+  }
+
+  @Override
+  public void getFriends(final User user, final Consumer<List<User>> consumer) {
+    getFriends(user, consumer, false);
+  }
+
+  @Override
+  public void getAllRoutes(final Consumer<List<Route>> consumer, final boolean refresh) {
+
+    generateToken(new Consumer<String>() {
+      @Override
+      public void consume(String input) {
+        executeGetListCall(
+            routeCache.findAll(
+                routeClient.findAll(input).map(new Func1<Resources<Resource<RouteDto>>, List<RouteDto>>() {
+                  @Override
+                  public List<RouteDto> call(Resources<Resource<RouteDto>> resources) {
+                    LinkedList<RouteDto> buffer = new LinkedList<RouteDto>();
+                    for (Resource<RouteDto> resource : resources.getContent()) {
+                      buffer.add(resource.getContent());
+                    }
+                    return buffer;
+                  }
+                }), new EvictProvider(refresh)),
             consumer);
       }
 
@@ -704,30 +763,6 @@ public class CachingDataConnector implements DataConnector {
 
   @Override
   public void getAllRoutes(final Consumer<List<Route>> consumer) {
-
-    generateToken(new Consumer<String>() {
-      @Override
-      public void consume(String input) {
-        executeGetListCall(
-            routeCache.findAll(
-                routeClient.findAll(input).map(
-                    new Func1<Resources<Resource<RouteDto>>, List<RouteDto>>() {
-                      @Override
-                      public List<RouteDto> call(Resources<Resource<RouteDto>> resources) {
-                        LinkedList<RouteDto> buffer = new LinkedList<RouteDto>();
-                        for (Resource<RouteDto> resource : resources.getContent()) {
-                          buffer.add(resource.getContent());
-                        }
-                        return buffer;
-                      }
-                    })),
-            consumer);
-      }
-
-      @Override
-      public void error(int error, Throwable exception) {
-        consumer.error(error, exception);
-      }
-    });
+    getAllRoutes(consumer, false);
   }
 }

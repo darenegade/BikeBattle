@@ -1,6 +1,7 @@
 package edu.hm.cs.bikebattle.app.activities;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.net.Uri;
@@ -17,6 +18,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -25,14 +27,14 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 import edu.hm.cs.bikebattle.app.R;
-import edu.hm.cs.bikebattle.app.fragments.friends.UserFragment;
+import edu.hm.cs.bikebattle.app.fragments.friends.FriendsFragment;
 import edu.hm.cs.bikebattle.app.fragments.navigationdrawer.MainFragment;
 import edu.hm.cs.bikebattle.app.fragments.navigationdrawer.ProfilFragment;
 import edu.hm.cs.bikebattle.app.modell.Track;
 import edu.hm.cs.bikebattle.app.modell.User;
 
 public class MainActivity extends BaseActivity
-    implements NavigationView.OnNavigationItemSelectedListener, UserFragment.OnListFragmentInteractionListener {
+    implements NavigationView.OnNavigationItemSelectedListener {
 
   private static final String TAG = "MainActivity";
   private NavigationView navigationView;
@@ -64,7 +66,25 @@ public class MainActivity extends BaseActivity
 
     drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
     ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-        this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close){
+      @Override
+      public void onDrawerClosed(View drawerView) {
+        // Code here will be triggered once the drawer closes as we dont want anything to happen so we leave this blank
+        super.onDrawerClosed(drawerView);
+        InputMethodManager inputMethodManager = (InputMethodManager)
+            getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+      }
+
+      @Override
+      public void onDrawerOpened(View drawerView) {
+        // Code here will be triggered once the drawer open as we dont want anything to happen so we leave this blank
+        super.onDrawerOpened(drawerView);
+        InputMethodManager inputMethodManager = (InputMethodManager)
+            getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+      }
+    };
     drawer.addDrawerListener(toggle);
     toggle.syncState();
 
@@ -183,11 +203,6 @@ public class MainActivity extends BaseActivity
     // as you specify a parent activity in AndroidManifest.xml.
     int id = item.getItemId();
 
-    //noinspection SimplifiableIfStatement
-    if (id == R.id.action_settings) {
-      return true;
-    }
-
     return super.onOptionsItemSelected(item);
   }
 
@@ -235,11 +250,14 @@ public class MainActivity extends BaseActivity
         break;
       case R.id.nav_friends:
         fm.beginTransaction().replace(R.id.conten_frame,
-            UserFragment.newInstance()).commit();
+            FriendsFragment.newInstance())
+            .addToBackStack("main")
+            .commit();
         break;
       default:
         fm.beginTransaction().replace(R.id.conten_frame,
-            ProfilFragment.newInstance(null, null)).commit();
+            ProfilFragment.newInstance(null, null))
+            .commit();
     }
 
 
@@ -249,10 +267,5 @@ public class MainActivity extends BaseActivity
     setTitle(menuItem.getTitle());
     // Close the navigation drawer
     drawer.closeDrawers();
-  }
-
-  @Override
-  public void onListFragmentInteraction(User user) {
-
   }
 }

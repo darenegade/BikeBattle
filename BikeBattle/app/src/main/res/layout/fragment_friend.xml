@@ -11,15 +11,22 @@
             android:layout_height="70dp"
             android:paddingTop="@dimen/nav_header_vertical_spacing"
             app:civ_border_width="2dp"
-            app:civ_border_color="#FFFFFF" android:src="@mipmap/ic_launcher"/>
+            app:civ_border_color="#FFFFFF"
+            android:src="@mipmap/ic_launcher"
+            android:layout_marginTop="10sp"/>
 
     <TextView
             android:id="@+id/name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/text_margin"
-            android:textAppearance="?attr/textAppearanceListItem" android:layout_gravity="center"
-            android:clickable="false" android:textSize="20dp" android:text="Hans Wurst" android:paddingLeft="10dp"/>
+            android:textAppearance="?attr/textAppearanceListItem"
+            android:layout_gravity="center"
+            android:clickable="false"
+            android:textSize="20sp"
+            android:text="@string/DefaultUserName"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"/>
 
 
 </LinearLayout>
