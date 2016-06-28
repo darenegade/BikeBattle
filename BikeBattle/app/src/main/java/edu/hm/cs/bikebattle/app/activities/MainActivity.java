@@ -274,7 +274,7 @@ public class MainActivity extends BaseActivity implements NavigationView
         break;
       case R.id.nav_tracks:
         break;
-      case R.id.nav_routes:
+      case R.id.nav_new_track:
         Intent intent = new Intent(this, TrackingActivity.class);
         startActivity(intent);
         break;
