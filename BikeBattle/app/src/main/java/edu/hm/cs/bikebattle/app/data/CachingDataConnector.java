@@ -283,7 +283,7 @@ public class CachingDataConnector implements DataConnector {
       @Override
       public void consume(String input) {
         executeGetCall(
-            userCache.findByEmail(userClient.findByEmail(input, email).map(new Func1<Resource<UserDto>, UserDto>() {
+            userCache.UsersFindByEmail(userClient.findByEmail(input, email).map(new Func1<Resource<UserDto>, UserDto>() {
               @Override
               public UserDto call(Resource<UserDto> userDtoResource) {
                 return userDtoResource.getContent();
@@ -312,7 +312,7 @@ public class CachingDataConnector implements DataConnector {
       @Override
       public void consume(String input) {
         executeGetListCall(
-            routeCache.findNear(
+            routeCache.RoutesFindNear(
                 routeClient.findNear(input, location.getLongitude(), location.getLatitude(), distance),
                 new DynamicKey(new double[]{location.getLongitude(), location.getLatitude(), distance}),
                 new EvictDynamicKey(true)),
@@ -338,7 +338,7 @@ public class CachingDataConnector implements DataConnector {
       @Override
       public void consume(String input) {
         executeGetCall(
-            userCache.findeOne(
+            userCache.UsersFindeOne(
                 userClient.findeOne(input, id).map(new Func1<Resource<UserDto>, UserDto>() {
                   @Override
                   public UserDto call(Resource<UserDto> userDtoResource) {
@@ -368,7 +368,7 @@ public class CachingDataConnector implements DataConnector {
       @Override
       public void consume(String input) {
         executeGetCall(
-            routeCache.findeOne(
+            routeCache.routesFindeOne(
                 routeClient.findeOne(input, id).map(new Func1<Resource<RouteDto>, RouteDto>() {
                   @Override
                   public RouteDto call(Resource<RouteDto> routeDtoResource) {
@@ -399,7 +399,7 @@ public class CachingDataConnector implements DataConnector {
       @Override
       public void consume(String input) {
         executeGetListCall(
-            userCache.findByNameContainingIgnoreCase(
+            userCache.UsersFindByNameContainingIgnoreCase(
                 userClient.findByNameContainingIgnoreCase(input, name).map(new Func1<Resources<Resource<UserDto>>, List<UserDto>>() {
                   @Override
                   public List<UserDto> call(Resources<Resource<UserDto>> resources) {
@@ -434,7 +434,7 @@ public class CachingDataConnector implements DataConnector {
       @Override
       public void consume(String input) {
         executeGetListCall(
-            driveCache.findByOwnerOid(
+            driveCache.DrivesFindByOwnerOid(
                 driveClient.findByOwnerOid(input, user.getOid()).map(new Func1<Resources<Resource<DriveDto>>, List<DriveDto>>() {
                   @Override
                   public List<DriveDto> call(Resources<Resource<DriveDto>> resources) {
@@ -469,7 +469,7 @@ public class CachingDataConnector implements DataConnector {
       @Override
       public void consume(String input) {
         executeGetListCall(
-            driveCache.topTwentyOfRoute(
+            driveCache.DriveTopTwentyOfRoute(
                 driveClient.topTwentyOfRoute(input, route.getOid()),
                 new DynamicKey(route.getOid()),
                 new EvictDynamicKey(refresh)),
@@ -495,7 +495,7 @@ public class CachingDataConnector implements DataConnector {
       @Override
       public void consume(String input) {
         executeGetListCall(
-            routeCache.findByOwnerOid(
+            routeCache.RoutesFindByOwnerOid(
                 routeClient.findByOwnerOid(input, user.getOid()).map(new Func1<Resources<Resource<RouteDto>>, List<RouteDto>>() {
                   @Override
                   public List<RouteDto> call(Resources<Resource<RouteDto>> resources) {
@@ -709,7 +709,7 @@ public class CachingDataConnector implements DataConnector {
       @Override
       public void consume(String input) {
         executeGetListCall(
-            userCache.getFriends(
+            userCache.UsersGetFriends(
                 userClient.getFriends(input, user.getOid()).map(new Func1<Resources<Resource<UserDto>>, List<UserDto>>() {
                   @Override
                   public List<UserDto> call(Resources<Resource<UserDto>> resources) {
@@ -744,7 +744,7 @@ public class CachingDataConnector implements DataConnector {
       @Override
       public void consume(String input) {
         executeGetListCall(
-            routeCache.findAll(
+            routeCache.RoutesFindAll(
                 routeClient.findAll(input).map(new Func1<Resources<Resource<RouteDto>>, List<RouteDto>>() {
                   @Override
                   public List<RouteDto> call(Resources<Resource<RouteDto>> resources) {

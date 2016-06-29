@@ -91,7 +91,7 @@
 //  public void testFindAll() throws Exception{
 //
 //
-//    Response<Resources<Resource<UserDto>>> userDtoResponse = client.findAll(TOKEN).execute();
+//    Response<Resources<Resource<UserDto>>> userDtoResponse = client.RoutesFindAll(TOKEN).execute();
 //
 //    assertEquals(200, userDtoResponse.code());
 //

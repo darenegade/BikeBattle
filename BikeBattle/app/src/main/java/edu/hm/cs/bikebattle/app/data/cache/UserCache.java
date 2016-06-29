@@ -22,21 +22,21 @@ import java.util.List;
 @EncryptKey("Secret") //Prevent NullPointer - Encryption is deactivated
 public interface UserCache {
 
-  Observable<Reply<UserDto>> findeOne(
+  Observable<Reply<UserDto>> UsersFindeOne(
       Observable<UserDto> oUser, DynamicKey userId, EvictDynamicKey update);
 
-  Observable<Reply<List<UserDto>>> findAll(
+  Observable<Reply<List<UserDto>>> UsersFindAll(
       Observable<List<UserDto>> oUsers, EvictProvider update);
 
-  Observable<Reply<List<UserDto>>> findByName(
+  Observable<Reply<List<UserDto>>> UsersFindByName(
       Observable<List<UserDto>> oUsers, DynamicKey name, EvictDynamicKey update);
 
-  Observable<Reply<List<UserDto>>> findByNameContainingIgnoreCase(
+  Observable<Reply<List<UserDto>>> UsersFindByNameContainingIgnoreCase(
       Observable<List<UserDto>> oUsers, DynamicKey name, EvictDynamicKey update);
 
-  Observable<Reply<UserDto>> findByEmail(
+  Observable<Reply<UserDto>> UsersFindByEmail(
       Observable<UserDto> oUser, DynamicKey userMail, EvictDynamicKey update);
 
-  Observable<Reply<List<UserDto>>> getFriends(
+  Observable<Reply<List<UserDto>>> UsersGetFriends(
       Observable<List<UserDto>> oUsers, DynamicKey userId, EvictDynamicKey update);
 }

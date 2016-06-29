@@ -153,7 +153,7 @@
 //
 //  public void testFindAll() throws Exception{
 //
-//    Response<Resources<Resource<DriveDto>>> driveDtoResponse = driveClient.findAll(TOKEN).execute();
+//    Response<Resources<Resource<DriveDto>>> driveDtoResponse = driveClient.RoutesFindAll(TOKEN).execute();
 //
 //    assertEquals(200, driveDtoResponse.code());
 //
