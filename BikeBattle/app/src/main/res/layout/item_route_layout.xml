@@ -6,13 +6,13 @@
               android:orientation="vertical">
 
     <LinearLayout
-            android:id="@+id/nameLayout_tracks"
+            android:id="@+id/nameLayout_routes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
         <TextView
-                android:id="@+id/name_item_label_track_track"
+                android:id="@+id/name_item_label"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:paddingLeft="16dp"
@@ -22,45 +22,89 @@
                 android:textColor="@color/primary_text"/>
 
         <TextView
-                android:id="@+id/name_item_track"
+                android:id="@+id/name_item_routes"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:paddingTop="16dp"
                 android:textColor="@color/secondary_text"/>
+
+        <TextView
+                android:id="@+id/route_name_item_label_routes"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:paddingLeft="16dp"
+                android:paddingTop="16dp"
+                android:text="Name Route: "
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="@color/primary_text"/>
+
+        <TextView
+                android:id="@+id/route_name_item_routes"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:paddingTop="16dp"
+                android:textColor="@color/secondary_text"/>
+
     </LinearLayout>
 
     <ImageView
-            android:id="@+id/mapview_track"
             android:layout_width="match_parent"
-            android:layout_height="150dp"/>
+            android:layout_height="150dp"
+            android:id="@+id/mapview_routes"/>
+
 
     <LinearLayout
-            android:id="@+id/dataLayout_tracks"
+            android:id="@+id/dataLayout_routes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                      android:id="@+id/timeLayout_tracks"
+                      android:id="@+id/lengthLayout_routes"
                       android:layout_width="wrap_content"
                       android:layout_height="match_parent"
-                      android:layout_weight="1"
                       android:background="@color/background"
                       android:orientation="vertical">
 
             <TextView
-                    android:id="@+id/time_item_label_track"
+                    android:id="@+id/length_item_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingLeft="16dp"
                     android:paddingTop="16dp"
-                    android:text="Dauer:"
+                    android:text="Länge: "
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                     android:textColor="@color/primary_text"/>
 
             <TextView
-                    android:id="@+id/time_item_track"
+                    android:id="@+id/length_text_routes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:paddingBottom="16dp"
+                    android:paddingLeft="16dp"
+                    android:textColor="@color/secondary_text"/>
+        </LinearLayout>
+
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                      android:id="@+id/difficultyLayout_routes"
+                      android:layout_width="wrap_content"
+                      android:layout_height="match_parent"
+                      android:background="@color/background"
+                      android:orientation="vertical">
+
+            <TextView
+                    android:id="@+id/difficult_item_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="16dp"
+                    android:paddingTop="16dp"
+                    android:text="Schwierigkeit:"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:textColor="@color/primary_text"/>
+
+            <TextView
+                    android:id="@+id/difficult_item_routes"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:paddingBottom="16dp"
@@ -69,25 +113,24 @@
         </LinearLayout>
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                      android:id="@+id/speedLayout_tracks"
+                      android:id="@+id/typeLayout_routes"
                       android:layout_width="wrap_content"
                       android:layout_height="match_parent"
                       android:background="@color/background"
-                      android:layout_weight="1"
                       android:orientation="vertical">
 
             <TextView
-                    android:id="@+id/average_speed_item_label_track"
+                    android:id="@+id/rout_type_name_item_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingLeft="16dp"
                     android:paddingTop="16dp"
-                    android:text="Durchschnittsgeschwidigkeit: "
+                    android:text="Routentyp: "
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                     android:textColor="@color/primary_text"/>
 
             <TextView
-                    android:id="@+id/average_speed_name_item_track"
+                    android:id="@+id/route_type_name_item_routes"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:paddingBottom="16dp"

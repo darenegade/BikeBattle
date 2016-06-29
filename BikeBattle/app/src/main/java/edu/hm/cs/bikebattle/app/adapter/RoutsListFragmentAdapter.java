@@ -53,7 +53,7 @@ import edu.hm.cs.bikebattle.app.modell.User;
     currentPosition = position;
 
 
-    View rowView = LayoutInflater.from(getContext()).inflate(R.layout.item_rout_layout,parent,false);
+    View rowView = LayoutInflater.from(getContext()).inflate(R.layout.item_route_layout,parent,false);
 
     ImageView mapImage = (ImageView)rowView.findViewById(R.id.mapview_routes);
 
@@ -66,7 +66,7 @@ import edu.hm.cs.bikebattle.app.modell.User;
         .error(R.mipmap.ic_launcher)
         .into(mapImage);
 
-    TextView textViewName = (TextView) rowView.findViewById(R.id.name_item);
+    TextView textViewName = (TextView) rowView.findViewById(R.id.name_item_routes);
     textViewName.setText(user.getName());
 
     String routTyp;
@@ -74,10 +74,10 @@ import edu.hm.cs.bikebattle.app.modell.User;
       routTyp = "Default";
 
     else routTyp = routes.get(position).getDifficulty().toString();
-    TextView routTypName = (TextView) rowView.findViewById(R.id.rout_type_name_item);
+    TextView routTypName = (TextView) rowView.findViewById(R.id.route_type_name_item_routes);
     routTypName.setText(routTyp);
 
-    TextView routName = (TextView) rowView.findViewById(R.id.rout_name_item);
+    TextView routName = (TextView) rowView.findViewById(R.id.route_name_item_routes);
     routName.setText(routes.get(position).getName());
 
     String difficult;
@@ -85,10 +85,10 @@ import edu.hm.cs.bikebattle.app.modell.User;
       difficult = "Default";
 
     else difficult = routes.get(position).getDifficulty().toString();
-    TextView difficultName = (TextView) rowView.findViewById(R.id.difficult_item);
+    TextView difficultName = (TextView) rowView.findViewById(R.id.difficult_item_routes);
     difficultName.setText(difficult);
 
-    TextView textViewInformation = (TextView) rowView.findViewById(R.id.textView_information_item);
+    TextView textViewInformation = (TextView) rowView.findViewById(R.id.length_text_routes);
     String information =
         String.format(" %.2f km", routes.get(position).getDistanceInM() / 1000);
     textViewInformation.setText(information);

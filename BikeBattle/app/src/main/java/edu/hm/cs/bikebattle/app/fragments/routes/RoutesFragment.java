@@ -1,10 +1,9 @@
-package edu.hm.cs.bikebattle.app.fragments.navigationdrawer;
+package edu.hm.cs.bikebattle.app.fragments.routes;
 
 import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,41 +12,36 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import edu.hm.cs.bikebattle.app.R;
 import edu.hm.cs.bikebattle.app.activities.BaseActivity;
 import edu.hm.cs.bikebattle.app.data.Consumer;
 import edu.hm.cs.bikebattle.app.data.DataConnector;
-import edu.hm.cs.bikebattle.app.fragments.friends.FriendRecyclerViewAdapter;
-import edu.hm.cs.bikebattle.app.modell.Track;
-import edu.hm.cs.bikebattle.app.modell.User;
+import edu.hm.cs.bikebattle.app.modell.Route;
 
-public class ShowTracksFragment extends Fragment {
+import java.util.List;
 
-  private static final String TAG = "TracksFragment";
+public class RoutesFragment extends Fragment {
+
+  private static final String TAG = "RoutesFragment";
   private BaseActivity activity;
-  private TracksRecyclerViewAdapter adapter;
+  private RoutesRecyclerViewAdapter adapter;
   private SwipeRefreshLayout swipeRefreshLayout;
   private TextView helpText;
-  private User user;
-  private List<Track>tracks;
   private DataConnector dataConnector;
 
   /**
+   * Mandatory empty constructor for the fragment manager to instantiate the
+   * fragment (e.g. upon screen orientation changes).
+   */
+  public RoutesFragment() {
+  }
+
+  /**
    * This method creates a new Fragment,with the required Informations
-   * @param user - is the current User from the App
    * @return new Fragment
    */
-  public static final ShowTracksFragment newInstance(User user) {
-    ShowTracksFragment fragment = new ShowTracksFragment();
-    Bundle args = new Bundle();
-    fragment.user = user;
-    fragment.setArguments(args);
-    return fragment;
+  public static final RoutesFragment newInstance() {
+    return new RoutesFragment();
   }
 
 
@@ -61,12 +55,12 @@ public class ShowTracksFragment extends Fragment {
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
                            Bundle savedInstanceState) {
-    View view = inflater.inflate(R.layout.fragment_show_all_tracks, container, false);
-    tracks = new ArrayList<Track>();
+    View view = inflater.inflate(R.layout.fragment_show_all_routes, container, false);
+
     if (view instanceof CoordinatorLayout) {
 
-      View layout = view.findViewById(R.id.swipeRefreshLayout_tracks);
-      helpText = (TextView) view.findViewById(R.id.helpText_tracks);
+      View layout = view.findViewById(R.id.swipeRefreshLayout_routes);
+      helpText = (TextView) view.findViewById(R.id.helpText_routes);
 
       if (layout instanceof SwipeRefreshLayout) {
         swipeRefreshLayout = (SwipeRefreshLayout) layout;
@@ -76,16 +70,31 @@ public class ShowTracksFragment extends Fragment {
           @Override
           public void onRefresh() {
             // Refresh items
-            getTracksFromBackEnd();
+            getRoutesFromBackEnd();
           }
         });
 
         //Setup tracks list
-        final RecyclerView recyclerView = (RecyclerView) swipeRefreshLayout.findViewById(R.id.list_tracks);
+        final RecyclerView recyclerView = (RecyclerView) swipeRefreshLayout.findViewById(R.id.list_routes);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
-        getTracksFromBackEnd();
-        adapter = new TracksRecyclerViewAdapter(activity,tracks, user);
+        adapter = new RoutesRecyclerViewAdapter(activity);
+
+
+        dataConnector.getRoutesByUser(activity.getPrincipal(), new Consumer<List<Route>>() {
+          @Override
+          public void consume(List<Route> input) {
+            adapter.setRoutes(input);
+          }
+
+          @Override
+          public void error(int error, Throwable exception) {
+            Log.e(TAG, "ALL Routes UPDATE FAILURE");
+          }
+        });
+
         recyclerView.setAdapter(adapter);
+
+
       }
     }
     return view;
@@ -106,13 +115,12 @@ public class ShowTracksFragment extends Fragment {
    * true if the user only look for his tracks, flase when the user want to look
    * all tracks.
    */
-  private void getTracksFromBackEnd() {
-    dataConnector.getTracksByUser(user, new Consumer<List<Track>>() {
+  private void getRoutesFromBackEnd() {
+    dataConnector.getRoutesByUser(activity.getPrincipal(), new Consumer<List<Route>>() {
       @Override
-      public void consume(List<Track> input) {
-        adapter.setTracks(input);
-        setAllTracks(input);
-        refreshTracks();
+      public void consume(List<Route> input) {
+        adapter.setRoutes(input);
+
         if(input.size() == 0){
           helpText.setVisibility(View.VISIBLE);
         } else {
@@ -123,24 +131,9 @@ public class ShowTracksFragment extends Fragment {
 
       @Override
       public void error(int error, Throwable exception) {
-        Log.e(TAG, "ALL TRACKS UPDATE FAILURE");
+        Log.e(TAG, "ALL Routes UPDATE FAILURE");
         swipeRefreshLayout.setRefreshing(false);
       }
-    });
-  }
-
-  public List<Track> getAllTracks() {
-    return tracks;
-  }
-
-  public void setAllTracks(List<Track> tracks) {
-    this.tracks = tracks;
-  }
-
-  /**
-   * Refreshes the Tracks Arraylist after loading it out from the backend.
-   */
-  public void refreshTracks() {
-    tracks = getAllTracks();
+    }, true);
   }
 }

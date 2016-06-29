@@ -57,12 +57,12 @@ import edu.hm.cs.bikebattle.app.modell.User;
         .error(R.mipmap.ic_launcher)
         .into(mapImage);
 
-    TextView textViewName = (TextView) rowView.findViewById(R.id.name_item);
-    textViewName.setText(user.getName());
+    TextView userNameView = (TextView) rowView.findViewById(R.id.name_item);
+    userNameView.setText(user.getName());
 
 
-    TextView timeName = (TextView) rowView.findViewById(R.id.time_item);
-    timeName.setText(tracks.get(position).getTime_in_s()+" in s");
+    TextView routeNameView = (TextView) rowView.findViewById(R.id.time_item);
+    routeNameView.setText(tracks.get(position).getTime_in_s()+" in s");
 
     TextView textViewInformation = (TextView) rowView.findViewById(R.id.average_speed_name_item);
     textViewInformation.setText(tracks.get(position).getAverageSpeed_in_kmh()+" in kmh");
