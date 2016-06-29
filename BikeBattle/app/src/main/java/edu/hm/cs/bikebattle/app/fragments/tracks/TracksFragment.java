@@ -101,6 +101,8 @@ public class TracksFragment extends Fragment {
 
 
       }
+      //Refresh the list
+      getTracksFromBackEnd();
     }
     return view;
   }

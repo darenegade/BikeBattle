@@ -101,6 +101,8 @@ public class RoutesFragment extends Fragment {
 
 
       }
+      //Refresh the list
+      getRoutesFromBackEnd();
     }
     return view;
   }
