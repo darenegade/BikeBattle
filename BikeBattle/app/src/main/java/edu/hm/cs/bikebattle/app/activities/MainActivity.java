@@ -181,16 +181,22 @@ public class MainActivity extends BaseActivity implements NavigationView
             ProfilFragment.newInstance(getPrincipal(), getUserPhoto()))
             .addToBackStack("profile")
             .commit();
+        // Set action bar title
+        setTitle(menuItem.getTitle());
         break;
       case R.id.nav_routes:
         fm.beginTransaction().replace(R.id.content_frame, RoutesFragment.newInstance())
             .addToBackStack("routes")
             .commit();
+        // Set action bar title
+        setTitle(menuItem.getTitle());
         break;
       case R.id.nav_tracks:
         fm.beginTransaction().replace(R.id.content_frame, TracksFragment.newInstance())
             .addToBackStack("tracks")
             .commit();
+        // Set action bar title
+        setTitle(menuItem.getTitle());
         break;
       case R.id.nav_new_track:
         Intent intent = new Intent(this, TrackingActivity.class);
@@ -199,6 +205,8 @@ public class MainActivity extends BaseActivity implements NavigationView
       case R.id.nav_find_routes:
         fm.beginTransaction().replace(R.id.content_frame, RoutesOverviewFragment.newInstance())
             .commit();
+        // Set action bar title
+        setTitle(menuItem.getTitle());
         break;
       case R.id.nav_favorite:
         //fragmentClass = ThirdFragment.class;
@@ -208,14 +216,14 @@ public class MainActivity extends BaseActivity implements NavigationView
             FriendsFragment.newInstance())
             .addToBackStack("friends")
             .commit();
+        // Set action bar title
+        setTitle(menuItem.getTitle());
         break;
     }
 
 
     // Highlight the selected item has been done by NavigationView
     menuItem.setChecked(true);
-    // Set action bar title
-    setTitle(menuItem.getTitle());
     // Close the navigation drawer
     drawer.closeDrawers();
   }
