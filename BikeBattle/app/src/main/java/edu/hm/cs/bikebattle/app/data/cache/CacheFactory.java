@@ -1,10 +1,7 @@
 package edu.hm.cs.bikebattle.app.data.cache;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.rx_cache.internal.RxCache;
 import io.victoralbertos.jolyglot.JacksonSpeaker;
-import org.springframework.hateoas.hal.Jackson2HalModule;
 
 import java.io.File;
 
@@ -18,15 +15,6 @@ import java.io.File;
  * System: 2,3 GHz Intel Core i7, 16 GB 1600 MHz DDR3
  */
 public class CacheFactory {
-
-  private static final ObjectMapper mapper = new ObjectMapper();
-
-  static {
-    //Configure ObjectMapper to operate with Spring Data
-    mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-    mapper.registerModule(new Jackson2HalModule());
-  }
-
 
   private static <S> S createCache(Class<S> serviceClass, File cacheDir){
     return new RxCache.Builder()
