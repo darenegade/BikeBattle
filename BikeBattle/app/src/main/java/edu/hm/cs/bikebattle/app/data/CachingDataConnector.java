@@ -16,7 +16,6 @@ import edu.hm.cs.bikebattle.app.api.rest.ClientFactory;
 import edu.hm.cs.bikebattle.app.api.rest.DriveClient;
 import edu.hm.cs.bikebattle.app.api.rest.RouteClient;
 import edu.hm.cs.bikebattle.app.api.rest.UserClient;
-import edu.hm.cs.bikebattle.app.data.cache.CacheFactory;
 import edu.hm.cs.bikebattle.app.data.cache.DriveCache;
 import edu.hm.cs.bikebattle.app.data.cache.RouteCache;
 import edu.hm.cs.bikebattle.app.data.cache.UserCache;
@@ -88,7 +87,7 @@ public class CachingDataConnector implements DataConnector {
   /**
    * Creates the clients for the backend.
    */
-  public CachingDataConnector(Context context, GoogleApiClient client) {
+  public CachingDataConnector(Context context, GoogleApiClient client, UserCache userCache, DriveCache driveCache, RouteCache routeCache) {
     googleApiClient = client;
 
     //Create a 10MB Cache
@@ -98,9 +97,13 @@ public class CachingDataConnector implements DataConnector {
     routeClient = ClientFactory.getRouteClient();
     driveClient = ClientFactory.getDriveClient();
 
-    userCache = CacheFactory.getUserCache(context.getCacheDir());
-    routeCache = CacheFactory.getRouteCache(context.getCacheDir());
-    driveCache = CacheFactory.getDriveCache(context.getCacheDir());
+    this.userCache = userCache;
+    this.driveCache = driveCache;
+    this.routeCache = routeCache;
+
+    //userCache = CacheFactory.getUserCache(context.getCacheDir());
+    //routeCache = CacheFactory.getRouteCache(context.getCacheDir());
+    //driveCache = CacheFactory.getDriveCache(context.getCacheDir());
   }
 
   /**

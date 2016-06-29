@@ -15,6 +15,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
+import edu.hm.cs.bikebattle.app.BikeBattleApplication;
 import edu.hm.cs.bikebattle.app.R;
 import edu.hm.cs.bikebattle.app.data.CachingDataConnector;
 import edu.hm.cs.bikebattle.app.data.Consumer;
@@ -56,7 +57,12 @@ public abstract class BaseActivity extends AppCompatActivity implements GoogleAp
         .addApi(Auth.GOOGLE_SIGN_IN_API, googleSignInOptions)
         .build();
 
-    dataConnector = new CachingDataConnector(getApplicationContext(), googleApiClient);
+    dataConnector = new CachingDataConnector(
+        getApplicationContext(),
+        googleApiClient,
+        ((BikeBattleApplication)getApplication()).getUserCache(),
+        ((BikeBattleApplication)getApplication()).getDriveCache(),
+        ((BikeBattleApplication)getApplication()).getRouteCache());
 
   }
 
