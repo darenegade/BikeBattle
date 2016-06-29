@@ -7,7 +7,6 @@ import io.rx_cache.EncryptKey;
 import io.rx_cache.EvictDynamicKey;
 import io.rx_cache.EvictProvider;
 import io.rx_cache.Reply;
-import org.springframework.hateoas.Resource;
 import rx.Observable;
 
 import java.util.List;
@@ -24,30 +23,30 @@ import java.util.List;
 @EncryptKey("Secret") //Prevent NullPointer - Encryption is deactivated
 public interface RouteCache {
 
-  Observable<Reply<RouteDto>> findeOne(
+  Observable<Reply<RouteDto>> routesFindeOne(
       Observable<RouteDto> oRoute, DynamicKey id, EvictDynamicKey update);
 
-  Observable<Reply<List<RouteDto>>> findAll(
+  Observable<Reply<List<RouteDto>>> RoutesFindAll(
       Observable<List<RouteDto>> oRoutes, EvictProvider evictProvider);
 
-  Observable<Reply<List<RouteDto>>> findByName(
+  Observable<Reply<List<RouteDto>>> RoutesFindByName(
       Observable<List<RouteDto>> oRoutes, DynamicKey name, EvictDynamicKey update);
 
-  Observable<Reply<List<RouteDto>>>  findByNameContainingIgnoreCase(
+  Observable<Reply<List<RouteDto>>>  RoutesfindByNameContainingIgnoreCase(
       Observable<List<RouteDto>> oRoutes, DynamicKey name, EvictDynamicKey update);
 
-  Observable<Reply<List<RouteDto>>> findByOwnerOid(
+  Observable<Reply<List<RouteDto>>> RoutesFindByOwnerOid(
       Observable<List<RouteDto>> oRoutes, DynamicKey oid, EvictDynamicKey update);
 
-  Observable<Reply<List<RouteDto>>> findByDifficulty(
+  Observable<Reply<List<RouteDto>>> RoutesFindByDifficulty(
       Observable<List<RouteDto>> oRoutes, DynamicKey difficulty, EvictDynamicKey update);
 
-  Observable<Reply<List<RouteDto>>>  findByRoutetype(
+  Observable<Reply<List<RouteDto>>>  RoutesFindByRoutetype(
       Observable<List<RouteDto>> oRoutes, DynamicKey routetyp, EvictDynamicKey update);
 
-  Observable<Reply<List<RouteDto>>>  findNear(
+  Observable<Reply<List<RouteDto>>> RoutesFindNear(
       Observable<List<RouteDto>> oRoutes, DynamicKey latLongR, EvictDynamicKey update);
 
-  Observable<Reply<UserDto>>  getOwner(
+  Observable<Reply<UserDto>>  RoutesGetOwner(
       Observable<UserDto> oUser, DynamicKey id, EvictDynamicKey update);
 }

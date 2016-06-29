@@ -115,6 +115,12 @@ dependencies {
     compile "com.squareup.okhttp3:logging-interceptor:3.2.0"
     compile "org.springframework.hateoas:spring-hateoas:0.19.0.RELEASE"
 
+    //circleImage
+    compile 'de.hdodenhof:circleimageview:2.0.0'
+
+    //slidingpanel
+    compile 'com.sothree.slidinguppanel:library:3.3.0'
+
     testCompile "junit:junit:4.12"
     testCompile "org.mockito:mockito-core:1.9.5"
     androidTestCompile ("com.android.support:multidex-instrumentation:1.0.1") {

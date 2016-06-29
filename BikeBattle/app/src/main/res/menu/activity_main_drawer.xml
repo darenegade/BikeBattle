@@ -7,9 +7,13 @@
             android:icon="@drawable/ic_menu_profil"
             android:title="Profil"/>
         <item
+            android:id="@+id/nav_routes"
+            android:icon="@drawable/ic_menu_tracksy"
+            android:title="All Routes"/>
+        <item
             android:id="@+id/nav_tracks"
             android:icon="@drawable/ic_menu_tracksy"
-            android:title="Tracks"/>
+            android:title="All Tracks"/>
         <item
             android:id="@+id/nav_find_routes"
             android:icon="@drawable/ic_menu_search"

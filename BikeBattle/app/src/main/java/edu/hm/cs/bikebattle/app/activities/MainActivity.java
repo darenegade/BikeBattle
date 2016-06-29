@@ -4,7 +4,6 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -22,21 +21,14 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.squareup.picasso.Picasso;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import edu.hm.cs.bikebattle.app.R;
-import edu.hm.cs.bikebattle.app.data.Consumer;
-import edu.hm.cs.bikebattle.app.fragments.friends.FriendsFragment;
 import edu.hm.cs.bikebattle.app.fragments.RoutesOverviewFragment;
+import edu.hm.cs.bikebattle.app.fragments.friends.FriendsFragment;
 import edu.hm.cs.bikebattle.app.fragments.navigationdrawer.MainFragment;
 import edu.hm.cs.bikebattle.app.fragments.navigationdrawer.ProfilFragment;
-import edu.hm.cs.bikebattle.app.fragments.single.SingleRouteFragment;
-import edu.hm.cs.bikebattle.app.modell.Route;
-import edu.hm.cs.bikebattle.app.modell.Track;
+import edu.hm.cs.bikebattle.app.fragments.routes.RoutesFragment;
+import edu.hm.cs.bikebattle.app.fragments.tracks.TracksFragment;
 import edu.hm.cs.bikebattle.app.modell.User;
 
 public class MainActivity extends BaseActivity implements NavigationView
@@ -95,66 +87,10 @@ public class MainActivity extends BaseActivity implements NavigationView
     toggle.syncState();
 
     fm = getSupportFragmentManager();
-    fm.beginTransaction().replace(R.id.conten_frame, new MainFragment()).commit();
+    fm.beginTransaction().replace(R.id.content_frame, new MainFragment()).commit();
 
     requestPermission();
 
-  }
-
-  /**
-   * Debug only
-   *
-   * @return random track
-   */
-  private Track getTrackWithRandomTime() {
-    long starTime = System.currentTimeMillis();
-    long wayPointTime = (long) (Math.random() * 50 + 25);
-    Log.d("Starttime", starTime + "");
-    Log.d("step", wayPointTime + "");
-    ArrayList<Location> wayPoints = new ArrayList<Location>();
-    Location loc1 = new Location("");
-    loc1.setLatitude(48.154);
-    loc1.setLongitude(11.554);
-    loc1.setAltitude(500);
-    loc1.setTime(starTime + wayPointTime);
-    wayPoints.add(loc1);
-
-    Location loc2 = new Location("");
-    loc2.setLatitude(48.155);
-    loc2.setLongitude(11.556);
-    loc2.setAltitude(520);
-    loc2.setTime(starTime + 2 * wayPointTime);
-    wayPoints.add(loc2);
-
-    Location loc3 = new Location("");
-    loc3.setLatitude(48.154);
-    loc3.setLongitude(11.557);
-    loc3.setTime(starTime + 3 * wayPointTime);
-    loc3.setAltitude(480);
-    wayPoints.add(loc3);
-
-    Location loc4 = new Location("");
-    loc4.setLatitude(48.153);
-    loc4.setLongitude(11.561);
-    loc4.setAltitude(520);
-    loc4.setTime(starTime + 4 * wayPointTime);
-    wayPoints.add(loc4);
-
-    Location loc5 = new Location("");
-    loc5.setLatitude(48.152);
-    loc5.setLongitude(11.56);
-    loc5.setAltitude(500);
-    loc5.setTime(starTime + 5 * wayPointTime);
-    wayPoints.add(loc5);
-
-    Location loc6 = new Location("");
-    loc6.setLatitude(48.151);
-    loc6.setLongitude(11.558);
-    loc6.setAltitude(460);
-    loc6.setTime(starTime + 6 * wayPointTime);
-    wayPoints.add(loc6);
-
-    return new Track(wayPoints);
   }
 
   @Override
@@ -179,34 +115,6 @@ public class MainActivity extends BaseActivity implements NavigationView
         .placeholder(R.mipmap.ic_launcher)
         .error(R.mipmap.ic_launcher)
         .into(profilImage);
-
-
-    //TODO delete
-    getDataConnector().getUserByName("Nils", new Consumer<List<User>>() {
-      @Override
-      public void consume(List<User> input) {
-        if(input.size()>0){
-          getDataConnector().getRoutesByUser(input.get(0), new Consumer<List<Route>>() {
-            @Override
-            public void consume(List<Route> input) {
-              if(input.size()>0){
-                fm.beginTransaction().replace(R.id.conten_frame, SingleRouteFragment.newInstance(input.get(0))).commit();
-              }
-            }
-
-            @Override
-            public void error(int error, Throwable exception) {
-              Log.e("Route", error+"");
-            }
-          });
-        }
-      }
-
-      @Override
-      public void error(int error, Throwable exception) {
-        Log.e("User", error+"");
-      }
-    });
   }
 
   @Override
@@ -269,39 +177,53 @@ public class MainActivity extends BaseActivity implements NavigationView
 
     switch (menuItem.getItemId()) {
       case R.id.nav_profil:
-        fm.beginTransaction().replace(R.id.conten_frame,
-            ProfilFragment.newInstance(null, null)).commit();
+        fm.beginTransaction().replace(R.id.content_frame,
+            ProfilFragment.newInstance(getPrincipal(), getUserPhoto()))
+            .addToBackStack("profile")
+            .commit();
+        // Set action bar title
+        setTitle(menuItem.getTitle());
+        break;
+      case R.id.nav_routes:
+        fm.beginTransaction().replace(R.id.content_frame, RoutesFragment.newInstance())
+            .addToBackStack("routes")
+            .commit();
+        // Set action bar title
+        setTitle(menuItem.getTitle());
         break;
       case R.id.nav_tracks:
+        fm.beginTransaction().replace(R.id.content_frame, TracksFragment.newInstance())
+            .addToBackStack("tracks")
+            .commit();
+        // Set action bar title
+        setTitle(menuItem.getTitle());
         break;
       case R.id.nav_new_track:
         Intent intent = new Intent(this, TrackingActivity.class);
         startActivity(intent);
         break;
       case R.id.nav_find_routes:
-        fm.beginTransaction().replace(R.id.conten_frame, RoutesOverviewFragment.newInstance())
+        fm.beginTransaction().replace(R.id.content_frame, RoutesOverviewFragment.newInstance())
             .commit();
+        // Set action bar title
+        setTitle(menuItem.getTitle());
         break;
       case R.id.nav_favorite:
         //fragmentClass = ThirdFragment.class;
         break;
       case R.id.nav_friends:
-        fm.beginTransaction().replace(R.id.conten_frame,
+        fm.beginTransaction().replace(R.id.content_frame,
             FriendsFragment.newInstance())
-            .addToBackStack("main")
+            .addToBackStack("friends")
             .commit();
+        // Set action bar title
+        setTitle(menuItem.getTitle());
         break;
-      default:
-        fm.beginTransaction().replace(R.id.conten_frame,
-            ProfilFragment.newInstance(null, null))
-            .commit();
     }
 
 
     // Highlight the selected item has been done by NavigationView
     menuItem.setChecked(true);
-    // Set action bar title
-    setTitle(menuItem.getTitle());
     // Close the navigation drawer
     drawer.closeDrawers();
   }

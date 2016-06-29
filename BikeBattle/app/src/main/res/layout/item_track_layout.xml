@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="@color/background"
+              android:orientation="vertical">
+
+    <LinearLayout
+            android:id="@+id/nameLayout_tracks"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+        <TextView
+                android:id="@+id/name_item_label_track_track"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:paddingLeft="16dp"
+                android:paddingTop="16dp"
+                android:text="Name: "
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="@color/primary_text"/>
+
+        <TextView
+                android:id="@+id/name_item_track"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:paddingTop="16dp"
+                android:textColor="@color/secondary_text"/>
+    </LinearLayout>
+
+    <ImageView
+            android:id="@+id/mapview_track"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"/>
+
+    <LinearLayout
+            android:id="@+id/dataLayout_tracks"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                      android:id="@+id/timeLayout_tracks"
+                      android:layout_width="wrap_content"
+                      android:layout_height="match_parent"
+                      android:layout_weight="1"
+                      android:background="@color/background"
+                      android:orientation="vertical">
+
+            <TextView
+                    android:id="@+id/time_item_label_track"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="16dp"
+                    android:paddingTop="16dp"
+                    android:text="Dauer:"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:textColor="@color/primary_text"/>
+
+            <TextView
+                    android:id="@+id/time_item_track"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:paddingBottom="16dp"
+                    android:paddingLeft="16dp"
+                    android:textColor="@color/secondary_text"/>
+        </LinearLayout>
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                      android:id="@+id/speedLayout_tracks"
+                      android:layout_width="wrap_content"
+                      android:layout_height="match_parent"
+                      android:background="@color/background"
+                      android:layout_weight="1"
+                      android:orientation="vertical">
+
+            <TextView
+                    android:id="@+id/average_speed_item_label_track"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="16dp"
+                    android:paddingTop="16dp"
+                    android:text="Durchschnittsgeschwidigkeit: "
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:textColor="@color/primary_text"/>
+
+            <TextView
+                    android:id="@+id/average_speed_name_item_track"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:paddingBottom="16dp"
+                    android:paddingLeft="16dp"
+                    android:textColor="@color/secondary_text"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

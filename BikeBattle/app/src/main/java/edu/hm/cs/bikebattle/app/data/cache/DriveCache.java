@@ -24,24 +24,24 @@ import java.util.List;
 @EncryptKey("Secret") //Prevent NullPointer - Encryption is deactivated
 public interface DriveCache {
 
-  Observable<Reply<DriveDto>> findeOne(
+  Observable<Reply<DriveDto>> DrivesFindeOne(
       Observable<DriveDto> oDrive, DynamicKey id, EvictDynamicKey update);
 
-  Observable<Reply<List<DriveDto>>> findAll(
+  Observable<Reply<List<DriveDto>>> DrivesFindAll(
       Observable<List<DriveDto>> oDrives);
 
-  Observable<Reply<List<DriveDto>>>  findByRouteOid(
+  Observable<Reply<List<DriveDto>>>  DrivesFindByRouteOid(
       Observable<List<DriveDto>> oDrives, DynamicKey oid, EvictDynamicKey update);
 
-  Observable<Reply<List<DriveDto>>>  findByOwnerOid(
+  Observable<Reply<List<DriveDto>>> DrivesFindByOwnerOid(
       Observable<List<DriveDto>> oDrives, DynamicKey oid, EvictDynamicKey update);
 
-  Observable<Reply<List<TopDriveEntryDto>>>  topTwentyOfRoute(
+  Observable<Reply<List<TopDriveEntryDto>>> DriveTopTwentyOfRoute(
       Observable<List<TopDriveEntryDto>> oTopEntrys, DynamicKey oid, EvictDynamicKey update);
 
-  Observable<Reply<RouteDto>>  getRoute(
+  Observable<Reply<RouteDto>> DrivesGetRoute(
       Observable<RouteDto> oRoute, DynamicKey id, EvictDynamicKey update);
 
-  Observable<Reply<UserDto>>  getOwner(
+  Observable<Reply<UserDto>>  DrivesGetOwner(
       Observable<UserDto> oUser, DynamicKey id, EvictDynamicKey update);
 }
