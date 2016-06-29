@@ -20,7 +20,11 @@ import edu.hm.cs.bikebattle.app.modell.User;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * Adapter for Routes Fragment.
+ *
+ * @author René Zarwel
+ */
 public class RoutesRecyclerViewAdapter extends RecyclerView.Adapter<RoutesRecyclerViewAdapter.RoutesViewHolder> {
 
   private final static String STATIC_MAP_START_LINK = "http://maps.googleapis.com/maps/api/staticmap?" +

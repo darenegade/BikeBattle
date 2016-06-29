@@ -20,6 +20,11 @@ import edu.hm.cs.bikebattle.app.modell.Route;
 
 import java.util.List;
 
+/**
+ * Fragment to show all own routes.
+ *
+ * @author René Zarwel
+ */
 public class RoutesFragment extends Fragment {
 
   private static final String TAG = "RoutesFragment";

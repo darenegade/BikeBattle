@@ -18,7 +18,11 @@ import edu.hm.cs.bikebattle.app.modell.User;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * Adapter for Tracks Fragment.
+ *
+ * @author René Zarwel
+ */
 public class TracksRecyclerViewAdapter extends RecyclerView.Adapter<TracksRecyclerViewAdapter.TracksViewHolder> {
 
   private final static String STATIC_MAP_START_LINK = "http://maps.googleapis.com/maps/api/staticmap?" +
