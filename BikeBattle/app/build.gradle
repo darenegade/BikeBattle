@@ -92,7 +92,7 @@ dependencies {
     //Allgemein
     compile "com.squareup.picasso:picasso:2.5.2"
     compile 'de.hdodenhof:circleimageview:2.0.0'
-    compile "com.github.VictorAlbertos.RxCache:core:1.5.3"
+    compile "com.github.VictorAlbertos.RxCache:core:1.5.5"
     compile 'com.github.VictorAlbertos.Jolyglot:jackson:0.0.2'
     compile "io.reactivex:rxjava:1.1.5"
     compile 'io.reactivex:rxandroid:1.2.0'
