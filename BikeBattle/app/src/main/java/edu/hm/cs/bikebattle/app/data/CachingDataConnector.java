@@ -100,10 +100,6 @@ public class CachingDataConnector implements DataConnector {
     this.userCache = userCache;
     this.driveCache = driveCache;
     this.routeCache = routeCache;
-
-    //userCache = CacheFactory.getUserCache(context.getCacheDir());
-    //routeCache = CacheFactory.getRouteCache(context.getCacheDir());
-    //driveCache = CacheFactory.getDriveCache(context.getCacheDir());
   }
 
   /**

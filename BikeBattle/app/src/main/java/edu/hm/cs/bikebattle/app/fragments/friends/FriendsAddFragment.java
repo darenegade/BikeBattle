@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -31,6 +32,8 @@ import java.util.List;
  * @author Rene Zarwel
  */
 public class FriendsAddFragment extends Fragment implements SearchView.OnQueryTextListener {
+
+  public static final String TAG = "FriendsAddFragment";
 
   private BaseActivity activity;
 
@@ -118,6 +121,7 @@ public class FriendsAddFragment extends Fragment implements SearchView.OnQueryTe
 
             @Override
             public void error(int error, Throwable exception) {
+              Log.e(TAG, "ERROR: " + exception.getMessage());
               Toast.makeText(context, "Error on adding Friend", Toast.LENGTH_LONG).show();
             }
           });
