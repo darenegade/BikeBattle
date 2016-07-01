@@ -333,7 +333,7 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
         });
       }
     } else {
-      Toast.makeText(this, "Zero track!", Toast.LENGTH_LONG).show();
+      Toast.makeText(this, "Empty track! No track was saved", Toast.LENGTH_LONG).show();
     }
   }
 
@@ -499,7 +499,5 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
       tracker = new AndroidLocationTracker(1, this);
     }
     viewController = new TrackingViewController(this);
-
-    showRouteDialog();
   }
 }
