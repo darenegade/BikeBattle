@@ -16,6 +16,7 @@ import edu.hm.cs.bikebattle.app.R;
 import edu.hm.cs.bikebattle.app.activities.BaseActivity;
 import edu.hm.cs.bikebattle.app.data.Consumer;
 import edu.hm.cs.bikebattle.app.data.DataConnector;
+import edu.hm.cs.bikebattle.app.fragments.routes.RoutesRecyclerViewAdapter;
 import edu.hm.cs.bikebattle.app.modell.Route;
 
 import java.util.List;
@@ -63,7 +64,7 @@ public class RoutesListFragment extends Fragment {
     View view = inflater.inflate(R.layout.fragment_find_routes, container, false);
 
     if (view instanceof CoordinatorLayout) {
-      helpText = (TextView) view.findViewById(R.id.helpText_routes);
+      helpText = (TextView) view.findViewById(R.id.find_helpText_routes);
 
       //Setup tracks list
       final RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.find_list_routes);

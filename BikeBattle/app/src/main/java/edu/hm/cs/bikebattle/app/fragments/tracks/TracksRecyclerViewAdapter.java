@@ -1,6 +1,5 @@
 package edu.hm.cs.bikebattle.app.fragments.tracks;
 
-import android.content.Context;
 import android.location.Location;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -35,7 +34,7 @@ public class TracksRecyclerViewAdapter extends RecyclerView.Adapter<TracksRecycl
   private final static String SPLITTER = "%7C";
 
   /** Context to use**/
-  private final Context context;
+  private final BaseActivity activity;
 
   /** List of Tracks **/
   private List<Track> tracks = new ArrayList<Track>();
@@ -46,7 +45,7 @@ public class TracksRecyclerViewAdapter extends RecyclerView.Adapter<TracksRecycl
   private final BaseActivity activity;
 
   public TracksRecyclerViewAdapter(BaseActivity activity) {
-    this.context = activity.getApplicationContext();
+    this.activity = activity;
     user = activity.getPrincipal();
     this.activity = activity;
   }
@@ -64,7 +63,7 @@ public class TracksRecyclerViewAdapter extends RecyclerView.Adapter<TracksRecycl
     holder.track = tracks.get(position);
 
     Picasso
-        .with(context)
+        .with(activity.getApplicationContext())
         .load(makeMapString(tracks.get(position)))
         .fit()
         .centerCrop()
@@ -75,8 +74,6 @@ public class TracksRecyclerViewAdapter extends RecyclerView.Adapter<TracksRecycl
     holder.textViewName.setText(user.getName());
     holder.timeName.setText(tracks.get(position).getTime_in_s()+" in s");
     holder.textViewInformation.setText(tracks.get(position).getAverageSpeed_in_kmh()+" in kmh");
-
-
 
     holder.mView.setOnClickListener(new View.OnClickListener() {
       @Override
