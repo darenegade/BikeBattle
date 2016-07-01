@@ -1,4 +1,4 @@
-package edu.hm.cs.bikebattle.app.fragments;
+package edu.hm.cs.bikebattle.app.fragments.findRoutes;
 
 
 import android.content.Context;
