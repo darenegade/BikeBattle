@@ -18,6 +18,7 @@ import edu.hm.cs.bikebattle.app.data.Consumer;
 import edu.hm.cs.bikebattle.app.data.DataConnector;
 import edu.hm.cs.bikebattle.app.modell.Route;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -88,6 +89,7 @@ public class RoutesFragment extends Fragment {
         dataConnector.getRoutesByUser(activity.getPrincipal(), new Consumer<List<Route>>() {
           @Override
           public void consume(List<Route> input) {
+            Collections.reverse(input);
             adapter.setRoutes(input);
           }
 
@@ -126,6 +128,7 @@ public class RoutesFragment extends Fragment {
     dataConnector.getRoutesByUser(activity.getPrincipal(), new Consumer<List<Route>>() {
       @Override
       public void consume(List<Route> input) {
+        Collections.reverse(input);
         adapter.setRoutes(input);
 
         if(input.size() == 0){

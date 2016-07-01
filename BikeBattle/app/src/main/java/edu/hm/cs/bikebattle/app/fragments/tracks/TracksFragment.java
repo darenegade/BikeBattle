@@ -18,6 +18,7 @@ import edu.hm.cs.bikebattle.app.data.Consumer;
 import edu.hm.cs.bikebattle.app.data.DataConnector;
 import edu.hm.cs.bikebattle.app.modell.Track;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -88,6 +89,7 @@ public class TracksFragment extends Fragment {
         dataConnector.getTracksByUser(activity.getPrincipal(), new Consumer<List<Track>>() {
           @Override
           public void consume(List<Track> input) {
+            Collections.reverse(input);
             adapter.setTracks(input);
           }
 
@@ -126,6 +128,7 @@ public class TracksFragment extends Fragment {
     dataConnector.getTracksByUser(activity.getPrincipal(), new Consumer<List<Track>>() {
       @Override
       public void consume(List<Track> input) {
+        Collections.reverse(input);
         adapter.setTracks(input);
 
         if(input.size() == 0){
