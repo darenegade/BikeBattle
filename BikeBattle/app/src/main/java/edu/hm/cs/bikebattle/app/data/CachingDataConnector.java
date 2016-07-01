@@ -523,7 +523,7 @@ public class CachingDataConnector implements DataConnector {
   }
 
   @Override
-  public void addTrack(final Track track, final User owner, final Consumer<String> consumer) {
+  public void addTrack(final Track track, final Consumer<String> consumer) {
 
     generateToken(new Consumer<String>() {
       @Override
@@ -546,9 +546,9 @@ public class CachingDataConnector implements DataConnector {
   }
 
   @Override
-  public void addTrack(final Track track, final Route route, User owner,
+  public void addTrack(final Track track, final Route route,
                        final Consumer<Void> consumer) {
-    addTrack(track, owner, new Consumer<String>() {
+    addTrack(track, new Consumer<String>() {
       @Override
       public void consume(String input) {
         track.setOid(input);
@@ -626,7 +626,7 @@ public class CachingDataConnector implements DataConnector {
   }
 
   @Override
-  public void addRoute(final Route route, final User user, final Consumer<String> consumer) {
+  public void addRoute(final Route route, final Consumer<String> consumer) {
 
     generateToken(new Consumer<String>() {
       @Override
