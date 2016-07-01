@@ -5,18 +5,17 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Looper;
-import android.support.v4.app.ActivityCompat;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import android.location.LocationListener;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -24,16 +23,21 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
-
-import java.util.List;
-import java.util.Locale;
-
 import edu.hm.cs.bikebattle.app.R;
 import edu.hm.cs.bikebattle.app.activities.BaseActivity;
 import edu.hm.cs.bikebattle.app.data.Consumer;
+import edu.hm.cs.bikebattle.app.fragments.single.SingleRouteFragment;
 import edu.hm.cs.bikebattle.app.modell.Route;
+
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Fragment to display a google map which shows routes.
@@ -62,10 +66,7 @@ public class RoutesMapFragment extends Fragment implements OnMapReadyCallback, G
    * LocationManager for providing locations.
    */
   private LocationManager locationManager;
-  /**
-   * Last location.
-   */
-  private Location lastLocation;
+  private HashMap<String, Route> markerRouteMap;
 
   /**
    * Factory for a new fragment.
@@ -99,8 +100,8 @@ public class RoutesMapFragment extends Fragment implements OnMapReadyCallback, G
       locationManager = (LocationManager) activity.getSystemService(Context.LOCATION_SERVICE);
       locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1, 0, this,
           Looper.getMainLooper());
-      lastLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
     }
+    markerRouteMap = new HashMap<String, Route>();
   }
 
   @Override
@@ -132,6 +133,16 @@ public class RoutesMapFragment extends Fragment implements OnMapReadyCallback, G
           loadRoutes(center, Math.max(distanceLat, distanceLong));
         }
       });
+      this.googleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+        @Override
+        public void onInfoWindowClick(Marker marker) {
+          getFragmentManager().beginTransaction().replace(R.id.content_frame, SingleRouteFragment
+              .newInstance(markerRouteMap.get(marker.getId())))
+              .addToBackStack("singleRoute")
+              .commit();
+
+        }
+      });
     }
   }
 
@@ -142,7 +153,7 @@ public class RoutesMapFragment extends Fragment implements OnMapReadyCallback, G
 
   @Override
   public void onLocationChanged(Location location) {
-    lastLocation = location;
+    updateCamera(location);
   }
 
   @Override
@@ -169,7 +180,6 @@ public class RoutesMapFragment extends Fragment implements OnMapReadyCallback, G
             routes = input;
             showRoutes();
             listFragment.updateList(input);
-            updateCamera();
             Log.d("Loaded routes:", String.valueOf(input.size()));
           }
 
@@ -197,7 +207,7 @@ public class RoutesMapFragment extends Fragment implements OnMapReadyCallback, G
   private void drawRoute(Route route) {
     PolylineOptions polyRoute = new PolylineOptions();
 
-    polyRoute.color(Color.BLUE);
+    polyRoute.color(Color.RED);
     polyRoute.width(6);
     polyRoute.visible(true);
 
@@ -211,19 +221,20 @@ public class RoutesMapFragment extends Fragment implements OnMapReadyCallback, G
     String information = String.format(Locale.ENGLISH, "%s: %.2f km", activity.getString(R
             .string.length),
         route.getDistanceInM() / 1000);
-    googleMap.addMarker(new MarkerOptions()
+    Marker marker = googleMap.addMarker(new MarkerOptions()
         .position(new LatLng(route.get(0).getLatitude(), route.get(0).getLongitude()))
         .title(route.getName())
         .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_bike))
         .snippet(information));
+    markerRouteMap.put(marker.getId(), route);
   }
 
   /**
    * Moves the camera to the users position.
    */
-  private void updateCamera() {
-    if (lastLocation.getAccuracy() > 10) {
-      LatLng latLng = new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude());
+  private void updateCamera(Location location) {
+    if (location.getAccuracy() > 10) {
+      LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
       googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(
           new CameraPosition.Builder().target(latLng).zoom(15).build()));
       if (ContextCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION)
