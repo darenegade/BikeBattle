@@ -27,7 +27,7 @@ import java.util.List;
  */
 public class RoutesFragment extends Fragment {
 
-  private static final String TAG = "RoutesFragment";
+  private static final String TAG = "RoutesListFragment";
   private BaseActivity activity;
   private RoutesRecyclerViewAdapter adapter;
   private SwipeRefreshLayout swipeRefreshLayout;

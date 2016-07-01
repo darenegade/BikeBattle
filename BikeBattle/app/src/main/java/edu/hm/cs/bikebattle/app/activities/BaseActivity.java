@@ -103,7 +103,7 @@ public abstract class BaseActivity extends AppCompatActivity implements GoogleAp
               Log.e(TAG, "LOGIN FAILURE with: " + exception.getMessage());
               exception.printStackTrace();
             }
-          });
+          }, true);
         }
       }
     });

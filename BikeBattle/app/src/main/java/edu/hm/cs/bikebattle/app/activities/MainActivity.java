@@ -24,7 +24,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import edu.hm.cs.bikebattle.app.R;
-import edu.hm.cs.bikebattle.app.fragments.RoutesOverviewFragment;
+import edu.hm.cs.bikebattle.app.fragments.findRoutes.RoutesOverviewFragment;
 import edu.hm.cs.bikebattle.app.fragments.friends.FriendsFragment;
 import edu.hm.cs.bikebattle.app.fragments.navigationdrawer.ProfilFragment;
 import edu.hm.cs.bikebattle.app.fragments.routes.RoutesFragment;
