@@ -583,6 +583,37 @@ public class CachingDataConnector implements DataConnector {
   }
 
   @Override
+  public void getRouteByTrack(final Track track,final Consumer<Route> consumer){
+    getRouteByTrack(track, consumer, false);
+  }
+
+  @Override
+  public void getRouteByTrack(final Track track,final Consumer<Route> consumer,final boolean refresh) {
+
+    generateToken(new Consumer<String>() {
+      @Override
+      public void consume(String input) {
+        executeGetCall(
+            driveCache.DrivesGetRoute(
+                driveClient.getRoute(input, track.getOid()).map(new Func1<Resource<RouteDto>, RouteDto>() {
+                  @Override
+                  public RouteDto call(Resource<RouteDto> routeDtoResource) {
+                    return routeDtoResource.getContent();
+                  }
+                }),
+                new DynamicKey(track.getOid()),
+                new EvictDynamicKey(refresh)),
+            consumer);
+      }
+
+      @Override
+      public void error(int error, Throwable exception) {
+        consumer.error(error, exception);
+      }
+    });
+  }
+
+  @Override
   public void deleteTrack(final Track track, final Consumer<Void> consumer) {
 
     generateToken(new Consumer<String>() {
