@@ -80,6 +80,7 @@ public class RoutesRecyclerViewAdapter extends RecyclerView.Adapter<RoutesRecycl
     holder.mView.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
+        Log.e("Clicked","1");
         activity.getSupportFragmentManager()
             .beginTransaction().replace(R.id.content_frame,
             SingleRouteFragment.newInstance(holder.route))
