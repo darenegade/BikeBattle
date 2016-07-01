@@ -27,7 +27,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 import edu.hm.cs.bikebattle.app.R;
-import edu.hm.cs.bikebattle.app.fragments.RoutesOverviewFragment;
+import edu.hm.cs.bikebattle.app.fragments.findRoutes.RoutesOverviewFragment;
 import edu.hm.cs.bikebattle.app.fragments.friends.FriendsFragment;
 import edu.hm.cs.bikebattle.app.fragments.navigationdrawer.MainFragment;
 import edu.hm.cs.bikebattle.app.fragments.navigationdrawer.ProfilFragment;

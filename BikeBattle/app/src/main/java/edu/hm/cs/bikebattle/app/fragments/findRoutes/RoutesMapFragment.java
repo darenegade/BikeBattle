@@ -1,4 +1,4 @@
-package edu.hm.cs.bikebattle.app.fragments;
+package edu.hm.cs.bikebattle.app.fragments.findRoutes;
 
 import android.Manifest;
 import android.content.Context;
@@ -9,7 +9,6 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Looper;
-import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
@@ -32,12 +31,9 @@ import edu.hm.cs.bikebattle.app.data.Consumer;
 import edu.hm.cs.bikebattle.app.fragments.single.SingleRouteFragment;
 import edu.hm.cs.bikebattle.app.modell.Route;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * Fragment to display a google map which shows routes.
@@ -179,7 +175,7 @@ public class RoutesMapFragment extends Fragment implements OnMapReadyCallback, G
           public void consume(List<Route> input) {
             routes = input;
             showRoutes();
-            listFragment.updateList(input);
+            listFragment.setRoutes(input);
             Log.d("Loaded routes:", String.valueOf(input.size()));
           }
 

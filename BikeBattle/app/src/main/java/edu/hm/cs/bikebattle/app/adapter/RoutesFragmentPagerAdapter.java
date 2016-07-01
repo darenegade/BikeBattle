@@ -7,8 +7,8 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import edu.hm.cs.bikebattle.app.R;
 import edu.hm.cs.bikebattle.app.activities.BaseActivity;
-import edu.hm.cs.bikebattle.app.fragments.RoutesListFragment;
-import edu.hm.cs.bikebattle.app.fragments.RoutesMapFragment;
+import edu.hm.cs.bikebattle.app.fragments.findRoutes.RoutesListFragment;
+import edu.hm.cs.bikebattle.app.fragments.findRoutes.RoutesMapFragment;
 
 /**
  * Fragment adapter for the routes activity.
