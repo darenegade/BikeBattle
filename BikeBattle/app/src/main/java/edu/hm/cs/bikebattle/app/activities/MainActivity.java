@@ -64,10 +64,11 @@ public class MainActivity extends BaseActivity implements NavigationView
 
     drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
     ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-        this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close){
+        this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
       @Override
       public void onDrawerClosed(View drawerView) {
-        // Code here will be triggered once the drawer closes as we dont want anything to happen so we leave this blank
+        // Code here will be triggered once the drawer closes as we dont want anything to happen
+        // so we leave this blank
         super.onDrawerClosed(drawerView);
         InputMethodManager inputMethodManager = (InputMethodManager)
             getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -76,7 +77,8 @@ public class MainActivity extends BaseActivity implements NavigationView
 
       @Override
       public void onDrawerOpened(View drawerView) {
-        // Code here will be triggered once the drawer open as we dont want anything to happen so we leave this blank
+        // Code here will be triggered once the drawer open as we dont want anything to happen so
+        // we leave this blank
         super.onDrawerOpened(drawerView);
         InputMethodManager inputMethodManager = (InputMethodManager)
             getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -204,6 +206,7 @@ public class MainActivity extends BaseActivity implements NavigationView
         break;
       case R.id.nav_find_routes:
         fm.beginTransaction().replace(R.id.content_frame, RoutesOverviewFragment.newInstance())
+            .addToBackStack("findRoutes")
             .commit();
         // Set action bar title
         setTitle(menuItem.getTitle());
