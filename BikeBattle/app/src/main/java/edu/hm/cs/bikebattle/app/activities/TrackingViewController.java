@@ -4,17 +4,14 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.google.android.gms.maps.SupportMapFragment;
-
-import java.util.Locale;
-
 import edu.hm.cs.bikebattle.app.R;
 import edu.hm.cs.bikebattle.app.modell.Track;
+
+import java.util.Locale;
 
 /**
  * Helper class for tracking activity. Controls the views and updates track information.
@@ -78,7 +75,6 @@ public class TrackingViewController {
       @Override
       public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft,
                                  int oldTop, int oldRight, int oldBottom) {
-        Log.d("Height:", String.valueOf(v.getLayoutParams().height));
         if (v.getLayoutParams().height > 1000) {
           initRelativeLayout();
         }

@@ -12,7 +12,6 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Looper;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -108,8 +107,6 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
       } else {
         tracker.stop();
         saveTrack();
-
-        showRouteDialog();
       }
     } else {
       if (routing) {
@@ -196,10 +193,11 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
     dialog.setTitle("Add new route?");
 
     final EditText nameTextField = (EditText) dialog.findViewById(R.id.editText);
-    nameTextField.setText("Name");
 
     final RadioGroup radioType = (RadioGroup) dialog.findViewById(R.id.radioType);
+    radioType.check(R.id.radioButton_type_off);
     final RadioGroup radioDiff = (RadioGroup) dialog.findViewById(R.id.radioDiff);
+    radioDiff.check(R.id.radioButton_diff_easy);
 
     Button saveButton = (Button) dialog.findViewById(R.id.button_ok);
     Button cancelButton = (Button) dialog.findViewById(R.id.button_cancel);
@@ -268,7 +266,7 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
     }
 
     // Add the new route.
-    getDataConnector().addRoute(route, getPrincipal(), new Consumer<String>() {
+    getDataConnector().addRoute(route, new Consumer<String>() {
       @Override
       public void consume(String input) {
         Toast.makeText(context, "Added new route!", Toast.LENGTH_LONG).show();
@@ -305,33 +303,37 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
   /**
    * Saves the recorded track to the backend.
    */
-
   private void saveTrack() {
-    final Context context = this;
-    if (routing) {
-      getDataConnector().addTrack(track, route, getPrincipal(), new Consumer<Void>() {
-        @Override
-        public void consume(Void input) {
-          Toast.makeText(context, "Added track to route!", Toast.LENGTH_LONG).show();
-        }
+    if (track != null && track.size() > 0) {
+      final Context context = this;
+      if (routing) {
+        getDataConnector().addTrack(track, route, new Consumer<Void>() {
+          @Override
+          public void consume(Void input) {
+            Toast.makeText(context, "Added track to route!", Toast.LENGTH_LONG).show();
+          }
 
-        @Override
-        public void error(int error, Throwable exception) {
-          Toast.makeText(context, "Unable to save track!", Toast.LENGTH_LONG).show();
-        }
-      });
+          @Override
+          public void error(int error, Throwable exception) {
+            Toast.makeText(context, "Unable to save track!", Toast.LENGTH_LONG).show();
+          }
+        });
+      } else {
+        getDataConnector().addTrack(track, new Consumer<String>() {
+          @Override
+          public void consume(String input) {
+            Toast.makeText(context, "Added new track!", Toast.LENGTH_LONG).show();
+            showRouteDialog();
+          }
+
+          @Override
+          public void error(int error, Throwable exception) {
+            Toast.makeText(context, "Unable to save track!", Toast.LENGTH_LONG).show();
+          }
+        });
+      }
     } else {
-      getDataConnector().addTrack(track, getPrincipal(), new Consumer<String>() {
-        @Override
-        public void consume(String input) {
-          Toast.makeText(context, "Added new track!", Toast.LENGTH_LONG).show();
-        }
-
-        @Override
-        public void error(int error, Throwable exception) {
-          Toast.makeText(context, "Unable to save track!", Toast.LENGTH_LONG).show();
-        }
-      });
+      Toast.makeText(this, "Empty track! No track was saved", Toast.LENGTH_LONG).show();
     }
   }
 
@@ -496,7 +498,6 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
     } else {
       tracker = new AndroidLocationTracker(1, this);
     }
-
     viewController = new TrackingViewController(this);
   }
 }
