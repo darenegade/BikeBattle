@@ -1,6 +1,5 @@
 package edu.hm.cs.bikebattle.app.fragments.tracks;
 
-import android.content.Context;
 import android.location.Location;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,7 +11,6 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import edu.hm.cs.bikebattle.app.R;
 import edu.hm.cs.bikebattle.app.activities.BaseActivity;
-import edu.hm.cs.bikebattle.app.fragments.single.SingleRouteFragment;
 import edu.hm.cs.bikebattle.app.fragments.single.SingleTrackFragment;
 import edu.hm.cs.bikebattle.app.modell.Track;
 import edu.hm.cs.bikebattle.app.modell.User;
@@ -34,7 +32,7 @@ public class TracksRecyclerViewAdapter extends RecyclerView.Adapter<TracksRecycl
   private final static String SPLITTER = "%7C";
 
   /** Context to use**/
-  private final Context context;
+  private final BaseActivity activity;
 
   /** List of Tracks **/
   private List<Track> tracks = new ArrayList<Track>();
@@ -43,7 +41,7 @@ public class TracksRecyclerViewAdapter extends RecyclerView.Adapter<TracksRecycl
   private User user;
 
   public TracksRecyclerViewAdapter(BaseActivity activity) {
-    this.context = activity.getApplicationContext();
+    this.activity = activity;
     user = activity.getPrincipal();
   }
 
@@ -60,7 +58,7 @@ public class TracksRecyclerViewAdapter extends RecyclerView.Adapter<TracksRecycl
     holder.track = tracks.get(position);
 
     Picasso
-        .with(context)
+        .with(activity.getApplicationContext())
         .load(makeMapString(tracks.get(position)))
         .fit()
         .centerCrop()
