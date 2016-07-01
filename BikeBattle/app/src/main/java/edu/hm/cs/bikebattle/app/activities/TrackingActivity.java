@@ -266,7 +266,7 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
     }
 
     // Add the new route.
-    getDataConnector().addRoute(route, getPrincipal(), new Consumer<String>() {
+    getDataConnector().addRoute(route, new Consumer<String>() {
       @Override
       public void consume(String input) {
         Toast.makeText(context, "Added new route!", Toast.LENGTH_LONG).show();
@@ -307,7 +307,7 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
     if (track != null && track.size() > 0) {
       final Context context = this;
       if (routing) {
-        getDataConnector().addTrack(track, route, getPrincipal(), new Consumer<Void>() {
+        getDataConnector().addTrack(track, route, new Consumer<Void>() {
           @Override
           public void consume(Void input) {
             Toast.makeText(context, "Added track to route!", Toast.LENGTH_LONG).show();
@@ -319,7 +319,7 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
           }
         });
       } else {
-        getDataConnector().addTrack(track, getPrincipal(), new Consumer<String>() {
+        getDataConnector().addTrack(track, new Consumer<String>() {
           @Override
           public void consume(String input) {
             Toast.makeText(context, "Added new track!", Toast.LENGTH_LONG).show();

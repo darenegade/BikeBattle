@@ -1,12 +1,12 @@
 package edu.hm.cs.bikebattle.app.activities;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -15,6 +15,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
+
 import edu.hm.cs.bikebattle.app.BikeBattleApplication;
 import edu.hm.cs.bikebattle.app.R;
 import edu.hm.cs.bikebattle.app.data.CachingDataConnector;
@@ -25,11 +26,12 @@ import edu.hm.cs.bikebattle.app.modell.User;
 /**
  * Organization: HM FK07.
  * Project: BikeBattle, edu.hm.cs.bikebattle.app.activities
+ *
  * @author Rene Zarwel
- * Date: 09.05.16
- * OS: MacOS 10.11
- * Java-Version: 1.8
- * System: 2,3 GHz Intel Core i7, 16 GB 1600 MHz DDR3
+ *         Date: 09.05.16
+ *         OS: MacOS 10.11
+ *         Java-Version: 1.8
+ *         System: 2,3 GHz Intel Core i7, 16 GB 1600 MHz DDR3
  */
 public abstract class BaseActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
@@ -41,7 +43,7 @@ public abstract class BaseActivity extends AppCompatActivity implements GoogleAp
   private DataConnector dataConnector;
 
   private User principal;
-  private Uri userPhoto;
+  private String userPhoto;
 
   @Override
   protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -60,9 +62,9 @@ public abstract class BaseActivity extends AppCompatActivity implements GoogleAp
     dataConnector = new CachingDataConnector(
         getApplicationContext(),
         googleApiClient,
-        ((BikeBattleApplication)getApplication()).getUserCache(),
-        ((BikeBattleApplication)getApplication()).getDriveCache(),
-        ((BikeBattleApplication)getApplication()).getRouteCache());
+        ((BikeBattleApplication) getApplication()).getUserCache(),
+        ((BikeBattleApplication) getApplication()).getDriveCache(),
+        ((BikeBattleApplication) getApplication()).getRouteCache());
 
   }
 
@@ -78,10 +80,10 @@ public abstract class BaseActivity extends AppCompatActivity implements GoogleAp
       public void onResult(@NonNull GoogleSignInResult googleSignInResult) {
         GoogleSignInAccount acct = googleSignInResult.getSignInAccount();
 
-        if(acct == null){
+        if (acct == null) {
           Intent intent = new Intent(getApplicationContext(), Login.class);
           startActivity(intent);
-        }else {
+        } else {
           Log.d(TAG, "Login successful!!!....again");
           Log.d(TAG, "Name:" + acct.getDisplayName());
           Log.d(TAG, "Mail:" + acct.getEmail());
@@ -91,7 +93,7 @@ public abstract class BaseActivity extends AppCompatActivity implements GoogleAp
             @Override
             public void consume(User input) {
               principal = input;
-              userPhoto = Uri.parse(input.getFotoUri());
+              userPhoto = input.getFotoUri();
               Log.d(TAG, principal.toString());
               refreshUserInfo();
             }
@@ -99,6 +101,7 @@ public abstract class BaseActivity extends AppCompatActivity implements GoogleAp
             @Override
             public void error(int error, Throwable exception) {
               Log.e(TAG, "LOGIN FAILURE with: " + exception.getMessage());
+              exception.printStackTrace();
             }
           });
         }
@@ -111,7 +114,7 @@ public abstract class BaseActivity extends AppCompatActivity implements GoogleAp
    * It also clears the account previously selected by the user and a future sign in attempt
    * will require the user pick an account again.
    */
-  public void signOut(){
+  public void signOut() {
     Auth.GoogleSignInApi.signOut(googleApiClient).setResultCallback(new ResultCallback<Status>() {
       @Override
       public void onResult(@NonNull Status status) {
@@ -139,7 +142,7 @@ public abstract class BaseActivity extends AppCompatActivity implements GoogleAp
     return principal;
   }
 
-  public Uri getUserPhoto(){
+  public String getUserPhoto() {
     return userPhoto;
   }
 
@@ -147,7 +150,7 @@ public abstract class BaseActivity extends AppCompatActivity implements GoogleAp
     return dataConnector;
   }
 
-  public  void refreshUserInfo(){
+  public void refreshUserInfo() {
 
   }
 }
