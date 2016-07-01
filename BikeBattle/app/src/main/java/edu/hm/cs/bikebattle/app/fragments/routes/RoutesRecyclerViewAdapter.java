@@ -28,7 +28,7 @@ import java.util.List;
 public class RoutesRecyclerViewAdapter extends RecyclerView.Adapter<RoutesRecyclerViewAdapter.RoutesViewHolder> {
 
   private final static String STATIC_MAP_START_LINK = "http://maps.googleapis.com/maps/api/staticmap?" +
-      "size=500x400" +
+      "size=500x200" +
       "&key=AIzaSyD9-iXLN4t282Q2EW22NCVTUTev4okhZYE" +
       "&path=color:0x0000ff%7Cweight:5";
   private final static String SPLITTER = "%7C";
