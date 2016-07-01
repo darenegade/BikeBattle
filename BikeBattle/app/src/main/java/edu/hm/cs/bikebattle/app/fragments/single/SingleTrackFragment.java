@@ -61,11 +61,13 @@ public class SingleTrackFragment extends Fragment implements OnMapReadyCallback 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
                            Bundle savedInstanceState) {
+
+
     SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager()
         .findFragmentById(R.id.single_map);
     if (mapFragment == null) {
       mapFragment = SupportMapFragment.newInstance();
-      getChildFragmentManager().beginTransaction().replace(R.id.single_map, mapFragment).commit();
+      getChildFragmentManager().beginTransaction().add(R.id.single_map, mapFragment).commit();
     }
     mapFragment.getMapAsync(this);
 

@@ -37,12 +37,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Open Route"
-                android:visibility="invisible"
-                android:id="@+id/single_track_button"/>
             <GridLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -121,6 +115,12 @@
                 android:id="@+id/chart"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"/>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Open Route"
+                android:visibility="invisible"
+                android:id="@+id/single_track_button"/>
 
         </LinearLayout>
 
