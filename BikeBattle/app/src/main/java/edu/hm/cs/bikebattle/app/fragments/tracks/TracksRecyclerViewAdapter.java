@@ -12,6 +12,8 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import edu.hm.cs.bikebattle.app.R;
 import edu.hm.cs.bikebattle.app.activities.BaseActivity;
+import edu.hm.cs.bikebattle.app.fragments.single.SingleRouteFragment;
+import edu.hm.cs.bikebattle.app.fragments.single.SingleTrackFragment;
 import edu.hm.cs.bikebattle.app.modell.Track;
 import edu.hm.cs.bikebattle.app.modell.User;
 
@@ -75,7 +77,11 @@ public class TracksRecyclerViewAdapter extends RecyclerView.Adapter<TracksRecycl
     holder.mView.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-
+        activity.getSupportFragmentManager()
+            .beginTransaction().replace(R.id.content_frame,
+            SingleTrackFragment.newInstance(holder.track))
+            .addToBackStack("singleTrack")
+            .commit();
       }
     });
   }
