@@ -33,7 +33,7 @@ public class DriveController {
   DriveRepository driveRepository;
 
   @RequestMapping("/top20")
-  public List<TopDriveEntry> topTwenty(@Param("routeOid")String routeOid){
+  public List<TopDriveEntry> topTwenty(@Param("routeOid") String routeOid) {
 
     List<Drive> drives = driveRepository.findByRouteOid(routeOid);
 
@@ -49,9 +49,9 @@ public class DriveController {
     LinkedHashMap<String, Drive> topDrives = new LinkedHashMap<>();
     Iterator<Drive> driveIterator = drives.iterator();
 
-    for (Drive drive = driveIterator.next();
-         driveIterator.hasNext() && topDrives.size() < 20;
-         drive = driveIterator.next()) {
+    Drive drive;
+    while (driveIterator.hasNext() && topDrives.size() < 20) {
+      drive = driveIterator.next();
 
       if (!topDrives.containsKey(drive.getOwner().getEmail()))
         topDrives.put(drive.getOwner().getEmail(), drive);

@@ -42,6 +42,7 @@ public class TrackAssembler {
 
     return DriveDto.builder()
             .averageSpeed(track.getAverageSpeed_in_kmh())
+            .totalTime(track.getTime_in_s())
             .measurements(measurements)
             .build();
   }

@@ -1,6 +1,5 @@
 package edu.hm.cs.bikebattle.app.fragments.tracks;
 
-import android.content.Context;
 import android.location.Location;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,7 +11,6 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import edu.hm.cs.bikebattle.app.R;
 import edu.hm.cs.bikebattle.app.activities.BaseActivity;
-import edu.hm.cs.bikebattle.app.fragments.single.SingleRouteFragment;
 import edu.hm.cs.bikebattle.app.fragments.single.SingleTrackFragment;
 import edu.hm.cs.bikebattle.app.modell.Track;
 import edu.hm.cs.bikebattle.app.modell.User;
