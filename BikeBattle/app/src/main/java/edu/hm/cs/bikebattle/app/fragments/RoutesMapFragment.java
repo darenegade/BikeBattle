@@ -1,10 +1,13 @@
 package edu.hm.cs.bikebattle.app.fragments;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Looper;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
@@ -12,6 +15,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.location.LocationListener;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -35,7 +40,7 @@ import edu.hm.cs.bikebattle.app.modell.Route;
  * @author Lukas Brauckmann
  */
 public class RoutesMapFragment extends Fragment implements OnMapReadyCallback, GoogleMap
-    .OnMyLocationButtonClickListener {
+    .OnMyLocationButtonClickListener, LocationListener {
   /**
    * The google map in which routes can be displayed.
    */
@@ -52,6 +57,14 @@ public class RoutesMapFragment extends Fragment implements OnMapReadyCallback, G
    * List with all routes.
    */
   private List<Route> routes;
+  /**
+   * LocationManager for providing locations.
+   */
+  private LocationManager locationManager;
+  /**
+   * Last location.
+   */
+  private Location lastLocation;
 
   /**
    * Factory for a new fragment.
@@ -79,6 +92,14 @@ public class RoutesMapFragment extends Fragment implements OnMapReadyCallback, G
       getChildFragmentManager().beginTransaction().replace(R.id.map, mapFragment).commit();
     }
     mapFragment.getMapAsync(this);
+
+    if (ContextCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION)
+        == PackageManager.PERMISSION_GRANTED) {
+      locationManager = (LocationManager) activity.getSystemService(Context.LOCATION_SERVICE);
+      locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1, 0, this,
+          Looper.getMainLooper());
+      lastLocation=locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+    }
   }
 
   @Override
@@ -116,6 +137,26 @@ public class RoutesMapFragment extends Fragment implements OnMapReadyCallback, G
   @Override
   public boolean onMyLocationButtonClick() {
     return false;
+  }
+
+  @Override
+  public void onLocationChanged(Location location) {
+    lastLocation=location;
+  }
+
+  @Override
+  public void onStatusChanged(String provider, int status, Bundle extras) {
+
+  }
+
+  @Override
+  public void onProviderEnabled(String provider) {
+
+  }
+
+  @Override
+  public void onProviderDisabled(String provider) {
+
   }
 
   private void loadRoutes(Location location, float distance) {
@@ -180,11 +221,10 @@ public class RoutesMapFragment extends Fragment implements OnMapReadyCallback, G
    * Moves the camera to the users position.
    */
   private void updateCamera() {
-    //TODO: Last location
-    /*
-    LatLng latLng = new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude());
-    googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(
-        new CameraPosition.Builder().target(latLng).zoom(15).build()));
-  */
+    if(lastLocation.getAccuracy()>10) {
+      LatLng latLng = new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude());
+      googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(
+          new CameraPosition.Builder().target(latLng).zoom(15).build()));
+    }
   }
 }

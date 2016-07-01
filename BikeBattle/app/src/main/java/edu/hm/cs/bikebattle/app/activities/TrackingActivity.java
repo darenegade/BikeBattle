@@ -12,7 +12,6 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Looper;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -108,8 +107,6 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
       } else {
         tracker.stop();
         saveTrack();
-
-        showRouteDialog();
       }
     } else {
       if (routing) {
@@ -305,33 +302,37 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
   /**
    * Saves the recorded track to the backend.
    */
-
   private void saveTrack() {
-    final Context context = this;
-    if (routing) {
-      getDataConnector().addTrack(track, route, getPrincipal(), new Consumer<Void>() {
-        @Override
-        public void consume(Void input) {
-          Toast.makeText(context, "Added track to route!", Toast.LENGTH_LONG).show();
-        }
+    if (track != null && track.size() > 0) {
+      final Context context = this;
+      if (routing) {
+        getDataConnector().addTrack(track, route, getPrincipal(), new Consumer<Void>() {
+          @Override
+          public void consume(Void input) {
+            Toast.makeText(context, "Added track to route!", Toast.LENGTH_LONG).show();
+          }
 
-        @Override
-        public void error(int error, Throwable exception) {
-          Toast.makeText(context, "Unable to save track!", Toast.LENGTH_LONG).show();
-        }
-      });
+          @Override
+          public void error(int error, Throwable exception) {
+            Toast.makeText(context, "Unable to save track!", Toast.LENGTH_LONG).show();
+          }
+        });
+      } else {
+        getDataConnector().addTrack(track, getPrincipal(), new Consumer<String>() {
+          @Override
+          public void consume(String input) {
+            Toast.makeText(context, "Added new track!", Toast.LENGTH_LONG).show();
+            showRouteDialog();
+          }
+
+          @Override
+          public void error(int error, Throwable exception) {
+            Toast.makeText(context, "Unable to save track!", Toast.LENGTH_LONG).show();
+          }
+        });
+      }
     } else {
-      getDataConnector().addTrack(track, getPrincipal(), new Consumer<String>() {
-        @Override
-        public void consume(String input) {
-          Toast.makeText(context, "Added new track!", Toast.LENGTH_LONG).show();
-        }
-
-        @Override
-        public void error(int error, Throwable exception) {
-          Toast.makeText(context, "Unable to save track!", Toast.LENGTH_LONG).show();
-        }
-      });
+      Toast.makeText(this, "Zero track!", Toast.LENGTH_LONG).show();
     }
   }
 
@@ -496,7 +497,6 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
     } else {
       tracker = new AndroidLocationTracker(1, this);
     }
-
     viewController = new TrackingViewController(this);
   }
 }
