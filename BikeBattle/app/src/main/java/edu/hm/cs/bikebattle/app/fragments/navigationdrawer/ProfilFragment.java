@@ -16,10 +16,8 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.squareup.picasso.Picasso;
-
 import edu.hm.cs.bikebattle.app.R;
 import edu.hm.cs.bikebattle.app.activities.BaseActivity;
 import edu.hm.cs.bikebattle.app.data.Consumer;
