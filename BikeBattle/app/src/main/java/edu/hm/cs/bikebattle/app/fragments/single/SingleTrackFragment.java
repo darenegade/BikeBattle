@@ -96,7 +96,7 @@ public class SingleTrackFragment extends Fragment implements OnMapReadyCallback 
               @Override
               public void onClick(View v) {
                 getFragmentManager().beginTransaction().replace(R.id.content_frame,
-                    SingleRouteFragment.newInstance(input));
+                    SingleRouteFragment.newInstance(input)).addToBackStack(null).commit();
               }
             });
           }
