@@ -15,10 +15,10 @@
     <de.hdodenhof.circleimageview.CircleImageView
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/imageViewprofil"
-        android:layout_width="116dp"
-        android:layout_height="116dp"
-        android:paddingTop="@dimen/nav_header_vertical_spacing"
-        android:paddingLeft="@dimen/nav_header_horizontal_spacing"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="center_horizontal"
         android:src="@android:drawable/sym_def_app_icon"
         app:civ_border_width="4dp"
         app:civ_border_color="#FF000000"/>
@@ -28,8 +28,9 @@
         android:id="@+id/youradressfieldprofil"
         android:text="sven@gmail.com"
         android:textColor="@color/secondary_text"
-        android:paddingTop="@dimen/nav_header_vertical_spacing"
-        android:layout_width="match_parent"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
 
