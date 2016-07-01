@@ -499,7 +499,5 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
       tracker = new AndroidLocationTracker(1, this);
     }
     viewController = new TrackingViewController(this);
-
-    showRouteDialog();
   }
 }
