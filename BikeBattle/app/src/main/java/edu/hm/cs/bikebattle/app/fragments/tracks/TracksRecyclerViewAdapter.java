@@ -8,17 +8,15 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.squareup.picasso.Picasso;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import edu.hm.cs.bikebattle.app.R;
 import edu.hm.cs.bikebattle.app.activities.BaseActivity;
 import edu.hm.cs.bikebattle.app.fragments.single.SingleTrackFragment;
 import edu.hm.cs.bikebattle.app.modell.Track;
 import edu.hm.cs.bikebattle.app.modell.User;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Adapter for Tracks Fragment.
@@ -42,12 +40,9 @@ public class TracksRecyclerViewAdapter extends RecyclerView.Adapter<TracksRecycl
   /** Current User**/
   private User user;
 
-  private final BaseActivity activity;
-
   public TracksRecyclerViewAdapter(BaseActivity activity) {
     this.activity = activity;
     user = activity.getPrincipal();
-    this.activity = activity;
   }
 
   @Override
