@@ -193,10 +193,11 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
     dialog.setTitle("Add new route?");
 
     final EditText nameTextField = (EditText) dialog.findViewById(R.id.editText);
-    nameTextField.setText("Name");
 
     final RadioGroup radioType = (RadioGroup) dialog.findViewById(R.id.radioType);
+    radioType.check(R.id.radioButton_type_off);
     final RadioGroup radioDiff = (RadioGroup) dialog.findViewById(R.id.radioDiff);
+    radioDiff.check(R.id.radioButton_diff_easy);
 
     Button saveButton = (Button) dialog.findViewById(R.id.button_ok);
     Button cancelButton = (Button) dialog.findViewById(R.id.button_cancel);
@@ -498,5 +499,7 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
       tracker = new AndroidLocationTracker(1, this);
     }
     viewController = new TrackingViewController(this);
+
+    showRouteDialog();
   }
 }

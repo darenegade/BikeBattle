@@ -8,6 +8,7 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Looper;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
@@ -98,7 +99,7 @@ public class RoutesMapFragment extends Fragment implements OnMapReadyCallback, G
       locationManager = (LocationManager) activity.getSystemService(Context.LOCATION_SERVICE);
       locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1, 0, this,
           Looper.getMainLooper());
-      lastLocation=locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+      lastLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
     }
   }
 
@@ -141,7 +142,7 @@ public class RoutesMapFragment extends Fragment implements OnMapReadyCallback, G
 
   @Override
   public void onLocationChanged(Location location) {
-    lastLocation=location;
+    lastLocation = location;
   }
 
   @Override
@@ -221,10 +222,14 @@ public class RoutesMapFragment extends Fragment implements OnMapReadyCallback, G
    * Moves the camera to the users position.
    */
   private void updateCamera() {
-    if(lastLocation.getAccuracy()>10) {
+    if (lastLocation.getAccuracy() > 10) {
       LatLng latLng = new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude());
       googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(
           new CameraPosition.Builder().target(latLng).zoom(15).build()));
+      if (ContextCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION)
+          == PackageManager.PERMISSION_GRANTED) {
+        locationManager.removeUpdates(this);
+      }
     }
   }
 }
