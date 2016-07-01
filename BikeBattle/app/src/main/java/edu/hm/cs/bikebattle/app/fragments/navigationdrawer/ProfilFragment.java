@@ -3,7 +3,6 @@ package edu.hm.cs.bikebattle.app.fragments.navigationdrawer;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -34,7 +33,7 @@ public class ProfilFragment extends Fragment implements View.OnClickListener{
 
   private static final String TAG = "ProfilFragment";
   private User user;
-  private Uri uri;
+  private String uri;
   private ImageButton editWeight;
   private ImageButton editSize;
   private TextView sizeView;
@@ -46,7 +45,7 @@ public class ProfilFragment extends Fragment implements View.OnClickListener{
    * @param uri - is the data link to the user profil picture
    * @return new Fragment
    */
-  public static  final ProfilFragment newInstance(User user, Uri uri) {
+  public static  final ProfilFragment newInstance(User user, String uri) {
     ProfilFragment fragment = new ProfilFragment();
     Bundle args = new Bundle();
     fragment.user = user;

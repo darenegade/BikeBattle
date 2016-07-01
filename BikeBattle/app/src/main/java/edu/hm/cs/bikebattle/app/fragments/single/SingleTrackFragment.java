@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.LineChart;
@@ -14,7 +15,10 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 
 import edu.hm.cs.bikebattle.app.R;
+import edu.hm.cs.bikebattle.app.activities.BaseActivity;
+import edu.hm.cs.bikebattle.app.data.Consumer;
 import edu.hm.cs.bikebattle.app.fragments.GoogleMapHelper;
+import edu.hm.cs.bikebattle.app.modell.Route;
 import edu.hm.cs.bikebattle.app.modell.Track;
 
 /**
@@ -69,8 +73,41 @@ public class SingleTrackFragment extends Fragment implements OnMapReadyCallback 
     if (track != null) {
       drawChart(view);
       fillViews(view);
+      addRouteButton(view);
     }
     return view;
+  }
+
+  /**
+   * Enables the route button if there is an corresponding route in the backend.
+   *
+   * @param view parent view
+   */
+  private void addRouteButton(final View view) {
+    if (getActivity() instanceof BaseActivity) {
+      BaseActivity activity = (BaseActivity) getActivity();
+      activity.getDataConnector().getRouteByTrack(track, new Consumer<Route>() {
+        @Override
+        public void consume(final Route input) {
+          if (input != null) {
+            Button button = (Button) view.findViewById(R.id.single_track_button);
+            button.setVisibility(View.VISIBLE);
+            button.setOnClickListener(new View.OnClickListener() {
+              @Override
+              public void onClick(View v) {
+                getFragmentManager().beginTransaction().replace(R.id.content_frame,
+                    SingleRouteFragment.newInstance(input));
+              }
+            });
+          }
+        }
+
+        @Override
+        public void error(int error, Throwable exception) {
+
+        }
+      });
+    }
   }
 
   /**
