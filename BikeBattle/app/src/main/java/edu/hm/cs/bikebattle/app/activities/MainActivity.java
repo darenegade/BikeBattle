@@ -1,6 +1,7 @@
 package edu.hm.cs.bikebattle.app.activities;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -21,20 +22,17 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.squareup.picasso.Picasso;
-
-import java.util.ArrayList;
-
 import edu.hm.cs.bikebattle.app.R;
 import edu.hm.cs.bikebattle.app.fragments.RoutesOverviewFragment;
 import edu.hm.cs.bikebattle.app.fragments.friends.FriendsFragment;
-import edu.hm.cs.bikebattle.app.fragments.navigationdrawer.MainFragment;
 import edu.hm.cs.bikebattle.app.fragments.navigationdrawer.ProfilFragment;
 import edu.hm.cs.bikebattle.app.fragments.routes.RoutesFragment;
 import edu.hm.cs.bikebattle.app.fragments.tracks.TracksFragment;
 import edu.hm.cs.bikebattle.app.modell.Track;
 import edu.hm.cs.bikebattle.app.modell.User;
+
+import java.util.ArrayList;
 
 public class MainActivity extends BaseActivity implements NavigationView
     .OnNavigationItemSelectedListener {
@@ -45,6 +43,9 @@ public class MainActivity extends BaseActivity implements NavigationView
   private ImageView profilImage;
   private DrawerLayout drawer;
   private FragmentManager fm;
+
+  private ProgressDialog progressDialog;
+
   /**
    * Permission request parameter value.
    */
@@ -94,7 +95,10 @@ public class MainActivity extends BaseActivity implements NavigationView
     toggle.syncState();
 
     fm = getSupportFragmentManager();
-    fm.beginTransaction().replace(R.id.content_frame, new MainFragment()).commit();
+    progressDialog = new ProgressDialog(this);
+    progressDialog.setTitle("Loading");
+    progressDialog.setMessage("Wait while loading...");
+    progressDialog.show();
 
     requestPermission();
 
@@ -179,6 +183,10 @@ public class MainActivity extends BaseActivity implements NavigationView
         .placeholder(R.mipmap.ic_launcher)
         .error(R.mipmap.ic_launcher)
         .into(profilImage);
+
+    progressDialog.dismiss();
+
+    fm.beginTransaction().replace(R.id.content_frame, TracksFragment.newInstance()).commit();
   }
 
   @Override

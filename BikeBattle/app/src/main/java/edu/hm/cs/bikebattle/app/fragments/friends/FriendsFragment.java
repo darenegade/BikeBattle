@@ -16,6 +16,7 @@ import android.widget.Toast;
 import edu.hm.cs.bikebattle.app.R;
 import edu.hm.cs.bikebattle.app.activities.BaseActivity;
 import edu.hm.cs.bikebattle.app.data.Consumer;
+import edu.hm.cs.bikebattle.app.fragments.navigationdrawer.ProfilFragment;
 import edu.hm.cs.bikebattle.app.modell.User;
 
 import java.util.List;
@@ -51,7 +52,7 @@ public class FriendsFragment extends Fragment {
   }
 
   @Override
-  public View onCreateView(LayoutInflater inflater, ViewGroup container,
+  public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                            Bundle savedInstanceState) {
     View view = inflater.inflate(R.layout.fragment_friend_list, container, false);
 
@@ -79,7 +80,11 @@ public class FriendsFragment extends Fragment {
         adapter = new FriendRecyclerViewAdapter(activity, new Consumer<User>() {
           @Override
           public void consume(User input) {
-            //TODO Open Profile
+            activity.getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.content_frame, ProfilFragment.newInstance(input, input.getFotoUri()))
+                .addToBackStack("FriendProfile")
+                .commit();
           }
 
           @Override

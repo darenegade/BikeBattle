@@ -1,6 +1,5 @@
 package edu.hm.cs.bikebattle.app.fragments.routes;
 
-import android.content.Context;
 import android.location.Location;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -13,6 +12,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import edu.hm.cs.bikebattle.app.R;
 import edu.hm.cs.bikebattle.app.activities.BaseActivity;
+import edu.hm.cs.bikebattle.app.fragments.single.SingleRouteFragment;
 import edu.hm.cs.bikebattle.app.modell.LocationList;
 import edu.hm.cs.bikebattle.app.modell.Route;
 import edu.hm.cs.bikebattle.app.modell.User;
@@ -34,7 +34,7 @@ public class RoutesRecyclerViewAdapter extends RecyclerView.Adapter<RoutesRecycl
   private final static String SPLITTER = "%7C";
 
   /** Context to use**/
-  private final Context context;
+  private final BaseActivity activity;
 
   /** List of Routes **/
   private List<Route> routes = new ArrayList<Route>();
@@ -43,7 +43,7 @@ public class RoutesRecyclerViewAdapter extends RecyclerView.Adapter<RoutesRecycl
   private User user;
 
   public RoutesRecyclerViewAdapter(BaseActivity activity) {
-    this.context = activity.getApplicationContext();
+    this.activity = activity;
     user = activity.getPrincipal();
   }
 
@@ -62,7 +62,7 @@ public class RoutesRecyclerViewAdapter extends RecyclerView.Adapter<RoutesRecycl
     holder.route = routes.get(position);
 
     Picasso
-        .with(context)
+        .with(activity.getApplicationContext())
         .load(makeMapString(routes.get(position)))
         .fit()
         .centerCrop()
@@ -80,7 +80,11 @@ public class RoutesRecyclerViewAdapter extends RecyclerView.Adapter<RoutesRecycl
     holder.mView.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-
+        activity.getSupportFragmentManager()
+            .beginTransaction().replace(R.id.content_frame,
+            SingleRouteFragment.newInstance(holder.route))
+            .addToBackStack("singleRoute")
+            .commit();
       }
     });
   }
