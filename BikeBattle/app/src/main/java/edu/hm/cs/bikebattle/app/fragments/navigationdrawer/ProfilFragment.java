@@ -133,7 +133,7 @@ public class ProfilFragment extends Fragment implements View.OnClickListener{
 
     final EditText input = new EditText(v.getContext());
     input.setId(0);
-    input.setInputType(InputType.TYPE_CLASS_NUMBER);
+    input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
     dialog.setView(input);
 
     dialog.setPositiveButton("Ändern", new DialogInterface.OnClickListener() {
