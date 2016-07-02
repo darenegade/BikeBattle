@@ -37,19 +37,20 @@ public class ProfilFragment extends Fragment implements View.OnClickListener{
   private TextView sizeView;
   private TextView weightView;
   private SlidingUpPanelLayout mSlidingUpPanelLayout;
+  private boolean editable;
+
   /**
    * This method creates a new Fragment,with the required Informations
     * @param user - is the current User from the App
    * @param uri - is the data link to the user profil picture
    * @return new Fragment
    */
-  public static  final ProfilFragment newInstance(User user, String uri) {
+  public static ProfilFragment newInstance(User user, String uri, boolean editable) {
     ProfilFragment fragment = new ProfilFragment();
-    Bundle args = new Bundle();
     fragment.user = user;
     fragment.uri = uri;
+    fragment.editable = editable;
 
-    fragment.setArguments(args);
     return  fragment;
   }
 
@@ -97,10 +98,17 @@ public class ProfilFragment extends Fragment implements View.OnClickListener{
   }
 
   public void setupButtons(View view){
-      editSize = (ImageButton)view.findViewById(R.id.size_edit);
+
+    editSize = (ImageButton) view.findViewById(R.id.size_edit);
+    editWeight = (ImageButton) view.findViewById(R.id.weight_edit);
+
+    if(editable) {
       editSize.setOnClickListener(this);
-      editWeight = (ImageButton)view.findViewById(R.id.weight_edit);
       editWeight.setOnClickListener(this);
+    } else {
+      editSize.setVisibility(View.GONE);
+      editWeight.setVisibility(View.GONE);
+    }
   }
 
   @Override

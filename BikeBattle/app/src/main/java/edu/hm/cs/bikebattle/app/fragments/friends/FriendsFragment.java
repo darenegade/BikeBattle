@@ -82,7 +82,7 @@ public class FriendsFragment extends Fragment {
           public void consume(User input) {
             activity.getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.content_frame, ProfilFragment.newInstance(input, input.getFotoUri()))
+                .replace(R.id.content_frame, ProfilFragment.newInstance(input, input.getFotoUri(), false))
                 .addToBackStack("FriendProfile")
                 .commit();
           }

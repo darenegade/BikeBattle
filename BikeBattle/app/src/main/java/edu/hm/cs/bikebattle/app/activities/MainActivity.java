@@ -250,7 +250,7 @@ public class MainActivity extends BaseActivity implements NavigationView
     switch (menuItem.getItemId()) {
       case R.id.nav_profil:
         fm.beginTransaction().replace(R.id.content_frame,
-            ProfilFragment.newInstance(getPrincipal(), getUserPhoto()))
+            ProfilFragment.newInstance(getPrincipal(), getUserPhoto(), true))
             .addToBackStack("profile")
             .commit();
         // Set action bar title
