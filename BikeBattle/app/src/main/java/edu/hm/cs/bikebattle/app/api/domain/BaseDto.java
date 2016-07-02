@@ -1,5 +1,6 @@
 package edu.hm.cs.bikebattle.app.api.domain;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,6 +19,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class BaseDto {
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   String oid;
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   String version;
 }

@@ -156,7 +156,7 @@ public class ProfilFragment extends Fragment implements View.OnClickListener{
             public void consume(Void input) {}
             @Override
             public void error(int error, Throwable exception) {
-              Log.e(TAG, "UPDATE USER FAILURE");
+              Log.e(TAG, "UPDATE USER FAILURE: " + exception.getMessage());
             }
           });
 
