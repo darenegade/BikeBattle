@@ -281,9 +281,6 @@ public class MainActivity extends BaseActivity implements NavigationView
         // Set action bar title
         setTitle(menuItem.getTitle());
         break;
-      case R.id.nav_favorite:
-        //fragmentClass = ThirdFragment.class;
-        break;
       case R.id.nav_friends:
         fm.beginTransaction().replace(R.id.content_frame,
             FriendsFragment.newInstance())

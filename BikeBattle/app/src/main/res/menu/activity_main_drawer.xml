@@ -1,40 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group android:checkableBehavior="single">
+    <group android:id="@+id/track_and_routes"
+           android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_profil"
-            android:icon="@drawable/ic_menu_profil"
-            android:title="Profil"/>
+                android:id="@+id/nav_new_track"
+                android:icon="@drawable/ic_menu_route"
+                android:title="New track"/>
         <item
-            android:id="@+id/nav_routes"
-            android:icon="@drawable/ic_menu_tracksy"
-            android:title="All Routes"/>
+                android:id="@+id/nav_routes"
+                android:icon="@drawable/ic_menu_tracksy"
+                android:title="All Routes"/>
         <item
-            android:id="@+id/nav_tracks"
-            android:icon="@drawable/ic_menu_tracksy"
-            android:title="All Tracks"/>
+                android:id="@+id/nav_tracks"
+                android:icon="@drawable/ic_menu_tracksy"
+                android:title="All Tracks"/>
         <item
-            android:id="@+id/nav_find_routes"
-            android:icon="@drawable/ic_menu_search"
-            android:title="Find routes"/>
-        <item
-            android:id="@+id/nav_new_track"
-            android:icon="@drawable/ic_menu_route"
-            android:title="New track"/>
-        <item
-            android:id="@+id/nav_favorite"
-            android:icon="@drawable/ic_menu_favorite"
-            android:title="Favorite"/>
+                android:id="@+id/nav_find_routes"
+                android:icon="@drawable/ic_menu_search"
+                android:title="Find routes"/>
     </group>
 
-    <item android:title="Friends">
-        <menu>
-            <item
+    <group android:id="@+id/profile"
+           android:checkableBehavior="single">
+        <item
+                android:id="@+id/nav_profil"
+                android:icon="@drawable/ic_menu_profil"
+                android:title="Profil"/>
+        <item
                 android:id="@+id/nav_friends"
                 android:icon="@drawable/ic_menu_friends"
                 android:title="Your Friends"/>
-        </menu>
-    </item>
+    </group>
 
 </menu>
