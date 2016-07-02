@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import edu.hm.cs.bikebattle.app.R;
 import edu.hm.cs.bikebattle.app.activities.BaseActivity;
+import edu.hm.cs.bikebattle.app.fragments.GoogleMapHelper;
 import edu.hm.cs.bikebattle.app.fragments.single.SingleRouteFragment;
 import edu.hm.cs.bikebattle.app.modell.LocationList;
 import edu.hm.cs.bikebattle.app.modell.Route;
@@ -72,7 +73,7 @@ public class RoutesRecyclerViewAdapter extends RecyclerView.Adapter<RoutesRecycl
 
     holder.userNameView.setText(user.getName());
     holder.routeNameView.setText(routes.get(position).getName());
-    holder.lengthView.setText(routes.get(position).getDistanceInM() + "m");
+    holder.lengthView.setText(GoogleMapHelper.distanceToFormat(routes.get(position).getDistanceInM()));
     holder.typeView.setText(routes.get(position).getRoutetyp().toString());
     holder.difficultyView.setText(routes.get(position).getDifficulty().toString());
 

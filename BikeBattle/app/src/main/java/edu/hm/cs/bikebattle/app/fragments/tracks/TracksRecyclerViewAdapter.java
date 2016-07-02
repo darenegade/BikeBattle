@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import edu.hm.cs.bikebattle.app.R;
 import edu.hm.cs.bikebattle.app.activities.BaseActivity;
+import edu.hm.cs.bikebattle.app.fragments.GoogleMapHelper;
 import edu.hm.cs.bikebattle.app.fragments.single.SingleTrackFragment;
 import edu.hm.cs.bikebattle.app.modell.Track;
 import edu.hm.cs.bikebattle.app.modell.User;
@@ -67,8 +68,9 @@ public class TracksRecyclerViewAdapter extends RecyclerView.Adapter<TracksRecycl
         .into(holder.mapImage);
 
     holder.textViewName.setText(user.getName());
-    holder.timeName.setText(tracks.get(position).getTime_in_s()+" in s");
-    holder.textViewInformation.setText(tracks.get(position).getAverageSpeed_in_kmh()+" in kmh");
+    holder.timeName.setText(GoogleMapHelper.secondsToFormat(tracks.get(position).getTime_in_s()));
+    holder.textViewInformation.setText(
+        String.format("%.1f km/h", tracks.get(position).getAverageSpeed_in_kmh()));
 
     holder.mView.setOnClickListener(new View.OnClickListener() {
       @Override
