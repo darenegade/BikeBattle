@@ -103,10 +103,10 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
       isTracking = false;
       if (routing) {
         router.stop();
-        saveTrack();
+        saveRouting();
       } else {
         tracker.stop();
-        saveTrack();
+        saveTracking();
       }
     } else {
       if (routing) {
@@ -300,13 +300,10 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
     });
   }
 
-  /**
-   * Saves the recorded track to the backend.
-   */
-  private void saveTrack() {
+  private void saveRouting() {
     if (track != null && track.size() > 0) {
       final Context context = this;
-      if (routing) {
+      if (router.isFinished()) {
         getDataConnector().addTrack(track, route, new Consumer<Void>() {
           @Override
           public void consume(Void input) {
@@ -323,7 +320,6 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
           @Override
           public void consume(String input) {
             Toast.makeText(context, "Added new track!", Toast.LENGTH_LONG).show();
-            showRouteDialog();
           }
 
           @Override
@@ -332,6 +328,29 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
           }
         });
       }
+    } else {
+      Toast.makeText(this, "Empty track! No track was saved", Toast.LENGTH_LONG).show();
+    }
+  }
+
+  /**
+   * Saves the recorded track to the backend.
+   */
+  private void saveTracking() {
+    if (track != null && track.size() > 0) {
+      final Context context = this;
+      getDataConnector().addTrack(track, new Consumer<String>() {
+        @Override
+        public void consume(String input) {
+          Toast.makeText(context, "Added new track!", Toast.LENGTH_LONG).show();
+          showRouteDialog();
+        }
+
+        @Override
+        public void error(int error, Throwable exception) {
+          Toast.makeText(context, "Unable to save track!", Toast.LENGTH_LONG).show();
+        }
+      });
     } else {
       Toast.makeText(this, "Empty track! No track was saved", Toast.LENGTH_LONG).show();
     }
