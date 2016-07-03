@@ -4,11 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.SignInButton;
+import com.squareup.picasso.Picasso;
 import edu.hm.cs.bikebattle.app.R;
 
 /**
@@ -33,6 +35,15 @@ public class Login extends BaseActivity {
    * Initialisiert die verschiedenen Komponenten, welche für das activity_login benötigt werden.
    */
   private void initCompoents() {
+
+    ImageView splashScreen = (ImageView) findViewById(R.id.logo);
+
+    Picasso
+        .with(getApplicationContext())
+        .load(R.drawable.splash_screen_login)
+        .fit()
+        .centerCrop()
+        .into(splashScreen);
 
     //Lädt die Eigenschaften des login Button und fügt ihm einen Actionslistener hinzu.
     SignInButton login = (SignInButton) findViewById(R.id.sign_in_button);

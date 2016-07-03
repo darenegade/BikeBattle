@@ -31,7 +31,7 @@ public class RoutesRecyclerViewAdapter extends RecyclerView.Adapter<RoutesRecycl
   private final static String STATIC_MAP_START_LINK = "http://maps.googleapis.com/maps/api/staticmap?" +
       "size=500x200" +
       "&key=AIzaSyD9-iXLN4t282Q2EW22NCVTUTev4okhZYE" +
-      "&path=color:0x0000ff%7Cweight:5";
+      "&path=color:0xFF5252%7Cweight:5";
   private final static String SPLITTER = "%7C";
 
   /** Context to use**/

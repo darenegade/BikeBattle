@@ -1,8 +1,10 @@
 package edu.hm.cs.bikebattle.app.fragments.tracks;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import edu.hm.cs.bikebattle.app.R;
 import edu.hm.cs.bikebattle.app.activities.BaseActivity;
+import edu.hm.cs.bikebattle.app.activities.TrackingActivity;
 import edu.hm.cs.bikebattle.app.data.Consumer;
 import edu.hm.cs.bikebattle.app.data.DataConnector;
 import edu.hm.cs.bikebattle.app.modell.Track;
@@ -84,6 +87,16 @@ public class TracksFragment extends Fragment {
         final RecyclerView recyclerView = (RecyclerView) swipeRefreshLayout.findViewById(R.id.list_tracks);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         adapter = new TracksRecyclerViewAdapter(activity);
+
+        //Setup Floating Button to start addFriends Fragment
+        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab_start_track);
+        fab.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View v) {
+            Intent intent = new Intent(activity, TrackingActivity.class);
+            startActivity(intent);
+          }
+        });
 
 
         dataConnector.getTracksByUser(activity.getPrincipal(), new Consumer<List<Track>>() {

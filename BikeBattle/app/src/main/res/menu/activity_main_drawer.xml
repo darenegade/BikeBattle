@@ -31,6 +31,11 @@
                 android:id="@+id/nav_friends"
                 android:icon="@drawable/ic_menu_friends"
                 android:title="Your Friends"/>
+
+        <item
+                android:id="@+id/nav_logout"
+                android:icon="@drawable/ic_exit_to_app_black_24dp"
+                android:title="Logout"/>
     </group>
 
 </menu>

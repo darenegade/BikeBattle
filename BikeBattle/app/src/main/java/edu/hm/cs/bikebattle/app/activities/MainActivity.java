@@ -22,11 +22,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.squareup.picasso.Picasso;
-
-import java.util.ArrayList;
-
 import edu.hm.cs.bikebattle.app.R;
 import edu.hm.cs.bikebattle.app.fragments.findRoutes.RoutesOverviewFragment;
 import edu.hm.cs.bikebattle.app.fragments.friends.FriendsFragment;
@@ -35,6 +31,8 @@ import edu.hm.cs.bikebattle.app.fragments.routes.RoutesFragment;
 import edu.hm.cs.bikebattle.app.fragments.tracks.TracksFragment;
 import edu.hm.cs.bikebattle.app.modell.Track;
 import edu.hm.cs.bikebattle.app.modell.User;
+
+import java.util.ArrayList;
 
 public class MainActivity extends BaseActivity implements NavigationView
     .OnNavigationItemSelectedListener {
@@ -292,6 +290,8 @@ public class MainActivity extends BaseActivity implements NavigationView
         // Set action bar title
         setTitle(menuItem.getTitle());
         break;
+      case R.id.nav_logout:
+        signOut();
     }
 
 
