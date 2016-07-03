@@ -126,7 +126,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:id="@+id/ranking_list"
-                android:columnCount="3">
+                android:columnCount="4"
+                android:stretchMode="columnWidth">
             </GridLayout>
 
         </LinearLayout>

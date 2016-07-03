@@ -11,11 +11,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.GridLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.github.mikephil.charting.charts.LineChart;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.squareup.picasso.Picasso;
+
+import java.util.List;
+
 import edu.hm.cs.bikebattle.app.R;
 import edu.hm.cs.bikebattle.app.activities.BaseActivity;
 import edu.hm.cs.bikebattle.app.activities.TrackingActivity;
@@ -23,8 +29,6 @@ import edu.hm.cs.bikebattle.app.api.domain.TopDriveEntryDto;
 import edu.hm.cs.bikebattle.app.data.Consumer;
 import edu.hm.cs.bikebattle.app.fragments.GoogleMapHelper;
 import edu.hm.cs.bikebattle.app.modell.Route;
-
-import java.util.List;
 
 /**
  * Fragment displaying information of a route.
@@ -110,17 +114,27 @@ public class SingleRouteFragment extends Fragment implements OnMapReadyCallback 
               GridLayout ranking = (GridLayout) view.findViewById(R.id.ranking_list);
               for (int index = 0; index < input.size(); index++) {
                 TextView rank = new TextView(ranking.getContext());
-                rank.setText(index + 1 + "");
-                rank.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30);
+                rank.setText(index + 1 + ".");
+                rank.setTextSize(TypedValue.COMPLEX_UNIT_SP, 25);
                 ranking.addView(rank);
+                ImageView pic = new ImageView(ranking.getContext());
+                ranking.addView(pic);
+                Picasso
+                    .with(ranking.getContext())
+                    .load(input.get(index).getFotoUri())
+                    .fit()
+                    .centerCrop()
+                    .placeholder(R.mipmap.ic_launcher)
+                    .error(R.mipmap.ic_launcher)
+                    .into(pic);
                 TextView name = new TextView(ranking.getContext());
-                name.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30);
+                name.setTextSize(TypedValue.COMPLEX_UNIT_SP, 25);
                 name.setText(input.get(index).getName());
                 ranking.addView(name);
                 TextView time = new TextView(ranking.getContext());
                 time.setText(GoogleMapHelper.secondsToFormat(
                     (long) input.get(index).getTotalTime()));
-                time.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30);
+                time.setTextSize(TypedValue.COMPLEX_UNIT_SP, 25);
                 ranking.addView(time);
               }
             }
