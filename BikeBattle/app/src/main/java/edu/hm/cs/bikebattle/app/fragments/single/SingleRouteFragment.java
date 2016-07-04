@@ -37,6 +37,10 @@ public class SingleRouteFragment extends Fragment implements OnMapReadyCallback 
    */
   private Route route;
 
+  private View view;
+
+  private GoogleMap googleMap;
+
   /**
    * Ranking Adapter
    */
@@ -79,18 +83,21 @@ public class SingleRouteFragment extends Fragment implements OnMapReadyCallback 
     }
     mapFragment.getMapAsync(this);
 
-    final View view = inflater.inflate(R.layout.fragment_single_route, container, false);
-    if (route != null) {
-      drawChart(view);
-      fillViews(view);
-      ((Button)view.findViewById(R.id.single_route_button)).setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-          Intent intent = new Intent(view.getContext(), TrackingActivity.class);
-          intent.putExtra(TrackingActivity.OID, route.getOid());
-          startActivity(intent);
-        }
-      });
+    if(view==null) {
+      view = inflater.inflate(R.layout.fragment_single_route, container, false);
+
+      if (route != null) {
+        drawChart(view);
+        fillViews(view);
+        ((Button)view.findViewById(R.id.single_route_button)).setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View v) {
+            Intent intent = new Intent(view.getContext(), TrackingActivity.class);
+            intent.putExtra(TrackingActivity.OID, route.getOid());
+            startActivity(intent);
+          }
+        });
+      }
     }
 
     RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.ranking);
@@ -165,5 +172,6 @@ public class SingleRouteFragment extends Fragment implements OnMapReadyCallback 
       GoogleMapHelper.drawLocationList(route, Color.RED, googleMap);
       GoogleMapHelper.zoomToTrack(googleMap, route);
     }
+    this.googleMap = googleMap;
   }
 }
