@@ -1,6 +1,5 @@
 package edu.hm.cs.bikebattle.app.fragments.tracks;
 
-import android.location.Location;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import com.google.android.gms.maps.GoogleMapOptions;
 import com.squareup.picasso.Picasso;
 import edu.hm.cs.bikebattle.app.R;
 import edu.hm.cs.bikebattle.app.activities.BaseActivity;
@@ -40,6 +40,8 @@ public class TracksRecyclerViewAdapter extends RecyclerView.Adapter<TracksRecycl
 
   /** Current User**/
   private User user;
+
+  GoogleMapOptions options = new GoogleMapOptions().liteMode(true);
 
   public TracksRecyclerViewAdapter(BaseActivity activity) {
     this.activity = activity;
@@ -130,12 +132,13 @@ public class TracksRecyclerViewAdapter extends RecyclerView.Adapter<TracksRecycl
 
     StringBuilder stringBuilder = new StringBuilder(STATIC_MAP_START_LINK);
 
-    for(Location location: track){
+    //Take 80 steps from Track to display, so the URI size doesn't get to big
+    for(int i = 0; i < track.size(); i += (track.size()/80 == 0) ? 1 : track.size()/80 ){
       stringBuilder
           .append(SPLITTER)
-          .append(location.getLatitude())
+          .append(String.format("%.4f",track.get(i).getLatitude()))
           .append(",")
-          .append(location.getLongitude());
+          .append(String.format("%.4f",track.get(i).getLongitude()));
     }
     return stringBuilder.toString();
   }
