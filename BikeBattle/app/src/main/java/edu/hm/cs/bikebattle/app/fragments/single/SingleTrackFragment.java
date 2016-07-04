@@ -34,6 +34,8 @@ public class SingleTrackFragment extends Fragment implements OnMapReadyCallback 
    */
   private Track track;
 
+  private View view;
+
   /**
    * Creates a new Fragment for showing a single track.
    *
@@ -73,11 +75,13 @@ public class SingleTrackFragment extends Fragment implements OnMapReadyCallback 
     }
     mapFragment.getMapAsync(this);
 
-    View view = inflater.inflate(R.layout.fragment_single_track, container, false);
-    if (track != null) {
-      drawChart(view);
-      fillViews(view);
-      addRouteButton(view);
+    if(view== null) {
+      view = inflater.inflate(R.layout.fragment_single_track, container, false);
+      if (track != null) {
+        drawChart(view);
+        fillViews(view);
+        addRouteButton(view);
+      }
     }
     return view;
   }
