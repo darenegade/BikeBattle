@@ -165,7 +165,7 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
                 .build()));
       }
       GoogleMapHelper.drawPositionIcon(googleMap, new LatLng(location.getLatitude(), location
-          .getLongitude()));
+          .getLongitude()), lastLocation.getBearing());
     }
   }
 
@@ -436,12 +436,13 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
    * @param lastLocation Last location.
    */
   private void updateTrack(Track track, Location lastLocation) {
-    this.track = track;
-    clearMap();
-    GoogleMapHelper.drawLocationList(track, Color.BLUE, googleMap);
-    this.lastLocation = lastLocation;
-    updateCamera();
-    viewController.updateViews(track);
+    if (isTracking) {
+      this.track = track;
+      clearMap();
+      this.lastLocation = lastLocation;
+      updateCamera();
+      viewController.updateViews(track);
+    }
   }
 
   /**
@@ -449,15 +450,15 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
    */
   private void clearMap() {
     googleMap.clear();
-    if (routing) {
-      if (route != null) {
-        GoogleMapHelper.drawLocationList(route, Color.RED, googleMap);
-
-        googleMap.addMarker(new MarkerOptions()
-            .position(new LatLng(router.getNextTarget().getLatitude(), router.getNextTarget()
-                .getLongitude())))
-            .setFlat(false);
-      }
+    if (route != null) {
+      GoogleMapHelper.drawLocationList(route, Color.RED, googleMap);
+      googleMap.addMarker(new MarkerOptions()
+          .position(new LatLng(router.getNextTarget().getLatitude(), router.getNextTarget()
+              .getLongitude())))
+          .setFlat(false);
+    }
+    if (track != null) {
+      GoogleMapHelper.drawLocationList(track, Color.BLUE, googleMap);
     }
   }
 
@@ -472,11 +473,17 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
             new CameraPosition.Builder().target(lastPosition).zoom(17).tilt(30)
                 .bearing(lastLocation.bearingTo(router.getNextTarget())).build()));
       } else {
-        googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(
-            new CameraPosition.Builder().target(lastPosition).zoom(17).tilt(30)
-                .bearing(lastLocation.getBearing()).build()));
+        if (track != null && track.size() >= 2) {
+          googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(
+              new CameraPosition.Builder().target(lastPosition).zoom(17).tilt(30)
+                  .bearing(track.get(track.size() - 2).bearingTo(lastLocation)).build()));
+          GoogleMapHelper.drawPositionIcon(googleMap, lastPosition, track.get(track.size() - 2).bearingTo(lastLocation));
+        } else {
+          googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(
+              new CameraPosition.Builder().target(lastPosition).zoom(17).tilt(30).build()));
+          GoogleMapHelper.drawPositionIcon(googleMap, lastPosition, lastLocation.getBearing());
+        }
       }
-      GoogleMapHelper.drawPositionIcon(googleMap, lastPosition);
     } else {
       Toast.makeText(this, "No last location!", Toast.LENGTH_LONG).show();
     }

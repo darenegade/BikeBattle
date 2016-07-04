@@ -3,7 +3,6 @@ package edu.hm.cs.bikebattle.app.fragments;
 import android.location.Location;
 import android.support.annotation.NonNull;
 
-import android.util.Log;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
@@ -52,11 +51,13 @@ public class GoogleMapHelper {
    * @param googleMap GoogleMap object.
    * @param position Given position.
    */
-  public static void drawPositionIcon(GoogleMap googleMap, LatLng position){
-    googleMap.addMarker(new MarkerOptions()
-        .position(position)
-        .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_navigation)))
-        .setFlat(true);
+  public static void drawPositionIcon(GoogleMap googleMap, LatLng position, float rotation){
+    MarkerOptions markerOptions = new MarkerOptions();
+    markerOptions.position(position);
+    markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_navigation));
+    markerOptions.rotation(rotation);
+    markerOptions.flat(true);
+    googleMap.addMarker(markerOptions);
   }
 
   /**
