@@ -8,15 +8,15 @@
     >
 
     <RelativeLayout
+        android:id="@+id/relative_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/relative_layout">
+        android:layout_height="match_parent">
 
         <fragment
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
             android:id="@+id/single_map"
             android:name="com.google.android.gms.maps.SupportMapFragment"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:context=".fragments.single.SingleTrackFragment"/>
@@ -37,6 +37,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
+
             <GridLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -52,6 +53,7 @@
                     android:drawableLeft="@drawable/ic_trackinfo_timer"
                     android:drawablePadding="5dp"
                     android:text="--:--"
+                    android:textColor="@color/secondary_text"
                     android:textSize="20sp"/>
 
                 <TextView
@@ -63,6 +65,7 @@
                     android:drawableLeft="@drawable/ic_trackinfo_distance"
                     android:drawablePadding="5dp"
                     android:text="-"
+                    android:textColor="@color/secondary_text"
                     android:textSize="20sp"/>
 
                 <TextView
@@ -74,6 +77,7 @@
                     android:drawableLeft="@drawable/ic_trackinfo_speed"
                     android:drawablePadding="5dp"
                     android:text="-"
+                    android:textColor="@color/secondary_text"
                     android:textSize="20sp"/>
 
                 <TextView
@@ -85,6 +89,7 @@
                     android:drawableLeft="@drawable/ic_trackinfo_speed"
                     android:drawablePadding="5dp"
                     android:text="-"
+                    android:textColor="@color/secondary_text"
                     android:textSize="20sp"/>
 
                 <TextView
@@ -96,8 +101,8 @@
                     android:drawableLeft="@drawable/ic_trackinfo_diffalt"
                     android:drawablePadding="5dp"
                     android:text="-"
+                    android:textColor="@color/secondary_text"
                     android:textSize="20sp"/>
-
 
 
                 <TextView
@@ -106,21 +111,24 @@
                     android:layout_height="wrap_content"
                     android:layout_columnWeight="1"
                     android:layout_gravity="left"
-                    android:drawableLeft="@drawable/ic_trackinfo_downward"
+                    android:drawableLeft="@drawable/trending_down"
                     android:drawablePadding="5dp"
                     android:text="-"
+                    android:textColor="@color/secondary_text"
                     android:textSize="20sp"/>
             </GridLayout>
+
             <com.github.mikephil.charting.charts.LineChart
                 android:id="@+id/chart"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"/>
+
             <Button
+                android:id="@+id/single_track_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Open Route"
-                android:visibility="invisible"
-                android:id="@+id/single_track_button"/>
+                android:visibility="invisible"/>
 
         </LinearLayout>
 

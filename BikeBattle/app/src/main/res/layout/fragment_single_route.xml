@@ -8,15 +8,15 @@
     >
 
     <RelativeLayout
+        android:id="@+id/relative_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/relative_layout">
+        android:layout_height="match_parent">
 
         <fragment
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
             android:id="@+id/single_route_map"
             android:name="com.google.android.gms.maps.SupportMapFragment"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:context=".fragments.single.SingleRouteFragment"/>
@@ -37,11 +37,12 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-             <Button
-                 android:layout_width="match_parent"
-                 android:layout_height="wrap_content"
-                 android:id="@+id/single_route_button"
-                 android:text="Start"/>
+
+            <Button
+                android:id="@+id/single_route_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Start"/>
 
             <GridLayout
                 android:layout_width="match_parent"
@@ -50,15 +51,16 @@
                 android:columnCount="2">
 
                 <TextView
-                android:id="@+id/single_route_textView_distance"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_columnWeight="1"
-                android:layout_gravity="left"
-                android:drawableLeft="@drawable/ic_trackinfo_distance"
-                android:drawablePadding="5dp"
-                android:text="-"
-                android:textSize="20sp"/>
+                    android:id="@+id/single_route_textView_distance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:layout_gravity="left"
+                    android:drawableLeft="@drawable/ic_trackinfo_distance"
+                    android:drawablePadding="5dp"
+                    android:text="-"
+                    android:textColor="@color/secondary_text"
+                    android:textSize="20sp"/>
 
                 <TextView
                     android:id="@+id/single_route_textView_besttime"
@@ -69,6 +71,7 @@
                     android:drawableLeft="@drawable/trophy_variant"
                     android:drawablePadding="5dp"
                     android:text="-"
+                    android:textColor="@color/secondary_text"
                     android:textSize="20sp"/>
 
                 <TextView
@@ -80,8 +83,8 @@
                     android:drawableLeft="@drawable/ic_trackinfo_diffalt"
                     android:drawablePadding="5dp"
                     android:text="-"
+                    android:textColor="@color/secondary_text"
                     android:textSize="20sp"/>
-
 
 
                 <TextView
@@ -90,9 +93,10 @@
                     android:layout_height="wrap_content"
                     android:layout_columnWeight="1"
                     android:layout_gravity="left"
-                    android:drawableLeft="@drawable/ic_trackinfo_downward"
+                    android:drawableLeft="@drawable/trending_down"
                     android:drawablePadding="5dp"
                     android:text="-"
+                    android:textColor="@color/secondary_text"
                     android:textSize="20sp"/>
 
                 <TextView
@@ -104,6 +108,7 @@
                     android:drawableLeft="@drawable/bike"
                     android:drawablePadding="5dp"
                     android:text="-"
+                    android:textColor="@color/secondary_text"
                     android:textSize="20sp"/>
 
                 <TextView
@@ -115,17 +120,20 @@
                     android:drawableLeft="@drawable/weight"
                     android:drawablePadding="5dp"
                     android:text="-"
+                    android:textColor="@color/secondary_text"
                     android:textSize="20sp"/>
             </GridLayout>
+
             <com.github.mikephil.charting.charts.LineChart
                 android:id="@+id/route_chart"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"/>
+
             <GridLayout
+                android:id="@+id/ranking_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:id="@+id/ranking_list"
                 android:columnCount="4"
                 android:stretchMode="columnWidth">
             </GridLayout>
