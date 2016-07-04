@@ -63,6 +63,9 @@ public class RouteAssembler {
     route.setDifficulty(routeDto.getDifficulty());
     route.setRoutetyp(routeDto.getRoutetyp());
 
+    if(routeDto.getOwner() != null)
+      route.setOwner(UserAssembler.toBean(routeDto.getOwner()));
+
     for (RoutePointDto routePointDto : routeDto.getRoutePoints()) {
       Location location = new Location("");
 

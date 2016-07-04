@@ -40,11 +40,11 @@ public class RoutesRecyclerViewAdapter extends RecyclerView.Adapter<RoutesRecycl
   private List<Route> routes = new ArrayList<Route>();
 
   /** Current User**/
-  private User user;
+  private User currentUser;
 
   public RoutesRecyclerViewAdapter(BaseActivity activity) {
     this.activity = activity;
-    user = activity.getPrincipal();
+    currentUser = activity.getPrincipal();
   }
 
   @Override
@@ -70,7 +70,11 @@ public class RoutesRecyclerViewAdapter extends RecyclerView.Adapter<RoutesRecycl
         .error(R.drawable.world_map)
         .into(holder.mapImage);
 
-    holder.userNameView.setText(user.getName());
+    if(holder.route.getOwner() != null){
+      holder.userNameView.setText(holder.route.getOwner().getName());
+    }else {
+      holder.userNameView.setText(currentUser.getName());
+    }
     holder.routeNameView.setText(routes.get(position).getName());
     holder.lengthView.setText(GoogleMapHelper.distanceToFormat(routes.get(position).getDistanceInM()));
     holder.typeView.setText(routes.get(position).getRoutetyp().toString());
