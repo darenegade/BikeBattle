@@ -12,6 +12,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Looper;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -165,7 +166,7 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
                 .build()));
       }
       GoogleMapHelper.drawPositionIcon(googleMap, new LatLng(location.getLatitude(), location
-          .getLongitude()), lastLocation.getBearing());
+          .getLongitude()), location.getBearing());
     }
   }
 
@@ -451,6 +452,7 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
   private void clearMap() {
     googleMap.clear();
     if (route != null) {
+      Log.e("Draw route","1");
       GoogleMapHelper.drawLocationList(route, Color.RED, googleMap);
       googleMap.addMarker(new MarkerOptions()
           .position(new LatLng(router.getNextTarget().getLatitude(), router.getNextTarget()
@@ -468,21 +470,22 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
   private void updateCamera() {
     if (lastLocation != null) {
       LatLng lastPosition = new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude());
-      if (routing && route != null) {
-        googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(
-            new CameraPosition.Builder().target(lastPosition).zoom(17).tilt(30)
-                .bearing(lastLocation.bearingTo(router.getNextTarget())).build()));
-      } else {
-        if (track != null && track.size() >= 2) {
+      if (track != null && track.size() >= 2) {
+        if (routing && route != null) {
+          googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(
+              new CameraPosition.Builder().target(lastPosition).zoom(17).tilt(30)
+                  .bearing(lastLocation.bearingTo(router.getNextTarget())).build()));
+        } else {
           googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(
               new CameraPosition.Builder().target(lastPosition).zoom(17).tilt(30)
                   .bearing(track.get(track.size() - 2).bearingTo(lastLocation)).build()));
-          GoogleMapHelper.drawPositionIcon(googleMap, lastPosition, track.get(track.size() - 2).bearingTo(lastLocation));
-        } else {
-          googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(
-              new CameraPosition.Builder().target(lastPosition).zoom(17).tilt(30).build()));
-          GoogleMapHelper.drawPositionIcon(googleMap, lastPosition, lastLocation.getBearing());
         }
+        GoogleMapHelper.drawPositionIcon(googleMap, lastPosition, track.get(track.size() - 2)
+            .bearingTo(lastLocation));
+      } else {
+        googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(
+            new CameraPosition.Builder().target(lastPosition).zoom(17).tilt(30).build()));
+        GoogleMapHelper.drawPositionIcon(googleMap, lastPosition, lastLocation.getBearing());
       }
     } else {
       Toast.makeText(this, "No last location!", Toast.LENGTH_LONG).show();
