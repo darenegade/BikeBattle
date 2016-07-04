@@ -149,7 +149,9 @@ public class RoutesMapFragment extends Fragment implements OnMapReadyCallback, G
 
   @Override
   public void onLocationChanged(Location location) {
-    updateCamera(location);
+    if(googleMap!=null) {
+      updateCamera(location);
+    }
   }
 
   @Override
