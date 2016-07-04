@@ -4,24 +4,17 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.GridLayout;
-import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.github.mikephil.charting.charts.LineChart;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.squareup.picasso.Picasso;
-
-import java.util.List;
-
 import edu.hm.cs.bikebattle.app.R;
 import edu.hm.cs.bikebattle.app.activities.BaseActivity;
 import edu.hm.cs.bikebattle.app.activities.TrackingActivity;
@@ -29,6 +22,8 @@ import edu.hm.cs.bikebattle.app.api.domain.TopDriveEntryDto;
 import edu.hm.cs.bikebattle.app.data.Consumer;
 import edu.hm.cs.bikebattle.app.fragments.GoogleMapHelper;
 import edu.hm.cs.bikebattle.app.modell.Route;
+
+import java.util.List;
 
 /**
  * Fragment displaying information of a route.
@@ -45,6 +40,11 @@ public class SingleRouteFragment extends Fragment implements OnMapReadyCallback 
   private View view;
 
   private GoogleMap googleMap;
+
+  /**
+   * Ranking Adapter
+   */
+  private RankingRecyclerViewAdapter adapter;
 
   /**
    * Creates a new Fragment for showing a single route.
@@ -89,7 +89,6 @@ public class SingleRouteFragment extends Fragment implements OnMapReadyCallback 
       if (route != null) {
         drawChart(view);
         fillViews(view);
-        fillRanking(view);
         ((Button)view.findViewById(R.id.single_route_button)).setOnClickListener(new View.OnClickListener() {
           @Override
           public void onClick(View v) {
@@ -100,15 +99,29 @@ public class SingleRouteFragment extends Fragment implements OnMapReadyCallback 
         });
       }
     }
+
+    RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.ranking);
+    adapter = new RankingRecyclerViewAdapter(
+        getActivity().getApplicationContext());
+
+    recyclerView.setAdapter(adapter);
+
+    fillRanking(false);
+
     return view;
+  }
+
+  @Override
+  public void onResume() {
+    super.onResume();
+    fillRanking(true);
   }
 
   /**
    * Fills the ranking with tracks from the backend.
    *
-   * @param view parent view
    */
-  private void fillRanking(final View view) {
+  private void fillRanking(boolean refresh) {
     if (getActivity() instanceof BaseActivity) {
       BaseActivity activity = (BaseActivity) getActivity();
 
@@ -118,39 +131,14 @@ public class SingleRouteFragment extends Fragment implements OnMapReadyCallback 
           new Consumer<List<TopDriveEntryDto>>() {
             @Override
             public void consume(List<TopDriveEntryDto> input) {
-              GridLayout ranking = (GridLayout) view.findViewById(R.id.ranking_list);
-              for (int index = 0; index < input.size(); index++) {
-                TextView rank = new TextView(ranking.getContext());
-                rank.setText(index + 1 + ".");
-                rank.setTextSize(TypedValue.COMPLEX_UNIT_SP, 25);
-                ranking.addView(rank);
-                ImageView pic = new ImageView(ranking.getContext());
-                ranking.addView(pic);
-                Picasso
-                    .with(ranking.getContext())
-                    .load(input.get(index).getFotoUri())
-                    .fit()
-                    .centerCrop()
-                    .placeholder(R.mipmap.ic_launcher)
-                    .error(R.mipmap.ic_launcher)
-                    .into(pic);
-                TextView name = new TextView(ranking.getContext());
-                name.setTextSize(TypedValue.COMPLEX_UNIT_SP, 25);
-                name.setText(input.get(index).getName());
-                ranking.addView(name);
-                TextView time = new TextView(ranking.getContext());
-                time.setText(GoogleMapHelper.secondsToFormat(
-                    (long) input.get(index).getTotalTime()));
-                time.setTextSize(TypedValue.COMPLEX_UNIT_SP, 25);
-                ranking.addView(time);
-              }
+              adapter.setRanking(input);
             }
 
             @Override
             public void error(int error, Throwable exception) {
-              Log.e("Route", error + "");
+              Log.e("TOP List", error + "");
               if (error == Consumer.EXCEPTION) {
-                Log.e("Route", exception.getMessage());
+                Log.e("Top List", exception.getMessage());
               }
             }
           });
