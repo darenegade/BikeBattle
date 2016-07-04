@@ -22,13 +22,17 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 import com.squareup.picasso.Picasso;
 import edu.hm.cs.bikebattle.app.R;
+import edu.hm.cs.bikebattle.app.data.Consumer;
 import edu.hm.cs.bikebattle.app.fragments.findRoutes.RoutesOverviewFragment;
 import edu.hm.cs.bikebattle.app.fragments.friends.FriendsFragment;
 import edu.hm.cs.bikebattle.app.fragments.navigationdrawer.ProfilFragment;
 import edu.hm.cs.bikebattle.app.fragments.routes.RoutesFragment;
+import edu.hm.cs.bikebattle.app.fragments.single.SingleRouteFragment;
 import edu.hm.cs.bikebattle.app.fragments.tracks.TracksFragment;
+import edu.hm.cs.bikebattle.app.modell.Route;
 import edu.hm.cs.bikebattle.app.modell.Track;
 import edu.hm.cs.bikebattle.app.modell.User;
 
@@ -36,6 +40,11 @@ import java.util.ArrayList;
 
 public class MainActivity extends BaseActivity implements NavigationView
     .OnNavigationItemSelectedListener {
+
+  public static final int SINGLE_ROUTE = 0x01;
+  public static final int TRACKS = 0x02;
+
+  public static final String ROUTE_ID_EXTRA = "ROUTE_ID";
 
   private static final String TAG = "MainActivity";
   private NavigationView navigationView;
@@ -273,7 +282,7 @@ public class MainActivity extends BaseActivity implements NavigationView
         break;
       case R.id.nav_new_track:
         Intent intent = new Intent(this, TrackingActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent, 0);
         break;
       case R.id.nav_find_routes:
         fm.beginTransaction().replace(R.id.content_frame, RoutesOverviewFragment.newInstance())
@@ -299,5 +308,38 @@ public class MainActivity extends BaseActivity implements NavigationView
     menuItem.setChecked(true);
     // Close the navigation drawer
     drawer.closeDrawers();
+  }
+
+  @Override
+  protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+    switch (resultCode) {
+      case SINGLE_ROUTE:
+        getDataConnector().getRouteById(data.getStringExtra(ROUTE_ID_EXTRA), new Consumer<Route>() {
+          @Override
+          public void consume(Route input) {
+            fm.beginTransaction()
+                .replace(R.id.content_frame, SingleRouteFragment.newInstance(input))
+                .commit();
+          }
+
+          @Override
+          public void error(int error, Throwable exception) {
+            Toast.makeText(getApplicationContext(), "Error on getting Route", Toast.LENGTH_LONG)
+                .show();
+          }
+        });
+        break;
+      case TRACKS:
+        fm.beginTransaction()
+            .replace(R.id.content_frame, TracksFragment.newInstance())
+            .commit();
+        break;
+      default:
+        fm.beginTransaction()
+            .replace(R.id.content_frame, TracksFragment.newInstance())
+            .commit();
+        break;
+    }
   }
 }

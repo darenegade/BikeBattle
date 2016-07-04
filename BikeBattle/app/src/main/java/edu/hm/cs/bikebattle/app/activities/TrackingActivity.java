@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
@@ -12,7 +13,6 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Looper;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -225,6 +225,7 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
       @Override
       public void onClick(View view) {
         dialog.dismiss();
+        finish();
       }
     });
 
@@ -271,6 +272,12 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
       @Override
       public void consume(String input) {
         Toast.makeText(context, "Added new route!", Toast.LENGTH_LONG).show();
+
+        Intent intent = new Intent();
+        intent.putExtra(MainActivity.ROUTE_ID_EXTRA, input);
+        setResult(MainActivity.SINGLE_ROUTE, intent);
+
+        finish();
       }
 
       @Override
@@ -309,6 +316,11 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
           @Override
           public void consume(Void input) {
             Toast.makeText(context, "Added track to route!", Toast.LENGTH_LONG).show();
+
+            Intent intent = new Intent();
+            intent.putExtra(MainActivity.ROUTE_ID_EXTRA, route.getOid());
+            setResult(MainActivity.SINGLE_ROUTE, intent);
+            finish();
           }
 
           @Override
@@ -321,6 +333,7 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
           @Override
           public void consume(String input) {
             Toast.makeText(context, "Added new track!", Toast.LENGTH_LONG).show();
+            finish();
           }
 
           @Override
