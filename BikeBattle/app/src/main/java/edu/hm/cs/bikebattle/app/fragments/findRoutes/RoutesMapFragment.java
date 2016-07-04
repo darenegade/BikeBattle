@@ -76,12 +76,18 @@ public class RoutesMapFragment extends Fragment implements OnMapReadyCallback, G
     return fragment;
   }
 
+  public RoutesMapFragment() {
+  }
+
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
     activity = (BaseActivity) getActivity();
+    init();
+  }
 
+  private void init() {
     // Obtain the SupportMapFragment and get notified when the map is ready to be used.
     SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager()
         .findFragmentById(R.id.map);
@@ -145,6 +151,12 @@ public class RoutesMapFragment extends Fragment implements OnMapReadyCallback, G
   @Override
   public boolean onMyLocationButtonClick() {
     return false;
+  }
+
+  @Override
+  public void onResume() {
+    super.onResume();
+    init();
   }
 
   @Override

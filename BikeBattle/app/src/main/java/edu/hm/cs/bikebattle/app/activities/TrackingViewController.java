@@ -1,5 +1,6 @@
 package edu.hm.cs.bikebattle.app.activities;
 
+import android.location.Location;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.FloatingActionButton;
@@ -9,6 +10,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.google.android.gms.maps.SupportMapFragment;
 import edu.hm.cs.bikebattle.app.R;
+import edu.hm.cs.bikebattle.app.fragments.GoogleMapHelper;
 import edu.hm.cs.bikebattle.app.modell.Track;
 
 import java.util.Locale;
@@ -56,10 +58,13 @@ public class TrackingViewController {
    */
   private TextView textViewAltitude;
 
+  private TextView textViewDifferenceAlt;
+
   private boolean init = false;
 
   /**
    * Initialize the class.
+   *
    * @param activity TrackingActivity.
    */
   public TrackingViewController(TrackingActivity activity) {
@@ -84,6 +89,7 @@ public class TrackingViewController {
 
   /**
    * Toggles the icon of the button.
+   *
    * @param tracking Flag for tracking.
    */
   public void changeButtonIcon(boolean tracking) {
@@ -98,6 +104,7 @@ public class TrackingViewController {
 
   /**
    * Updates the text views information.
+   *
    * @param track Current track.
    */
   public void updateViews(Track track) {
@@ -105,14 +112,16 @@ public class TrackingViewController {
     long minutes = track.getTime_in_s() / 1000 / 60;
     textViewTime.setText(String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds));
 
-    String param = String.format(Locale.ENGLISH, "%.2f m", track.getDistanceInM());
+    String param = GoogleMapHelper.distanceToFormat(track.getDistanceInM());
     textViewDistance.setText(param);
     param = String.format(Locale.ENGLISH, "%.2f km/h", track.get(track.size() - 1).getSpeed() * 3.6);
     textViewSpeed.setText(param);
-    param = String.format(Locale.ENGLISH, "%.2f km/h", track.getAverageSpeed_in_kmh());
+    param = String.format(Locale.ENGLISH, "%.2f km/h", track.getAverageSpeed_in_kmh() * 3.6);
     textViewAverageSpeed.setText(param);
     param = String.format(Locale.ENGLISH, "%.2f m", track.get(track.size() - 1).getAltitude());
     textViewAltitude.setText(param);
+    param = String.format(Locale.ENGLISH, "%.2f m", track.getUpwardInM());
+    textViewDifferenceAlt.setText(param);
   }
 
   /**
@@ -125,6 +134,7 @@ public class TrackingViewController {
     textViewDistance = (TextView) activity.findViewById(R.id.trackInfo_textView_distance);
     textViewAltitude = (TextView) activity.findViewById(R.id.trackInfo_textView_altitude);
     textViewTime = (TextView) activity.findViewById(R.id.trackInfo_textView_time);
+    textViewDifferenceAlt = (TextView) activity.findViewById(R.id.trackInfo_textView_differenceAlt);
   }
 
   /**
