@@ -221,9 +221,23 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
         }
       }
     });
+
     cancelButton.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View view) {
+
+        getDataConnector().addTrack(track, new Consumer<String>() {
+          @Override
+          public void consume(String input) {
+            Toast.makeText(context, "Added new track!", Toast.LENGTH_LONG).show();
+          }
+
+          @Override
+          public void error(int error, Throwable exception) {
+            Toast.makeText(context, "Unable to save track!", Toast.LENGTH_LONG).show();
+          }
+        });
+
         dialog.dismiss();
         finish();
       }
@@ -241,7 +255,7 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
    */
   private void addRoute(final String name, CharSequence selectedType, CharSequence selectedDiff) {
     final Context context = this;
-    Route route = new Route(name, track);
+    final Route route = new Route(name, track);
 
     // Set route type.
     if (selectedType.equals("City")) {
@@ -276,6 +290,20 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
         Intent intent = new Intent();
         intent.putExtra(MainActivity.ROUTE_ID_EXTRA, input);
         setResult(MainActivity.SINGLE_ROUTE, intent);
+
+        route.setOid(input);
+
+        getDataConnector().addTrack(track, route, new Consumer<Void>() {
+          @Override
+          public void consume(Void input) {
+            Toast.makeText(context, "Added new track!", Toast.LENGTH_LONG).show();
+          }
+
+          @Override
+          public void error(int error, Throwable exception) {
+            Toast.makeText(context, "Unable to save track!", Toast.LENGTH_LONG).show();
+          }
+        });
 
         finish();
       }
@@ -352,19 +380,7 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
    */
   private void saveTracking() {
     if (track != null && track.size() > 0) {
-      final Context context = this;
-      getDataConnector().addTrack(track, new Consumer<String>() {
-        @Override
-        public void consume(String input) {
-          Toast.makeText(context, "Added new track!", Toast.LENGTH_LONG).show();
-          showRouteDialog();
-        }
-
-        @Override
-        public void error(int error, Throwable exception) {
-          Toast.makeText(context, "Unable to save track!", Toast.LENGTH_LONG).show();
-        }
-      });
+      showRouteDialog();
     } else {
       Toast.makeText(this, "Empty track! No track was saved", Toast.LENGTH_LONG).show();
     }
