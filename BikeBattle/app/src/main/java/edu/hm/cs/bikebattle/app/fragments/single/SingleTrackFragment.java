@@ -3,6 +3,7 @@ package edu.hm.cs.bikebattle.app.fragments.single;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,6 +41,7 @@ public class SingleTrackFragment extends Fragment implements OnMapReadyCallback 
    * @return A new instance of fragment SingleTrackFragment.
    */
   public static SingleTrackFragment newInstance(Track track) {
+    Log.d("Track", track.getTime_in_s()+ " " + track.getDistanceInM());
     SingleTrackFragment fragment = new SingleTrackFragment();
     fragment.setTrack(track);
     return fragment;
