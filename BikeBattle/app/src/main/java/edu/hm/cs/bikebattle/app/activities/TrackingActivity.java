@@ -452,7 +452,6 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
   private void clearMap() {
     googleMap.clear();
     if (route != null) {
-      Log.e("Draw route","1");
       GoogleMapHelper.drawLocationList(route, Color.RED, googleMap);
       googleMap.addMarker(new MarkerOptions()
           .position(new LatLng(router.getNextTarget().getLatitude(), router.getNextTarget()

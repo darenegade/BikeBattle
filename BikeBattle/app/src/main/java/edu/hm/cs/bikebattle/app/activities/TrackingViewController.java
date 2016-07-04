@@ -111,19 +111,14 @@ public class TrackingViewController {
   public void updateViews(Track track) {
     textViewTime.setText(GoogleMapHelper.secondsToFormat(track.getTime_in_s()));
     textViewDistance.setText(GoogleMapHelper.distanceToFormat(track.getDistanceInM()));
-    Log.e("Distance",String.valueOf(track.getDistanceInM()));
     String param = String.format(Locale.ENGLISH, "%.2f km/h", track.get(track.size() - 1).getSpeed() * 3.6);
     textViewSpeed.setText(param);
-    Log.e("Speed",String.valueOf(track.get(track.size() - 1).getSpeed() * 3.6));
     param = String.format(Locale.ENGLISH, "%.2f km/h", track.getAverageSpeed_in_kmh());
     textViewAverageSpeed.setText(param);
-    Log.e("Average speed",String.valueOf(track.getAverageSpeed_in_kmh()));
     param = String.format(Locale.ENGLISH, "%.2f m", track.get(track.size() - 1).getAltitude());
     textViewAltitude.setText(param);
-    Log.e("Altitude",String.valueOf(track.get(track.size() - 1).getAltitude()));
     param = String.format(Locale.ENGLISH, "%.2f m", track.getUpwardInM());
     textViewDifferenceAlt.setText(param);
-    Log.e("Upward",String.valueOf(track.getUpwardInM()));
   }
 
   /**
