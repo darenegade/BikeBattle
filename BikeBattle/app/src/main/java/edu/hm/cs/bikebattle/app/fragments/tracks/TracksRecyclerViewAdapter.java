@@ -63,8 +63,8 @@ public class TracksRecyclerViewAdapter extends RecyclerView.Adapter<TracksRecycl
         .load(makeMapString(tracks.get(position)))
         .fit()
         .centerCrop()
-        .placeholder(R.drawable.worldmap)
-        .error(R.drawable.worldmap)
+        .placeholder(R.drawable.world_map)
+        .error(R.drawable.world_map)
         .into(holder.mapImage);
 
     holder.textViewName.setText(user.getName());

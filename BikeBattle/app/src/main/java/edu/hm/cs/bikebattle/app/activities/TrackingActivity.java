@@ -466,7 +466,6 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
    */
   private void updateCamera() {
     if (lastLocation != null) {
-      clearMap();
       LatLng lastPosition = new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude());
       if (routing && route != null) {
         googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(

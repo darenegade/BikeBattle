@@ -67,8 +67,8 @@ public class RoutesRecyclerViewAdapter extends RecyclerView.Adapter<RoutesRecycl
         .load(makeMapString(routes.get(position)))
         .fit()
         .centerCrop()
-        .placeholder(R.drawable.worldmap)
-        .error(R.drawable.worldmap)
+        .placeholder(R.drawable.world_map)
+        .error(R.drawable.world_map)
         .into(holder.mapImage);
 
     holder.userNameView.setText(user.getName());
