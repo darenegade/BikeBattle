@@ -106,16 +106,22 @@ public class SingleRouteFragment extends Fragment implements OnMapReadyCallback 
 
     recyclerView.setAdapter(adapter);
 
-    fillRanking();
+    fillRanking(false);
 
     return view;
+  }
+
+  @Override
+  public void onResume() {
+    super.onResume();
+    fillRanking(true);
   }
 
   /**
    * Fills the ranking with tracks from the backend.
    *
    */
-  private void fillRanking() {
+  private void fillRanking(boolean refresh) {
     if (getActivity() instanceof BaseActivity) {
       BaseActivity activity = (BaseActivity) getActivity();
 
