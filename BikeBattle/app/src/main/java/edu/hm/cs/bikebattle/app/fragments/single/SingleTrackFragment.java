@@ -75,7 +75,7 @@ public class SingleTrackFragment extends Fragment implements OnMapReadyCallback 
 
     View view = inflater.inflate(R.layout.fragment_single_track, container, false);
     if (track != null) {
-      //drawChart(view);
+      drawChart(view);
       fillViews(view);
       addRouteButton(view);
     }

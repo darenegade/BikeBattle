@@ -2,8 +2,8 @@ package edu.hm.cs.bikebattle.app.fragments;
 
 import android.location.Location;
 import android.support.annotation.NonNull;
-
 import android.util.Log;
+
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
@@ -15,9 +15,9 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
-import edu.hm.cs.bikebattle.app.R;
 import java.util.ArrayList;
 
+import edu.hm.cs.bikebattle.app.R;
 import edu.hm.cs.bikebattle.app.modell.LocationList;
 
 /**
@@ -153,11 +153,17 @@ public class GoogleMapHelper {
     float distance = 0;
     if (list.size() > 0) {
       Location location = list.get(0);
-      entries.add(new Entry((float) location.getAltitude(), (int) distance / 10));
+      int lastIndex = (int) distance/10;
+      entries.add(new Entry((float) location.getAltitude(), lastIndex));
       for (int i = 1; i < list.size(); i++) {
         Location tmp = list.get(i);
         distance += location.distanceTo(tmp);
-        entries.add(new Entry((float) tmp.getAltitude(), (int) distance / 10));
+
+        int nextIndex = (int) distance/10;
+        if(nextIndex>lastIndex) {
+          entries.add(new Entry((float) tmp.getAltitude(), nextIndex));
+        }
+        lastIndex = nextIndex;
         location = tmp;
       }
     }
@@ -168,6 +174,7 @@ public class GoogleMapHelper {
     for (int i = 0; i < list.getDistanceInM() / 10 + 1; i++) {
       labels.add(String.format("%d m", i * 10));
     }
+    Log.d("Labels", labels.size()+"");
     return new LineData(labels, dataset);
   }
 
