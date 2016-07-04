@@ -1,9 +1,10 @@
 package edu.hm.cs.bikebattle.app.modell;
 
 import android.location.Location;
-import lombok.ToString;
 
 import java.util.List;
+
+import lombok.ToString;
 
 /**
  * Created by Nils on 30.03.2016.
@@ -44,7 +45,7 @@ public class Track extends LocationList {
       throw new NullPointerException("Locations can not be null!");
     }
     if (track.size() > 1) {
-      return track.get(track.size() - 1).getTime() - track.get(0).getTime();
+      return (track.get(track.size() - 1).getTime() - track.get(0).getTime())/1000;
     }
     return 0;
   }
