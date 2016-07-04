@@ -1,6 +1,5 @@
 package edu.hm.cs.bikebattle.app.fragments.routes;
 
-import android.location.Location;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -141,12 +140,13 @@ public class RoutesRecyclerViewAdapter extends RecyclerView.Adapter<RoutesRecycl
 
     StringBuilder stringBuilder = new StringBuilder(STATIC_MAP_START_LINK);
 
-    for(Location location: locationList){
+    //Take 80 steps from Route to display, so the URI size doesn't get to big
+    for(int i = 0; i < locationList.size(); i += (locationList.size()/80 == 0) ? 1 : locationList.size()/80 ){
       stringBuilder
           .append(SPLITTER)
-          .append(location.getLatitude())
+          .append(String.format("%.4f",locationList.get(i).getLatitude()))
           .append(",")
-          .append(location.getLongitude());
+          .append(String.format("%.4f",locationList.get(i).getLongitude()));
     }
     return stringBuilder.toString();
   }
