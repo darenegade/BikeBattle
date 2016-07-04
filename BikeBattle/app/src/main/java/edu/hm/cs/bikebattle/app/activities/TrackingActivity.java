@@ -466,10 +466,12 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
     googleMap.clear();
     if (route != null) {
       GoogleMapHelper.drawLocationList(route, Color.RED, googleMap);
-      googleMap.addMarker(new MarkerOptions()
-          .position(new LatLng(router.getNextTarget().getLatitude(), router.getNextTarget()
-              .getLongitude())))
-          .setFlat(false);
+
+      if (router.getNextTarget() != null)
+        googleMap.addMarker(new MarkerOptions()
+            .position(new LatLng(router.getNextTarget().getLatitude(), router.getNextTarget()
+                .getLongitude())))
+            .setFlat(false);
     }
     if (track != null) {
       GoogleMapHelper.drawLocationList(track, Color.BLUE, googleMap);
