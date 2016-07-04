@@ -33,8 +33,6 @@ public class GoogleMapHelper {
    * @param track Track that should be displayed.
    */
   public static void drawLocationList(LocationList track, int color, GoogleMap googleMap) {
-    googleMap.clear();
-
     PolylineOptions polyRoute = new PolylineOptions();
 
     polyRoute.color(color);
@@ -44,7 +42,6 @@ public class GoogleMapHelper {
     for (Location wayPoint : track) {
       polyRoute.add(new LatLng(wayPoint.getLatitude(), wayPoint.getLongitude()));
     }
-    googleMap.clear();
     googleMap.addPolyline(polyRoute);
   }
 

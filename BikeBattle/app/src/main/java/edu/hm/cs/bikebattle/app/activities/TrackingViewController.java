@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -108,20 +109,21 @@ public class TrackingViewController {
    * @param track Current track.
    */
   public void updateViews(Track track) {
-    long seconds = (track.getTime_in_s() / 1000 + 60) % 60;
-    long minutes = track.getTime_in_s() / 1000 / 60;
-    textViewTime.setText(String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds));
-
-    String param = GoogleMapHelper.distanceToFormat(track.getDistanceInM());
-    textViewDistance.setText(param);
-    param = String.format(Locale.ENGLISH, "%.2f km/h", track.get(track.size() - 1).getSpeed() * 3.6);
+    textViewTime.setText(GoogleMapHelper.secondsToFormat(track.getTime_in_s()));
+    textViewDistance.setText(GoogleMapHelper.distanceToFormat(track.getDistanceInM()));
+    Log.e("Distance",String.valueOf(track.getDistanceInM()));
+    String param = String.format(Locale.ENGLISH, "%.2f km/h", track.get(track.size() - 1).getSpeed() * 3.6);
     textViewSpeed.setText(param);
-    param = String.format(Locale.ENGLISH, "%.2f km/h", track.getAverageSpeed_in_kmh() * 3.6);
+    Log.e("Speed",String.valueOf(track.get(track.size() - 1).getSpeed() * 3.6));
+    param = String.format(Locale.ENGLISH, "%.2f km/h", track.getAverageSpeed_in_kmh());
     textViewAverageSpeed.setText(param);
+    Log.e("Average speed",String.valueOf(track.getAverageSpeed_in_kmh()));
     param = String.format(Locale.ENGLISH, "%.2f m", track.get(track.size() - 1).getAltitude());
     textViewAltitude.setText(param);
+    Log.e("Altitude",String.valueOf(track.get(track.size() - 1).getAltitude()));
     param = String.format(Locale.ENGLISH, "%.2f m", track.getUpwardInM());
     textViewDifferenceAlt.setText(param);
+    Log.e("Upward",String.valueOf(track.getUpwardInM()));
   }
 
   /**
