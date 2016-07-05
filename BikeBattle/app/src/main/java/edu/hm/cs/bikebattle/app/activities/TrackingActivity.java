@@ -239,6 +239,7 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
         });
 
         dialog.dismiss();
+        setResult(MainActivity.SINGLE_ROUTE, new Intent());
         finish();
       }
     });
@@ -361,6 +362,7 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
           @Override
           public void consume(String input) {
             Toast.makeText(context, "Added new track!", Toast.LENGTH_LONG).show();
+            setResult(MainActivity.SINGLE_ROUTE, new Intent());
             finish();
           }
 
