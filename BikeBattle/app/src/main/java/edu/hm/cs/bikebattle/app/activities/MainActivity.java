@@ -335,11 +335,6 @@ public class MainActivity extends BaseActivity implements NavigationView
             .replace(R.id.content_frame, TracksFragment.newInstance())
             .commit();
         break;
-      default:
-        fm.beginTransaction()
-            .replace(R.id.content_frame, TracksFragment.newInstance())
-            .commit();
-        break;
     }
   }
 }
