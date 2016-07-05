@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
@@ -12,7 +13,6 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Looper;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -221,10 +221,25 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
         }
       }
     });
+
     cancelButton.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View view) {
+
+        getDataConnector().addTrack(track, new Consumer<String>() {
+          @Override
+          public void consume(String input) {
+            Toast.makeText(context, "Added new track!", Toast.LENGTH_LONG).show();
+          }
+
+          @Override
+          public void error(int error, Throwable exception) {
+            Toast.makeText(context, "Unable to save track!", Toast.LENGTH_LONG).show();
+          }
+        });
+
         dialog.dismiss();
+        finish();
       }
     });
 
@@ -240,7 +255,7 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
    */
   private void addRoute(final String name, CharSequence selectedType, CharSequence selectedDiff) {
     final Context context = this;
-    Route route = new Route(name, track);
+    final Route route = new Route(name, track);
 
     // Set route type.
     if (selectedType.equals("City")) {
@@ -271,6 +286,26 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
       @Override
       public void consume(String input) {
         Toast.makeText(context, "Added new route!", Toast.LENGTH_LONG).show();
+
+        Intent intent = new Intent();
+        intent.putExtra(MainActivity.ROUTE_ID_EXTRA, input);
+        setResult(MainActivity.SINGLE_ROUTE, intent);
+
+        route.setOid(input);
+
+        getDataConnector().addTrack(track, route, new Consumer<Void>() {
+          @Override
+          public void consume(Void input) {
+            Toast.makeText(context, "Added new track!", Toast.LENGTH_LONG).show();
+          }
+
+          @Override
+          public void error(int error, Throwable exception) {
+            Toast.makeText(context, "Unable to save track!", Toast.LENGTH_LONG).show();
+          }
+        });
+
+        finish();
       }
 
       @Override
@@ -309,6 +344,11 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
           @Override
           public void consume(Void input) {
             Toast.makeText(context, "Added track to route!", Toast.LENGTH_LONG).show();
+
+            Intent intent = new Intent();
+            intent.putExtra(MainActivity.ROUTE_ID_EXTRA, route.getOid());
+            setResult(MainActivity.SINGLE_ROUTE, intent);
+            finish();
           }
 
           @Override
@@ -321,6 +361,7 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
           @Override
           public void consume(String input) {
             Toast.makeText(context, "Added new track!", Toast.LENGTH_LONG).show();
+            finish();
           }
 
           @Override
@@ -339,19 +380,7 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
    */
   private void saveTracking() {
     if (track != null && track.size() > 0) {
-      final Context context = this;
-      getDataConnector().addTrack(track, new Consumer<String>() {
-        @Override
-        public void consume(String input) {
-          Toast.makeText(context, "Added new track!", Toast.LENGTH_LONG).show();
-          showRouteDialog();
-        }
-
-        @Override
-        public void error(int error, Throwable exception) {
-          Toast.makeText(context, "Unable to save track!", Toast.LENGTH_LONG).show();
-        }
-      });
+      showRouteDialog();
     } else {
       Toast.makeText(this, "Empty track! No track was saved", Toast.LENGTH_LONG).show();
     }
@@ -453,10 +482,12 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
     googleMap.clear();
     if (route != null) {
       GoogleMapHelper.drawLocationList(route, Color.RED, googleMap);
-      googleMap.addMarker(new MarkerOptions()
-          .position(new LatLng(router.getNextTarget().getLatitude(), router.getNextTarget()
-              .getLongitude())))
-          .setFlat(false);
+
+      if (router.getNextTarget() != null)
+        googleMap.addMarker(new MarkerOptions()
+            .position(new LatLng(router.getNextTarget().getLatitude(), router.getNextTarget()
+                .getLongitude())))
+            .setFlat(false);
     }
     if (track != null) {
       GoogleMapHelper.drawLocationList(track, Color.BLUE, googleMap);
