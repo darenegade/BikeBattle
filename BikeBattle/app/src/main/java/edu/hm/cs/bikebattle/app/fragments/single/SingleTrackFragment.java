@@ -60,6 +60,7 @@ public class SingleTrackFragment extends Fragment implements OnMapReadyCallback 
 
   public SingleTrackFragment() {
     // Required empty public constructor
+    getActivity().setTitle("");
   }
 
   @Override
