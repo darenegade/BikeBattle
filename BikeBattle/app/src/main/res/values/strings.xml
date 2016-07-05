@@ -33,4 +33,11 @@
     <string name="helpFriends">Forever alone :( \n\n Try to find your friends.</string>
     <string name="showTracks">You a are a lazy guy, make some tracks</string>
     <string name="helpTextRoutes">No routes saved ;(</string>
+    <string name="Menu_New_Track">New track</string>
+    <string name="Menu_Own_Routes">Own Routes</string>
+    <string name="Menu_Own_tracks">Own Tracks</string>
+    <string name="Menu_Find_Routes">Find routes</string>
+    <string name="Menu_Profil">Profil</string>
+    <string name="Menu_Your_Friends">Your Friends</string>
+    <string name="Menu_Logout">Logout</string>
 </resources>

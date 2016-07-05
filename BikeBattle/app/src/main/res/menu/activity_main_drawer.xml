@@ -6,19 +6,19 @@
         <item
                 android:id="@+id/nav_new_track"
                 android:icon="@drawable/ic_menu_route"
-                android:title="New track"/>
+                android:title="@string/Menu_New_Track"/>
         <item
                 android:id="@+id/nav_routes"
                 android:icon="@drawable/ic_menu_tracksy"
-                android:title="Own Routes"/>
+                android:title="@string/Menu_Own_Routes"/>
         <item
                 android:id="@+id/nav_tracks"
                 android:icon="@drawable/ic_menu_tracksy"
-                android:title="Own Tracks"/>
+                android:title="@string/Menu_Own_tracks"/>
         <item
                 android:id="@+id/nav_find_routes"
                 android:icon="@drawable/ic_menu_search"
-                android:title="Find routes"/>
+                android:title="@string/Menu_Find_Routes"/>
     </group>
 
     <group android:id="@+id/profile"
@@ -26,16 +26,16 @@
         <item
                 android:id="@+id/nav_profil"
                 android:icon="@drawable/ic_menu_profil"
-                android:title="Profil"/>
+                android:title="@string/Menu_Profil"/>
         <item
                 android:id="@+id/nav_friends"
                 android:icon="@drawable/ic_menu_friends"
-                android:title="Your Friends"/>
+                android:title="@string/Menu_Your_Friends"/>
 
         <item
                 android:id="@+id/nav_logout"
                 android:icon="@drawable/ic_exit_to_app_black_24dp"
-                android:title="Logout"/>
+                android:title="@string/Menu_Logout"/>
     </group>
 
 </menu>

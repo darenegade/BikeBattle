@@ -54,6 +54,9 @@ public class FriendsFragment extends Fragment {
   @Override
   public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                            Bundle savedInstanceState) {
+
+    getActivity().setTitle(getString(R.string.Menu_Your_Friends));
+
     View view = inflater.inflate(R.layout.fragment_friend_list, container, false);
 
     // Set the adapter

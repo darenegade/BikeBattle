@@ -64,6 +64,9 @@ public class TracksFragment extends Fragment {
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
                            Bundle savedInstanceState) {
+
+    getActivity().setTitle(getString(R.string.Menu_Own_tracks));
+
     View view = inflater.inflate(R.layout.fragment_show_all_tracks, container, false);
 
     if (view instanceof CoordinatorLayout) {

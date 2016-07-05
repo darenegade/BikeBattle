@@ -60,13 +60,13 @@ public class SingleTrackFragment extends Fragment implements OnMapReadyCallback 
 
   public SingleTrackFragment() {
     // Required empty public constructor
-    getActivity().setTitle("");
   }
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
                            Bundle savedInstanceState) {
 
+    getActivity().setTitle("");
 
     SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager()
         .findFragmentById(R.id.single_map);

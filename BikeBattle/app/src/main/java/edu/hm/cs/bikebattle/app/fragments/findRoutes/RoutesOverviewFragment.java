@@ -30,6 +30,9 @@ public class RoutesOverviewFragment extends Fragment {
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
                            Bundle savedInstanceState) {
+
+    getActivity().setTitle(getString(R.string.Menu_Find_Routes));
+
     inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     View view = inflater.inflate(R.layout.fragment_tab_overview, container, false);
 
