@@ -104,6 +104,7 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
       isTracking = false;
       if (routing) {
         router.stop();
+        Toast.makeText(this,"Stopped router.",Toast.LENGTH_LONG).show();
         saveRouting();
       } else {
         tracker.stop();
@@ -480,7 +481,7 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
    */
   private void clearMap() {
     googleMap.clear();
-    if (route != null) {
+    if (route != null && !router.isFinished()) {
       GoogleMapHelper.drawLocationList(route, Color.RED, googleMap);
 
       if (router.getNextTarget() != null)

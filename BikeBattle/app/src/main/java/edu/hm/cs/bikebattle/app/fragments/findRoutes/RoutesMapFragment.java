@@ -93,7 +93,7 @@ public class RoutesMapFragment extends Fragment implements OnMapReadyCallback, G
         .findFragmentById(R.id.find_routes_map);
     if (mapFragment == null) {
       mapFragment = SupportMapFragment.newInstance();
-      getChildFragmentManager().beginTransaction().replace(R.id.map, mapFragment).commit();
+      getChildFragmentManager().beginTransaction().replace(R.id.find_routes_map, mapFragment).commit();
     }
     mapFragment.getMapAsync(this);
 
