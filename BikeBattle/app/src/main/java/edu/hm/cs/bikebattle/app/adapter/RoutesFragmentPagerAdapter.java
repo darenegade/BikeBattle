@@ -12,7 +12,6 @@ import edu.hm.cs.bikebattle.app.fragments.findRoutes.RoutesMapFragment;
 
 /**
  * Fragment adapter for the routes activity.
- *
  * @author Lukas Brauckmann
  */
 public class RoutesFragmentPagerAdapter extends FragmentPagerAdapter {
@@ -20,16 +19,15 @@ public class RoutesFragmentPagerAdapter extends FragmentPagerAdapter {
    * Number of tabs.
    */
   private static final int PAGE_COUNT = 2;
-  /**
-   * Activity in which the content is displayed.
-   */
+  /**Activity in which the content is displayed.*/
   private BaseActivity activity;
+  /**Fragment in which the map is displayed. */
   private RoutesMapFragment mapFragment;
+  /**Fragment in which all Routes are displayed. */
   private RoutesListFragment listFragment;
 
   /**
    * Initialize the adapter.
-   *
    * @param fragmentManager FragmentManager.
    * @param activity        Activity in which the content is displayed.
    */

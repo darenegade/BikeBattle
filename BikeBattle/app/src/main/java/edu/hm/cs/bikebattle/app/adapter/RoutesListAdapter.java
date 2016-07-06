@@ -14,22 +14,16 @@ import edu.hm.cs.bikebattle.app.modell.Route;
 
 /**
  * Adapter class for the list of routes.
- *
  * @author Lukas Brauckmann
  */
 public class RoutesListAdapter extends ArrayAdapter<Route> {
-  /**
-   * Context.
-   */
+  /**Context.*/
   private final Context context;
-  /**
-   * List with routes that should be displayed.
-   */
+  /**List with routes that should be displayed.*/
   private final List<Route> routes;
 
   /**
    * Initialize the adapter.
-   *
    * @param context Context.
    * @param routes  List with all routes.
    */
