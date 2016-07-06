@@ -18,9 +18,7 @@ import edu.hm.cs.bikebattle.app.tracker.LocationTracker;
  * @version 1.0
  */
 public class TrackingTestActivity extends Activity {
-  /**
-   * amount of locations currently listed.
-   */
+  /**amount of locations currently listed.*/
   private static int views = 0;
 
   @Override
@@ -28,8 +26,7 @@ public class TrackingTestActivity extends Activity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_tracking_test);
     final LocationTracker tracker;
-    //tracker = new GoogleApiLocationTracker(this, 0);
-    tracker = new AndroidLocationTracker(0, this); //TODO
+    tracker = new AndroidLocationTracker(0, this);
     final TextView status = (TextView) findViewById(R.id.statusText);
     status.setText("Stoped");
     final LinearLayout locations = (LinearLayout) findViewById(R.id.locations);

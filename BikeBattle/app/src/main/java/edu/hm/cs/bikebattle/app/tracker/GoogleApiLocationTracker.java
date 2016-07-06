@@ -26,30 +26,19 @@ import edu.hm.cs.bikebattle.app.modell.User;
  */
 public class GoogleApiLocationTracker implements LocationTracker, LocationListener,
     GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
-  /**
-   * Current track.
-   */
+  /** Current track.*/
   private final Track track;
-  /**
-   * Flag if tracker is ready.
-   */
+  /**Flag if tracker is ready.*/
   private boolean ready = false;
-  /**
-   * Flag if client has an unresolvable error.
-   */
+  /**Flag if client has an unresolvable error.*/
   private boolean crashed = false;
-  /**
-   * Location request for API.
-   */
+  /**Location request for API.*/
   private final LocationRequest locationRequest;
-  /**
-   * Client for the Google API.
-   */
+  /**Client for the Google API.*/
   private final GoogleApiClient googleApiClient;
 
   /**
    * Initializes the tracker and connects to the google API.
-   *
    * @param interval Update frequency
    * @param context  Context of the activity
    */
@@ -67,7 +56,6 @@ public class GoogleApiLocationTracker implements LocationTracker, LocationListen
 
   /**
    * Returns true if the tracker is unresolvable crashed.
-   *
    * @return true if crashed
    */
   public boolean isCrashed() {
@@ -86,7 +74,6 @@ public class GoogleApiLocationTracker implements LocationTracker, LocationListen
 
   /**
    * Builds a GoogleAPI Client for the location services.
-   *
    * @param context context of the activity
    * @return Google API client
    */
@@ -100,7 +87,6 @@ public class GoogleApiLocationTracker implements LocationTracker, LocationListen
 
   /**
    * Creates a location request.
-   *
    * @param interval update frequency
    * @return location request
    */

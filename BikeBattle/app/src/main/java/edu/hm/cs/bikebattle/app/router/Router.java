@@ -17,28 +17,24 @@ import edu.hm.cs.bikebattle.app.tracker.LocationTracker;
 public interface Router extends LocationTracker {
   /**
    * Checks if the user is currently in the start area.
-   *
    * @return true if in start area.
    */
   boolean isInStartArea();
 
   /**
    * Returns the route.
-   *
    * @return route
    */
   Route getRoute();
 
   /**
    * Returns the next target or null if the route is finished.
-   *
    * @return the next target
    */
   Location getNextTarget();
 
   /**
    * Returns true if all targets are reached.
-   *
    * @return true if finished
    */
   boolean isFinished();
@@ -50,14 +46,12 @@ public interface Router extends LocationTracker {
 
   /**
    * Starts tracking, but only if the user is within the start area.
-   *
    * @return true if tracking is started
    */
   boolean startTracking();
 
   /**
    * Returns the result track.
-   *
    * @return result
    */
   Track getResult();

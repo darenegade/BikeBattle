@@ -9,32 +9,21 @@ import edu.hm.cs.bikebattle.app.modell.Track;
 import edu.hm.cs.bikebattle.app.tracker.AndroidLocationTracker;
 
 /**
+ * Implements the Router interface.
  * Created by Nils on 19.04.2016.
  */
 public class AndroidLocationRouter extends AndroidLocationTracker implements Router {
-  /**
-   * Route for navigation.
-   */
+  /**Route for navigation.*/
   private final Route route;
-  /**
-   * Current target to reach.
-   */
+  /**Current target to reach.*/
   private int target = 0;
-  /**
-   * Tolerance in within a target is marked as reached.
-   */
+  /**Tolerance in within a target is marked as reached.*/
   public static final double TOLERANCE_IN_METER = 40;
-  /**
-   * Flag if routing is activated.
-   */
+  /**Flag if routing is activated.*/
   private boolean routing = false;
-  /**
-   * Flag if tracking is activated.
-   */
+  /**Flag if tracking is activated.*/
   private boolean tracking = false;
-  /**
-   * Result of the track. Created after the user reaches the final target.
-   */
+  /**Result of the track. Created after the user reaches the final target.*/
   private Track result = null;
 
   /**

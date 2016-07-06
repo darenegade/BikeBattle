@@ -28,26 +28,17 @@ import edu.hm.cs.bikebattle.app.modell.Track;
  * @version 1.0
  */
 public class AndroidLocationTracker implements LocationTracker, LocationListener {
-  /**
-   * Track.
-   */
+  /**Track.*/
   private final Track track;
-  /**
-   * LocationManager for providing locations.
-   */
+  /**LocationManager for providing locations.*/
   private final LocationManager locationManager;
-  /**
-   * Activity of this tracker.
-   */
+  /**Activity of this tracker.*/
   private final Activity activity;
-  /**
-   * Update frequency.
-   */
+  /**Update frequency.*/
   private final long frequency;
 
   /**
    * Initializes the tracker.
-   *
    * @param frequency update frequency in milliseconds
    * @param activity  activity of the tracker
    */
