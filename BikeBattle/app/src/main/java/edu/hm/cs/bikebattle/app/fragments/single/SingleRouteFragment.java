@@ -27,28 +27,24 @@ import java.util.List;
 
 /**
  * Fragment displaying information of a route.
- *
  * @author Nils Bernhardt
  * @version 1.0
  */
 public class SingleRouteFragment extends Fragment implements OnMapReadyCallback {
-  /**
-   * Route to display.
-   */
+  /**Route to display.*/
   private Route route;
 
+  /**View.*/
   private View view;
 
+  /**Google Map.*/
   private GoogleMap googleMap;
 
-  /**
-   * Ranking Adapter
-   */
+  /** Ranking Adapter */
   private RankingRecyclerViewAdapter adapter;
 
   /**
    * Creates a new Fragment for showing a single route.
-   *
    * @param route Route
    * @return A new instance of fragment SingleTrackFragment.
    */
@@ -60,7 +56,6 @@ public class SingleRouteFragment extends Fragment implements OnMapReadyCallback 
 
   /**
    * Sets the route to display.
-   *
    * @param route route
    */
   private void setRoute(Route route) {
@@ -122,7 +117,6 @@ public class SingleRouteFragment extends Fragment implements OnMapReadyCallback 
 
   /**
    * Fills the ranking with tracks from the backend.
-   *
    */
   private void fillRanking(boolean refresh) {
     if (getActivity() instanceof BaseActivity) {
@@ -150,7 +144,6 @@ public class SingleRouteFragment extends Fragment implements OnMapReadyCallback 
 
   /**
    * Fills all views with the statistics.
-   *
    * @param view inflated view
    */
   private void fillViews(View view) {
@@ -167,8 +160,7 @@ public class SingleRouteFragment extends Fragment implements OnMapReadyCallback 
   }
 
   /**
-   * Draws the height chart for the rpute.
-   *
+   * Draws the height chart for the route.
    * @param view inflated view
    */
   private void drawChart(View view) {

@@ -22,7 +22,6 @@ import java.util.List;
 
 /**
  * Adapter for Routes Fragment.
- *
  * @author René Zarwel
  */
 public class RoutesRecyclerViewAdapter extends RecyclerView.Adapter<RoutesRecyclerViewAdapter.RoutesViewHolder> {
@@ -98,6 +97,9 @@ public class RoutesRecyclerViewAdapter extends RecyclerView.Adapter<RoutesRecycl
     return routes.size();
   }
 
+  /**
+   * Implements all needed components.
+   */
   static class RoutesViewHolder extends RecyclerView.ViewHolder {
     public final View mView;
     public final ImageView mapImage;
@@ -140,6 +142,12 @@ public class RoutesRecyclerViewAdapter extends RecyclerView.Adapter<RoutesRecycl
     notifyDataSetChanged();
   }
 
+  /**
+   * Makes a String, which picaso need for showing a map picture
+   * by the giving Locations.
+   * @param locationList - List of waypoints.
+   * @return String for Google Map.
+   */
   private String makeMapString(LocationList locationList){
 
     StringBuilder stringBuilder = new StringBuilder(STATIC_MAP_START_LINK);

@@ -24,21 +24,17 @@ import edu.hm.cs.bikebattle.app.modell.Track;
 
 /**
  * Fragment displaying information on a single track.
- *
  * @author Nils Bernhardt
  * @version 1.0
  */
 public class SingleTrackFragment extends Fragment implements OnMapReadyCallback {
-  /**
-   * Track to display.
-   */
+  /**Track to display.*/
   private Track track;
 
   private View view;
 
   /**
    * Creates a new Fragment for showing a single track.
-   *
    * @param track Track
    * @return A new instance of fragment SingleTrackFragment.
    */
@@ -51,7 +47,6 @@ public class SingleTrackFragment extends Fragment implements OnMapReadyCallback 
 
   /**
    * Sets the track to display.
-   *
    * @param track track
    */
   private void setTrack(Track track) {
@@ -89,7 +84,6 @@ public class SingleTrackFragment extends Fragment implements OnMapReadyCallback 
 
   /**
    * Enables the route button if there is an corresponding route in the backend.
-   *
    * @param view parent view
    */
   private void addRouteButton(final View view) {
@@ -121,7 +115,6 @@ public class SingleTrackFragment extends Fragment implements OnMapReadyCallback 
 
   /**
    * Fills all views with the statistics.
-   *
    * @param view inflated view
    */
   private void fillViews(View view) {
@@ -147,7 +140,6 @@ public class SingleTrackFragment extends Fragment implements OnMapReadyCallback 
 
   /**
    * Draws the height chart for the track.
-   *
    * @param view inflated view
    */
   private void drawChart(View view) {

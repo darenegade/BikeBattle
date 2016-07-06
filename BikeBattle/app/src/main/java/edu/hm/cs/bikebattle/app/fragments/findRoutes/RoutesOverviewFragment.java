@@ -18,7 +18,6 @@ import edu.hm.cs.bikebattle.app.adapter.RoutesFragmentPagerAdapter;
 
 /**
  * Fragment to display the navigation tabs.
- *
  * @author Lukas Brauckmann
  */
 public class RoutesOverviewFragment extends Fragment {

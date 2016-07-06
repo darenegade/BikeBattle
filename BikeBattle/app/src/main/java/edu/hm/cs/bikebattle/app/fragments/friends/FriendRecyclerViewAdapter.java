@@ -18,7 +18,6 @@ import java.util.List;
 
 /**
  * {@link RecyclerView.Adapter} that can display a {@link User}
- *
  * @author: Rene Zarwel
  */
 public class FriendRecyclerViewAdapter extends RecyclerView.Adapter<FriendRecyclerViewAdapter.ViewHolder> {

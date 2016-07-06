@@ -37,36 +37,24 @@ import java.util.Locale;
 
 /**
  * Fragment to display a google map which shows routes.
- *
  * @author Lukas Brauckmann
  */
 public class RoutesMapFragment extends Fragment implements OnMapReadyCallback, GoogleMap
     .OnMyLocationButtonClickListener, LocationListener {
-  /**
-   * The google map in which routes can be displayed.
-   */
+  /**The google map in which routes can be displayed.*/
   private GoogleMap googleMap;
-  /**
-   * Activity in which the content is displayed.
-   */
+  /**Activity in which the content is displayed.*/
   private BaseActivity activity;
-  /**
-   * Fragment to display the routes in a list.
-   */
+  /**Fragment to display the routes in a list.*/
   private RoutesListFragment listFragment;
-  /**
-   * List with all routes.
-   */
+  /**List with all routes.*/
   private List<Route> routes;
-  /**
-   * LocationManager for providing locations.
-   */
+  /**LocationManager for providing locations.*/
   private LocationManager locationManager;
   private HashMap<String, Route> markerRouteMap;
 
   /**
    * Factory for a new fragment.
-   *
    * @param listFragment List fragment.
    * @return New RoutesMapFragment.
    */
@@ -203,6 +191,9 @@ public class RoutesMapFragment extends Fragment implements OnMapReadyCallback, G
         });
   }
 
+  /**
+   * Shows all Routes
+   */
   private void showRoutes() {
     for (Route route : routes) {
       drawRoute(route);

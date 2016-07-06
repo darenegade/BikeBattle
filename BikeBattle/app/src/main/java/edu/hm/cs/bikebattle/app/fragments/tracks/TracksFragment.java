@@ -26,7 +26,6 @@ import java.util.List;
 
 /**
  * Fragment to show all own drives/tracks.
- *
  * @author René Zarwel
  */
 public class TracksFragment extends Fragment {

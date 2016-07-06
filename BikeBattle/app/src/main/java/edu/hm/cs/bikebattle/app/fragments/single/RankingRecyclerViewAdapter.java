@@ -17,7 +17,6 @@ import java.util.List;
 
 /**
  * Adapter for Ranking Fragment.
- *
  * @author René Zarwel
  */
 public class RankingRecyclerViewAdapter extends RecyclerView.Adapter<RankingRecyclerViewAdapter.RankingEntryViewHolder> {

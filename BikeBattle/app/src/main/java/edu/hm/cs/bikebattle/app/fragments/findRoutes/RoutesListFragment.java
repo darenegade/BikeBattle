@@ -4,17 +4,14 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import edu.hm.cs.bikebattle.app.R;
 import edu.hm.cs.bikebattle.app.activities.BaseActivity;
-import edu.hm.cs.bikebattle.app.data.Consumer;
 import edu.hm.cs.bikebattle.app.data.DataConnector;
 import edu.hm.cs.bikebattle.app.fragments.routes.RoutesRecyclerViewAdapter;
 import edu.hm.cs.bikebattle.app.modell.Route;
@@ -23,15 +20,19 @@ import java.util.List;
 
 /**
  * Fragment to show all own routes.
- *
- * @author René Zarwel
+ * @author sven schulz
  */
 public class RoutesListFragment extends Fragment {
 
+  /** Tag from the current Activity.*/
   private static final String TAG = "RoutesListFragment";
+  /**Main Activity.*/
   private BaseActivity activity;
+  /**View Apdapter.*/
   private RoutesRecyclerViewAdapter adapter;
+  /**Default Textview.*/
   private TextView helpText;
+  /**Dataconnector.*/
   private DataConnector dataConnector;
 
   /**
@@ -43,7 +44,6 @@ public class RoutesListFragment extends Fragment {
 
   /**
    * This method creates a new Fragment,with the required Informations
-   *
    * @return new Fragment
    */
   public static final RoutesListFragment newInstance() {
@@ -86,6 +86,10 @@ public class RoutesListFragment extends Fragment {
     super.onDetach();
   }
 
+  /**
+   * Set list of all routs
+   * @param routes - List of routs.
+   */
   public void setRoutes(List<Route> routes){
     adapter.setRoutes(routes);
   }

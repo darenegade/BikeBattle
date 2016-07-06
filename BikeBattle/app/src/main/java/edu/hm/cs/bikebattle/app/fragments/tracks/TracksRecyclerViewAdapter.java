@@ -21,7 +21,6 @@ import java.util.List;
 
 /**
  * Adapter for Tracks Fragment.
- *
  * @author René Zarwel
  */
 public class TracksRecyclerViewAdapter extends RecyclerView.Adapter<TracksRecyclerViewAdapter.TracksViewHolder> {
@@ -41,8 +40,13 @@ public class TracksRecyclerViewAdapter extends RecyclerView.Adapter<TracksRecycl
   /** Current User**/
   private User user;
 
+  /**Google Map Options.*/
   GoogleMapOptions options = new GoogleMapOptions().liteMode(true);
 
+  /**
+   * set the current user and the acitivity.
+   * @param activity - Current activity.
+   */
   public TracksRecyclerViewAdapter(BaseActivity activity) {
     this.activity = activity;
     user = activity.getPrincipal();
@@ -128,6 +132,11 @@ public class TracksRecyclerViewAdapter extends RecyclerView.Adapter<TracksRecycl
     notifyDataSetChanged();
   }
 
+  /**
+   * Makes a String, which picasso need for showing a track on a picture.
+   * @param track - current track.
+   * @return String for Google Map.
+   */
   private String makeMapString(Track track){
 
     StringBuilder stringBuilder = new StringBuilder(STATIC_MAP_START_LINK);

@@ -27,10 +27,13 @@ import java.util.List;
  * @author Rene Zarwel
  */
 public class FriendsFragment extends Fragment {
-
+  /**Current Activity.*/
   private BaseActivity activity;
+  /**View Adapter.*/
   private FriendRecyclerViewAdapter adapter;
+  /** Current Layout.*/
   private SwipeRefreshLayout swipeRefreshLayout;
+  /**default View.*/
   private TextView helpText;
 
   /**
@@ -132,6 +135,9 @@ public class FriendsFragment extends Fragment {
     return view;
   }
 
+  /**
+   * Refreshes the friends in the list.
+   */
   private void refreshItems() {
     //Get data from Backend and put into adapter
     activity.getDataConnector().getFriends(activity.getPrincipal(), new Consumer<List<User>>() {

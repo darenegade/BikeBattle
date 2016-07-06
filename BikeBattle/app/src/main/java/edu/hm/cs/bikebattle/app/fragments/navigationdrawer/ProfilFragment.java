@@ -26,17 +26,26 @@ import edu.hm.cs.bikebattle.app.modell.User;
 /**
  * Shows a new Fragment with the user informations. In this fragment the user
  * has a possibility to change his informations.
+ * @author  sven schulz
  */
 public class ProfilFragment extends Fragment implements View.OnClickListener{
-
+  /** Tag from the current Fragment.*/
   private static final String TAG = "ProfilFragment";
+  /** Current User*/
   private User user;
+  /**Uri includes User picture.*/
   private String uri;
+  /**Button for set the user weight.*/
   private ImageButton editWeight;
+  /**Button for set the user size.*/
   private ImageButton editSize;
+  /**Label  user size.*/
   private TextView sizeView;
+  /**Label  user weight.*/
   private TextView weightView;
+  /**Current Layout*/
   private SlidingUpPanelLayout mSlidingUpPanelLayout;
+  /**Boolean for editable.*/
   private boolean editable;
 
   /**

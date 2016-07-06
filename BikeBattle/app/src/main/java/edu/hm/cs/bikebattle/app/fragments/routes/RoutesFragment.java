@@ -23,7 +23,6 @@ import java.util.List;
 
 /**
  * Fragment to show all own routes.
- *
  * @author René Zarwel
  */
 public class RoutesFragment extends Fragment {

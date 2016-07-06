@@ -14,17 +14,12 @@ import edu.hm.cs.bikebattle.app.modell.Route;
 
 /**
  * Fragment to display detailed route information for one route.
- *
  * @author Lukas Brauckmann
  */
 public class RouteInformationFragment extends Fragment {
-  /**
-   * TextView to display the name.
-   */
+  /**TextView to display the name.*/
   private TextView nameView;
-  /**
-   * TextView to display the length.
-   */
+  /**TextView to display the length.*/
   private TextView lengthView;
 
   @Override
@@ -40,7 +35,6 @@ public class RouteInformationFragment extends Fragment {
 
   /**
    * Sets the route to be displayed.
-   *
    * @param route New route.
    */
   public void setRoute(Route route) {

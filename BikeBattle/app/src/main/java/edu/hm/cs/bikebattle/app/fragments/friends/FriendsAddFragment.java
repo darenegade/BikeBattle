@@ -32,14 +32,15 @@ import java.util.List;
  * @author Rene Zarwel
  */
 public class FriendsAddFragment extends Fragment implements SearchView.OnQueryTextListener {
-
+  /** Tag from the current Fragment*/
   public static final String TAG = "FriendsAddFragment";
-
+  /**Current Activity.*/
   private BaseActivity activity;
-
+  /**View Adapter.*/
   private FriendRecyclerViewAdapter adapter;
-
+  /**Search View.*/
   private SearchView searchView;
+  /**default View.*/
   private TextView helpText;
 
   /**
