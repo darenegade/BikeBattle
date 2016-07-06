@@ -19,22 +19,62 @@ import java.util.List;
  * System: 2,3 GHz Intel Core i7, 16 GB 1600 MHz DDR3
  */
 public interface UserCache {
-
+  /**
+   * Find User.
+   * @param oUser - User.
+   * @param userId - User Id.
+   * @param update - EvictDynamicKey;
+   * @return user.
+   */
   Observable<Reply<UserDto>> UsersFindeOne(
       Observable<UserDto> oUser, DynamicKey userId, EvictDynamicKey update);
 
+  /**
+   * Find all User
+   * @param oUsers - User.
+   * @param update -EvictDynamicKey.
+   * @return all user.
+   */
   Observable<Reply<List<UserDto>>> UsersFindAll(
       Observable<List<UserDto>> oUsers, EvictProvider update);
 
+  /**
+   * Find User by Name.
+   * @param oUsers - User.
+   * @param name - DynamicKey.
+   * @param update - EvictDynamicKey.
+   * @return user.
+   */
   Observable<Reply<List<UserDto>>> UsersFindByName(
       Observable<List<UserDto>> oUsers, DynamicKey name, EvictDynamicKey update);
 
+  /**
+   * Find User by Name.
+   * @param oUsers - User.
+   * @param name - User name.
+   * @param update EvictDynamicKey.
+   * @return user.
+   */
   Observable<Reply<List<UserDto>>> UsersFindByNameContainingIgnoreCase(
       Observable<List<UserDto>> oUsers, DynamicKey name, EvictDynamicKey update);
 
+  /**
+   * Find User by Mail.
+   * @param oUser - User.
+   * @param userMail - User mail.
+   * @param update - EvictDynamicKey.
+   * @return User.
+   */
   Observable<Reply<UserDto>> UsersFindByEmail(
       Observable<UserDto> oUser, DynamicKey userMail, EvictDynamicKey update);
 
+  /**
+   * Find all Friend from user.
+   * @param oUsers - User.
+   * @param userId - User Id.
+   * @param update - EvictDynamicKey.
+   * @return User.
+   */
   Observable<Reply<List<UserDto>>> UsersGetFriends(
       Observable<List<UserDto>> oUsers, DynamicKey userId, EvictDynamicKey update);
 }

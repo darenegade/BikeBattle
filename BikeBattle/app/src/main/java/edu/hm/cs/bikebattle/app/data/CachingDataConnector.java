@@ -49,47 +49,28 @@ import rx.schedulers.Schedulers;
  * Created by Nils on 03.05.2016.
  * Basic implementation for a connection to the backend.
  * No error handling!
- *
  * @author Nils Bernhardt, René Zarwel
  * @version 1.0
  */
 public class CachingDataConnector implements DataConnector {
 
   public static final String TAG = "DataConnector";
-  /**
-   * Backend user client.
-   */
+  /**Backend user client.*/
   private final UserClient userClient;
-  /**
-   * Backend route client.
-   */
+  /**Backend route client.*/
   private final RouteClient routeClient;
-  /**
-   * Backend drive/track client.
-   */
+  /**Backend drive/track client.*/
   private final DriveClient driveClient;
-
-  /**
-   * Local Cache for Users.
-   */
+  /**Local Cache for Users.*/
   private final UserCache userCache;
-  /**
-   * Local Cache for Routes.
-   */
+  /**Local Cache for Routes.*/
   private final RouteCache routeCache;
-  /**
-   * Local Cache for Drives.
-   */
+  /**Local Cache for Drives.*/
   private final DriveCache driveCache;
-
-  /**
-   * Client to get IDToken for Backend Auth.
-   */
+  /**Client to get IDToken for Backend Auth.*/
   private final GoogleApiClient googleApiClient;
 
-  /**
-   * Creates the clients for the backend.
-   */
+  /**Creates the clients for the backend.*/
   public CachingDataConnector(Context context, GoogleApiClient client, UserCache userCache, DriveCache driveCache, RouteCache routeCache) {
     googleApiClient = client;
 
@@ -108,7 +89,6 @@ public class CachingDataConnector implements DataConnector {
   /**
    * Converts the dto to bean.
    * If the bean is not known, the dto is returned.
-   *
    * @param dto to convert.
    * @return converted object
    */
@@ -130,7 +110,6 @@ public class CachingDataConnector implements DataConnector {
 
   /**
    * Executes a get call for a List of resources.
-   *
    * @param observable to execute
    * @param consumer   consumer for result
    * @param <T>        dto
@@ -169,7 +148,6 @@ public class CachingDataConnector implements DataConnector {
 
   /**
    * Executes a get call for a resource.
-   *
    * @param observable to execute
    * @param consumer   consumer for result
    * @param <T>        dto
@@ -201,7 +179,6 @@ public class CachingDataConnector implements DataConnector {
 
   /**
    * Executes a write call.
-   *
    * @param observable to execute
    * @param consumer   for errors
    */
@@ -231,7 +208,6 @@ public class CachingDataConnector implements DataConnector {
 
   /**
    * Executes a write call.
-   *
    * @param observable to execute
    * @param consumer   for errors
    */
@@ -260,7 +236,6 @@ public class CachingDataConnector implements DataConnector {
 
   /**
    * Get new valid token and set is as current.
-   *
    * @return current valid token;
    */
   private void generateToken(final Consumer<String> tokenConsumer) {
