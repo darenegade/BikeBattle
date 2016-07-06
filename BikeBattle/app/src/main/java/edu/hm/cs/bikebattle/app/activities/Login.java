@@ -14,13 +14,14 @@ import com.squareup.picasso.Picasso;
 import edu.hm.cs.bikebattle.app.R;
 
 /**
- * Erstellt das Login Fenster, indem man sich über den Googleaccount anmeldet.
+ * Creats a Login Activity, and uses the user account from google.
  * @author munichsven, darenegade
  */
 public class Login extends BaseActivity {
-
+  /** Tag from the current Acktivity*/
   private static final String TAG = "SignInBikeBattle";
 
+  /** Port*/
   public static final int RC_SIGN_IN = 9001;
 
 
@@ -32,12 +33,12 @@ public class Login extends BaseActivity {
   }
 
   /**
-   * Initialisiert die verschiedenen Komponenten, welche für das activity_login benötigt werden.
+   * Initialized all important variables.
    */
   private void initCompoents() {
 
     ImageView splashScreen = (ImageView) findViewById(R.id.logo);
-
+    // Loads the background picture for the Login View into the imageview.
     Picasso
         .with(getApplicationContext())
         .load(R.drawable.splash_screen_login)
@@ -45,7 +46,6 @@ public class Login extends BaseActivity {
         .centerCrop()
         .into(splashScreen);
 
-    //Lädt die Eigenschaften des login Button und fügt ihm einen Actionslistener hinzu.
     SignInButton login = (SignInButton) findViewById(R.id.sign_in_button);
     login.setScopes(getGoogleSignInOptions().getScopeArray());
     login.setOnClickListener(new View.OnClickListener() {
@@ -57,7 +57,7 @@ public class Login extends BaseActivity {
   }
 
   /**
-   *Lässt den User seinen gewünschten Google Account auswählen.
+   * The User can select his google profil.
    */
   public void signIn() {
     Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(getGoogleApiClient());
@@ -81,19 +81,16 @@ public class Login extends BaseActivity {
   }
 
   /**
-   * Überprüft das Login Result wenn das Result == true ist,
-   * werden die benötigten Informationen herrausgefiltert zudem erscheint
-   * ein Pop-up Fenster mit erfolgreichem Login.
-   * Wenn das result Falsch ist, wird der Benutzer mithilfe eines Fehler -
+   * Checks the login result, if true the user gets a Toast Dialog which shows
+   * a "Sucessfull Login" Information. If flase the gets an error.
    * Popups informiert.
-   * @param result - Login Ergebnis.
+   * @param result - Login result.
    */
   private void handleSignInResult(GoogleSignInResult result) {
 
     String userName;
     String userMail;
     String userToken;
-    //Wenn das Result True ist
     if (result.isSuccess()) {
       Log.d(TAG, "Login successful!!!");
       GoogleSignInAccount acct = result.getSignInAccount();

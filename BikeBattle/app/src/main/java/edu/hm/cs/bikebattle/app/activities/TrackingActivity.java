@@ -45,58 +45,33 @@ import edu.hm.cs.bikebattle.app.tracker.LocationTracker;
  */
 public class TrackingActivity extends BaseActivity implements OnMapReadyCallback, LocationListener {
   public static final String OID = "oid";
-  /**
-   * Counter for received location updates.
-   */
+  /**Counter for received location updates.*/
   private int locationUpdates = 0;
-  /**
-   * Track that is recorded so far.
-   */
+  /** Track that is recorded so far.*/
   private Track track;
-  /**
-   * Route for routing.
-   */
+  /**Route for routing.*/
   private Route route;
-  /**
-   * Tracker for location updates.
-   */
+  /**Tracker for location updates.*/
   private LocationTracker tracker;
-  /**
-   * Tracker for location updates.
-   */
+  /**Tracker for location updates.*/
   private Router router;
-  /**
-   * Flag whether tracking is turned on.
-   */
+  /**Flag whether tracking is turned on.*/
   private boolean isTracking = false;
-  /**
-   * Flag whether routing is active.
-   */
+  /**Flag whether routing is active.*/
   private boolean routing;
-  /**
-   * Id for the route for routing.
-   */
+  /**Id for the route for routing.*/
   private String routesOid;
-  /**
-   * The google map which shows the recorded track and the users position.
-   */
+  /**The google map which shows the recorded track and the users position.*/
   private GoogleMap googleMap;
-  /**
-   * Last location which represents the users position.
-   */
+  /**Last location which represents the users position.*/
   private Location lastLocation;
-  /**
-   * Controller for the views.
-   */
+  /**Controller for the views.*/
   private TrackingViewController viewController;
-  /**
-   * LocationManager for providing locations.
-   */
+  /**LocationManager for providing locations.*/
   private LocationManager locationManager;
 
   /**
    * Change tracking mode to on or off.
-   *
    * @return Is tracking currently turned on.
    */
   public boolean changeTrackingMode() {
@@ -162,6 +137,7 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
       clearMap();
       LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
       if (location.getAccuracy() > 10) {
+        // Zoom into the google map.
         googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(
             new CameraPosition.Builder().target(latLng).zoom(17).bearing(location.getBearing())
                 .build()));
@@ -250,7 +226,6 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
 
   /**
    * Adds a new route to the backend
-   *
    * @param name         The name of the route.
    * @param selectedType Route type.
    * @param selectedDiff Route difficulty.
@@ -338,6 +313,9 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
     });
   }
 
+  /**
+   * Add a route into the backend, if it is finished.
+   */
   private void saveRouting() {
     if (track != null && track.size() > 0) {
       final Context context = this;

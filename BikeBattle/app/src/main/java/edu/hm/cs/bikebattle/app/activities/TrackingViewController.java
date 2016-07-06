@@ -1,11 +1,9 @@
 package edu.hm.cs.bikebattle.app.activities;
 
-import android.location.Location;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -18,54 +16,34 @@ import java.util.Locale;
 
 /**
  * Helper class for tracking activity. Controls the views and updates track information.
- *
  * @author Lukas Brauckmann
  */
 public class TrackingViewController {
-  /**
-   * TrackingActivity.
-   */
+  /**TrackingActivity.*/
   private TrackingActivity activity;
-  /**
-   * BottomSheet
-   */
+  /**BottomSheet*/
   private View bottomSheet;
-  /**
-   * Layout for the map,.
-   */
+  /**Layout for the map.*/
   private RelativeLayout relativeLayout;
-  /**
-   * Button to start and stop tracking.
-   */
+  /**Button to start and stop tracking.*/
   private FloatingActionButton trackingButton;
-  /**
-   * TextView for the time.
-   */
+  /**TextView for the time.*/
   private TextView textViewTime;
-  /**
-   * TextView for the speed.
-   */
+  /**TextView for the speed.*/
   private TextView textViewSpeed;
-  /**
-   * TextView for the average speed.
-   */
+  /**TextView for the average speed.*/
   private TextView textViewAverageSpeed;
-  /**
-   * TextView for the distance.
-   */
+  /**TextView for the distance.*/
   private TextView textViewDistance;
-  /**
-   * TextView for the altitude.
-   */
+  /**TextView for the altitude.*/
   private TextView textViewAltitude;
-
+  /** TextView for difference. */
   private TextView textViewDifferenceAlt;
 
   private boolean init = false;
 
   /**
    * Initialize the class.
-   *
    * @param activity TrackingActivity.
    */
   public TrackingViewController(TrackingActivity activity) {
@@ -90,7 +68,6 @@ public class TrackingViewController {
 
   /**
    * Toggles the icon of the button.
-   *
    * @param tracking Flag for tracking.
    */
   public void changeButtonIcon(boolean tracking) {
@@ -105,7 +82,6 @@ public class TrackingViewController {
 
   /**
    * Updates the text views information.
-   *
    * @param track Current track.
    */
   public void updateViews(Track track) {

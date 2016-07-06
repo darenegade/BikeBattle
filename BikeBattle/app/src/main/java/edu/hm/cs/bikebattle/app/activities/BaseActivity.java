@@ -24,6 +24,7 @@ import edu.hm.cs.bikebattle.app.data.DataConnector;
 import edu.hm.cs.bikebattle.app.modell.User;
 
 /**
+ * Ist the Basic Activity which were used by all other Activitys
  * Organization: HM FK07.
  * Project: BikeBattle, edu.hm.cs.bikebattle.app.activities
  *
@@ -34,15 +35,22 @@ import edu.hm.cs.bikebattle.app.modell.User;
  *         System: 2,3 GHz Intel Core i7, 16 GB 1600 MHz DDR3
  */
 public abstract class BaseActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
-
+  /** Tag from the current Activity*/
   private static final String TAG = "BaseActivity";
 
+  /** User from Google Account*/
   private GoogleApiClient googleApiClient;
+
+  /** Google login*/
   private GoogleSignInOptions googleSignInOptions;
 
+  /** Current Connector to the backend*/
   private DataConnector dataConnector;
 
+  /** Current User*/
   private User principal;
+
+  /** Photo from current User*/
   private String userPhoto;
 
   @Override
@@ -130,26 +138,49 @@ public abstract class BaseActivity extends AppCompatActivity implements GoogleAp
     Log.d(TAG, "onConnectionFailed:" + connectionResult);
   }
 
+  /**
+   * Returns the GoogleApiClient.
+   * @return -  ApiClient.
+   */
   public GoogleApiClient getGoogleApiClient() {
     return googleApiClient;
   }
 
+  /**
+   * Return the GoogleSignInOptions.
+   * @return - GoogleSignInOptions.
+   */
   public GoogleSignInOptions getGoogleSignInOptions() {
     return googleSignInOptions;
   }
 
+  /**
+   * Return the current User.
+   * @return - User.
+   */
   public User getPrincipal() {
     return principal;
   }
 
+  /**
+   * Return the Uri which shows the user photo.
+   * @return - URI
+   */
   public String getUserPhoto() {
     return userPhoto;
   }
 
+  /**
+   * Returns the current DataConnenctor;
+   * @return - dataConncetor
+   */
   public DataConnector getDataConnector() {
     return dataConnector;
   }
 
+  /**
+   * Refreshes all Information from the user.
+   */
   public void refreshUserInfo() {
 
   }
