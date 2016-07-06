@@ -1,6 +1,7 @@
 package edu.hm.cs.bikebattle.app.api.domain;
 
 /**
+ * Qalitys for Routs or Tracks
  * Organization: HM FK07.
  * Project: BikeBattleBackend, edu.hm.cs.bikebattle.domain
  * @author Rene Zarwel

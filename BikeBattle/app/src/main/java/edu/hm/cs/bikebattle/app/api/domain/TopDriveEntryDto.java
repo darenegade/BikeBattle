@@ -19,8 +19,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @EqualsAndHashCode
 public class TopDriveEntryDto {
+  /**Name of the best driver.*/
   String name;
+  /**Picture from the user of the best driver.*/
   String fotoUri;
+  /**Total time of the route from the best drivers.*/
   float totalTime;
+  /**Average Speed of the route from the best drivers.*/
   float averageSpeed;
 }

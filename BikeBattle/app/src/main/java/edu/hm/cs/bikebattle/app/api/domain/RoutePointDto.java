@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 
 /**
+ * Shows information for one current point from a route
  * Organization: HM FK07.
  * Project: BikeBattleBackend, edu.hm.cs.bikebattle.domain
  * @author Rene Zarwel
@@ -20,13 +21,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RoutePointDto {
-
+  /**current latitude from the current point.*/
   double latitude;
-
+  /**current longitude from the current point.*/
   double longitude;
-
+  /**current altitude from the current point.*/
   double altitude;
-
+  /**current time.*/
   long time;
 
 

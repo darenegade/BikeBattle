@@ -25,14 +25,15 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 public class UserDto extends BaseDto {
 
+  /**Name from the user.*/
   String name;
-
+  /**Email from the user.*/
   String email;
-
+  /**Picture from the user.*/
   String fotoUri;
-
+  /**Size from the user.*/
   float size;
-
+  /**Weight from the user.*/
   float weight;
 
   @JsonInclude(JsonInclude.Include.NON_NULL)

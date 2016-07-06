@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 
 /**
+ * Mesurement information.
  * Organization: HM FK07.
  * Project: BikeBattleBackend, edu.hm.cs.bikebattle.domain
  * @author Rene Zarwel
@@ -21,8 +22,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MeasurementDto {
-
+  //**current speed.*/
   float speed;
-
+  /**current point.  */
   RoutePointDto routePoint;
 }

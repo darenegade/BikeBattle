@@ -12,6 +12,7 @@ import java.util.List;
 
 
 /**
+ * Information of from a track or a route.
  * Organization: HM FK07.
  * Project: BikeBattleBackend, edu.hm.cs.bikebattle.domain
  * @author Rene Zarwel
@@ -27,11 +28,12 @@ import java.util.List;
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true, exclude = {"owner","route"})
 public class DriveDto extends BaseDto {
-
+  //**Total time of the route or track which was needed.*/
   float totalTime;
-
+  /**Average Speed from Route or Track. */
   float averageSpeed;
 
+  /** List of all measurements from the route or track.*/
   List<MeasurementDto> measurements = new ArrayList<MeasurementDto>();
 
   @JsonInclude(JsonInclude.Include.NON_NULL)

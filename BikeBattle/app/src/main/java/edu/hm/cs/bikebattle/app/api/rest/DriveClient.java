@@ -21,6 +21,7 @@ import rx.Observable;
 import java.util.List;
 
 /**
+ * Creates all possible options for a user.
  * Organization: HM FK07.
  * Project: BikeBattle, edu.hm.cs.bikebattle.app.api.rest
  * @author Rene Zarwel

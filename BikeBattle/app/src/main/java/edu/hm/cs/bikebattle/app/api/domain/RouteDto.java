@@ -27,16 +27,22 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true, exclude = "owner")
 public class RouteDto extends BaseDto {
 
+  /**Name from the route. */
   String name;
 
+  /**describs if the route is private. */
   boolean privat;
 
+  /**Route length. */
   float length;
 
+  /**Difficulty from the route.*/
   Difficulty difficulty;
 
+  /** Route typ from the route*/
   Routetyp routetyp;
 
+  /**List of all points from the route. */
   List<RoutePointDto> routePoints = new ArrayList<RoutePointDto>();
 
   @JsonInclude(JsonInclude.Include.NON_NULL)

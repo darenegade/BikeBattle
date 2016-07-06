@@ -16,6 +16,7 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 import java.io.IOException;
 
 /**
+ * Creates a communication between the app and the backend.
  * Organization: HM FK07.
  * Project: BikeBattle, edu.hm.cs.bikebattle.app.api.rest
  * @author Rene Zarwel
@@ -25,10 +26,11 @@ import java.io.IOException;
  * System: 2,3 GHz Intel Core i7, 16 GB 1600 MHz DDR3
  */
 public class ClientFactory {
-
+  /** URL.*/
   public static final String DEFAULT_BASE_URL = "https://moan.cs.hm.edu:8443/";
-
+  /** Object Mapper.*/
   private static final ObjectMapper mapper = new ObjectMapper();
+  /** Http Client Builder.*/
   private static OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
 
   static {
