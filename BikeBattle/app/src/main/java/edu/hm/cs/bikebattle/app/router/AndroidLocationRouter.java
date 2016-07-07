@@ -66,7 +66,7 @@ public class AndroidLocationRouter extends AndroidLocationTracker implements Rou
 
   /**
    * Checks the targets at the current location. If no target is left the route ist finished.
-   * @param location Location
+   * @param location - Location.
    */
   private void checkTargets(Location location) {
     while (location.distanceTo(route.get(target)) < TOLERANCE_IN_METER) {

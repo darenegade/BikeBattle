@@ -10,7 +10,6 @@ import lombok.ToString;
  * Created by Nils on 30.03.2016.
  * <p/>
  * Class representing a track for tracking a drive.
- *
  * @author Nils Bernhardt
  * @version 1.0
  */
@@ -20,7 +19,6 @@ public class Track extends LocationList {
 
   /**
    * Initializes the track.
-   *
    * @param locations locations of the track
    */
   public Track(List<? extends Location> locations) {
@@ -36,7 +34,6 @@ public class Track extends LocationList {
 
   /**
    * Calculates the time of the track.
-   *
    * @param track track
    * @return time
    */
@@ -53,7 +50,6 @@ public class Track extends LocationList {
 
   /**
    * Returns the time in second of the track.
-   *
    * @return time
    */
   public long getTime_in_s() {
@@ -62,7 +58,6 @@ public class Track extends LocationList {
 
   /**
    * Returns the average speed in km/h.
-   *
    * @return average speed
    */
   public float getAverageSpeed_in_kmh() {
@@ -71,6 +66,4 @@ public class Track extends LocationList {
     }
     return getDistanceInM() / 1000 / (getTime_in_s() / 3600.0f);
   }
-
-
 }

@@ -31,9 +31,9 @@ import edu.hm.cs.bikebattle.app.modell.User;
 public class ProfilFragment extends Fragment implements View.OnClickListener{
   /** Tag from the current Fragment.*/
   private static final String TAG = "ProfilFragment";
-  /** Current User*/
+  /** Current user.*/
   private User user;
-  /**Uri includes User picture.*/
+  /**Uri includes user picture.*/
   private String uri;
   /**Button for set the user weight.*/
   private ImageButton editWeight;
@@ -50,8 +50,8 @@ public class ProfilFragment extends Fragment implements View.OnClickListener{
 
   /**
    * This method creates a new Fragment,with the required Informations
-    * @param user - is the current User from the App
-   * @param uri - is the data link to the user profil picture
+    * @param user - is the current User from the App.
+   * @param uri - is the data link to the user profil picture.
    * @return new Fragment
    */
   public static ProfilFragment newInstance(User user, String uri, boolean editable) {
@@ -108,6 +108,10 @@ public class ProfilFragment extends Fragment implements View.OnClickListener{
     return view;
   }
 
+  /**
+   * initialize buttons.
+   * @param view - current view.
+   */
   public void setupButtons(View view){
 
     editSize = (ImageButton) view.findViewById(R.id.size_edit);
@@ -140,11 +144,11 @@ public class ProfilFragment extends Fragment implements View.OnClickListener{
   /**
    * This method set a Dialog with different informations for the user, where he can typ some
    * informations into.
-   * @param text - different information
+   * @param text - different information.
    * @param size - true if the user want to change his size, false then the user want to change his
    *             weight.
-   * @param textView
-   * @return - Dialog Window on the screem
+   * @param textView - textview.
+   * @return  Dialog Window on the screem-
    */
   public Dialog setupDialog(final View v, String text, final boolean size, final TextView textView){
     AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());

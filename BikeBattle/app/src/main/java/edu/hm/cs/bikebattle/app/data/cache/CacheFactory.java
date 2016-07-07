@@ -25,7 +25,7 @@ public class CacheFactory {
 
   /**
    * Creates a new UserCache.
-   * @param cacheDir cache file to use
+   * @param cacheDir - cache file to use.
    * @return new UserCache
    */
   public static UserCache getUserCache(File cacheDir){
@@ -34,7 +34,7 @@ public class CacheFactory {
 
   /**
    * Creates a new RouteCache.
-   * @param cacheDir cache file to use
+   * @param cacheDir - cache file to use.
    * @return new RouteCache
    */
   public static RouteCache getRouteCache(File cacheDir){
@@ -43,7 +43,7 @@ public class CacheFactory {
 
   /**
    * Creates a new DriveCache.
-   * @param cacheDir cache file to use
+   * @param cacheDir - cache file to use.
    * @return new DriveCache
    */
   public static DriveCache getDriveCache(File cacheDir){

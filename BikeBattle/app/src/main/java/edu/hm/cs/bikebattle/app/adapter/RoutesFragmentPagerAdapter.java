@@ -28,8 +28,8 @@ public class RoutesFragmentPagerAdapter extends FragmentPagerAdapter {
 
   /**
    * Initialize the adapter.
-   * @param fragmentManager FragmentManager.
-   * @param activity        Activity in which the content is displayed.
+   * @param fragmentManager - FragmentManager.
+   * @param activity - Activity in which the content is displayed.
    */
   public RoutesFragmentPagerAdapter(FragmentManager fragmentManager, BaseActivity activity) {
     super(fragmentManager);

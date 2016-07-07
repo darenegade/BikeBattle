@@ -42,7 +42,7 @@ public class RoutesFragment extends Fragment {
   }
 
   /**
-   * This method creates a new Fragment,with the required Informations
+   * This method creates a new Fragment,with the required Informations.
    * @return new Fragment
    */
   public static final RoutesFragment newInstance() {

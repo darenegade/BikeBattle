@@ -9,32 +9,19 @@ package edu.hm.cs.bikebattle.app.modell;
  */
 public class User extends BaseEntity {
 
-  /**
-   * Name of the user.
-   */
+  /**Name of the user.*/
   private String name;
-  /**
-   * Foto of user;
-   */
+  /**Foto of user.*/
   private String fotoUri;
-  /**
-   * Weight of the user.
-   */
+  /**Weight of the user.*/
   private float weightInKg;
-  /**
-   * Size of the user.
-   */
+  /**Size of the user.*/
   private float sizeInMeter;
-
-
-  /**
-   * Email of the user.
-   */
+  /**Email of the user.*/
   private String email;
 
   /**
    * Initializes the user.
-   *
    * @param name        name of the user
    * @param weightInKg  weight of the user in kg
    * @param sizeInMeter size of the user in cm
@@ -48,7 +35,6 @@ public class User extends BaseEntity {
 
   /**
    * Returns the size of the user.
-   *
    * @return size
    */
   public float getSizeInMeter() {
@@ -57,7 +43,6 @@ public class User extends BaseEntity {
 
   /**
    * Returns the name of the user.
-   *
    * @return name
    */
   public String getName() {
@@ -66,7 +51,6 @@ public class User extends BaseEntity {
 
   /**
    * Returns the foto of the user.
-   *
    * @return foto
    */
   public String getFotoUri() {
@@ -75,7 +59,6 @@ public class User extends BaseEntity {
 
   /**
    * Returns the weight of the user.
-   *
    * @return weight
    */
   public float getWeightInKg() {
@@ -84,7 +67,6 @@ public class User extends BaseEntity {
 
   /**
    * Changes the name of the user.
-   *
    * @param name new name
    */
   public void setName(String name) {
@@ -99,7 +81,6 @@ public class User extends BaseEntity {
 
   /**
    * Cahnges the foto of the user.
-   *
    * @param fotoUri uri of foto
    */
   public void setFotoUri(String fotoUri) {
@@ -108,7 +89,6 @@ public class User extends BaseEntity {
 
   /**
    * Changes the weight of the user.
-   *
    * @param weightInKg new weight in kg.
    */
   public void setWeightInKg(float weightInKg) {
@@ -117,7 +97,6 @@ public class User extends BaseEntity {
 
   /**
    * Changes the size of the user.
-   *
    * @param sizeInMeter new size in cm
    */
   public void setSizeInMeter(float sizeInMeter) {
@@ -126,7 +105,6 @@ public class User extends BaseEntity {
 
   /**
    * Returns the email.
-   *
    * @return email
    */
   public String getEmail() {
@@ -135,7 +113,6 @@ public class User extends BaseEntity {
 
   /**
    * Sets a new email.
-   *
    * @param email email
    */
   public void setEmail(String email) {

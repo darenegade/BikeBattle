@@ -39,8 +39,8 @@ public class AndroidLocationTracker implements LocationTracker, LocationListener
 
   /**
    * Initializes the tracker.
-   * @param frequency update frequency in milliseconds
-   * @param activity  activity of the tracker
+   * @param frequency - update frequency in milliseconds.
+   * @param activity - activity of the tracker.
    */
   public AndroidLocationTracker(long frequency, Activity activity) {
     track = new Track();

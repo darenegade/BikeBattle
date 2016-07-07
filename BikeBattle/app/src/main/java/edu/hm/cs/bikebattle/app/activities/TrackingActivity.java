@@ -442,9 +442,8 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
 
   /**
    * Updates the track and updates the fragments.
-   *
-   * @param track        Updated track.
-   * @param lastLocation Last location.
+   * @param track - Updated track.
+   * @param lastLocation - Last location.
    */
   private void updateTrack(Track track, Location lastLocation) {
     if (isTracking) {

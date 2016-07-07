@@ -89,7 +89,7 @@ public class CachingDataConnector implements DataConnector {
   /**
    * Converts the dto to bean.
    * If the bean is not known, the dto is returned.
-   * @param dto to convert.
+   * @param dto - to convert.
    * @return converted object
    */
   @SuppressWarnings("unchecked")
@@ -110,10 +110,10 @@ public class CachingDataConnector implements DataConnector {
 
   /**
    * Executes a get call for a List of resources.
-   * @param observable to execute
-   * @param consumer   consumer for result
-   * @param <T>        dto
-   * @param <V>        bean
+   * @param observable - to execute.
+   * @param consumer - consumer for result.
+   * @param <T> - dto.
+   * @param <V> - bean.
    */
   private <T, V> void executeGetListCall(final Observable<Reply<List<T>>> observable,
                                          final Consumer<List<V>> consumer) {
@@ -148,10 +148,10 @@ public class CachingDataConnector implements DataConnector {
 
   /**
    * Executes a get call for a resource.
-   * @param observable to execute
-   * @param consumer   consumer for result
-   * @param <T>        dto
-   * @param <V>        bean
+   * @param observable - to execute.
+   * @param consumer -consumer for result.
+   * @param <T> - dto.
+   * @param <V> - bean.
    */
   private <T extends BaseDto, V> void executeGetCall(final Observable<Reply<T>> observable,
                                                      final Consumer<V> consumer) {
@@ -179,8 +179,8 @@ public class CachingDataConnector implements DataConnector {
 
   /**
    * Executes a write call.
-   * @param observable to execute
-   * @param consumer   for errors
+   * @param observable - to execute.
+   * @param consumer - for errors.
    */
   private void executeCreateCall(final Observable<String> observable,
                                  final Consumer<String> consumer) {
@@ -208,8 +208,8 @@ public class CachingDataConnector implements DataConnector {
 
   /**
    * Executes a write call.
-   * @param observable to execute
-   * @param consumer   for errors
+   * @param observable - to execute.
+   * @param consumer - for errors.
    */
   private void executeWriteCall(final Observable<Void> observable, final Consumer<Void> consumer) {
 
@@ -236,7 +236,7 @@ public class CachingDataConnector implements DataConnector {
 
   /**
    * Get new valid token and set is as current.
-   * @return current valid token;
+   * @return current valid token
    */
   private void generateToken(final Consumer<String> tokenConsumer) {
     Auth.GoogleSignInApi.silentSignIn(googleApiClient).setResultCallback(

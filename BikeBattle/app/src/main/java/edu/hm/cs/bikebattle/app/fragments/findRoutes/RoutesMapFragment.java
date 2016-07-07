@@ -55,7 +55,7 @@ public class RoutesMapFragment extends Fragment implements OnMapReadyCallback, G
 
   /**
    * Factory for a new fragment.
-   * @param listFragment List fragment.
+   * @param listFragment - List fragment.
    * @return New RoutesMapFragment.
    */
   public static final RoutesMapFragment newInstance(RoutesListFragment listFragment) {
@@ -169,6 +169,11 @@ public class RoutesMapFragment extends Fragment implements OnMapReadyCallback, G
 
   }
 
+  /**
+   * Loads all routes from the backend, by the giving options.
+   * @param location - location.
+   * @param distance - distance.
+   */
   private void loadRoutes(Location location, float distance) {
     Log.d("Data", location.toString() + "\n" + distance);
     activity.getDataConnector().getRoutesByLocation(location, distance,
@@ -192,7 +197,7 @@ public class RoutesMapFragment extends Fragment implements OnMapReadyCallback, G
   }
 
   /**
-   * Shows all Routes
+   * Shows all Routes.
    */
   private void showRoutes() {
     for (Route route : routes) {
@@ -202,8 +207,7 @@ public class RoutesMapFragment extends Fragment implements OnMapReadyCallback, G
 
   /**
    * Displays a route in the map.
-   *
-   * @param route Route that should be displayed.
+   * @param route - Route that should be displayed.
    */
   private void drawRoute(Route route) {
     PolylineOptions polyRoute = new PolylineOptions();

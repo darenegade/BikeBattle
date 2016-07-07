@@ -35,7 +35,7 @@ public class RouteInformationFragment extends Fragment {
 
   /**
    * Sets the route to be displayed.
-   * @param route New route.
+   * @param route - New route.
    */
   public void setRoute(Route route) {
     nameView.setText(route.getName());

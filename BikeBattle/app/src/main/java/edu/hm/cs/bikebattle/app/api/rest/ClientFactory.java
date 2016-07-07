@@ -78,8 +78,7 @@ public class ClientFactory {
 
   /**
    * Changes the Base URL of the Clients.
-   *
-   * @param baseUrl which the clients will use.
+   * @param baseUrl - which the clients will use.
    */
   public static void changeBaseUrl(String baseUrl) {
     retrofitBuilder.baseUrl(baseUrl);
@@ -95,7 +94,7 @@ public class ClientFactory {
 
   /**
    * Get simple UserClient with Authorization.
-   * @return UserClient
+   * @return userClient
    */
   public static UserClient getUserClient(final String token) {
     return createService(UserClient.class, token);
@@ -103,7 +102,7 @@ public class ClientFactory {
 
   /**
    * Get simple RouteClient.
-   * @return RouteClient
+   * @return routeClient
    */
   public static RouteClient getRouteClient() {
     return createService(RouteClient.class, null);
@@ -111,7 +110,7 @@ public class ClientFactory {
 
   /**
    * Get simple RouteClient with Authorization.
-   * @return RouteClient
+   * @return routeClient
    */
   public static RouteClient getRouteClient(final String token) {
     return createService(RouteClient.class, token);
@@ -119,7 +118,7 @@ public class ClientFactory {
 
   /**
    * Get simple DriveClient.
-   * @return DriveClient
+   * @return driveClient
    */
   public static DriveClient getDriveClient() {
     return createService(DriveClient.class, null);
@@ -127,7 +126,7 @@ public class ClientFactory {
 
   /**
    * Get simple DriveClient with Authorization.
-   * @return DriveClient
+   * @return driveClient
    */
   public static DriveClient getDriveClient(final String token) {
     return createService(DriveClient.class, token);

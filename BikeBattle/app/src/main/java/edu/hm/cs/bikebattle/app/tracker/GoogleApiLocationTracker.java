@@ -39,8 +39,8 @@ public class GoogleApiLocationTracker implements LocationTracker, LocationListen
 
   /**
    * Initializes the tracker and connects to the google API.
-   * @param interval Update frequency
-   * @param context  Context of the activity
+   * @param interval - Update frequency.
+   * @param context - Context of the activity.
    */
   public GoogleApiLocationTracker(long interval, Context context) {
     track = new Track();
@@ -74,7 +74,7 @@ public class GoogleApiLocationTracker implements LocationTracker, LocationListen
 
   /**
    * Builds a GoogleAPI Client for the location services.
-   * @param context context of the activity
+   * @param context - context of the activity.
    * @return Google API client
    */
   private GoogleApiClient getGoogleApiClient(Context context) {
@@ -87,7 +87,7 @@ public class GoogleApiLocationTracker implements LocationTracker, LocationListen
 
   /**
    * Creates a location request.
-   * @param interval update frequency
+   * @param interval - update frequency.
    * @return location request
    */
   private LocationRequest createLocationRequest(long interval) {

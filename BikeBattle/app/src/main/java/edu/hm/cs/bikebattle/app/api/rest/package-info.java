@@ -1,5 +1,4 @@
 /**
- * Implements all methods which are needed for user, route and drive.
- * Gives the needed informations or  options from the backend.
+ * Shows the interfaces for driveClient, routeClient, userClient.
  */
 package edu.hm.cs.bikebattle.app.api.rest;

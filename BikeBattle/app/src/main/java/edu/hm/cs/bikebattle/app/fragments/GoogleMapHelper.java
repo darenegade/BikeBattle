@@ -28,7 +28,7 @@ import edu.hm.cs.bikebattle.app.modell.LocationList;
 public class GoogleMapHelper {
   /**
    * Displays a track in the map.
-   * @param track Track that should be displayed.
+   * @param track - Track that should be displayed.
    */
   public static void drawLocationList(LocationList track, int color, GoogleMap googleMap) {
     PolylineOptions polyRoute = new PolylineOptions();
@@ -45,8 +45,8 @@ public class GoogleMapHelper {
 
   /**
    * Displays a position icon on the given position.
-   * @param googleMap GoogleMap object.
-   * @param position Given position.
+   * @param googleMap - GoogleMap object.
+   * @param position - Given position.
    */
   public static void drawPositionIcon(GoogleMap googleMap, LatLng position, float rotation){
     MarkerOptions markerOptions = new MarkerOptions();
@@ -61,7 +61,7 @@ public class GoogleMapHelper {
    * Calculates the outer coordinates of the locationlist.
    * The coordinates are returned in an array in the order:
    * north, east, south, west
-   * @param list locationlist.
+   * @param list - locationlist.
    * @return double array containing outer coordinates {north, east, south, west}.
    */
   public static double[] getOutCoordinates(LocationList list) {
@@ -91,8 +91,8 @@ public class GoogleMapHelper {
 
   /**
    * Zooms to the position of the locationlist in the googlemap object.
-   * @param googleMap googlemap object.
-   * @param list locationlist.
+   * @param googleMap - googlemap object.
+   * @param list - locationlist.
    */
   public static void zoomToTrack(GoogleMap googleMap, LocationList list) {
     double width = Math.abs(googleMap.getProjection().getVisibleRegion().farRight.longitude -
@@ -118,7 +118,7 @@ public class GoogleMapHelper {
   /**
    * Converts seconds to a formatted string.
    * hours:minuets:seconds.
-   * @param time time.
+   * @param time - time.
    * @return formatted time.
    */
   public static String secondsToFormat(long time) {
@@ -128,7 +128,7 @@ public class GoogleMapHelper {
   /**
    * Converts the distance to a format.
    * If the length is smaller than 1 km the distance is displayed in meter. Otherwise in km.
-   * @param distance in m.
+   * @param distance - in m.
    * @return formatted distance.
    */
   public static String distanceToFormat(float distance) {
@@ -141,7 +141,7 @@ public class GoogleMapHelper {
 
   /**
    * Returns the line data for the height of a locationlist.
-   * @param list locationlost.
+   * @param list - locationlost.
    * @return linedata.
    */
   @NonNull

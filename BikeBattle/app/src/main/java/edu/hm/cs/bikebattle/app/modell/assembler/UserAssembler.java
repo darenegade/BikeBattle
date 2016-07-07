@@ -16,8 +16,7 @@ public class UserAssembler {
 
   /**
    * Assembles a UserDTO from a User.
-   *
-   * @param user to build from
+   * @param user - To build from.
    * @return userDTO
    */
   public static UserDto toDto(User user) {
@@ -32,8 +31,7 @@ public class UserAssembler {
 
   /**
    * Assembles a User from a UserDTO.
-   *
-   * @param userDto to build from
+   * @param userDto - To build from.
    * @return user
    */
   public static User toBean(UserDto userDto) {

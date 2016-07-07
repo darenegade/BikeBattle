@@ -21,8 +21,7 @@ public class RouteAssembler {
 
   /**
    * Assembles a RouteDTO from a Route.
-   *
-   * @param route to build from
+   * @param route - To build from.
    * @return routeDTO
    */
   public static RouteDto toDto(Route route) {
@@ -48,8 +47,7 @@ public class RouteAssembler {
 
   /**
    * Assembles a User from a UserDTO.
-   *
-   * @param routeDto to build from
+   * @param routeDto - To build from.
    * @return user
    */
   public static Route toBean(RouteDto routeDto) {

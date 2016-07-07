@@ -24,7 +24,7 @@ import edu.hm.cs.bikebattle.app.data.DataConnector;
 import edu.hm.cs.bikebattle.app.modell.User;
 
 /**
- * Ist the Basic Activity which were used by all other Activitys
+ * Ist the Basic Activity which is used by all other Activitys
  * Organization: HM FK07.
  * Project: BikeBattle, edu.hm.cs.bikebattle.app.activities
  *
@@ -38,19 +38,19 @@ public abstract class BaseActivity extends AppCompatActivity implements GoogleAp
   /** Tag from the current Activity*/
   private static final String TAG = "BaseActivity";
 
-  /** User from Google Account*/
+  /** User from Google Account.*/
   private GoogleApiClient googleApiClient;
 
-  /** Google login*/
+  /** Google login.*/
   private GoogleSignInOptions googleSignInOptions;
 
-  /** Current Connector to the backend*/
+  /** Current Connector to the backend.*/
   private DataConnector dataConnector;
 
-  /** Current User*/
+  /** Current User.*/
   private User principal;
 
-  /** Photo from current User*/
+  /** Photo from current User.*/
   private String userPhoto;
 
   @Override
@@ -140,7 +140,7 @@ public abstract class BaseActivity extends AppCompatActivity implements GoogleAp
 
   /**
    * Returns the GoogleApiClient.
-   * @return -  ApiClient.
+   * @return  apiClient
    */
   public GoogleApiClient getGoogleApiClient() {
     return googleApiClient;
@@ -148,7 +148,7 @@ public abstract class BaseActivity extends AppCompatActivity implements GoogleAp
 
   /**
    * Return the GoogleSignInOptions.
-   * @return - GoogleSignInOptions.
+   * @return googleSignInOptions
    */
   public GoogleSignInOptions getGoogleSignInOptions() {
     return googleSignInOptions;
@@ -156,7 +156,7 @@ public abstract class BaseActivity extends AppCompatActivity implements GoogleAp
 
   /**
    * Return the current User.
-   * @return - User.
+   * @return  user
    */
   public User getPrincipal() {
     return principal;
@@ -164,15 +164,15 @@ public abstract class BaseActivity extends AppCompatActivity implements GoogleAp
 
   /**
    * Return the Uri which shows the user photo.
-   * @return - URI
+   * @return URI
    */
   public String getUserPhoto() {
     return userPhoto;
   }
 
   /**
-   * Returns the current DataConnenctor;
-   * @return - dataConncetor
+   * Returns the current DataConnenctor.
+   * @return dataConncetor
    */
   public DataConnector getDataConnector() {
     return dataConnector;

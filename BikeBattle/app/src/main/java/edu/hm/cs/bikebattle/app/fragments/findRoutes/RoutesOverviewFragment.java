@@ -22,6 +22,10 @@ import edu.hm.cs.bikebattle.app.adapter.RoutesFragmentPagerAdapter;
  */
 public class RoutesOverviewFragment extends Fragment {
 
+  /**
+   * Creats a fragment.
+   * @return new fragment
+   */
   public static final RoutesOverviewFragment newInstance() {
     return new RoutesOverviewFragment();
   }

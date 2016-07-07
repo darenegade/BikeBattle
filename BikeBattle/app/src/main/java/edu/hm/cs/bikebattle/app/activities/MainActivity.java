@@ -47,20 +47,19 @@ public class MainActivity extends BaseActivity implements NavigationView
   public static final int SINGLE_ROUTE = 0x01;
 
   public static final int TRACKS = 0x02;
-  /** Extra Tag for a Fragment */
+  /** Extra Tag for a Fragment.*/
   public static final String ROUTE_ID_EXTRA = "ROUTE_ID";
-
-  /** Tag from the current Activity*/
+  /** Tag from the current Activity.*/
   private static final String TAG = "MainActivity";
-  /** Navigationview from the Activity*/
+  /** Navigationview from the Activity.*/
   private NavigationView navigationView;
-  /**View from the Header */
+  /**View from the Header.*/
   private View headerView;
-  /**Shows the profil picture */
+  /**Shows the profil picture.*/
   private ImageView profilImage;
   /**Drawer Layout*/
   private DrawerLayout drawer;
-  /**Current FragmentManager */
+  /**Current FragmentManager.*/
   private FragmentManager fm;
 
   private ProgressDialog progressDialog;
@@ -124,7 +123,7 @@ public class MainActivity extends BaseActivity implements NavigationView
   }
 
   /**
-   * Debug only
+   * Debug only.
    * @return random track
    */
   private Track getTrackWithRandomTime() {
@@ -253,8 +252,8 @@ public class MainActivity extends BaseActivity implements NavigationView
   }
 
   /**
-   * Set the actionslistener for the navigatioview
-   * @param navigationView - current NavigationView
+   * Set the actionslistener for the navigatioview.
+   * @param navigationView - current NavigationView.
    */
   private void setupDrawerContent(NavigationView navigationView) {
     navigationView.setNavigationItemSelectedListener(
@@ -268,8 +267,8 @@ public class MainActivity extends BaseActivity implements NavigationView
   }
 
   /**
-   * Opens the right Fragment which was pressed
-   * @param menuItem - pressed Menu Item.
+   * Opens the right Fragment which was pressed.
+   * @param menuItem - pressed menu item.
    */
   public void selectDrawerItem(MenuItem menuItem) {
 

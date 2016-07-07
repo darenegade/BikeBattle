@@ -21,7 +21,7 @@ import java.util.Locale;
 public class TrackingViewController {
   /**TrackingActivity.*/
   private TrackingActivity activity;
-  /**BottomSheet*/
+  /**BottomSheet.*/
   private View bottomSheet;
   /**Layout for the map.*/
   private RelativeLayout relativeLayout;
@@ -39,12 +39,12 @@ public class TrackingViewController {
   private TextView textViewAltitude;
   /** TextView for difference. */
   private TextView textViewDifferenceAlt;
-
+  /**Initialize boolean.*/
   private boolean init = false;
 
   /**
    * Initialize the class.
-   * @param activity TrackingActivity.
+   * @param activity - TrackingActivity.
    */
   public TrackingViewController(TrackingActivity activity) {
     this.activity = activity;
@@ -82,7 +82,7 @@ public class TrackingViewController {
 
   /**
    * Updates the text views information.
-   * @param track Current track.
+   * @param track - Current track.
    */
   public void updateViews(Track track) {
     textViewTime.setText(GoogleMapHelper.secondsToFormat(track.getTime_in_s()));

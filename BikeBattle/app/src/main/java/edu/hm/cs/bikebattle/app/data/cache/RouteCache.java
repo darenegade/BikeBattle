@@ -32,10 +32,10 @@ public interface RouteCache {
       Observable<RouteDto> oRoute, DynamicKey id, EvictDynamicKey update);
 
   /**
-   * Find all Routs
+   * Find all routes.
    * @param oRoutes - Route.
    * @param evictProvider - EvictDynamicKey.
-   * @return all Routs.
+   * @return all routes
    */
   Observable<Reply<List<RouteDto>>> RoutesFindAll(
       Observable<List<RouteDto>> oRoutes, EvictProvider evictProvider);
@@ -45,7 +45,7 @@ public interface RouteCache {
    * @param oRoutes - Route.
    * @param name - Route name.
    * @param update - EvictDynamicKey.
-   * @return Route.
+   * @return route
    */
   Observable<Reply<List<RouteDto>>> RoutesFindByName(
       Observable<List<RouteDto>> oRoutes, DynamicKey name, EvictDynamicKey update);
@@ -55,37 +55,37 @@ public interface RouteCache {
    * @param oRoutes - Route.
    * @param name - Route name.
    * @param update - EvictDynamicKey.
-   * @return Route.
+   * @return route
    */
   Observable<Reply<List<RouteDto>>>  RoutesfindByNameContainingIgnoreCase(
       Observable<List<RouteDto>> oRoutes, DynamicKey name, EvictDynamicKey update);
 
   /**
-   * Find Route by Owner.
+   * Find route by owner.
    * @param oRoutes - Route.
    * @param oid - DynamicKey, Owner.
    * @param update - EvictDynamicKey.
-   * @return Route.
+   * @return route
    */
   Observable<Reply<List<RouteDto>>> RoutesFindByOwnerOid(
       Observable<List<RouteDto>> oRoutes, DynamicKey oid, EvictDynamicKey update);
 
   /**
-   * Find Route by difficulty.
+   * Find route by difficulty.
    * @param oRoutes - Route.
-   * @param difficulty - dificulty of the Route.
+   * @param difficulty - dificulty of the route.
    * @param update - EvictDynamicKey.
-   * @return Route.
+   * @return route
    */
   Observable<Reply<List<RouteDto>>> RoutesFindByDifficulty(
       Observable<List<RouteDto>> oRoutes, DynamicKey difficulty, EvictDynamicKey update);
 
   /**
-   * Find Route by type.
+   * Find route by type.
    * @param oRoutes - Route.
    * @param routetyp - Route typ.
    * @param update - EvictDynamicKey.
-   * @return
+   * @return route
    */
   Observable<Reply<List<RouteDto>>>  RoutesFindByRoutetype(
       Observable<List<RouteDto>> oRoutes, DynamicKey routetyp, EvictDynamicKey update);
@@ -95,17 +95,17 @@ public interface RouteCache {
    * @param oRoutes - Route.
    * @param latLongR - Position.
    * @param update - EvictDynamicKey.
-   * @return Route
+   * @return route
    */
   Observable<Reply<List<RouteDto>>> RoutesFindNear(
       Observable<List<RouteDto>> oRoutes, DynamicKey latLongR, EvictDynamicKey update);
 
   /**
-   * Find all routs by owner
+   * Find all routes by owner.
    * @param oUser - User.
    * @param id - User Id.
    * @param update - EvictDynamicKey.
-   * @return all Routs.
+   * @return all routes.
    */
   Observable<Reply<UserDto>>  RoutesGetOwner(
       Observable<UserDto> oUser, DynamicKey id, EvictDynamicKey update);

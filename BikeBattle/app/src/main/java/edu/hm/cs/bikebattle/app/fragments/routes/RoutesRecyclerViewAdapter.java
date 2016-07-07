@@ -32,13 +32,13 @@ public class RoutesRecyclerViewAdapter extends RecyclerView.Adapter<RoutesRecycl
       "&path=color:0xFF5252%7Cweight:5";
   private final static String SPLITTER = "%7C";
 
-  /** Context to use**/
+  /** Context to use.**/
   private final BaseActivity activity;
 
-  /** List of Routes **/
+  /** List of Routes.**/
   private List<Route> routes = new ArrayList<Route>();
 
-  /** Current User**/
+  /** Current User.**/
   private User currentUser;
 
   public RoutesRecyclerViewAdapter(BaseActivity activity) {

@@ -22,12 +22,16 @@ import java.util.List;
 public class RankingRecyclerViewAdapter extends RecyclerView.Adapter<RankingRecyclerViewAdapter.RankingEntryViewHolder> {
 
 
-  /** Context to use**/
+  /** Context to use*.*/
   private final Context context;
 
-  /** List of Entries **/
+  /** List of Entries.**/
   private List<TopDriveEntryDto> ranking = new ArrayList<TopDriveEntryDto>();
 
+  /**
+   * initialize this class.
+   * @param context - context.
+   */
   public RankingRecyclerViewAdapter(Context context) {
     this.context = context;
   }

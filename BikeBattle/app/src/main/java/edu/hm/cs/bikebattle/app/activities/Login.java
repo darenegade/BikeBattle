@@ -15,13 +15,13 @@ import edu.hm.cs.bikebattle.app.R;
 
 /**
  * Creats a Login Activity, and uses the user account from google.
- * @author munichsven, darenegade
+ * @author sven schulz, darenegade
  */
 public class Login extends BaseActivity {
-  /** Tag from the current Acktivity*/
+  /** Tag from the current Acktivity.*/
   private static final String TAG = "SignInBikeBattle";
 
-  /** Port*/
+  /** Port.*/
   public static final int RC_SIGN_IN = 9001;
 
 
@@ -82,7 +82,7 @@ public class Login extends BaseActivity {
 
   /**
    * Checks the login result, if true the user gets a Toast Dialog which shows
-   * a "Sucessfull Login" Information. If flase the gets an error.
+   * a "Sucessfull Login" Information. If false the user gets an error.
    * Popups informiert.
    * @param result - Login result.
    */

@@ -14,26 +14,17 @@ import java.util.ListIterator;
  * Created by Nils on 01.04.2016.
  * <p/>
  * Class storing a list of locations and the distance in between.
- *
  * @author Nils Bernhardt
  */
 @ToString
 public class LocationList extends BaseEntity implements List<Location> {
-  /**
-   * distance of the the track.
-   */
+  /**distance of the the track.*/
   private float distanceInM;
-  /**
-   * distance upward traveled in meter.
-   */
+  /**distance upward traveled in meter.*/
   private float upwardInM;
-  /**
-   * distance downward traveled in meter.
-   */
+  /**distance downward traveled in meter.*/
   private float downwardInM;
-  /**
-   * Locations of the track.
-   */
+  /**Locations of the track.*/
   private final LinkedList<Location> data;
 
   /**
@@ -48,7 +39,6 @@ public class LocationList extends BaseEntity implements List<Location> {
 
   /**
    * Initializes the list and calculates the distance.
-   *
    * @param collection locations
    */
   public LocationList(@NonNull List<? extends Location> collection) {
@@ -58,7 +48,6 @@ public class LocationList extends BaseEntity implements List<Location> {
 
   /**
    * Returns the distance in meter of the route.
-   *
    * @return distance
    */
   public float getDistanceInM() {
@@ -338,7 +327,6 @@ public class LocationList extends BaseEntity implements List<Location> {
 
   /**
    * Returns the distance upward in meter.
-   *
    * @return distance upward
    */
   public float getUpwardInM() {
@@ -347,7 +335,6 @@ public class LocationList extends BaseEntity implements List<Location> {
 
   /**
    * Returns the distance downward in meter.
-   *
    * @return distance downward
    */
   public float getDownwardInM() {

@@ -33,19 +33,16 @@ import java.util.List;
 public class SingleRouteFragment extends Fragment implements OnMapReadyCallback {
   /**Route to display.*/
   private Route route;
-
   /**View.*/
   private View view;
-
   /**Google Map.*/
   private GoogleMap googleMap;
-
   /** Ranking Adapter */
   private RankingRecyclerViewAdapter adapter;
 
   /**
    * Creates a new Fragment for showing a single route.
-   * @param route Route
+   * @param route - Route.
    * @return A new instance of fragment SingleTrackFragment.
    */
   public static SingleRouteFragment newInstance(Route route) {
@@ -56,7 +53,7 @@ public class SingleRouteFragment extends Fragment implements OnMapReadyCallback 
 
   /**
    * Sets the route to display.
-   * @param route route
+   * @param route - route.
    */
   private void setRoute(Route route) {
     this.route = route;
@@ -144,7 +141,7 @@ public class SingleRouteFragment extends Fragment implements OnMapReadyCallback 
 
   /**
    * Fills all views with the statistics.
-   * @param view inflated view
+   * @param view - inflated view.
    */
   private void fillViews(View view) {
     ((TextView) view.findViewById(R.id.single_route_textView_distance)).setText(
@@ -161,7 +158,7 @@ public class SingleRouteFragment extends Fragment implements OnMapReadyCallback 
 
   /**
    * Draws the height chart for the route.
-   * @param view inflated view
+   * @param view - inflated view.
    */
   private void drawChart(View view) {
     ((LineChart) view.findViewById(R.id.route_chart)).setData(GoogleMapHelper.getLineData(route));

@@ -8,34 +8,29 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
+ * Modell class for route
  * Created by Nils on 30.03.2016.
  * <p/>
  * This class represents a route. Routes are based on tracks.
  * But have additional attributes like a name.
- *
  * @author Nils Bernhardt
  * @version 1.2
  */
 public class Route extends LocationList implements Serializable {
-  /**
-   * name of the route.
-   */
+  /**name of the route.*/
   private String name;
-  /**
-   * Flag whether this route is public.
-   */
+  /**Flag whether this route is public.*/
   private boolean privateRoute;
-
+  /**Difficulty of the route.*/
   private Difficulty difficulty;
-
+  /**Route type.*/
   private Routetyp routetyp;
-
+  /**Owner of the route.*/
   private User owner;
 
 
   /**
    * Initializes the route.
-   *
    * @param locations    locations of the route
    * @param name         name of the route
    * @param privateRoute is the route private
@@ -49,7 +44,6 @@ public class Route extends LocationList implements Serializable {
 
   /**
    * Initializes this Route without locations.
-   *
    * @param name         name of the route
    * @param privateRoute is the route public
    */
@@ -61,7 +55,6 @@ public class Route extends LocationList implements Serializable {
 
   /**
    * Initializes the route with a public flag.
-   *
    * @param name      name of the route
    * @param locations locations of the route
    */
@@ -72,7 +65,6 @@ public class Route extends LocationList implements Serializable {
 
   /**
    * Initializes the Route public and empty.
-   *
    * @param name name of the route
    */
   public Route(String name) {
@@ -81,7 +73,6 @@ public class Route extends LocationList implements Serializable {
 
   /**
    * Returns the name of the route.
-   *
    * @return name
    */
   public String getName() {
@@ -90,7 +81,6 @@ public class Route extends LocationList implements Serializable {
 
   /**
    * Changes the name of the route.
-   *
    * @param name name
    */
   public void setName(String name) {
@@ -105,7 +95,6 @@ public class Route extends LocationList implements Serializable {
 
   /**
    * Returns true if the route is private.
-   *
    * @return is the route private
    */
   public boolean isPrivateRoute() {
@@ -114,33 +103,56 @@ public class Route extends LocationList implements Serializable {
 
   /**
    * Changes whether the route is private.
-   *
    * @param privateRoute is the route private
    */
   public void setPrivateRoute(boolean privateRoute) {
     this.privateRoute = privateRoute;
   }
 
+  /**
+   * Return the difficulty of the route.
+   * @return difficulty
+   */
   public Difficulty getDifficulty() {
     return difficulty;
   }
 
+  /**
+   * Set the difficulty of the route.
+   * @param difficulty - Difficulty of the route.
+   */
   public void setDifficulty(Difficulty difficulty) {
     this.difficulty = difficulty;
   }
 
+  /**
+   * Returns the route type.
+   * @return route type
+   */
   public Routetyp getRoutetyp() {
     return routetyp;
   }
 
+  /**
+   * Set the route type.
+   * @param routetyp - Route type.
+   */
   public void setRoutetyp(Routetyp routetyp) {
     this.routetyp = routetyp;
   }
 
+  /**
+   * Returns the owner of this route.
+   * @return owner
+   */
   public User getOwner() {
     return owner;
   }
 
+  /**
+   * Set the owner of this route.
+   * @param owner - Owner route.
+   */
   public void setOwner(User owner) {
     this.owner = owner;
   }

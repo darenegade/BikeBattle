@@ -30,12 +30,12 @@ import edu.hm.cs.bikebattle.app.modell.Track;
 public class SingleTrackFragment extends Fragment implements OnMapReadyCallback {
   /**Track to display.*/
   private Track track;
-
+  /**current view.*/
   private View view;
 
   /**
    * Creates a new Fragment for showing a single track.
-   * @param track Track
+   * @param track - track.
    * @return A new instance of fragment SingleTrackFragment.
    */
   public static SingleTrackFragment newInstance(Track track) {
@@ -47,7 +47,7 @@ public class SingleTrackFragment extends Fragment implements OnMapReadyCallback 
 
   /**
    * Sets the track to display.
-   * @param track track
+   * @param track - track.
    */
   private void setTrack(Track track) {
     this.track = track;
@@ -84,7 +84,7 @@ public class SingleTrackFragment extends Fragment implements OnMapReadyCallback 
 
   /**
    * Enables the route button if there is an corresponding route in the backend.
-   * @param view parent view
+   * @param view - parent view.
    */
   private void addRouteButton(final View view) {
     if (getActivity() instanceof BaseActivity) {
@@ -115,7 +115,7 @@ public class SingleTrackFragment extends Fragment implements OnMapReadyCallback 
 
   /**
    * Fills all views with the statistics.
-   * @param view inflated view
+   * @param view - inflated view.
    */
   private void fillViews(View view) {
     float distance = track.getDistanceInM();
@@ -140,7 +140,7 @@ public class SingleTrackFragment extends Fragment implements OnMapReadyCallback 
 
   /**
    * Draws the height chart for the track.
-   * @param view inflated view
+   * @param view - inflated view.
    */
   private void drawChart(View view) {
     ((LineChart) view.findViewById(R.id.chart)).setData(GoogleMapHelper.getLineData(track));

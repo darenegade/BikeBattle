@@ -22,18 +22,20 @@ import java.util.List;
  */
 public class FriendRecyclerViewAdapter extends RecyclerView.Adapter<FriendRecyclerViewAdapter.ViewHolder> {
 
-  /** User List of this adapter to show in view**/
+  /** User List of this adapter to show in view.**/
   private final List<User> users = new ArrayList<User>();
-
-  /** Context to use**/
+  /** Context to use.**/
   private final Context context;
-
-  /**BaseActivity from Parent Activity **/
+  /**BaseActivity from Parent Activity.**/
   private final BaseActivity activity;
-
-  /** Consumer to use onClick **/
+  /** Consumer to use onClick.**/
   private final Consumer<User> clickConsumer;
 
+  /**
+   * Initialize the class.
+   * @param activity - current activity.
+   * @param clickConsumer - consumer.
+   */
   public FriendRecyclerViewAdapter(BaseActivity activity, Consumer<User> clickConsumer) {
     this.activity = activity;
     this.context = activity.getApplicationContext();
@@ -94,7 +96,7 @@ public class FriendRecyclerViewAdapter extends RecyclerView.Adapter<FriendRecycl
 
   /**
    * Sets a new user list for this adapter.
-   * @param users to show
+   * @param users - to show.
    */
   public void setUsers(List<User> users){
     this.users.clear();
