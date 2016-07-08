@@ -9,7 +9,8 @@ import lombok.ToString;
 /**
  * Created by Nils on 30.03.2016.
  * <p/>
- * Class representing a track for tracking a drive.
+ * Class representing a track.
+ * A track has a specific time.
  * @author Nils Bernhardt
  * @version 1.0
  */

@@ -1,18 +1,19 @@
 package edu.hm.cs.bikebattle.app.modell;
 
 import android.location.Location;
-import edu.hm.cs.bikebattle.app.api.domain.Difficulty;
-import edu.hm.cs.bikebattle.app.api.domain.Routetyp;
 
 import java.io.Serializable;
 import java.util.List;
 
+import edu.hm.cs.bikebattle.app.api.domain.Difficulty;
+import edu.hm.cs.bikebattle.app.api.domain.Routetyp;
+
 /**
- * Modell class for route
+ * Model class for route
  * Created by Nils on 30.03.2016.
  * <p/>
- * This class represents a route. Routes are based on tracks.
- * But have additional attributes like a name.
+ * This class represents a route. Routes are based on LocationList.
+ * But have additional attributes like a name, difficulty and routetype.
  * @author Nils Bernhardt
  * @version 1.2
  */

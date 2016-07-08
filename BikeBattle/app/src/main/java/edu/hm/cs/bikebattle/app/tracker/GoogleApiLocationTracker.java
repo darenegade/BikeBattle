@@ -18,7 +18,7 @@ import edu.hm.cs.bikebattle.app.modell.User;
 /**
  * Created by Nils B. on 12.04.2016.
  * <p>
- * Location tracker using the GoogleAPI Client. Has usually no higher frequency then 5s.
+ * Location tracker using the GoogleAPI Client. Has usually no higher frequency than 5s.
  * Combines network and gps.
  *
  * @author Nils Bernhardt
