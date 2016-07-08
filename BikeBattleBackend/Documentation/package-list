@@ -1,0 +1,6 @@
+edu.hm.cs.bikebattle.backend
+edu.hm.cs.bikebattle.backend.config
+edu.hm.cs.bikebattle.backend.controller
+edu.hm.cs.bikebattle.backend.domain
+edu.hm.cs.bikebattle.backend.event
+edu.hm.cs.bikebattle.backend.repositories
