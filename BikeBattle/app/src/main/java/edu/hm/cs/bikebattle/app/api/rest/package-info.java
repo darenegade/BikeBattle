@@ -1,4 +1,4 @@
 /**
- * Shows the interfaces for driveClient, routeClient, userClient.
+ * Clients implementing the REST API of Backend.
  */
 package edu.hm.cs.bikebattle.app.api.rest;

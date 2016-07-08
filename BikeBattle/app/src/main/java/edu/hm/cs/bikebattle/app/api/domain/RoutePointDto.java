@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 /**
  * Shows information for one current point from a route
+ *
  * Organization: HM FK07.
  * Project: BikeBattleBackend, edu.hm.cs.bikebattle.domain
  * @author Rene Zarwel

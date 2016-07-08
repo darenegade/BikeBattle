@@ -6,6 +6,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
+ * Base Class of all entities.
+ *
+ *
  * Organization: HM FK07.
  * Project: BikeBattle, edu.hm.cs.bikebattle.app.api.domain
  * @author Rene Zarwel

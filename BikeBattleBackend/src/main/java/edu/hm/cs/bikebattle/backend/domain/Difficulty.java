@@ -1,6 +1,8 @@
 package edu.hm.cs.bikebattle.backend.domain;
 
 /**
+ * Types of difficulty to set in route.
+ *
  * Organization: HM FK07.
  * Project: BikeBattleBackend, edu.hm.cs.bikebattle.domain
  * Author(s): Rene Zarwel

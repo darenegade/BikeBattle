@@ -17,7 +17,8 @@ import retrofit2.http.Query;
 import rx.Observable;
 
 /**
- * Creates all possible options for a user.
+ * Representing endpoints of user.
+ *
  * Organization: HM FK07.
  * Project: BikeBattle, edu.hm.cs.bikebattle.app.api.rest
  * @author Rene Zarwel

@@ -13,6 +13,8 @@ import org.springframework.validation.Validator;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 /**
+ * Global Configurations of Repositories.
+ *
  * Organization: HM FK07.
  * Project: BikeBattleBackend, edu.hm.cs.bikebattle.config
  * Author(s): Rene Zarwel
@@ -26,6 +28,7 @@ public class RepositoryConfig extends RepositoryRestConfigurerAdapter {
 
   @Override
   public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config) {
+    //Include IDs in responses.
     config.exposeIdsFor(Drive.class);
     config.exposeIdsFor(Route.class);
     config.exposeIdsFor(User.class);

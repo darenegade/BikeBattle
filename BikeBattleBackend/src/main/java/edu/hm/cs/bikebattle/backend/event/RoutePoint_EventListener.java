@@ -5,6 +5,8 @@ import org.springframework.data.rest.core.event.AbstractRepositoryEventListener;
 import org.springframework.stereotype.Component;
 
 /**
+ *  Event Listener for routepoint repository events.
+ *
  * Organization: HM FK07.
  * Project: BikeBattleBackend, edu.hm.cs.bikebattle.domain
  * Author(s): Rene Zarwel

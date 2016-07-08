@@ -8,6 +8,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 /**
+ *  Event Listener for route repository events.
+ *
  * Organization: HM FK07.
  * Project: BikeBattleBackend, edu.hm.cs.bikebattle.domain
  * Author(s): Rene Zarwel
@@ -29,12 +31,15 @@ public class Route_EventListener extends AbstractRepositoryEventListener<Route> 
 
   @Override
   protected void onBeforeCreate(Route entity) {
+
+    //Set first point of route to the start point.
     if(entity.getRoutePoints().size() > 0)
       entity.setStart(new double[]{
           entity.getRoutePoints().get(0).getLongitude(),
           entity.getRoutePoints().get(0).getLatitude()
       });
 
+    //Set current principle to owner of route.
     UsernamePasswordAuthenticationToken auth = (UsernamePasswordAuthenticationToken) SecurityContextHolder
         .getContext().getAuthentication();
 
@@ -47,6 +52,7 @@ public class Route_EventListener extends AbstractRepositoryEventListener<Route> 
 
   @Override
   protected void onBeforeSave(Route entity) {
+    //update start point
     if(entity.getRoutePoints().size() > 0)
       entity.setStart(new double[]{
           entity.getRoutePoints().get(0).getLongitude(),

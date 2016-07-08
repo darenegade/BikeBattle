@@ -16,6 +16,8 @@ import java.util.List;
 
 
 /**
+ * Representing a route.
+ *
  * Organization: HM FK07.
  * Project: BikeBattleBackend, edu.hm.cs.bikebattle.domain
  * Author(s): Rene Zarwel

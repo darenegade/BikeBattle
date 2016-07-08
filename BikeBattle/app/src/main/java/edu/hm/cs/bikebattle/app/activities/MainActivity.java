@@ -40,6 +40,8 @@ import java.util.ArrayList;
 
 /**
  * This is the Main Activity which administered all Fragments.
+ *
+ * @author Rene Zarwel, Nils Bernhardt, Sven Schulz
  */
 public class MainActivity extends BaseActivity implements NavigationView
     .OnNavigationItemSelectedListener {
@@ -267,7 +269,7 @@ public class MainActivity extends BaseActivity implements NavigationView
   }
 
   /**
-   * Opens the right Fragment which was pressed.
+   * Opens the Fragment which was pressed.
    * @param menuItem - pressed menu item.
    */
   public void selectDrawerItem(MenuItem menuItem) {

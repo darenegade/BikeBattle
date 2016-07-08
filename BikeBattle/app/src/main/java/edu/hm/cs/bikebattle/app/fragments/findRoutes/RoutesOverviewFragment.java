@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 
 import edu.hm.cs.bikebattle.app.R;
 import edu.hm.cs.bikebattle.app.activities.BaseActivity;
-import edu.hm.cs.bikebattle.app.adapter.RoutesFragmentPagerAdapter;
 
 
 /**

@@ -8,6 +8,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 /**
+ * Event Listener for drive repository events.
+ *
  * Organization: HM FK07.
  * Project: BikeBattleBackend, edu.hm.cs.bikebattle.domain
  * Author(s): Rene Zarwel
@@ -30,6 +32,7 @@ public class Drive_EventListener extends AbstractRepositoryEventListener<Drive> 
   @Override
   protected void onBeforeCreate(Drive entity) {
 
+    //Setting the current principle as owner.
     UsernamePasswordAuthenticationToken auth = (UsernamePasswordAuthenticationToken) SecurityContextHolder
         .getContext().getAuthentication();
 

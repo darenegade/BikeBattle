@@ -19,6 +19,8 @@ import java.util.Set;
 
 
 /**
+ * Representing a user.
+ *
  * Organization: HM FK07.
  * Project: BikeBattleBackend, edu.hm.cs.bikebattle.domain
  * Author(s): Rene Zarwel

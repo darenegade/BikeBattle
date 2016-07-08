@@ -1,4 +1,4 @@
-package edu.hm.cs.bikebattle.app.adapter;
+package edu.hm.cs.bikebattle.app.fragments.findRoutes;
 
 
 import android.support.v4.app.Fragment;

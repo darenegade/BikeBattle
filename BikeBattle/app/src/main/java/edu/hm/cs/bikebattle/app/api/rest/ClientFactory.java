@@ -17,6 +17,7 @@ import java.io.IOException;
 
 /**
  * Creates a communication between the app and the backend.
+ *
  * Organization: HM FK07.
  * Project: BikeBattle, edu.hm.cs.bikebattle.app.api.rest
  * @author Rene Zarwel

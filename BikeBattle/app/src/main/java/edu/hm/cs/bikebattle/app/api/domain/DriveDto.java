@@ -12,7 +12,8 @@ import java.util.List;
 
 
 /**
- * Information of from a track or a route.
+ * Representing a drive.
+ *
  * Organization: HM FK07.
  * Project: BikeBattleBackend, edu.hm.cs.bikebattle.domain
  * @author Rene Zarwel

@@ -3,6 +3,8 @@ package edu.hm.cs.bikebattle.app.modell;
 import lombok.Data;
 
 /**
+ * Base class of all entities.
+ *
  * Organization: HM FK07.
  * Project: BikeBattle, edu.hm.cs.bikebattle.app.modell
  * @author Rene Zarwel

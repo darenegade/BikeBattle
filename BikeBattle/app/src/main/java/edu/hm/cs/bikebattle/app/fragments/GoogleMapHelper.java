@@ -3,8 +3,6 @@ package edu.hm.cs.bikebattle.app.fragments;
 import android.location.Location;
 import android.support.annotation.NonNull;
 import android.util.Log;
-
-
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
@@ -15,13 +13,14 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
-
-import java.util.ArrayList;
-
 import edu.hm.cs.bikebattle.app.R;
 import edu.hm.cs.bikebattle.app.modell.LocationList;
 
+import java.util.ArrayList;
+
 /**
+ * Helper Class for google map drawings.
+ *
  * Created by Nils on 14.06.2016.
  * @author Lukas Brauckmann
  */

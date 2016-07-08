@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 /**
+ * Controller for non default route endpoints.
+ *
  * Organization: HM FK07.
  * Project: BikeBattleBackend, edu.hm.cs.bikebattle.controller
  * Author(s): Rene Zarwel
@@ -29,6 +31,14 @@ public class RouteController {
   @Autowired
   RouteRepository routeRepository;
 
+  /**
+   * Endpoint to get near routes of a given location.
+   *
+   * @param longitude location longitude
+   * @param latitude location latitude
+   * @param r radius to search
+   * @return all routes of given area
+   */
   @RequestMapping("/search/findNear")
   public List<Route> findNearRoutes(@Param("longitude") Double longitude,@Param("latitude") Double latitude,@Param("r") Double r){
     return routeRepository.findByStartWithin(new Circle(new Point(longitude, latitude), r));

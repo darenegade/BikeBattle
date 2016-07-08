@@ -4,6 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 /**
+ * Response of TOP20 Endpoint.
+ * Representing an entry of the top 20.
+ *
  * Organization: HM FK07.
  * Project: BikeBattleBackend, edu.hm.cs.bikebattle.backend.controller
  * Author(s): Rene Zarwel

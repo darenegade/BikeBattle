@@ -10,6 +10,8 @@ import java.util.HashSet;
 import java.util.List;
 
 /**
+ *  Event Listener for user repository events.
+ *
  * Organization: HM FK07.
  * Project: BikeBattleBackend, edu.hm.cs.bikebattle.domain
  * Author(s): Rene Zarwel
@@ -35,6 +37,7 @@ public class User_EventListener extends AbstractRepositoryEventListener<User> {
   @Override
   protected void onBeforeLinkSave(User parent, Object linked) {
 
+    //Prevent multiple friendship relations to same user
     if(linked instanceof List) {
       List linkedList = List.class.cast(linked);
       if(linkedList.get(0) != null && linkedList.get(0) instanceof User){

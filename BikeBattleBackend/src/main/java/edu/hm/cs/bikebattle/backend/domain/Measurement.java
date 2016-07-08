@@ -8,6 +8,8 @@ import javax.validation.constraints.Min;
 
 
 /**
+ * Representing a single measurement of a drive.
+ *
  * Organization: HM FK07.
  * Project: BikeBattleBackend, edu.hm.cs.bikebattle.domain
  * Author(s): Rene Zarwel

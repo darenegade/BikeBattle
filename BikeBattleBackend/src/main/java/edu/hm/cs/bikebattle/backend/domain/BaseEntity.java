@@ -11,6 +11,8 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
+ * Base class of all entities.
+ *
  * Organization: HM FK07.
  * Project: BikeBattleBackend, edu.hm.cs.bikebattle.domain
  * Author(s): Rene Zarwel

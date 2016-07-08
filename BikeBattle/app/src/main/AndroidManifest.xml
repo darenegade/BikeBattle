@@ -42,7 +42,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".TrackingTestActivity"
+            android:name=".activities.TrackingTestActivity"
             android:label="@string/title_activity_tracking_test">
         </activity>
         <activity

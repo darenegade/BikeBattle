@@ -1,4 +1,4 @@
-package edu.hm.cs.bikebattle.app;
+package edu.hm.cs.bikebattle.app.activities;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import edu.hm.cs.bikebattle.app.R;
 import edu.hm.cs.bikebattle.app.tracker.AndroidLocationTracker;
 import edu.hm.cs.bikebattle.app.tracker.LocationTracker;
 

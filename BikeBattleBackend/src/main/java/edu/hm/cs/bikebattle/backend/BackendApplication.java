@@ -6,6 +6,9 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.web.SpringBootServletInitializer;
 import org.springframework.data.mongodb.config.EnableMongoAuditing;
 
+/**
+ * Main Application to start the Spring Backend.
+ */
 @SpringBootApplication
 @EnableMongoAuditing
 public class BackendApplication extends SpringBootServletInitializer {

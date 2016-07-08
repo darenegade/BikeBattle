@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 /**
+ * Representing a User.
+ *
  * Organization: HM FK07.
  * Project: BikeBattle, edu.hm.cs.bikebattle.app.api.domain
  * @author Rene Zarwel

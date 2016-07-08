@@ -16,6 +16,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 /**
+ * Controller for non default drive endpoints.
+ *
  * Organization: HM FK07.
  * Project: BikeBattleBackend, edu.hm.cs.bikebattle.controller
  * Author(s): Rene Zarwel
@@ -32,6 +34,12 @@ public class DriveController {
   @Autowired
   DriveRepository driveRepository;
 
+  /**
+   * Endpoint to get the TOP20 of a route.
+   *
+   * @param routeOid route to use.
+   * @return Top 20 drives of given route.
+   */
   @RequestMapping("/top20")
   public List<TopDriveEntry> topTwenty(@Param("routeOid") String routeOid) {
 

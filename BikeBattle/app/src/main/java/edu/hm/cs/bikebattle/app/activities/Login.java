@@ -15,7 +15,7 @@ import edu.hm.cs.bikebattle.app.R;
 
 /**
  * Creats a Login Activity, and uses the user account from google.
- * @author sven schulz, darenegade
+ * @author sven schulz, Rene Zarwel
  */
 public class Login extends BaseActivity {
   /** Tag from the current Acktivity.*/

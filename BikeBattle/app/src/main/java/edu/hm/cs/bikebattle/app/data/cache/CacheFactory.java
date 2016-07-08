@@ -6,6 +6,8 @@ import io.victoralbertos.jolyglot.JacksonSpeaker;
 import java.io.File;
 
 /**
+ * Factory to create cache services.
+ *
  * Organization: HM FK07.
  * Project: BikeBattle, edu.hm.cs.bikebattle.app.data.cache
  * @author Rene Zarwel

@@ -3,18 +3,10 @@ package edu.hm.cs.bikebattle.app.data;
 import android.content.Context;
 import android.location.Location;
 import android.support.annotation.NonNull;
-
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
-
-import org.springframework.hateoas.Resource;
-import org.springframework.hateoas.Resources;
-
-import java.util.LinkedList;
-import java.util.List;
-
 import edu.hm.cs.bikebattle.app.api.domain.BaseDto;
 import edu.hm.cs.bikebattle.app.api.domain.DriveDto;
 import edu.hm.cs.bikebattle.app.api.domain.RouteDto;
@@ -38,6 +30,8 @@ import io.rx_cache.EvictDynamicKey;
 import io.rx_cache.EvictProvider;
 import io.rx_cache.Reply;
 import okhttp3.Cache;
+import org.springframework.hateoas.Resource;
+import org.springframework.hateoas.Resources;
 import retrofit2.Response;
 import rx.Observable;
 import rx.Subscriber;
@@ -45,10 +39,13 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
+import java.util.LinkedList;
+import java.util.List;
+
 /**
  * Created by Nils on 03.05.2016.
  * Basic implementation for a connection to the backend.
- * No error handling!
+ *
  * @author Nils Bernhardt, René Zarwel
  * @version 1.0
  */

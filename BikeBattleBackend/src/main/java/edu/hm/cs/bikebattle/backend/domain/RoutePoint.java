@@ -9,6 +9,8 @@ import javax.validation.constraints.Min;
 
 
 /**
+ * Single location point of route or drive.
+ *
  * Organization: HM FK07.
  * Project: BikeBattleBackend, edu.hm.cs.bikebattle.domain
  * Author(s): Rene Zarwel

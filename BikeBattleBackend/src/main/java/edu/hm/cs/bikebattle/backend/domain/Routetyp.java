@@ -1,6 +1,8 @@
 package edu.hm.cs.bikebattle.backend.domain;
 
 /**
+ * Route types to choose from.
+ *
  * Organization: HM FK07.
  * Project: BikeBattleBackend, edu.hm.cs.bikebattle.domain
  * Author(s): Rene Zarwel

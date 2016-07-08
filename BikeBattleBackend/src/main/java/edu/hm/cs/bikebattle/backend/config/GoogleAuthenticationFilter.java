@@ -23,6 +23,8 @@ import java.util.Arrays;
 import java.util.Collections;
 
 /**
+ * Filter for request to allow only requests with valid Google JWT.
+ *
  * Organization: HM FK07.
  * Project: BikeBattleBackend, edu.hm.cs.bikebattle.config
  * Author(s): Rene Zarwel
@@ -35,8 +37,10 @@ public class GoogleAuthenticationFilter extends OncePerRequestFilter {
 
   Logger logger = LoggerFactory.getLogger(GoogleAuthenticationFilter.class);
 
+  /** Developer Client ID from Google.**/
   private static final String CLIENT_ID = "1005553311508-r90po1hf888rkr2u464ccoo8vvojk75u.apps.googleusercontent.com";
 
+  /** Google JWT verifier. **/
   private static final GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(new NetHttpTransport(), new JacksonFactory())
       .setAudience(Arrays.asList(CLIENT_ID))
       .setIssuer("https://accounts.google.com")

@@ -1,7 +1,8 @@
 package edu.hm.cs.bikebattle.app.api.domain;
 
 /**
- * Qalitys for Routs or Tracks
+ * Types to choose of a route.
+ *
  * Organization: HM FK07.
  * Project: BikeBattleBackend, edu.hm.cs.bikebattle.domain
  * @author Rene Zarwel
