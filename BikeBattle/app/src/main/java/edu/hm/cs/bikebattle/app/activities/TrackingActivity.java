@@ -44,34 +44,62 @@ import edu.hm.cs.bikebattle.app.tracker.LocationTracker;
  * @author Lukas Brauckmann
  */
 public class TrackingActivity extends BaseActivity implements OnMapReadyCallback, LocationListener {
+  /**
+   * String for intent argument.
+   */
   public static final String OID = "oid";
-  /**Counter for received location updates.*/
+  /**
+   * Counter for received location updates.
+   */
   private int locationUpdates = 0;
-  /** Track that is recorded so far.*/
+  /**
+   * Track that is recorded so far.
+   */
   private Track track;
-  /**Route for routing.*/
+  /**
+   * Route for routing.
+   */
   private Route route;
-  /**Tracker for location updates.*/
+  /**
+   * Tracker for location updates.
+   */
   private LocationTracker tracker;
-  /**Tracker for location updates.*/
+  /**
+   * Tracker for location updates.
+   */
   private Router router;
-  /**Flag whether tracking is turned on.*/
+  /**
+   * Flag whether tracking is turned on.
+   */
   private boolean isTracking = false;
-  /**Flag whether routing is active.*/
+  /**
+   * Flag whether routing is active.
+   */
   private boolean routing;
-  /**Id for the route for routing.*/
+  /**
+   * Id for the route for routing.
+   */
   private String routesOid;
-  /**The google map which shows the recorded track and the users position.*/
+  /**
+   * The google map which shows the recorded track and the users position.
+   */
   private GoogleMap googleMap;
-  /**Last location which represents the users position.*/
+  /**
+   * Last location which represents the users position.
+   */
   private Location lastLocation;
-  /**Controller for the views.*/
+  /**
+   * Controller for the views.
+   */
   private TrackingViewController viewController;
-  /**LocationManager for providing locations.*/
+  /**
+   * LocationManager for providing locations.
+   */
   private LocationManager locationManager;
 
   /**
-   * Change tracking mode to on or off.
+   * Changes tracking mode to on or off.
+   *
    * @return Is tracking currently turned on.
    */
   public boolean changeTrackingMode() {
@@ -79,7 +107,6 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
       isTracking = false;
       if (routing) {
         router.stop();
-        Toast.makeText(this,"Stopped router.",Toast.LENGTH_LONG).show();
         saveRouting();
       } else {
         tracker.stop();
@@ -119,6 +146,11 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
     super.onBackPressed();
   }
 
+  /**
+   * Initializes the GoogleMap, when the object is ready.
+   *
+   * @param googleMap GoogleMap object
+   */
   @Override
   public void onMapReady(GoogleMap googleMap) {
     if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
@@ -131,6 +163,11 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
     }
   }
 
+  /**
+   * Called when the LocationManager received a new location.
+   *
+   * @param location New location
+   */
   @Override
   public void onLocationChanged(Location location) {
     if (!isTracking) {
@@ -226,6 +263,7 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
 
   /**
    * Adds a new route to the backend
+   *
    * @param name         The name of the route.
    * @param selectedType Route type.
    * @param selectedDiff Route difficulty.
@@ -314,7 +352,7 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
   }
 
   /**
-   * Add a route into the backend, if it is finished.
+   * Adds a route into the backend, if it is finished.
    */
   private void saveRouting() {
     if (track != null && track.size() > 0) {
@@ -368,7 +406,7 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
   }
 
   /**
-   * Starts a thread for receiving location updates.
+   * Starts a thread for receiving location updates for tracking.
    */
   private void startTracking() {
     final Activity context = this;
@@ -402,7 +440,7 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
   }
 
   /**
-   * Starts a thread for receiving location updates.
+   * Starts a thread for receiving location updates for routing.
    */
   private void startRouting() {
     final Activity context = this;
@@ -441,9 +479,10 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
   }
 
   /**
-   * Updates the track and updates the fragments.
-   * @param track - Updated track.
-   * @param lastLocation - Last location.
+   * Updates the track and updates the tracking information views.
+   *
+   * @param track        Updated track.
+   * @param lastLocation Last location.
    */
   private void updateTrack(Track track, Location lastLocation) {
     if (isTracking) {
@@ -463,11 +502,12 @@ public class TrackingActivity extends BaseActivity implements OnMapReadyCallback
     if (route != null && !router.isFinished()) {
       GoogleMapHelper.drawLocationList(route, Color.RED, googleMap);
 
-      if (router.getNextTarget() != null)
+      if (router.getNextTarget() != null) {
         googleMap.addMarker(new MarkerOptions()
             .position(new LatLng(router.getNextTarget().getLatitude(), router.getNextTarget()
                 .getLongitude())))
             .setFlat(false);
+      }
     }
     if (track != null) {
       GoogleMapHelper.drawLocationList(track, Color.BLUE, googleMap);

@@ -20,19 +20,30 @@ import java.util.List;
 
 /**
  * Fragment to show all own routes.
+ *
  * @author sven schulz
  */
 public class RoutesListFragment extends Fragment {
 
-  /** Tag from the current Activity.*/
+  /**
+   * Tag from the current Activity.
+   */
   private static final String TAG = "RoutesListFragment";
-  /**Main Activity.*/
+  /**
+   * Main Activity.
+   */
   private BaseActivity activity;
-  /**View Apdapter.*/
+  /**
+   * View Apdapter.
+   */
   private RoutesRecyclerViewAdapter adapter;
-  /**Default Textview.*/
+  /**
+   * Default Textview.
+   */
   private TextView helpText;
-  /**Dataconnector.*/
+  /**
+   * Dataconnector.
+   */
   private DataConnector dataConnector;
 
   /**
@@ -44,6 +55,7 @@ public class RoutesListFragment extends Fragment {
 
   /**
    * This method creates a new Fragment,with the required Informations
+   *
    * @return new Fragment
    */
   public static final RoutesListFragment newInstance() {
@@ -88,9 +100,10 @@ public class RoutesListFragment extends Fragment {
 
   /**
    * Set list of all routs
+   *
    * @param routes - List of routs.
    */
-  public void setRoutes(List<Route> routes){
+  public void setRoutes(List<Route> routes) {
     adapter.setRoutes(routes);
   }
 

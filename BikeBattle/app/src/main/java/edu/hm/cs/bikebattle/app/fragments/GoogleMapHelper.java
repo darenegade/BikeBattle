@@ -19,10 +19,10 @@ import edu.hm.cs.bikebattle.app.modell.LocationList;
 import java.util.ArrayList;
 
 /**
- * Helper Class for google map drawings.
+ * Helper class for google map drawings.
  *
  * Created by Nils on 14.06.2016.
- * @author Lukas Brauckmann
+ * @author Lukas Brauckmann & Nils Bernhardt
  */
 public class GoogleMapHelper {
   /**

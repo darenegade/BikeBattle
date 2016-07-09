@@ -17,12 +17,14 @@ import edu.hm.cs.bikebattle.app.activities.BaseActivity;
 
 /**
  * Fragment to display the navigation tabs.
+ *
  * @author Lukas Brauckmann
  */
 public class RoutesOverviewFragment extends Fragment {
 
   /**
-   * Creats a fragment.
+   * Creates a fragment.
+   *
    * @return new fragment
    */
   public static final RoutesOverviewFragment newInstance() {

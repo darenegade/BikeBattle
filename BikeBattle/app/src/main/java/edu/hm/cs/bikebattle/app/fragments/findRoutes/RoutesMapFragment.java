@@ -37,34 +37,46 @@ import java.util.Locale;
 
 /**
  * Fragment to display a google map which shows routes.
+ *
  * @author Lukas Brauckmann
  */
 public class RoutesMapFragment extends Fragment implements OnMapReadyCallback, GoogleMap
     .OnMyLocationButtonClickListener, LocationListener {
-  /**The google map in which routes can be displayed.*/
+  /**
+   * The google map in which routes can be displayed.
+   */
   private GoogleMap googleMap;
-  /**Activity in which the content is displayed.*/
+  /**
+   * Activity in which the content is displayed.
+   */
   private BaseActivity activity;
-  /**Fragment to display the routes in a list.*/
+  /**
+   * Fragment to display the routes in a list.
+   */
   private RoutesListFragment listFragment;
-  /**List with all routes.*/
+  /**
+   * List with all routes.
+   */
   private List<Route> routes;
-  /**LocationManager for providing locations.*/
+  /**
+   * LocationManager for providing locations.
+   */
   private LocationManager locationManager;
+  /**
+   * Map for mapping a GoogleMap marker to a route.
+   */
   private HashMap<String, Route> markerRouteMap;
 
   /**
    * Factory for a new fragment.
-   * @param listFragment - List fragment.
+   *
+   * @param listFragment List fragment.
    * @return New RoutesMapFragment.
    */
   public static final RoutesMapFragment newInstance(RoutesListFragment listFragment) {
     RoutesMapFragment fragment = new RoutesMapFragment();
     fragment.listFragment = listFragment;
     return fragment;
-  }
-
-  public RoutesMapFragment() {
   }
 
   @Override
@@ -75,13 +87,17 @@ public class RoutesMapFragment extends Fragment implements OnMapReadyCallback, G
     init();
   }
 
+  /**
+   * Initializes the fragment.
+   */
   private void init() {
     // Obtain the SupportMapFragment and get notified when the map is ready to be used.
     SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager()
         .findFragmentById(R.id.find_routes_map);
     if (mapFragment == null) {
       mapFragment = SupportMapFragment.newInstance();
-      getChildFragmentManager().beginTransaction().replace(R.id.find_routes_map, mapFragment).commit();
+      getChildFragmentManager().beginTransaction().replace(R.id.find_routes_map, mapFragment)
+          .commit();
     }
     mapFragment.getMapAsync(this);
 
@@ -149,7 +165,7 @@ public class RoutesMapFragment extends Fragment implements OnMapReadyCallback, G
 
   @Override
   public void onLocationChanged(Location location) {
-    if(googleMap!=null) {
+    if (googleMap != null) {
       updateCamera(location);
     }
   }
@@ -171,6 +187,7 @@ public class RoutesMapFragment extends Fragment implements OnMapReadyCallback, G
 
   /**
    * Loads all routes from the backend, by the giving options.
+   *
    * @param location - location.
    * @param distance - distance.
    */
@@ -207,6 +224,7 @@ public class RoutesMapFragment extends Fragment implements OnMapReadyCallback, G
 
   /**
    * Displays a route in the map.
+   *
    * @param route - Route that should be displayed.
    */
   private void drawRoute(Route route) {

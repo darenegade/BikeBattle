@@ -16,34 +16,58 @@ import java.util.Locale;
 
 /**
  * Helper class for tracking activity. Controls the views and updates track information.
+ *
  * @author Lukas Brauckmann
  */
 public class TrackingViewController {
-  /**TrackingActivity.*/
+  /**
+   * TrackingActivity.
+   */
   private TrackingActivity activity;
-  /**BottomSheet.*/
+  /**
+   * BottomSheet.
+   */
   private View bottomSheet;
-  /**Layout for the map.*/
+  /**
+   * Layout for the map.
+   */
   private RelativeLayout relativeLayout;
-  /**Button to start and stop tracking.*/
+  /**
+   * Button to start and stop tracking.
+   */
   private FloatingActionButton trackingButton;
-  /**TextView for the time.*/
+  /**
+   * TextView for the time.
+   */
   private TextView textViewTime;
-  /**TextView for the speed.*/
+  /**
+   * TextView for the speed.
+   */
   private TextView textViewSpeed;
-  /**TextView for the average speed.*/
+  /**
+   * TextView for the average speed.
+   */
   private TextView textViewAverageSpeed;
-  /**TextView for the distance.*/
+  /**
+   * TextView for the distance.
+   */
   private TextView textViewDistance;
-  /**TextView for the altitude.*/
+  /**
+   * TextView for the altitude.
+   */
   private TextView textViewAltitude;
-  /** TextView for difference. */
+  /**
+   * TextView for difference.
+   */
   private TextView textViewDifferenceAlt;
-  /**Initialize boolean.*/
+  /**
+   * Initialize boolean.
+   */
   private boolean init = false;
 
   /**
-   * Initialize the class.
+   * Initializes the class.
+   *
    * @param activity - TrackingActivity.
    */
   public TrackingViewController(TrackingActivity activity) {
@@ -68,12 +92,13 @@ public class TrackingViewController {
 
   /**
    * Toggles the icon of the button.
+   *
    * @param tracking Flag for tracking.
    */
   public void changeButtonIcon(boolean tracking) {
     if (tracking) {
       trackingButton.setImageDrawable(
-          ContextCompat.getDrawable(activity, R.drawable.ic_action_stop));
+          ContextCompat.getDrawable(activity, R.drawable.ic_action_start));
     } else {
       trackingButton.setImageDrawable(
           ContextCompat.getDrawable(activity, R.drawable.ic_action_stop));
@@ -82,12 +107,14 @@ public class TrackingViewController {
 
   /**
    * Updates the text views information.
+   *
    * @param track - Current track.
    */
   public void updateViews(Track track) {
     textViewTime.setText(GoogleMapHelper.secondsToFormat(track.getTime_in_s()));
     textViewDistance.setText(GoogleMapHelper.distanceToFormat(track.getDistanceInM()));
-    String param = String.format(Locale.ENGLISH, "%.2f km/h", track.get(track.size() - 1).getSpeed() * 3.6);
+    String param = String.format(Locale.ENGLISH, "%.2f km/h", track.get(track.size() - 1)
+        .getSpeed() * 3.6);
     textViewSpeed.setText(param);
     param = String.format(Locale.ENGLISH, "%.2f km/h", track.getAverageSpeed_in_kmh());
     textViewAverageSpeed.setText(param);
@@ -98,7 +125,7 @@ public class TrackingViewController {
   }
 
   /**
-   * Initialize the text views.
+   * Initializes the text views.
    */
   private void initTextViews() {
     textViewTime = (TextView) activity.findViewById(R.id.trackInfo_textView_time);
@@ -111,7 +138,7 @@ public class TrackingViewController {
   }
 
   /**
-   * Initialize the button.
+   * Initializes the floating button.
    */
   private void initButton() {
     trackingButton = (FloatingActionButton) activity.findViewById(R.id.tracking_button);
@@ -134,7 +161,7 @@ public class TrackingViewController {
   }
 
   /**
-   * Initialize the map.
+   * Initializes the map.
    */
   private void initMap() {
     // Obtain the SupportMapFragment and get notified when the map is ready to be used.
@@ -149,7 +176,7 @@ public class TrackingViewController {
   }
 
   /**
-   * Initialize the bottom sheet.
+   * Initializes the bottom sheet.
    */
   private void initBottomSheet() {
     bottomSheet = activity.findViewById(R.id.bottom_sheet);
@@ -170,7 +197,7 @@ public class TrackingViewController {
   }
 
   /**
-   * Initialize the relative layout.
+   * Initializes the relative layout.
    */
   private void initRelativeLayout() {
     if (!init) {
