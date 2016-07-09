@@ -42,10 +42,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.TrackingTestActivity"
-            android:label="@string/title_activity_tracking_test">
-        </activity>
-        <activity
                 android:name=".activities.Login"
                 android:label="@string/name_sign_in_activity"
                 android:theme="@style/Theme.AppCompat.NoActionBar"/>

@@ -1,4 +1,4 @@
-package edu.hm.cs.bikebattle.app.activities;
+package edu.hm.cs.bikebattle.app;
 
 import android.app.Activity;
 import android.os.Bundle;
